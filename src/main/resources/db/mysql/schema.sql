@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS propietario
 (
    id INT (4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
    usuario_id INT (4) UNSIGNED NOT NULL,
-   es_inmobiliaria BOOLEAN,
+   es_inmobiliaria BOOLEAN NOT NULL,
    inmobiliaria TEXT,
    CIF VARCHAR (20),
    FOREIGN KEY (usuario_id) REFERENCES usuario (id)

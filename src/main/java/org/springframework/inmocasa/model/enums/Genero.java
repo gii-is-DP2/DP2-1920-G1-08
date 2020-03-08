@@ -1,4 +1,4 @@
-package org.springframework.inmocasa.model;
+package org.springframework.inmocasa.model.enums;
 
 public enum Genero {
 

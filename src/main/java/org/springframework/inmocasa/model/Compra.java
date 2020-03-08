@@ -1,7 +1,12 @@
 package org.springframework.inmocasa.model;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import org.springframework.inmocasa.model.enums.Estado;
 
 @Entity
 public class Compra extends BaseEntity{
@@ -13,6 +18,16 @@ public class Compra extends BaseEntity{
 	private Estado estado;
 	
 	private String comentario;
+	
+	@NotNull
+	@Valid
+	@ManyToOne(optional=false)
+	private Cliente cliente;
+	
+	@NotNull
+	@Valid
+	@OneToOne(optional=false)
+	private Vivienda vivienda;
 
 	public Integer getPrecioFinal() {
 		return precioFinal;

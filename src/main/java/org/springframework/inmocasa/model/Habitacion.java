@@ -1,8 +1,11 @@
 package org.springframework.inmocasa.model;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.validation.Valid;
 
 import org.hibernate.validator.constraints.URL;
+import org.springframework.inmocasa.model.enums.TipoHabitacion;
 
 import com.sun.istack.NotNull;
 
@@ -18,6 +21,11 @@ public class Habitacion extends BaseEntity {
 	
 	@URL
 	private String foto;
+	
+	@NotNull
+	@Valid
+	@ManyToOne(optional=false)
+	private Vivienda vivienda;
 
 	public TipoHabitacion getTipoHabitación() {
 		return tipoHabitación;

@@ -2,6 +2,8 @@ package org.springframework.inmocasa.model;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.ManyToOne;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -14,6 +16,16 @@ public class Visita {
 	
 	@NotNull
 	private String lugar;
+	
+	@NotNull
+	@Valid
+	@ManyToOne(optional=false)
+	private Cliente cliente;
+	
+	@NotNull
+	@Valid
+	@ManyToOne(optional=false)
+	private Vivienda vivienda;
 
 	public LocalDateTime getFecha() {
 		return fecha;

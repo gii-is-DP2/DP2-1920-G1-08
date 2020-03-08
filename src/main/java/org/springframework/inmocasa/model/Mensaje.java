@@ -1,7 +1,10 @@
 package org.springframework.inmocasa.model;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Mensaje extends BaseEntity{
@@ -15,7 +18,13 @@ public class Mensaje extends BaseEntity{
 	@NotBlank
 	private String asunto;
 	
+	@NotBlank
 	private String cuerpo;
+	
+	@NotNull
+	@Valid
+	@ManyToOne(optional=false)
+	private Usuario usuario;
 
 	public String getDestinatario() {
 		return destinatario;

@@ -13,7 +13,7 @@ import com.sun.istack.NotNull;
 public class Habitacion extends BaseEntity {
 	
 	@NotNull
-	private TipoHabitacion tipoHabitación;
+	private TipoHabitacion tipoHabitacion;
 
 	private Integer numCamas;
 	
@@ -28,11 +28,11 @@ public class Habitacion extends BaseEntity {
 	private Vivienda vivienda;
 
 	public TipoHabitacion getTipoHabitación() {
-		return tipoHabitación;
+		return tipoHabitacion;
 	}
 
 	public void setTipoHabitación(TipoHabitacion tipoHabitación) {
-		this.tipoHabitación = tipoHabitación;
+		this.tipoHabitacion = tipoHabitación;
 	}
 
 	public Integer getNumCamas() {

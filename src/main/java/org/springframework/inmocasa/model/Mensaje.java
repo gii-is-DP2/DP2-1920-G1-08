@@ -21,10 +21,20 @@ public class Mensaje extends BaseEntity{
 	@NotBlank
 	private String cuerpo;
 	
-	@NotNull
+//	@NotNull
+//	@Valid
+//	@ManyToOne(optional=false)
+//	private Usuario usuario;
+	
+//	@NotNull
 	@Valid
 	@ManyToOne(optional=false)
-	private Usuario usuario;
+	private Cliente cliente;
+	
+//	@NotNull
+	@Valid
+	@ManyToOne(optional=false)
+	private Propietario propietario;
 
 	public String getDestinatario() {
 		return destinatario;

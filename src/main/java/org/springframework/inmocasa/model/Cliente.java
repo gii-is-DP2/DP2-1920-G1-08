@@ -16,6 +16,4 @@ public class Cliente extends Usuario {
 	public void setFavoritos(String favoritos) {
 		this.favoritos = favoritos;
 	}
-
-	
 }

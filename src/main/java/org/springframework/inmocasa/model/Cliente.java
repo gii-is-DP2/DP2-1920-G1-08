@@ -1,5 +1,6 @@
 package org.springframework.inmocasa.model;
 
+import javax.persistence.Entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
@@ -16,6 +17,4 @@ public class Cliente extends Usuario {
 	public void setFavoritos(String favoritos) {
 		this.favoritos = favoritos;
 	}
-
-	
 }

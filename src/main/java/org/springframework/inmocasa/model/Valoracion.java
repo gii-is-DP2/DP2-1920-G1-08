@@ -1,11 +1,13 @@
 package org.springframework.inmocasa.model;
 
+import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Range;
 
+@Entity
 public class Valoracion extends BaseEntity{
 	
 	@NotNull

@@ -63,7 +63,7 @@ INSERT IGNORE INTO compra VALUES (2, 4, 3, 549.000, 2, 'No estoy de acuerdo con 
 INSERT IGNORE INTO compra VALUES (3, 3, 6, 195.960, 1, "Muchas gracias");
 INSERT IGNORE INTO compra VALUES (4, 2, 8, 260.800, 3, null);
 
-INSERT IGNORE INTO visita VALUES (1, 2, '2019-10-23', 'Calle Juzgado, Sevilla');
-INSERT IGNORE INTO visita VALUES (2, 2, '2020-01-15', 'Bellavista');
+INSERT IGNORE INTO visita VALUES (1, 2, 1, '2019-10-23', 'Calle Juzgado, Sevilla');
+INSERT IGNORE INTO visita VALUES (2, 2, 6, '2020-01-15', 'Cerro Amate');
 
 INSERT IGNORE INTO valoracion VALUES (1, 1, 4, 'Me ha gustado mucho');

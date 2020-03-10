@@ -95,9 +95,11 @@ CREATE TABLE IF NOT EXISTS visita
 (
    id INT (4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
    cliente_id INT (4) UNSIGNED NOT NULL,
+   vivienda_id INT (4) UNSIGNED NOT NULL,
    fecha DATE NOT NULL,
    lugar VARCHAR (40) NOT NULL,
-   FOREIGN KEY (cliente_id) REFERENCES cliente (id)
+   FOREIGN KEY (cliente_id) REFERENCES cliente (id),
+   FOREIGN KEY (vivienda_id) REFERENCES vivienda (id)
 );
 CREATE TABLE IF NOT EXISTS valoracion
 (

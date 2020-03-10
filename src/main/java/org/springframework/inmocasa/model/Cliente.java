@@ -1,7 +1,9 @@
 package org.springframework.inmocasa.model;
 
+import javax.persistence.Entity;
 import javax.persistence.Column;
 
+@Entity
 public class Cliente extends Usuario {
 	
 	@Column(name="favoritos")

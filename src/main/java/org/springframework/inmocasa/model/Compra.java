@@ -8,6 +8,15 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.inmocasa.model.enums.Estado;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+@Data
+@EqualsAndHashCode(callSuper=false)
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Compra extends BaseEntity{
 
@@ -29,27 +38,5 @@ public class Compra extends BaseEntity{
 	@OneToOne(optional=false)
 	private Vivienda vivienda;
 
-	public Integer getPrecioFinal() {
-		return precioFinal;
-	}
-
-	public void setPrecioFinal(Integer precioFinal) {
-		this.precioFinal = precioFinal;
-	}
-
-	public Estado getEstado() {
-		return estado;
-	}
-
-	public void setEstado(Estado estado) {
-		this.estado = estado;
-	}
-
-	public String getComentario() {
-		return comentario;
-	}
-
-	public void setComentario(String comentario) {
-		this.comentario = comentario;
-	}
+	
 }

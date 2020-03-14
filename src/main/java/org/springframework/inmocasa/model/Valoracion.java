@@ -1,12 +1,24 @@
 package org.springframework.inmocasa.model;
 
+import java.time.LocalDate;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Range;
+import org.springframework.inmocasa.model.enums.Genero;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 @Entity
 public class Valoracion extends BaseEntity{
 	
@@ -21,19 +33,4 @@ public class Valoracion extends BaseEntity{
 	@ManyToOne(optional=false)
 	private Visita visita;
 
-	public Integer getPuntuacion() {
-		return puntuacion;
-	}
-
-	public void setPuntuacion(Integer puntuacion) {
-		this.puntuacion = puntuacion;
-	}
-
-	public String getComentario() {
-		return comentario;
-	}
-
-	public void setComentario(String comentario) {
-		this.comentario = comentario;
-	}
 }

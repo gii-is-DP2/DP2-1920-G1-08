@@ -18,12 +18,12 @@ public class Propietario extends Usuario {
 	
 	@Column(name="es_inmobiliaria")
 	@NotNull
-	protected Boolean esInmobiliaria;
+	private Boolean esInmobiliaria;
 	
 	@Column(name="inmobiliaria")
-	protected String inmobiliaria;
+	private String inmobiliaria;
 	
 	@Column(name="cif")
-	protected String cif;
+	private String cif;
 
 }

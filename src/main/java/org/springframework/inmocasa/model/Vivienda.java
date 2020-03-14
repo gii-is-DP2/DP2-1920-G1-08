@@ -2,7 +2,10 @@ package org.springframework.inmocasa.model;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -49,6 +52,14 @@ public class Vivienda extends BaseEntity{
 	private String equipamiento;
 	
 	private Boolean denunciado;
+	
+	@Column(name="horario_visita")
+	private String horarioVisita;
+	
+	@NotNull
+	@Valid
+	@ManyToOne
+	private Propietario propietario;
 
 	
 }

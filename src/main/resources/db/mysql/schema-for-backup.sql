@@ -112,12 +112,12 @@ CREATE TABLE IF NOT EXISTS valoracion
 CREATE TABLE IF NOT EXISTS mensaje
 (
    id INT (4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-   sender_id INT (4) UNSIGNED NOT NULL,
-   recipient_id INT (4) UNSIGNED NOT NULL,
+   propietario_id INT (4) UNSIGNED NOT NULL,
+   cliente_id INT (4) UNSIGNED NOT NULL,
    destinatario VARCHAR (20) NOT NULL,
    receptor VARCHAR (20) NOT NULL,
    asunto VARCHAR (20) NOT NULL,
    cuerpo VARCHAR (50),
-   FOREIGN KEY (sender_id) REFERENCES usuario (id),
-   FOREIGN KEY (recipient_id) REFERENCES usuario (id)
+   FOREIGN KEY (propietario_id) REFERENCES propietario (id),
+   FOREIGN KEY (cliente_id) REFERENCES cliente (id)
 );

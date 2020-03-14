@@ -18,11 +18,12 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Mensaje extends BaseEntity{
 	
+
 	@NotBlank
-	protected String asunto;
+	private String asunto;
 	
 	@NotBlank
-	protected String cuerpo;
+	private String cuerpo;
 	
 	@Valid
 	@ManyToOne(optional=false)

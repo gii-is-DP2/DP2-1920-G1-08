@@ -21,7 +21,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Entity
-public class Visita  extends BaseEntity{
+
+public class Visita extends BaseEntity{
 	
 	@NotNull
 	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm:ss")

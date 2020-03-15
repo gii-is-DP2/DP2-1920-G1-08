@@ -25,15 +25,15 @@ public class Mensaje extends BaseEntity{
 	@NotBlank
 	private String cuerpo;
 	
-	@Valid
-	@ManyToOne(optional=false)
-	@JoinColumn(name="emisor")
-	protected Usuario emisor;
-	
-	@Valid
-	@ManyToOne(optional=false)
-	@JoinColumn(name="receptor")
-	protected Usuario receptor;
+//	@Valid
+//	@ManyToOne(optional=false)
+//	@JoinColumn(name="emisor")
+//	protected Usuario emisor;
+//	
+//	@Valid
+//	@ManyToOne(optional=false)
+//	@JoinColumn(name="receptor")
+//	protected Usuario receptor;
 
 	
 	

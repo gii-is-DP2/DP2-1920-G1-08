@@ -10,8 +10,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class ViviendaService {
 	
-	@Autowired
 	ViviendaRepository vr;
+
+	@Autowired
+	public ViviendaService(ViviendaRepository vr) {
+		super();
+		this.vr = vr;
+	}
+
 
 	//Santi-Alvaro
 	

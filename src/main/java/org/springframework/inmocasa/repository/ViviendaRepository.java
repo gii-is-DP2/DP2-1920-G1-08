@@ -14,7 +14,7 @@ public interface ViviendaRepository extends  CrudRepository<Vivienda, Integer> {
 	
 	
 	//Alvaro-MiguelEmmanuel
-	@Query("select v from Vivienda v ordered by fechaPublicacion desc")
+	@Query("select v from Vivienda v order by v.fechaPublicacion desc")
 	public Collection<Vivienda> findAllNewest();
 	
 	//Alba-Alejandro

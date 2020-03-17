@@ -78,11 +78,9 @@ public class Usuario extends BaseEntity {
 	@NotEmpty
 	protected String password;
 
-	@OneToMany(mappedBy="emisor")
-	protected List<Mensaje> mensajeEnviado;
+
 	
-	@OneToMany(mappedBy="receptor")
-	protected List<Mensaje> mensajeRecibido;
+
 	
 
 }

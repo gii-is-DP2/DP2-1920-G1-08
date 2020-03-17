@@ -1,5 +1,6 @@
 package org.springframework.inmocasa.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
@@ -8,9 +9,20 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.inmocasa.model.enums.Genero;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 @Entity
-public class Visita {
+
+public class Visita extends BaseEntity{
 	
 	@NotNull
 	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm:ss")
@@ -28,21 +40,5 @@ public class Visita {
 	@Valid
 	@ManyToOne(optional=false)
 	private Vivienda vivienda;
-
-	public LocalDateTime getFecha() {
-		return fecha;
-	}
-
-	public void setFecha(LocalDateTime fecha) {
-		this.fecha = fecha;
-	}
-
-	public String getLugar() {
-		return lugar;
-	}
-
-	public void setLugar(String lugar) {
-		this.lugar = lugar;
-	}
 
 }

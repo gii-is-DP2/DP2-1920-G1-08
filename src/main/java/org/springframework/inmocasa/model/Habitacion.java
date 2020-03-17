@@ -9,11 +9,20 @@ import org.springframework.inmocasa.model.enums.TipoHabitacion;
 
 import com.sun.istack.NotNull;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+@Data
+@EqualsAndHashCode(callSuper=false)
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Habitacion extends BaseEntity {
 	
 	@NotNull
-	private TipoHabitacion tipoHabitación;
+	private TipoHabitacion tipoHabitacion;
 
 	private Integer numCamas;
 	
@@ -27,35 +36,4 @@ public class Habitacion extends BaseEntity {
 	@ManyToOne(optional=false)
 	private Vivienda vivienda;
 
-	public TipoHabitacion getTipoHabitación() {
-		return tipoHabitación;
-	}
-
-	public void setTipoHabitación(TipoHabitacion tipoHabitación) {
-		this.tipoHabitación = tipoHabitación;
-	}
-
-	public Integer getNumCamas() {
-		return numCamas;
-	}
-
-	public void setNumCamas(Integer numCamas) {
-		this.numCamas = numCamas;
-	}
-
-	public String getCaracteristicas() {
-		return caracteristicas;
-	}
-
-	public void setCaracteristicas(String caracteristicas) {
-		this.caracteristicas = caracteristicas;
-	}
-
-	public String getFoto() {
-		return foto;
-	}
-
-	public void setFoto(String foto) {
-		this.foto = foto;
-	}
 }

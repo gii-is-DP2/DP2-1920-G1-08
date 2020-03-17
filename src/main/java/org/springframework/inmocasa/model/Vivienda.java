@@ -2,14 +2,26 @@ package org.springframework.inmocasa.model;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.inmocasa.model.enums.Genero;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 @Entity
 public class Vivienda extends BaseEntity{
 
@@ -40,92 +52,14 @@ public class Vivienda extends BaseEntity{
 	private String equipamiento;
 	
 	private Boolean denunciado;
+	
+	@Column(name="horario_visita")
+	private String horarioVisita;
+	
+	@NotNull
+	@Valid
+	@ManyToOne
+	private Propietario propietario;
 
-	public LocalDate getFechaPublicacion() {
-		return fechaPublicacion;
-	}
-
-	public void setFechaPublicacion(LocalDate fechaPublicacion) {
-		this.fechaPublicacion = fechaPublicacion;
-	}
-
-	public String getDireccion() {
-		return direccion;
-	}
-
-	public void setDireccion(String direccion) {
-		this.direccion = direccion;
-	}
-
-	public String getZona() {
-		return zona;
-	}
-
-	public void setZona(String zona) {
-		this.zona = zona;
-	}
-
-	public Integer getPrecio() {
-		return precio;
-	}
-
-	public void setPrecio(Integer precio) {
-		this.precio = precio;
-	}
-
-	public Integer getDimensiones() {
-		return dimensiones;
-	}
-
-	public void setDimensiones(Integer dimensiones) {
-		this.dimensiones = dimensiones;
-	}
-
-	public Boolean getAmueblado() {
-		return amueblado;
-	}
-
-	public void setAmueblado(Boolean amueblado) {
-		this.amueblado = amueblado;
-	}
-
-	public String getPlanta() {
-		return planta;
-	}
-
-	public void setPlanta(String planta) {
-		this.planta = planta;
-	}
-
-	public String getFoto() {
-		return foto;
-	}
-
-	public void setFoto(String foto) {
-		this.foto = foto;
-	}
-
-	public String getCaracteristicas() {
-		return caracteristicas;
-	}
-
-	public void setCaracteristicas(String caracteristicas) {
-		this.caracteristicas = caracteristicas;
-	}
-
-	public String getEquipamiento() {
-		return equipamiento;
-	}
-
-	public void setEquipamiento(String equipamiento) {
-		this.equipamiento = equipamiento;
-	}
-
-	public Boolean getDenunciado() {
-		return denunciado;
-	}
-
-	public void setDenunciado(Boolean denunciado) {
-		this.denunciado = denunciado;
-	}
+	
 }

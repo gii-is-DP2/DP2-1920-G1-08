@@ -1,7 +1,10 @@
 package org.springframework.inmocasa.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -25,5 +28,8 @@ public class Propietario extends Usuario {
 	
 	@Column(name="cif")
 	private String cif;
+	
+	@OneToMany(mappedBy="receptor")
+	protected List<Mensaje> mensajeRecibido;
 
 }

@@ -1,6 +1,7 @@
 package org.springframework.inmocasa.service;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.inmocasa.model.Vivienda;
@@ -28,6 +29,9 @@ public class ViviendaService {
 	}
 	
 	//Alba-Alejandro
+	public Optional<Vivienda> findById(Integer viviendaId) {
+		return vr.findById(viviendaId);
+	}
 	
 	
 

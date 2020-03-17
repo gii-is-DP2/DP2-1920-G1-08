@@ -24,6 +24,9 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false)
 @Entity
 public class Vivienda extends BaseEntity{
+	
+	@NotNull
+	private String titulo;
 
 	@NotNull
 	@DateTimeFormat(pattern = "yyyy/MM/dd")

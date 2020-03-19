@@ -4,5 +4,11 @@ jdk: oraclejdk8
 notifications:
   email:
     - alvestcas@alum.us.es
+    on_success: never
+    on_failure: always
 script:
   - mvn test -B
+branches:
+  only:
+  - master
+  - develop

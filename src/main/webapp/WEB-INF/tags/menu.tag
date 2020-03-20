@@ -28,10 +28,10 @@
 					<span>Home</span>
 				</petclinic:menuItem>
 
-				<petclinic:menuItem active="${name eq 'owners'}" url="/owners/find"
-					title="find owners">
+				<petclinic:menuItem active="${name eq 'viviendas'}" url="/vivienda/list"
+					title="Viviendas">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-					<span>Find owners</span>
+					<span>Viviendas</span>
 				</petclinic:menuItem>
 
 				<petclinic:menuItem active="${name eq 'vets'}" url="/vets"

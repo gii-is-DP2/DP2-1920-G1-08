@@ -11,20 +11,20 @@
 	<table id="viviendaTable" class="table table-striped">
 		<thead>
 			<tr>
-				<th>Titulo</th>
-				<th>Fecha publicacion</th>
-				<th>Direccion</th>
+				<th style="width: 120px;">Título</th>
+				<th style="width: 100px;">Fecha publicación</th>
+				<th>Dirección</th>
 				<th>Zona</th>
-				<th>Precio</th>
+				<th style="width: 100px;">Precio</th>
 				<th>Dimensiones</th>
-				<th>Caracteristicas</th>
+				<th>Características</th>
 				<th>Foto</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach items="${viviendas}" var="vivienda">
 				<tr>
-					<td><spring:url value="/viviendas/{viviendaId}"
+					<td><spring:url value="/vivienda/{viviendaId}"
 							var="viviendaUrl">
 							<spring:param name="viviendaId" value="${vivienda.id}" />
 						</spring:url> <a href="${fn:escapeXml(viviendaUrl)}"><c:out
@@ -40,10 +40,10 @@
 						<c:out value="${vivienda.zona}" />
 					</td>
 					<td>
-						<c:out value="${vivienda.precio}" />
+						<c:out value="${vivienda.precio}" /> euros
 					</td>
 					<td>
-						<c:out value="${vivienda.dimensiones}" />
+						<c:out value="${vivienda.dimensiones}" /> m²
 					</td>
 					<td>
 						<c:out value="${vivienda.caracteristicas}" />

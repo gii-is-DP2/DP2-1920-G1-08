@@ -16,12 +16,18 @@
 			
 			<div class="panel-body">
 				<img src="${viv.foto}" style="margin-left: auto; margin-right: auto; display: block;"/>
+				<p>Id vivienda:  <c:out value="${viv.id}"/></p>
 				<p>Fecha de publicación: <c:out value="${viv.fechaPublicacion}"/></p>
 				<p>Zona: <c:out value="${viv.zona}"/></p>
 				<p>Precio: <c:out value="${viv.precio}"/> €</p>
 				<p>Dimensiones: <c:out value="${viv.dimensiones}"/></p>
 				<p>Planta: <c:out value="${viv.planta}"/></p>
+				<spring:url value="/visita/vivienda/{viviendaId}/new" var="createVivUrl">
+                    <spring:param name="viviendaId" value="${viv.id}"/>
+                </spring:url>
+				<a href="${fn:escapeXml(createVivUrl)}" class="btn btn-primary" role="button">Pedir cita</a>
 			</div>
+			
 		</div>
 	
 	</c:forEach>

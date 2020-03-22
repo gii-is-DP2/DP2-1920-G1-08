@@ -3,9 +3,6 @@ package org.springframework.inmocasa.service;
 import java.util.Collection;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.inmocasa.model.Vivienda;
 import org.springframework.inmocasa.repository.ViviendaRepository;
@@ -28,16 +25,8 @@ public class ViviendaService {
 		return vr.findAll();
 	}
 
-	@Transactional
-	public void save(Vivienda vivienda) {
-		vr.save(vivienda);
-	}
 
-	public void delete(Vivienda vivienda) {
-		vr.delete(vivienda);
-	}
-
-	public Optional<Vivienda> findViviendaById(int viviendaId) {
+	public Vivienda findViviendaById(int viviendaId) {
 		// TODO Auto-generated method stub
 		return vr.findById(viviendaId);
 	}

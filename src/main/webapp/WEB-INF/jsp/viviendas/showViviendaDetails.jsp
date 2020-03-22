@@ -4,49 +4,41 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
 
-<petclinic:layout pageName="viviendas">
+<petclinic:layout pageName="Show Vivienda">
 	<h2>Vivienda</h2>
-	<table class="table table-striped">
-	
+
+	<table id="showVivienda" class="table table-striped">
 	<tr>
 			<th>Zona</th>
-			<td><c:out value="${vivienda.zona}" /></td>
+			<td><c:out value="${viviendas.zona}" /></td>
 		</tr>
 		<tr>
 			<th>Direccion</th>
-			<td><b><c:out value="${vivienda.direccion}" /></b></td>
+			<td><c:out value="${viviendas.direccion}" /></td>
 		</tr>
-			<tr>
+		<tr>
 			<th>Planta</th>
-			<td><b><c:out value="${vivienda.planta}" /></b></td>
+			<td><c:out value="${viviendas.planta}" /></td>
 		</tr>
 		<tr>
 			<th>Características</th>
-			<td><b><c:out value="${vivienda.caracteristicas}" /></b></td>
+			<td><c:out value="${viviendas.caracteristicas}" /></td>
 		</tr>
 
 		<tr>
 			<th>Equipamiento</th>
-			<td><b><c:out value="${vivienda.equipamiento}" /></b></td>
+			<td><c:out value="${viviendas.equipamiento}" /></td>
 		</tr>
 		<tr>
 			<th>Precio</th>
-			<td><b><c:out value="${vivienda.precio}" /></b></td>
+			<td><c:out value="${viviendas.precio}" /></td>
 		</tr>
 		<tr>
 			<th>Horario de visita</th>
-			<td><b><c:out value="${vivienda.horarioVisita}" /></b></td>
+			<td><c:out value="${viviendas.horarioVisita}" /></td>
 		</tr>
 	</table>
 
-	<spring:url value="update?id={viviendaId}" var="editVivienda">
-		<spring:param name="viviendaId" value="${vivienda.id}" />
-	</spring:url>
-	<a href="${fn:escapeXml(editURL)}" class="btn btn-default">Edit(Poner solo para cliente)</a>
 
-	<spring:url value="delete?id={viviendaId}" var="deleteURL">
-		<spring:param name="viviendaId" value="${vivienda.id}" />
-	</spring:url>
-	<a href="${fn:escapeXml(deleteURL)}" class="btn btn-default">Delete</a>
 
 </petclinic:layout>

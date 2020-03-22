@@ -1,7 +1,5 @@
 package org.springframework.inmocasa.service;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.inmocasa.model.Compra;
 import org.springframework.inmocasa.repository.CompraRepository;
@@ -19,9 +17,8 @@ public class CompraService {
 	}
 
 	// Santi-Alvaro
-	@Transactional
 	public Iterable<Compra> findAll() {
-		return cr.findOfertas();
+		return cr.findAll();
 	}
 
 	// Alvaro-MiguelEmmanuel

@@ -23,4 +23,6 @@ public interface ViviendaRepository extends JpaRepository<Vivienda, Integer> {
 	
 	@Query("select c.vivienda from Compra c")
 	public Collection<Vivienda> getViviendasCompradas();
+	
+	
 }

@@ -12,13 +12,11 @@ public class CompraService {
 	
 	CompraRepository compraRepository;
 	
-	ViviendaRepository viviendaRepository;
 	
 	@Autowired
-	public CompraService(CompraRepository compraRepository, ViviendaRepository viviendaRepository) {
+	public CompraService(CompraRepository compraRepository) {
 		super();
 		this.compraRepository = compraRepository;
-		this.viviendaRepository = viviendaRepository;
 	}
 	
 	//Santi-Alvaro
@@ -32,6 +30,14 @@ public class CompraService {
 	public void saveCompra(Compra compra) {		
 		compra.setEstado(Estado.PENDIENTE);
 		compraRepository.save(compra);
+	}
+	
+	public Integer getNumOfertas() {
+		return compraRepository.getNumOfertas();
+	}
+	
+	public Integer getViviendasCompradas() {
+		return compraRepository.getViviendasCompradas();
 	}
 
 }

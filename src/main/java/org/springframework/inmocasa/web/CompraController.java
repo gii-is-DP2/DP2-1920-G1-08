@@ -17,10 +17,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/compra")
@@ -47,6 +50,11 @@ public class CompraController {
 	// Alvaro-MiguelEmmanuel
 
 	// Alba-Alejandro
+	@InitBinder("compra")
+	public void initCompraBinder(WebDataBinder dataBinder) {
+		dataBinder.setValidator(new CompraValidator());
+	}
+	
 	@GetMapping(value = "/create/{viviendaId}")
 	public String create(@PathVariable("viviendaId") Integer viviendaId, ModelMap model) {
 		Compra compra = new Compra();

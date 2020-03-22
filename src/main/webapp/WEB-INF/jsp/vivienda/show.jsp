@@ -3,16 +3,20 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <petclinic:layout pageName="viviendas">
 
-	<spring:url value="/compra/create/{viviendaId}" var="compraUrl">
-		<spring:param name="viviendaId" value="${vivienda.id}" />
-	</spring:url>
-	<a href="${fn:escapeXml(compraUrl)}" class="btn btn-default">Comprar
-		vivienda</a>
-	<br/><br/>
-	
+	<sec:authorize access="hasAnyAuthority('cliente, admin')">
+		<spring:url value="/compra/create/{viviendaId}" var="compraUrl">
+			<spring:param name="viviendaId" value="${vivienda.id}" />
+		</spring:url>
+		<a href="${fn:escapeXml(compraUrl)}" class="btn btn-default">Comprar
+			vivienda</a>
+		<br />
+		<br />
+	</sec:authorize>
+
 	<h2>Informacion de vivienda</h2>
 
 	<table class="table table-striped">

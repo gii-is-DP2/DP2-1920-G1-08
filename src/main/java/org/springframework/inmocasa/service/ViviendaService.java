@@ -26,7 +26,7 @@ public class ViviendaService {
 	}
 
 
-	public Vivienda findViviendaById(int viviendaId) {
+	public Optional<Vivienda> findViviendaById(int viviendaId) {
 		// TODO Auto-generated method stub
 		return vr.findById(viviendaId);
 	}

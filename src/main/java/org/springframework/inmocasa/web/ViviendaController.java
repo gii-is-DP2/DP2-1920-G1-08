@@ -105,7 +105,7 @@ public class ViviendaController {
 
 	@GetMapping(value= "/{viviendaId}")
 	public String showVivienda(@PathVariable("viviendaId") int viviendaId,ModelMap model) {
-		Vivienda viviendas = this.viviendaService.findViviendaById(viviendaId);
+		Vivienda viviendas = this.viviendaService.findViviendaById(viviendaId).get();
 		String view="viviendas/showViviendaDetails";
 		model.put("viviendas",viviendas);
 		return view;

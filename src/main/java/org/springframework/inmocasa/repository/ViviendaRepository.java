@@ -12,8 +12,8 @@ public interface ViviendaRepository extends  CrudRepository<Vivienda, Integer> {
 	
 	
 	//Santi-Alvaro
-	@Query("select v from Vivienda v where v.id=?1")
-	public Vivienda findById(int id);
+//	@Query("select v from Vivienda v where v.id=?1")
+//	public Vivienda findById(int id);
 
 	
 	//Alvaro-MiguelEmmanuel

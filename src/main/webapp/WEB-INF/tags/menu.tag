@@ -6,7 +6,61 @@
 <!--  >%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%-->
 <%@ attribute name="name" required="true" rtexprvalue="true"
 	description="Name of the active menu: home, owners, vets or error"%>
-<nav class="navbar navbar-default" role="navigation">
+	
+	
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+	<div class="container">
+		<a class="navbar-brand" href=""> <img class="img-logo"
+			src="/resources/images/Logo_inmocasa.png" alt=""
+			style="margin-left: -100px">
+		</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarResponsive" aria-controls="navbarResponsive"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarResponsive">
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item active"><a class="nav-link" href="#">Home
+						<span class="sr-only">(current)</span>
+				</a></li>
+				<li class="nav-item"><a class="nav-link" href="#">Pon tu
+						anuncio</a></li>
+
+				<sec:authorize access="!isAuthenticated()">
+					<li class="nav-item"><a class="nav-link" href="/login">Acceso
+							usuarios</a></li>
+				</sec:authorize>
+
+
+
+				<!-- Panel usuario -->
+				<sec:authorize access="isAuthenticated()">
+					<li class="nav-item"><a class="nav-link" href="#">Tus
+							mensajes</a></li>
+					<div class="btn-group">
+						<button type="button" class="btn btn-success">
+							<sec:authentication property="name" />
+						</button>
+						<button type="button"
+							class="btn btn-danger dropdown-toggle dropdown-toggle-split"
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<span class="sr-only">Toggle Dropdown</span>
+						</button>
+						<div class="dropdown-menu">
+							<a class="dropdown-item" href="#">Mi perfil</a> <a
+								class="dropdown-item" href="#">Mis favoritos</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="<c:url value="/logout" />">Logout</a>
+						</div>
+					</div>
+				</sec:authorize>
+			</ul>
+		</div>
+	</div>
+
+</nav>
+<%-- <nav class="navbar navbar-default" role="navigation">
 	<div class="dropdown">
 		<button class="btn btn-secondary dropdown-toggle" type="button"
 			id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
@@ -18,6 +72,7 @@
 		</div>
 
 		<div class="navbar-collapse collapse" id="main-navbar">
+		
 			<ul class="nav navbar-nav">
 
 				<petclinic:menuItem active="${name eq 'home'}" url="/"
@@ -46,9 +101,6 @@
 
 			</ul>
 
-
-
-
 			<ul class="nav navbar-nav navbar-right">
 				<sec:authorize access="!isAuthenticated()">
 					<li><a href="<c:url value="/login" />">Login</a></li>
@@ -56,7 +108,7 @@
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span> 
+						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span>
 							<strong><sec:authentication property="name" /></strong> <span
 							class="glyphicon glyphicon-chevron-down"></span>
 					</a>
@@ -108,3 +160,4 @@
 	</div>
 </nav>
 
+ --%>

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ViviendaService {
-	
+
 	ViviendaRepository vr;
 
 	@Autowired
@@ -19,21 +19,24 @@ public class ViviendaService {
 		this.vr = vr;
 	}
 
+	// Santi-Alvaro
 
-	//Santi-Alvaro
-	
-	
-	//Alvaro-MiguelEmmanuel
-	public Collection<Vivienda> findAllNewest(){
-		return vr.findAllNewest();
+	public Iterable<Vivienda> findAll() {
+		return vr.findAll();
 	}
-	
-	public Optional<Vivienda> findViviendaById(int id) {
-		return vr.findById(id);
+
+
+	public Vivienda findViviendaById(int viviendaId) {
+		// TODO Auto-generated method stub
+		return vr.findById(viviendaId);
+	}
+
+	// Alvaro-MiguelEmmanuel
+	public Collection<Vivienda> findAllNewest() {
+		return vr.findAllNewest();
 	}
 	
 	//Alba-Alejandro
 	
 	
-
 }

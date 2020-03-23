@@ -11,7 +11,6 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.inmocasa.model.enums.Genero;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

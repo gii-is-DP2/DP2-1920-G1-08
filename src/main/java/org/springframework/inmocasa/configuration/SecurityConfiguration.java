@@ -65,8 +65,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/admin/**").hasAnyAuthority("admin")
 
 				.antMatchers("/viviendas/**").permitAll()
-
-				.antMatchers("/owners/**").hasAnyAuthority("owner", "admin")
+				.antMatchers("/owners/**").hasAnyAuthority("owner","admin")				
 
 				.antMatchers("/vets/**").authenticated()
 
@@ -106,21 +105,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 		auth.jdbcAuthentication()
 
-				.dataSource(dataSource)
-
-				.usersByUsernameQuery(
-
-						"select username,password,true from (select username,password,true from propietario union select username,password,true from cliente) where username =?")
-
-				.authoritiesByUsernameQuery(
-
-						"select username, authority "
-
-								+ "from authorities "
-
-								+ "where username = ?")
-
-				.passwordEncoder(passwordEncoder());
+	      .dataSource(dataSource)
+	      .usersByUsernameQuery(
+	      "select username,password,true from (select username,password,true from propietario union select username,password,true from cliente) where username =?")
+	    		  .authoritiesByUsernameQuery(
+	       "select username, authority "
+	        + "from authorities "
+	        + "where username = ?")	      	      
+	      .passwordEncoder(passwordEncoder());	
 
 	}
 

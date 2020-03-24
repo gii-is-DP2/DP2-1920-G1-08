@@ -36,6 +36,10 @@ public class ViviendaService {
 		return vr.findAllNewest();
 	}
 	
+	public void save(Vivienda vivienda) {
+		   vr.save(vivienda);
+		}
+	
 	//Alba-Alejandro
 	
 	

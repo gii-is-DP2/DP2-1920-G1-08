@@ -16,11 +16,13 @@
 				<th style="width: 150px;">Zona</th>
 				<th style="width: 200px;">Direccion</th>
 				<th style="width: 150px;">Planta</th>
-				<th style="width: 150px;">Precio en miles euros</th>
+				<th style="width: 150px;">Precio</th>
+				<th style="width: 150px;">Oferta</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach items="${viviendas}" var="vivienda">
+			
 		<tr>
 					<td><img src="${vivienda.foto}" /> </td>
 					 <td>
@@ -34,7 +36,14 @@
                 </td>
 					<td><c:out value="${vivienda.direccion}" /></td>
 					<td><c:out value="${vivienda.planta}" /></td>
-					<td><c:out value="${vivienda.precio}" /></td>
+					<td><c:out value="${vivienda.precio}" /> Euros</td>
+					<td>
+					  <spring:url value="/compras/{viviendaId}" var="compraUrl">
+                        <spring:param name="viviendaId"
+									value="${vivienda.id}" />
+                    </spring:url>
+                    <a href="${fn:escapeXml(compraUrl)}">Ver oferta</a>
+                </td>
 			</tr>
 			</c:forEach>
 

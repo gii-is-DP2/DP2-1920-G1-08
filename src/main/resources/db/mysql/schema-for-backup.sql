@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS habitacion
    numCamas INT (10),
    caracteristicas TEXT,
    foto VARCHAR (50),
-   FOREIGN KEY (vivienda_id) REFERENCES vivienda (id)
+   FOREIGN KEY (vivienda_id) REFERENCES vivienda (id) 
 );
 CREATE TABLE IF NOT EXISTS compra
 (

@@ -19,6 +19,7 @@
 				<th>Dimensiones</th>
 				<th>Características</th>
 				<th>Foto</th>
+				<th>Actions</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -50,6 +51,12 @@
 					</td>
 					<td>
 						<img  height="100px" width="200px" src="<c:out value="${vivienda.foto}"/>"/>
+					</td>
+					<td>
+						<spring:url value="/vivienda/delete/{viviendaId}" var="viviendaDeleteUrl">
+							<spring:param name="viviendaId" value="${vivienda.id}" />
+						</spring:url>
+						<a href="${fn:escapeXml(viviendaDeleteUrl)}">Delete</a>
 					</td>
 				</tr>
 			</c:forEach>

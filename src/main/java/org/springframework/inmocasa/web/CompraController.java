@@ -88,8 +88,8 @@ public class CompraController {
 			compra.setCliente(cliente);
 			compra.setVivienda(vivienda);
 			compra.setEstado(Estado.PENDIENTE);
-			compraService.saveCompra(compra); // error porq id compra se pone null
-			return "redirect:/vivienda/" + vivienda.getId();
+			compraService.saveCompra(compra);
+			return "redirect:/vivienda/list";
 		}
 	}
 

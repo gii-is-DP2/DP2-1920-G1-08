@@ -4,6 +4,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 
 <petclinic:layout pageName="viviendas">
 	<h2>Viviendas</h2>
@@ -19,7 +21,9 @@
 				<th>Dimensiones</th>
 				<th>Características</th>
 				<th>Foto</th>
-				<th>Actions</th>
+				<sec:authorize access="hasAnyAuthority('admin')">
+					<th>Actions</th>
+				</sec:authorize>
 			</tr>
 		</thead>
 		<tbody>
@@ -29,35 +33,21 @@
 							var="viviendaUrl">
 							<spring:param name="viviendaId" value="${vivienda.id}" />
 						</spring:url> <a href="${fn:escapeXml(viviendaUrl)}"><c:out
-								value="${vivienda.titulo}" /></a>
-					</td>
-					<td>
-						<c:out value="${vivienda.fechaPublicacion}" />
-					</td>
-					<td>
-						<c:out value="${vivienda.direccion}" />
-					</td>
-					<td>
-						<c:out value="${vivienda.zona}" />
-					</td>
-					<td>
-						<c:out value="${vivienda.precio}" /> euros
-					</td>
-					<td>
-						<c:out value="${vivienda.dimensiones}" /> m²
-					</td>
-					<td>
-						<c:out value="${vivienda.caracteristicas}" />
-					</td>
-					<td>
-						<img  height="100px" width="200px" src="<c:out value="${vivienda.foto}"/>"/>
-					</td>
-					<td>
-						<spring:url value="/vivienda/delete/{viviendaId}" var="viviendaDeleteUrl">
-							<spring:param name="viviendaId" value="${vivienda.id}" />
-						</spring:url>
-						<a href="${fn:escapeXml(viviendaDeleteUrl)}">Delete</a>
-					</td>
+								value="${vivienda.titulo}" /></a></td>
+					<td><c:out value="${vivienda.fechaPublicacion}" /></td>
+					<td><c:out value="${vivienda.direccion}" /></td>
+					<td><c:out value="${vivienda.zona}" /></td>
+					<td><c:out value="${vivienda.precio}" /> euros</td>
+					<td><c:out value="${vivienda.dimensiones}" /> m²</td>
+					<td><c:out value="${vivienda.caracteristicas}" /></td>
+					<td><img height="100px" width="200px"
+						src="<c:out value="${vivienda.foto}"/>" /></td>
+					<sec:authorize access="hasAnyAuthority('admin')">
+						<td><spring:url value="/vivienda/delete/{viviendaId}"
+								var="viviendaDeleteUrl">
+								<spring:param name="viviendaId" value="${vivienda.id}" />
+							</spring:url> <a href="${fn:escapeXml(viviendaDeleteUrl)}">Delete</a></td>
+					</sec:authorize>
 				</tr>
 			</c:forEach>
 		</tbody>

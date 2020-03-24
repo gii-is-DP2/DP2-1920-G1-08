@@ -55,10 +55,7 @@ public class ValoracionController {
 		String vista = VISTA_FORM_VALORACION;
 		Valoracion val = new Valoracion();
 		
-		List<String> errores = new ArrayList();
-		errores.add("ddddd");
 		
-		modelMap.put("warning", "ddddd");
 		User usuario = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		List<Cliente> cliente = clienteService.findClienteByUsername(usuario.getUsername());
 		
@@ -73,8 +70,7 @@ public class ValoracionController {
 				modelMap.put("valoracion", val);
 			}else {
 				//Mostrar mensaje de error
-				errores.add( "Ya ha realizado una valoración a esta vivienda.");
-				modelMap.put("error", errores);
+				modelMap.put("error", "Ya ha realizado una valoración a esta vivienda.");
 				vista = usuarioController.showListViviendas(modelMap);
 			}
 		}

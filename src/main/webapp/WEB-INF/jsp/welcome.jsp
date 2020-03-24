@@ -15,65 +15,7 @@
 <!--  >%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%-->
 
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-	<div class="container">
-		<a class="navbar-brand" href=""> <img class="img-logo"
-			src="/resources/images/Logo_inmocasa.png" alt=""
-			style="margin-left: -100px">
-		</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse"
-			data-target="#navbarResponsive" aria-controls="navbarResponsive"
-			aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarResponsive">
-			<ul class="navbar-nav ml-auto">
-				<li class="nav-item active"><a class="nav-link" href="#">Home
-						<span class="sr-only">(current)</span>
-				</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">Pon tu
-						anuncio</a></li>
-
-				<sec:authorize access="!isAuthenticated()">
-					<li class="nav-item"><a class="nav-link" href="/login">Acceso
-							usuarios</a></li>
-				</sec:authorize>
-
-
-
-				<!-- Panel usuario -->
-				<sec:authorize access="isAuthenticated()">
-					<li class="nav-item"><a class="nav-link" href="#">Tus
-							mensajes</a></li>
-					<div class="btn-group">
-						<button type="button" class="btn btn-success">
-							<sec:authentication property="name" />
-						</button>
-						<button type="button"
-							class="btn btn-danger dropdown-toggle dropdown-toggle-split"
-							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							<span class="sr-only">Toggle Dropdown</span>
-						</button>
-						<div class="dropdown-menu">
-							<a class="dropdown-item" href="#">Mi perfil</a> <a
-								class="dropdown-item" href="#">Mis favoritos</a>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="<c:url value="/logout" />">Logout</a>
-						</div>
-					</div>
-				</sec:authorize>
-			</ul>
-		</div>
-	</div>
-
-</nav>
-
-<br>
-<br>
-<br>
-<br>
-
-
+<petclinic:layout pageName="home">
 
 <section class="search-sec" style="margin-left: 100px;">
 	<div class="container">
@@ -109,109 +51,100 @@
 	</div>
 </section>
 
-<!-- Footer -->
-<footer class="page-footer font-small indigo" style="margin-left: 70px;">
-
-	<!-- Footer Links -->
-	<div class="container text-center text-md-left">
-
-		<!-- Grid row -->
-		<div class="row">
-
-			<!-- Grid column -->
-			<div class="col-md-3 mx-auto">
-
-				<!-- Links -->
-				<h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
-
-				<ul class="list-unstyled">
-					<li><a href="#!">Very long link 1</a></li>
-					<li><a href="#!">Very long link 2</a></li>
-					<li><a href="#!">Very long link 3</a></li>
-					<li><a href="#!">Very long link 4</a></li>
-				</ul>
-
+	<!-- <!-- Footer 
+	<footer class="page-footer font-small indigo" style="margin-left: 70px;">
+	
+		Footer Links
+		<div class="container text-center text-md-left">
+	
+			Grid row
+			<div class="row">
+	
+				Grid column
+				<div class="col-md-3 mx-auto">
+	
+					Links
+					<h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
+	
+					<ul class="list-unstyled">
+						<li><a href="#!">Very long link 1</a></li>
+						<li><a href="#!">Very long link 2</a></li>
+						<li><a href="#!">Very long link 3</a></li>
+						<li><a href="#!">Very long link 4</a></li>
+					</ul>
+	
+				</div>
+				Grid column
+	
+				<hr class="clearfix w-100 d-md-none">
+	
+				Grid column
+				<div class="col-md-3 mx-auto">
+	
+					Links
+					<h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
+	
+					<ul class="list-unstyled">
+						<li><a href="#!">Link 1</a></li>
+						<li><a href="#!">Link 2</a></li>
+						<li><a href="#!">Link 3</a></li>
+						<li><a href="#!">Link 4</a></li>
+					</ul>
+	
+				</div>
+				Grid column
+	
+				<hr class="clearfix w-100 d-md-none">
+	
+				Grid column
+				<div class="col-md-3 mx-auto">
+	
+					Links
+					<h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
+	
+					<ul class="list-unstyled">
+						<li><a href="#!">Link 1</a></li>
+						<li><a href="#!">Link 2</a></li>
+						<li><a href="#!">Link 3</a></li>
+						<li><a href="#!">Link 4</a></li>
+					</ul>
+	
+				</div>
+				Grid column
+	
+				<hr class="clearfix w-100 d-md-none">
+	
+				Grid column
+				<div class="col-md-3 mx-auto">
+	
+					Links
+					<h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
+	
+					<ul class="list-unstyled">
+						<li><a href="#!">Link 1</a></li>
+						<li><a href="#!">Link 2</a></li>
+						<li><a href="#!">Link 3</a></li>
+						<li><a href="#!">Link 4</a></li>
+					</ul>
+	
+				</div>
+				Grid column
+	
 			</div>
-			<!-- Grid column -->
-
-			<hr class="clearfix w-100 d-md-none">
-
-			<!-- Grid column -->
-			<div class="col-md-3 mx-auto">
-
-				<!-- Links -->
-				<h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
-
-				<ul class="list-unstyled">
-					<li><a href="#!">Link 1</a></li>
-					<li><a href="#!">Link 2</a></li>
-					<li><a href="#!">Link 3</a></li>
-					<li><a href="#!">Link 4</a></li>
-				</ul>
-
-			</div>
-			<!-- Grid column -->
-
-			<hr class="clearfix w-100 d-md-none">
-
-			<!-- Grid column -->
-			<div class="col-md-3 mx-auto">
-
-				<!-- Links -->
-				<h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
-
-				<ul class="list-unstyled">
-					<li><a href="#!">Link 1</a></li>
-					<li><a href="#!">Link 2</a></li>
-					<li><a href="#!">Link 3</a></li>
-					<li><a href="#!">Link 4</a></li>
-				</ul>
-
-			</div>
-			<!-- Grid column -->
-
-			<hr class="clearfix w-100 d-md-none">
-
-			<!-- Grid column -->
-			<div class="col-md-3 mx-auto">
-
-				<!-- Links -->
-				<h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
-
-				<ul class="list-unstyled">
-					<li><a href="#!">Link 1</a></li>
-					<li><a href="#!">Link 2</a></li>
-					<li><a href="#!">Link 3</a></li>
-					<li><a href="#!">Link 4</a></li>
-				</ul>
-
-			</div>
-			<!-- Grid column -->
-
+			Grid row
+	
 		</div>
-		<!-- Grid row -->
+		Footer Links
+	
+		Copyright
+		<div class="footer-copyright text-center py-3">
+			© 2020 Copyright: <a href="#"> Inmocasa</a>
+		</div>
+		Copyright
+	
+	</footer>
+Footer -->
 
-	</div>
-	<!-- Footer Links -->
-
-	<!-- Copyright -->
-	<div class="footer-copyright text-center py-3">
-		© 2020 Copyright: <a href="#"> Inmocasa</a>
-	</div>
-	<!-- Copyright -->
-
-</footer>
-<!-- Footer -->
+</petclinic:layout>
 
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-	integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-	crossorigin="anonymous"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
-	integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
-	crossorigin="anonymous"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
-	integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
-	crossorigin="anonymous"></script>

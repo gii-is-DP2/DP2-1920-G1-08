@@ -18,19 +18,14 @@
 			</div>
 
 			<div class="panel-body">
+
 				<img src="${viv.foto}"
 					style="margin-left: auto; margin-right: auto; display: block;" />
 				<p>
 					Fecha de publicación:
 					<c:out value="${viv.fechaPublicacion}" />
 				</p>
-				<p>
-					<spring:url value="/viviendas/{viviendaId}" var="viviendaUrl">
-						<spring:param name="viviendaId" value="${viv.id}" />
-					</spring:url>
-					<a href="${fn:escapeXml(viviendaUrl)}"><c:out
-							value="${viv.zona} " /></a>
-				</p>
+				
 				<p>
 					Precio:
 					<c:out value="${viv.precio}" />
@@ -43,7 +38,15 @@
 					Planta:
 					<c:out value="${viv.planta}" />
 				</p>
+				<p>
+					<spring:url value="/viviendas/{viviendaId}" var="viviendaUrl">
+						<spring:param name="viviendaId" value="${viv.id}" />
+					</spring:url>
+					<a href="${fn:escapeXml(viviendaUrl)}" class="btn btn-primary" role="button"><c:out
+							value="Ver detalles" /></a>
+				</p>
 			</div>
+			
 		</div>
 
 	</c:forEach>

@@ -64,10 +64,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 				.antMatchers("/admin/**").hasAnyAuthority("admin")
 
-				.antMatchers("/viviendas/**").permitAll()
+				.antMatchers("/viviendas/allNew").permitAll()
+				.antMatchers("/viviendas/ofertadas").permitAll()
+				.antMatchers("/viviendas/{viviendaId}").permitAll()
+				.antMatchers("/viviendas/new").hasAnyAuthority("propietario")
+				.antMatchers("/viviendas/save").hasAnyAuthority("propietario")
+				.antMatchers("/visita/**").hasAnyAuthority("cliente","admin")
 				.antMatchers("/compras/**").permitAll()
 				.antMatchers("/owners/**").hasAnyAuthority("owner","admin")				
-
+				
+				.antMatchers("/usuario/misVisitas").hasAuthority("cliente")
+				.antMatchers("/valoracion/**").permitAll()
+				.antMatchers("/visita/valoracion/**").hasRole("cliente")
+				
 				.antMatchers("/vets/**").authenticated()
 
 				.anyRequest().denyAll()

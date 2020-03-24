@@ -10,7 +10,7 @@
 	
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
 	<div class="container">
-		<a class="navbar-brand" href=""> <img class="img-logo"
+		<a class="navbar-brand" href="/"> <img class="img-logo"
 			src="/resources/images/Logo_inmocasa.png" alt=""
 			style="margin-left: -100px">
 		</a>
@@ -21,7 +21,7 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav ml-auto">
-				<li class="nav-item active"><a class="nav-link" href="#">Home
+				<li class="nav-item active"><a class="nav-link" href="/viviendas/allNew">Todas las viviendas
 						<span class="sr-only">(current)</span>
 				</a></li>
 				<li class="nav-item"><a class="nav-link" href="#">Pon tu
@@ -36,8 +36,7 @@
 
 				<!-- Panel usuario -->
 				<sec:authorize access="isAuthenticated()">
-					<li class="nav-item"><a class="nav-link" href="#">Tus
-							mensajes</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">Tus mensajes</a></li>
 					<div class="btn-group">
 						<button type="button" class="btn btn-success">
 							<sec:authentication property="name" />
@@ -48,8 +47,9 @@
 							<span class="sr-only">Toggle Dropdown</span>
 						</button>
 						<div class="dropdown-menu">
-							<a class="dropdown-item" href="#">Mi perfil</a> <a
-								class="dropdown-item" href="#">Mis favoritos</a>
+							<a class="dropdown-item" href="#">Mi perfil</a> 
+							<a class="dropdown-item" href="#">Mis favoritos</a>
+							<a class="dropdown-item" href="/usuario/misVisitas">Mis visitas</a>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" href="<c:url value="/logout" />">Logout</a>
 						</div>

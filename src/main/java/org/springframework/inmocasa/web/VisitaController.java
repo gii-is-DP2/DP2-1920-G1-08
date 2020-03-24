@@ -68,7 +68,9 @@ public class VisitaController {
 
 	@PostMapping("/save")
 	public String saveVisita(@Valid Visita visita, ModelMap model) {
-		System.out.println("Guardar visita: "+visita.getLugar());
+		
+		Visita v = visitaService.save(visita);
+		
 		return VIEW_EDIT_VISITA;
 	}
 

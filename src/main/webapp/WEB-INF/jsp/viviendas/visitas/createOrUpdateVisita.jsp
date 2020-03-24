@@ -17,6 +17,8 @@
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
+                	<input type="hidden" name="vivienda" value="${visita.vivienda.id }"/>
+                	<input type="hidden" name="cliente" value="${visita.cliente.id }"/>
                     <input type="hidden" name="visitaId" value="${visita.id}"/>
                     <button class="btn btn-default" type="submit">Reservar visita</button>
                 </div>

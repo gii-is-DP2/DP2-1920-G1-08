@@ -3,12 +3,13 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="sec"	uri="http://www.springframework.org/security/tags"%>
 
 <petclinic:layout pageName="Show Vivienda">
 	<h2>Vivienda</h2>
 
 	<table id="showVivienda" class="table table-striped">
-	<tr>
+		<tr>
 			<th>Zona</th>
 			<td><c:out value="${viviendas.zona}" /></td>
 		</tr>
@@ -39,6 +40,12 @@
 		</tr>
 	</table>
 
+	<sec:authorize access="isAuthenticated()">
+		<spring:url value="/visita/vivienda/{viviendaId}/new" var="createVivUrl">
+                    <spring:param name="viviendaId" value="${viviendas.id}"/>
+                </spring:url>
+				<a href="${fn:escapeXml(createVivUrl)}" class="btn btn-primary" role="button">Pedir cita</a>
+	</sec:authorize>
 
 
 </petclinic:layout>

@@ -55,6 +55,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 
 		http.authorizeRequests()
+				.antMatchers("/resources/**","/webjars/**","/h2-console/**").permitAll()
+				.antMatchers(HttpMethod.GET, "/","/oups").permitAll()
+				.antMatchers("/vivienda/list").permitAll()
+				.antMatchers("/vivienda/{viviendaId}").permitAll()
+				.antMatchers("/vivienda/delete/**").hasAnyAuthority("admin")
+				.antMatchers("/compra/create/**").hasAnyAuthority("cliente, admin")
+				.antMatchers("/propietario/**").hasAnyAuthority("propietario","admin")
+				.antMatchers("/cliente/**").hasAnyAuthority("cliente","admin")
+				.antMatchers("/dashboard").hasAnyAuthority("admin")
 
 				.antMatchers("/resources/**", "/webjars/**", "/h2-console/**").permitAll()
 
@@ -71,13 +80,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/viviendas/save").hasAnyAuthority("propietario")
 				.antMatchers("/visita/**").hasAnyAuthority("cliente","admin")
 				.antMatchers("/compras/**").permitAll()
-				.antMatchers("/owners/**").hasAnyAuthority("owner","admin")				
 				
 				.antMatchers("/usuario/misVisitas").hasAuthority("cliente")
 				.antMatchers("/valoracion/**").permitAll()
 				.antMatchers("/visita/valoracion/**").hasRole("cliente")
 				
-				.antMatchers("/vets/**").authenticated()
 
 				.anyRequest().denyAll()
 

@@ -81,11 +81,20 @@
 					<span>Home</span>
 				</petclinic:menuItem>
 
-				<petclinic:menuItem active="${name eq 'owners'}" url="/owners/find"
-					title="find owners">
+				<petclinic:menuItem active="${name eq 'viviendas'}"
+					url="/vivienda/list" title="Viviendas">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-					<span>Find owners</span>
+					<span>Viviendas</span>
 				</petclinic:menuItem>
+
+				<sec:authorize access="hasAnyAuthority('admin')">
+					<petclinic:menuItem active="${name eq 'dashboard'}"
+						url="/dashboard" title="dashboard">
+						<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+						<span>Estadisticas</span>
+					</petclinic:menuItem>
+				</sec:authorize>
+
 				
 				<petclinic:menuItem active="${name eq 'viviendas'}" url="/viviendas/allNew"
 					title="viviendas">
@@ -134,7 +143,7 @@
 								</div>
 							</li>
 							<li class="divider"></li>
-<!-- 							
+							<!-- 							
                             <li> 
 								<div class="navbar-login navbar-login-session">
 									<div class="row">

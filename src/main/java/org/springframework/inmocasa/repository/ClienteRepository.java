@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.inmocasa.model.Cliente;
 
-public interface ClienteRepository extends  CrudRepository<Cliente, Integer>{
+public interface ClienteRepository extends JpaRepository<Cliente, Integer>{
 
 	
 
@@ -18,6 +18,7 @@ public interface ClienteRepository extends  CrudRepository<Cliente, Integer>{
 	public List<Cliente> findByUsername(String username);
 	
 	//Alba-Alejandro
-	
+	@Query("select c from Cliente c where c.username = ?1")
+	public Cliente findByUsername(String username);
 	
 }

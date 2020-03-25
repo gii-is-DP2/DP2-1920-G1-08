@@ -31,7 +31,7 @@ import net.bytebuddy.asm.Advice.This;
 @Controller
 @RequestMapping("/viviendas")
 public class ViviendaController {
-
+	
 	@Autowired
 	private ViviendaService viviendaService;
 
@@ -40,6 +40,7 @@ public class ViviendaController {
 
 	@Autowired
 	private CompraService compraService;
+  
 	// Santi-Alvaro
 
 	@GetMapping(path = "/ofertadas")
@@ -80,8 +81,8 @@ public class ViviendaController {
 
 		return "viviendas/listNewViviendas";
 	}
-	
-	@GetMapping(value= {"/new"})
+  
+  @GetMapping(value= {"/new"})
 	public String crearVivienda(ModelMap modelMap) {
 		String view = "viviendas/editVivienda";
 		Vivienda vivienda = new Vivienda();
@@ -110,8 +111,29 @@ public class ViviendaController {
 			modelMap.addAttribute("message", "La vivienda ha sido registrada correctamente");
 	     }
 		return view;
+	
+	//Alba-Alejandro
+	@GetMapping(value="/list")
+	public ModelAndView list() {
+		ModelAndView res;
+		
+		Collection<Vivienda> viviendas = viviendaService.findViviendasALaVenta();
+		
+		res = new ModelAndView("vivienda/list");
+		res.addObject("viviendas", viviendas);
+		
+		return res;
 	}
 	
-	// Alba-Alejandro
+	@GetMapping(value="/delete/{viviendaId}")
+	public ModelAndView borrarVivienda(@PathVariable("viviendaId") int viviendaId) {
+		ModelAndView res;
+		Vivienda vivienda=viviendaService.findViviendaById(viviendaId);
+		viviendaService.delete(vivienda);
+		
+		res = list();
+				
+		return res;
+	}
 
 }

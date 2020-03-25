@@ -2,14 +2,15 @@ package org.springframework.inmocasa.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.inmocasa.model.Compra;
+import org.springframework.inmocasa.model.enums.Estado;
 import org.springframework.inmocasa.repository.CompraRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CompraService {
-
+public class CompraService {	
 	CompraRepository cr;
-
+	
+	//Santi-Alvaro
 	@Autowired
 	public CompraService(CompraRepository cr) {
 		super();
@@ -35,9 +36,23 @@ public class CompraService {
 		// TODO Auto-generated method stub
 		cr.deleteById(compraId);
 	}
-
-	// Alvaro-MiguelEmmanuel
-
-	// Alba-Alejandro
+	
+	//Alvaro-MiguelEmmanuel
+	
+	
+	//Alba-Alejandro
+	
+	public void saveCompra(Compra compra) {		
+		compra.setEstado(Estado.PENDIENTE);
+		cr.save(compra);
+	}
+	
+	public Integer getNumOfertas() {
+		return cr.getNumOfertas();
+	}
+	
+	public Integer getViviendasCompradas() {
+		return cr.getViviendasCompradas();
+	}
 
 }

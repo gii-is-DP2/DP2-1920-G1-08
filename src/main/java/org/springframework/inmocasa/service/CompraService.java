@@ -21,6 +21,21 @@ public class CompraService {
 		return cr.findAll();
 	}
 
+	public Compra findCompraByViviendaId(int viviendaId) {
+		// TODO Auto-generated method stub
+		return cr.findByViviendaId(viviendaId);
+	}
+
+	public Compra save(Compra compras) {
+		// TODO Auto-generated method stub
+		return cr.save(compras);
+	}
+
+	public void deleteById(Integer compraId ) {
+		// TODO Auto-generated method stub
+		cr.deleteById(compraId);
+	}
+
 	// Alvaro-MiguelEmmanuel
 
 	// Alba-Alejandro

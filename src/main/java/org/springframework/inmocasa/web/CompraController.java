@@ -2,9 +2,14 @@ package org.springframework.inmocasa.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.inmocasa.model.Compra;
+import org.springframework.inmocasa.model.enums.Estado;
 import org.springframework.inmocasa.service.CompraService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import sun.util.logging.resources.logging;
 
 @Controller
 public class CompraController {
@@ -13,15 +18,36 @@ public class CompraController {
 	private CompraService compraService;
 
 	// Santi-Alvaro
-	public String listadoCompras(ModelMap model) {
-		String vista = "/listaOferta";
-		Iterable<Compra> compra = compraService.findAll();
-		model.addAttribute("ofertas", compra);
-		return vista;
+	@GetMapping(value = "/compras/{viviendaId}")
+	public String showCompra(@PathVariable("viviendaId") int viviendaId, ModelMap model) {
+		String view = "compras/showCompraDetails";
+		Compra compras = this.compraService.findCompraByViviendaId(viviendaId);
+		model.put("compras", compras);
+		return view;
+
 	}
 
+	@GetMapping(value = "/compras/{viviendaId}/aceptar")
+	public String aceptarCompra(@PathVariable("viviendaId") int viviendaId, ModelMap model) {
+		String view = "/viviendas/ofertadas";
+		Compra compras = this.compraService.findCompraByViviendaId(viviendaId);
+		compras.setEstado(Estado.ACEPTADO);
+		compraService.save(compras);
+		model.put("compras", compras);
+		return "redirect:" + view;
+	}
+
+	@GetMapping(value = "/compras/{viviendaId}/rechazar")
+	public String rechazarCompra(@PathVariable("viviendaId") int viviendaId, ModelMap model) {
+		String view = "/viviendas/ofertadas";
+		Compra compras = this.compraService.findCompraByViviendaId(viviendaId);
+		compras.setEstado(Estado.RECHAZADO);
+		compraService.deleteById(compras.getId());
+		compraService.save(compras);
+		model.put("compras", compras);
+		return "redirect:" + view;
+	}
 	// Alvaro-MiguelEmmanuel
 
 	// Alba-Alejandro
-
 }

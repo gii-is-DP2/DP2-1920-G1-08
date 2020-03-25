@@ -6,8 +6,8 @@
 <!--  >%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%-->
 <%@ attribute name="name" required="true" rtexprvalue="true"
 	description="Name of the active menu: home, owners, vets or error"%>
-	
-	
+
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
 	<div class="container">
 		<a class="navbar-brand" href="/"> <img class="img-logo"
@@ -21,8 +21,9 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav ml-auto">
-				<li class="nav-item active"><a class="nav-link" href="/viviendas/allNew">Todas las viviendas
-						<span class="sr-only">(current)</span>
+				<li class="nav-item active"><a class="nav-link"
+					href="/viviendas/allNew">Todas las viviendas <span
+						class="sr-only">(current)</span>
 				</a></li>
 				<li class="nav-item"><a class="nav-link" href="#">Pon tu
 						anuncio</a></li>
@@ -36,7 +37,8 @@
 
 				<!-- Panel usuario -->
 				<sec:authorize access="isAuthenticated()">
-					<li class="nav-item"><a class="nav-link" href="#">Tus mensajes</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">Tus
+							mensajes</a></li>
 					<div class="btn-group">
 						<button type="button" class="btn btn-success">
 							<sec:authentication property="name" />
@@ -47,9 +49,12 @@
 							<span class="sr-only">Toggle Dropdown</span>
 						</button>
 						<div class="dropdown-menu">
-							<a class="dropdown-item" href="#">Mi perfil</a> 
-							<a class="dropdown-item" href="#">Mis favoritos</a>
-							<a class="dropdown-item" href="/usuario/misVisitas">Mis visitas</a>
+							<a class="dropdown-item" href="#">Mi perfil</a> <a
+								class="dropdown-item" href="#">Mis favoritos</a> <a
+								class="dropdown-item" href="/usuario/misVisitas">Mis visitas</a>
+							<sec:authorize access="hasAnyAuthority('admin')">
+								<a class="dropdown-item" href="/dashboard">Estadísticas</a>
+							</sec:authorize>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" href="<c:url value="/logout" />">Logout</a>
 						</div>

@@ -8,13 +8,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ClienteService {
-	
-	ClienteRepository clienteRepository;
-	
-	@Autowired
-	public ClienteService(ClienteRepository clienteRepository) {
-		this.clienteRepository = clienteRepository;
-	}
 
 	private ClienteRepository crep;
 	
@@ -32,9 +25,5 @@ public class ClienteService {
 	}
 	
 	//Alba-Alejandro
-	
-	public Cliente findByUsername(String username) {
-		return clienteRepository.findByUsername(username);
-	}
 	
 }

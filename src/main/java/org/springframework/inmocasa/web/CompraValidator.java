@@ -5,8 +5,6 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 public class CompraValidator implements Validator{
-
-	private static final String REQUIRED = "required";
 	
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -19,7 +17,7 @@ public class CompraValidator implements Validator{
 		
 		//validacion precio
 		if (compra.getPrecioFinal() == null) {
-			errors.rejectValue("precioFinal", REQUIRED, REQUIRED);
+			errors.rejectValue("precioFinal", "Hay que especificar un precio", "Hay que especificar un precio");
 		}
 		
 	}

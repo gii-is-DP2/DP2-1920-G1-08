@@ -1,7 +1,5 @@
 package org.springframework.inmocasa.web;
 
-import java.util.Optional;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,22 +22,12 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.inmocasa.model.Compra;
-import org.springframework.inmocasa.model.enums.Estado;
-import org.springframework.inmocasa.service.CompraService;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-
-import sun.util.logging.resources.logging;
 
 @Controller
-@RequestMapping("/compra")
+@RequestMapping("/compras")
 public class CompraController {
 
-	private static final String VIEWS_COMPRA_CREATE_UPDATE_FORM = "compra/form";
+	private static final String VIEWS_COMPRA_CREATE_UPDATE_FORM = "compras/form";
 
 	CompraService compraService;
 
@@ -61,15 +49,15 @@ public class CompraController {
 	public void initCompraBinder(WebDataBinder dataBinder) {
 		dataBinder.setValidator(new CompraValidator());
 	}
-	
+
 	@GetMapping(value = "/create/{viviendaId}")
 	public String create(@PathVariable("viviendaId") Integer viviendaId, ModelMap model) {
 		Compra compra = new Compra();
-		Vivienda vivienda = viviendaService.findViviendaById(viviendaId);
+		Vivienda vivienda = viviendaService.findViviendaId(viviendaId);
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
-		Cliente cliente = clienteService.findByUsername(userPrincipal.getUsername());
+		Cliente cliente = clienteService.findClienteByUsername(userPrincipal.getUsername()).get(0);
 
 		compra.setCliente(cliente);
 		compra.setVivienda(vivienda);
@@ -79,23 +67,23 @@ public class CompraController {
 	}
 
 	@PostMapping(value = "/create/{viviendaId}")
-	public String save(@Valid Compra compra, @PathVariable("viviendaId") Integer viviendaId, BindingResult binding,
+	public String save(@PathVariable("viviendaId") Integer viviendaId, @Valid Compra compra, BindingResult binding,
 			ModelMap model) {
 		if (binding.hasErrors()) {
 			model.put("compra", compra);
 			return VIEWS_COMPRA_CREATE_UPDATE_FORM;
 		} else {
-			Vivienda vivienda = viviendaService.findViviendaById(viviendaId);
+			Vivienda vivienda = viviendaService.findViviendaId(viviendaId);
 
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 			UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
-			Cliente cliente = clienteService.findByUsername(userPrincipal.getUsername());
+			Cliente cliente = clienteService.findClienteByUsername(userPrincipal.getUsername()).get(0);
 
 			compra.setCliente(cliente);
 			compra.setVivienda(vivienda);
 			compra.setEstado(Estado.PENDIENTE);
 			compraService.saveCompra(compra);
-			return "redirect:/vivienda/list";
+			return "redirect:/viviendas/allNew";
 		}
 	}
 

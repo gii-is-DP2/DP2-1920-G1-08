@@ -45,7 +45,7 @@ public class ViviendaService {
 		}
 	
 	//Alba-Alejandro
-	public Vivienda findViviendaById(Integer viviendaId) {
+	public Vivienda findViviendaId(Integer viviendaId) {
 		return vr.findViviendaById(viviendaId);
 	}
 	
@@ -62,7 +62,7 @@ public class ViviendaService {
 
 
 	public void delete(Vivienda vivienda) {
-		Collection<Habitacion> habitaciones ;
+		Collection<Habitacion> habitaciones;
 		habitaciones = vr.getHabitacionesVivienda(vivienda.getId());
 		hr.deleteAll(habitaciones);
 		vr.delete(vivienda);

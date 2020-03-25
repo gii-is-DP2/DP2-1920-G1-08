@@ -1,6 +1,5 @@
 package org.springframework.inmocasa.web;
 
-
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -25,6 +24,16 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.inmocasa.model.Compra;
+import org.springframework.inmocasa.model.enums.Estado;
+import org.springframework.inmocasa.service.CompraService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import sun.util.logging.resources.logging;
 
 @Controller
 @RequestMapping("/compra")
@@ -45,9 +54,6 @@ public class CompraController {
 		this.viviendaService = viviendaService;
 		this.clienteService = clienteService;
 	}
-
-	// Santi-Alvaro
-
 	// Alvaro-MiguelEmmanuel
 
 	// Alba-Alejandro
@@ -91,6 +97,37 @@ public class CompraController {
 			compraService.saveCompra(compra);
 			return "redirect:/vivienda/list";
 		}
+	}
+
+	// Santi-Alvaro
+	@GetMapping(value = "/{viviendaId}")
+	public String showCompra(@PathVariable("viviendaId") int viviendaId, ModelMap model) {
+		String view = "compras/showCompraDetails";
+		Compra compras = this.compraService.findCompraByViviendaId(viviendaId);
+		model.put("compras", compras);
+		return view;
+
+	}
+
+	@GetMapping(value = "/{viviendaId}/aceptar")
+	public String aceptarCompra(@PathVariable("viviendaId") int viviendaId, ModelMap model) {
+		String view = "/viviendas/ofertadas";
+		Compra compras = this.compraService.findCompraByViviendaId(viviendaId);
+		compras.setEstado(Estado.ACEPTADO);
+		compraService.save(compras);
+		model.put("compras", compras);
+		return "redirect:" + view;
+	}
+
+	@GetMapping(value = "/{viviendaId}/rechazar")
+	public String rechazarCompra(@PathVariable("viviendaId") int viviendaId, ModelMap model) {
+		String view = "/viviendas/ofertadas";
+		Compra compras = this.compraService.findCompraByViviendaId(viviendaId);
+		compras.setEstado(Estado.RECHAZADO);
+		compraService.deleteById(compras.getId());
+		compraService.save(compras);
+		model.put("compras", compras);
+		return "redirect:" + view;
 	}
 
 }

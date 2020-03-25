@@ -1,6 +1,7 @@
 package org.springframework.inmocasa.service;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.inmocasa.model.Habitacion;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ViviendaService {
-	
+
 	ViviendaRepository vr;
 	HabitacionRepository hr;
 
@@ -22,14 +23,26 @@ public class ViviendaService {
 		this.hr = hr;
 	}
 
+	// Santi-Alvaro
 
-	//Santi-Alvaro
-	
-	
-	//Alvaro-MiguelEmmanuel
-	public Collection<Vivienda> findAllNewest(){
+	public Iterable<Vivienda> findAll() {
+		return vr.findAll();
+	}
+
+
+	public Optional<Vivienda> findViviendaById(int viviendaId) {
+		// TODO Auto-generated method stub
+		return vr.findById(viviendaId);
+	}
+
+	// Alvaro-MiguelEmmanuel
+	public Collection<Vivienda> findAllNewest() {
 		return vr.findAllNewest();
 	}
+	
+	public void save(Vivienda vivienda) {
+		   vr.save(vivienda);
+		}
 	
 	//Alba-Alejandro
 	public Vivienda findViviendaById(Integer viviendaId) {
@@ -56,5 +69,4 @@ public class ViviendaService {
 	}
 	
 	
-
 }

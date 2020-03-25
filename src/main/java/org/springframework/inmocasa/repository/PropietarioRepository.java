@@ -11,6 +11,8 @@ public interface PropietarioRepository  extends JpaRepository<Propietario, Integ
 	
 		//Alvaro-MiguelEmmanuel
 		
+	@Query("select p from Propietario p where p.username = ?1")
+	public Propietario findByUsername(String username);
 		
 		//Alba-Alejandro
 		

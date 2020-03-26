@@ -20,7 +20,7 @@ public class PropietarioService {
 
 	// Santi-Alvaro
 	@Transactional
-	public void savePropietario(Propietario propietario) throws DataAccessException {
+	public void savePropietario(Propietario propietario)  {
 
 		propietarioRepository.save(propietario);
 
@@ -30,10 +30,6 @@ public class PropietarioService {
 
 	}
 
-	@Transactional
-	public Collection<Propietario> findPropietarioByLastName(String apellidos) throws DataAccessException {
-		return propietarioRepository.findByLastName(apellidos);
-	}
 
 	// Alvaro-MiguelEmmanuel
 

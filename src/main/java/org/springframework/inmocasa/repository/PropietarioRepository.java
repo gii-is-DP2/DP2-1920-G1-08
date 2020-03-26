@@ -11,8 +11,8 @@ public interface PropietarioRepository extends CrudRepository<Propietario, Integ
 
 	// Santi-Alvaro
 
-	@Query("SELECT DISTINCT apellidos FROM Propietario propietario  WHERE propietario.apellidos LIKE apellidos")
-	public Collection<Propietario> findByLastName(@Param("apellidos") String apellidos);
+//	@Query("SELECT DISTINCT apellidos FROM Propietario propietario  WHERE propietario.apellidos LIKE apellidos")
+//	public Collection<Propietario> findByLastName(@Param("apellidos") String apellidos);
 
 	// Alvaro-MiguelEmmanuel
 

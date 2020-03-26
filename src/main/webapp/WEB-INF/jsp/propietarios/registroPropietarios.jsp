@@ -23,42 +23,35 @@
 		Propietario
 	</h2>
 	<form:form modelAttribute="propietario" class="form-horizontal"
-			id="add-propietario-form">
+			action="/propietarios/save">
 		<div class="form-group has-feedback">
-			<petclinic:inputField label="nombre" name="nombre" />
-			<petclinic:inputField label="apellidos" name="apellidos" />
-			<petclinic:inputField label="dni" name="dni"></petclinic:inputField>
-			<petclinic:inputField label="genero" name="genero" />
-			<petclinic:inputField label="telefono" name="telefono" />
-			<petclinic:inputField label="email" name="email" />
-			<form:label label="esInmobiliaria" path="esInmobiliaria"> Es Inmobiliaria </form:label>
+			<petclinic:inputField label="DNI" name="dni" />
+			<petclinic:inputField label="Nombre" name="nombre" />
+			<petclinic:inputField label="Apellidos" name="apellidos" />
+			<petclinic:inputField label="Genero" name="genero" />
+			<petclinic:inputField label="Telefono" name="telefono" />
+			<petclinic:inputField label="Fecha de nacimiento"
+					name="fechaNacimiento" />
+			<petclinic:inputField label="Email" name="email" />
+			<petclinic:inputField label="Usuario" name="username" />
+			<petclinic:inputField label="Contrasena" name="password" />
+			<form:label label="Eres inmobiliaria?" path="esInmobiliaria"> ¿Eres inmobiliaria?   </form:label>
 			<form:select id="esInmobiliaria" path="esInmobiliaria">
-                <form:option value="0" label="----" />
-                <form:option value="1" label="Es inmobiliaria" />
-                <form:option value="2" label="No es inmobiliaria" />
+                <form:option value="0" label="Sí" />
+                <form:option value="1" label="No" />
                 <form:options items="${esInmobiliaria}"
 						itemLabel="esInmobiliaria" itemValue="esInmobiliaria" />
             </form:select>
-				
-			
-			<petclinic:inputField label="inmobiliaria" name="inmobiliaria" />
-			<petclinic:inputField label="cif" name="cif" />
-			<petclinic:inputField label="fechaNacimiento" name="fechaNacimiento" />
-			<petclinic:inputField label="username" name="username"></petclinic:inputField>
-			<petclinic:inputField label="password" name="password"></petclinic:inputField>	
+			<petclinic:inputField label="Nombre de la inmobiliaria"
+					name="inmobiliaria" />
+			<petclinic:inputField label="CIF" name="cif" />
+
 		</div>
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
-				<c:choose>
-					<c:when test="${propietario['new']}">
-						<button class="btn btn-default" type="submit">Añadir
-							Propietario</button>
-					</c:when>
-					<c:otherwise>
-						<button class="btn btn-default" type="submit">Actualizar
-							Propietario</button>
-					</c:otherwise>
-				</c:choose>
+					<input type="hidden" name="id" value="${propietario.id}"/>
+					<button class="btn btn-default" type="submit"> Save propietario</button>
+					
 			</div>
 		</div>
 	</form:form>

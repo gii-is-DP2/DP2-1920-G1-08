@@ -8,6 +8,63 @@
 
 <petclinic:layout pageName="viviendas">
 
+<style>
+	.slidecontainer{
+		width: 25%
+	}
+	.slider {
+  		-webkit-appearance: none;
+  		width: 25%;
+  		height: 25px;
+  		background: #d3d3d3;
+  		outline: none;
+  		opacity: 0.7;
+  		-webkit-transition: .2s;
+  		transition: opacity .2s;
+	}
+	.slider::-webkit-slider-thumb {
+  		-webkit-appearance: none;
+  		appearance: none;
+  		width: 25px;
+  		height: 25px;
+  		background: #4CAF50;
+  		cursor: pointer;
+	}
+	.slider::-moz-range-thumb {
+  		width: 25px;
+  		height: 25px;
+  		background: #4CAF50;
+  		cursor: pointer;
+	}
+	</style>
+	<form>
+		<div class="slidecontainer" >
+		<h3> Precio </h3>
+		<!-- <input type="text" id="precioMin" name="precioMin" required>
+		<input type="text" id="precioMax" name="precioMax" required> -->
+		<input type="range" class="slider" id="precioMin" name="precioMin" value="50" min="0" max="2000">
+		<p>Precio Minimo: <span id="valueMin"></span></p>
+		<input type="range" class="slider" id="precioMax" name="precioMax" value="1000" min="0" max="2000" />
+		<p>Precio Maximo: <span id="valueMax"></span></p>
+		<input type="submit" value="Buscar">
+		</div>
+	</form>
+	<script>
+		var sliderMin = document.getElementById("precioMin");
+		var sliderMax = document.getElementById("precioMax");
+		var outputMin = document.getElementById("valueMin");
+		var outputMax = document.getElementById("valueMax");
+		outputMin.innerHTML = sliderMin.value;
+		outputMax.innerHTML = sliderMax.value;
+
+		sliderMin.oninput = function() {
+  			outputMin.innerHTML = this.value;
+		}
+		sliderMax.oninput = function() {
+  			outputMax.innerHTML = this.value;
+		}
+	</script>
+
 	<c:forEach items="${viviendas}" var="viv">
 		<div class="panel panel-primary"
 			style="width: 70%; margin: 0 auto; margin-top: 30px;">

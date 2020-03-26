@@ -1,6 +1,7 @@
 package org.springframework.inmocasa.service;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,10 @@ public class ViviendaService {
 
 	// Alvaro-MiguelEmmanuel
 	public Collection<Vivienda> findAllNewest() {
-		return vr.findAllNewest();
+		Collection<Vivienda> viviendasCompradas = vr.getViviendasCompradas();
+		Collection<Vivienda> viviendas = vr.findAllNewest();
+		viviendas.removeAll(viviendasCompradas);
+		return viviendas;
 	}
 	
 	public void save(Vivienda vivienda) {
@@ -55,16 +59,19 @@ public class ViviendaService {
 		return res;
 	}
 	
-//	public Collection<Vivienda> findViviendaByPrecio(Integer preciomin, Integer preciomax){
-//		Collection<Vivienda> res = vr.findViviendaByPrecio(preciomin, preciomax);
-//		return res;
-//	}
+	public Collection<Vivienda> findViviendaByPrecio(Integer precioMin, Integer precioMax){
+		Collection<Vivienda> res = vr.findViviendaByPrecio(precioMin, precioMax);
+		res.removeAll(vr.getViviendasCompradas());
+		return res;
+	}
 
 
 	public void delete(Vivienda vivienda) {
 		Collection<Habitacion> habitaciones;
 		habitaciones = vr.getHabitacionesVivienda(vivienda.getId());
-		hr.deleteAll(habitaciones);
+		if(habitaciones != null) {
+			hr.deleteAll(habitaciones);
+		}
 		vr.delete(vivienda);
 	}
 	

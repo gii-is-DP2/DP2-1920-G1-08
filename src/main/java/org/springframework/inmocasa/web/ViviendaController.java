@@ -68,6 +68,55 @@ public class ViviendaController {
 		return view;
 
 	}
+	
+	@GetMapping(path = "/mis-viviendas")
+	public String misViviendas(ModelMap model) {
+		String vista = "viviendas/misViviendas";
+		List<Vivienda> viviendas = new ArrayList<>();
+		String username = SecurityContextHolder.getContext().getAuthentication().getName(); // username Actual
+		Iterable<Vivienda> cmp = viviendaService.findAll();
+		for (Vivienda v : cmp) {
+			if (v.getPropietario().getUsername().equals(username)) {
+
+				viviendas.add(v);
+
+			}
+
+		}
+
+		model.addAttribute("viviendas", viviendas);
+
+		return vista;
+	}
+
+	@GetMapping(path = "/{viviendaId}/edit")
+	public String editVivienda(@PathVariable("viviendaId") int viviendaId, ModelMap model) {
+		Vivienda vivienda = this.viviendaService.findViviendaById(viviendaId).get();
+		String view = "viviendas/editVivienda";
+		model.addAttribute("vivienda", vivienda);
+		return view;
+
+	}
+
+	@PostMapping(path = { "/{viviendaId}/save" })
+	public String guardarPostActualizarVivienda(@PathVariable("viviendaId") int viviendaId, @Valid Vivienda vivienda,
+			BindingResult result, ModelMap modelMap) {
+		String view = "viviendas/listNewViviendas";
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
+		Propietario propietario = propService.findByUsername(userPrincipal.getUsername());
+		vivienda.setPropietario(propietario);
+		vivienda.setDenunciado(false);
+		if (result.hasErrors()) {
+			vivienda.setId(viviendaId);
+			modelMap.addAttribute("vivienda", vivienda);
+			return "viviendas/editVivienda";
+		} else {
+			viviendaService.save(vivienda);
+			modelMap.addAttribute("message", "La vivienda ha sido registrada correctamente");
+		}
+		return view;
+	}
 
 	// Alvaro-MiguelEmmanuel
 	@GetMapping(value = { "/allNew" })
@@ -107,7 +156,7 @@ public class ViviendaController {
 			viviendaService.save(vivienda);
 			modelMap.addAttribute("message", "La vivienda ha sido registrada correctamente");
 	     }
-		return view;
+		return misViviendas(modelMap);
 	}
 	
 	@GetMapping(value = "/{viviendaId}/denunciar")

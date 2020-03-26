@@ -25,6 +25,7 @@
                 <petclinic:inputField label="Dimensiones" name="dimensiones"/>
                 <petclinic:inputField label="Amueblado" name="amueblado"/>
                 <petclinic:inputField label="Planta" name="planta"/>
+                <petclinic:inputField label="Comentario" name="comentario"/>
                 <petclinic:inputField label="Foto" name="foto"/>
                 <petclinic:inputField label="Caracteristicas" name="caracteristicas"/>
                 <petclinic:inputField label="Equipamiento" name="equipamiento"/>

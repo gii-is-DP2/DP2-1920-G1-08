@@ -52,6 +52,9 @@ public class Vivienda extends BaseEntity{
 	
 	private Boolean denunciado;
 	
+	@Column(name = "comentario")
+    private String comentario;
+	
 	@Column(name="horario_visita")
 	private String horarioVisita;
 	

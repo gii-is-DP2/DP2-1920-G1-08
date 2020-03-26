@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.inmocasa.model.Compra;
 import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.model.Vivienda;
 import org.springframework.inmocasa.model.enums.Estado;
@@ -24,9 +25,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
-
-import net.bytebuddy.asm.Advice.This;
 
 @Controller
 @RequestMapping("/viviendas")
@@ -112,6 +110,17 @@ public class ViviendaController {
 		return view;
 	}
 	
+	@GetMapping(value = "/{viviendaId}/denunciar")
+	public String denunciarVivienda(@PathVariable("viviendaId") int viviendaId, ModelMap model) {
+		String view = "/viviendas/listNewViviendas";
+		Vivienda viviendas = this.viviendaService.ViviendaById(viviendaId);
+		viviendas.setDenunciado(true);
+		viviendaService.save(viviendas);
+		model.addAttribute("viviendas", viviendas);
+		model.addAttribute("message", "La vivienda ha sido denunciada correctamente");
+
+		return "redirect:" + view;
+	}
 	// Alba-Alejandro
 
 }

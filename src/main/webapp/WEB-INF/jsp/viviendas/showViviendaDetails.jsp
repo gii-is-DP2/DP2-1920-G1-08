@@ -47,5 +47,11 @@
 				<a href="${fn:escapeXml(createVivUrl)}" class="btn btn-primary" role="button">Pedir cita</a>
 	</sec:authorize>
 
+	<sec:authorize access="isAuthenticated()">
+	<spring:url value="/viviendas/{viviendaId}/denunciar"
+			var="denunciarVivienda">
+			<spring:param name="viviendaId" value="${viviendas.id}" />
+		</spring:url> <a href="${fn:escapeXml(denunciarVivienda)}" class="btn btn-primary" role="button">Denunciar</a>
+	</sec:authorize>
 
 </petclinic:layout>

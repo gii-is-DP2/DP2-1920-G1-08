@@ -30,7 +30,6 @@ public class ViviendaService {
 		return vr.findAll();
 	}
 
-
 	public Optional<Vivienda> findViviendaById(int viviendaId) {
 		// TODO Auto-generated method stub
 		return vr.findById(viviendaId);
@@ -43,37 +42,42 @@ public class ViviendaService {
 		viviendas.removeAll(viviendasCompradas);
 		return viviendas;
 	}
-	
+
 	public void save(Vivienda vivienda) {
-		   vr.save(vivienda);
-		}
-	
-	//Alba-Alejandro
+		vr.save(vivienda);
+	}
+
+	// Alba-Alejandro
 	public Vivienda findViviendaId(Integer viviendaId) {
 		return vr.findViviendaById(viviendaId);
 	}
-	
+
 	public Collection<Vivienda> findViviendasALaVenta() {
 		Collection<Vivienda> res = vr.findAllNewest();
 		res.removeAll(vr.getViviendasCompradas());
 		return res;
 	}
-	
-	public Collection<Vivienda> findViviendaByPrecio(Integer precioMin, Integer precioMax){
+
+	public Collection<Vivienda> findViviendaByPrecio(Integer precioMin, Integer precioMax) {
 		Collection<Vivienda> res = vr.findViviendaByPrecio(precioMin, precioMax);
 		res.removeAll(vr.getViviendasCompradas());
 		return res;
 	}
-
+	
+	public Collection<Vivienda> getCompradas() {
+		return vr.getViviendasCompradas();
+	}
 
 	public void delete(Vivienda vivienda) {
-		Collection<Habitacion> habitaciones;
-		habitaciones = vr.getHabitacionesVivienda(vivienda.getId());
-		if(habitaciones != null) {
-			hr.deleteAll(habitaciones);
-		}
-		vr.delete(vivienda);
+		Collection<Vivienda> compradas = vr.getViviendasCompradas();
+		if (!compradas.contains(vivienda)) {
+			Collection<Habitacion> habitaciones;
+			habitaciones = vr.getHabitacionesVivienda(vivienda.getId());
+			if (habitaciones != null) {
+				hr.deleteAll(habitaciones);
+			}
+			vr.delete(vivienda);
+		} 
 	}
-	
-	
+
 }

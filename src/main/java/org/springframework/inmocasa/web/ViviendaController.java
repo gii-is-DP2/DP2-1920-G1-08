@@ -28,6 +28,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.sun.corba.se.impl.protocol.giopmsgheaders.Message;
+
 @Controller
 @RequestMapping("/viviendas")
 public class ViviendaController {
@@ -74,7 +76,7 @@ public class ViviendaController {
 
 	// Alvaro-MiguelEmmanuel
 	@GetMapping(value = { "/allNew" })
-	public String showListViviendas(Map<String, Object> model, @Nullable@RequestParam("precioMin") String precioMin, @Nullable@RequestParam("precioMax") String precioMax) {
+	public String showListViviendas(ModelMap model, @Nullable@RequestParam("precioMin") String precioMin, @Nullable@RequestParam("precioMax") String precioMax) {
 		if(precioMin == null  && precioMax ==null) {
 			Collection<Vivienda> vivs = viviendaService.findAllNewest();
 			model.put("viviendas", vivs);
@@ -83,6 +85,9 @@ public class ViviendaController {
 			Integer min = Integer.valueOf(precioMin); 
 			Integer max = Integer.valueOf(precioMax);
 			Collection<Vivienda> viviendasPrecio = viviendaService.findViviendaByPrecio(min, max);
+			if (viviendasPrecio.isEmpty()) {
+				model.addAttribute("error", "No se han encontrado viviendas en este rango de precio");
+			}
 			model.put("viviendas", viviendasPrecio);	
 		}	
 
@@ -123,11 +128,11 @@ public class ViviendaController {
 	// Alba-Alejandro
 
 	@GetMapping(value = "/delete/{viviendaId}")
-	public String borrarVivienda(@PathVariable("viviendaId") int viviendaId, Map<String, Object> model) {
-		Vivienda vivienda = viviendaService.findViviendaId(viviendaId);
+	public String borrarVivienda(@PathVariable("viviendaId") int viviendaId, ModelMap model) {
+		Vivienda vivienda = viviendaService.findViviendaId(viviendaId);		
 		viviendaService.delete(vivienda);
 		
-		return showListViviendas(model, null, null);
+		return "redirect:/viviendas/allNew";
 	}
 
 }

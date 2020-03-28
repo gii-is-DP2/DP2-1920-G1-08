@@ -119,26 +119,8 @@ class ViviendaControllerTests {
 		vivienda2.setPropietario(prop);
 		compra.setCliente(clie);
 	}
-	
-//	@WithMockUser(value = "spring")
-//	@Test
-//	void testDeleteViviendaOk() throws Exception {
-//		
-//		mockMvc.perform(get("/viviendas/delete/{viviendaId}", TEST_VIVIENDA_ID_1))
-//		.andExpect(view().name("redirect:/viviendas/allNew"));
-//		
-//		given(this.viviendaService.findAllNewest()).willReturn(Lists.newArrayList(vivienda)).;
-//	}
-//	
-//	@WithMockUser(value = "spring")
-//	@Test
-//	void testDeleteViviendaNotOk() throws Exception {				
-//		mockMvc.perform(get("/viviendas/delete/{viviendaId}", TEST_VIVIENDA_ID_2))
-//		.andExpect(model().attributeExists("vivienda"))
-//		.andExpect(status().isOk())
-//		.andExpect(view().name("viviendas/listNewViviendas"));
-//	}
-	
+		
+	// Se muestran las viviendas dentro del rango de precio
 	@WithMockUser(value = "spring")
 	@Test
 	void testshowListViviendaOk() throws Exception {
@@ -152,6 +134,7 @@ class ViviendaControllerTests {
 		.andExpect(view().name("viviendas/listNewViviendas"));
 	}
 	
+	// No hay viviendas entre el rango de precio por lo que se muestra un mensaje de error
 	@WithMockUser(value = "spring")
 	@Test
 	void testshowListViviendaNotOk() throws Exception {

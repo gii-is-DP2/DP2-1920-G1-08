@@ -35,7 +35,17 @@ public class ViviendaService {
 	public Collection<Vivienda> findAllNewest() {
 		return vr.findAllNewest();
 	}
-
-	// Alba-Alejandro
-
+	
+	public void save(Vivienda vivienda) {
+		   vr.save(vivienda);
+		}
+	
+	public Vivienda ViviendaById(int viviendaId) {
+		// TODO Auto-generated method stub
+		return vr.ViviendaById(viviendaId);
+	}
+	
+	//Alba-Alejandro
+	
+	
 }

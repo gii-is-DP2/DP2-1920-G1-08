@@ -51,8 +51,12 @@ public class Vivienda extends BaseEntity {
 	private String equipamiento;
 
 	private Boolean denunciado;
+	
+	@Column(name = "comentario")
+    private String comentario;
+	
+	@Column(name="horario_visita")
 
-	@Column(name = "horario_visita")
 	private String horarioVisita;
 
 	@NotNull

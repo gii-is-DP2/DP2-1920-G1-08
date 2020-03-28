@@ -34,24 +34,24 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class UsuarioController {
 	
+	PropietarioService propietarioService;
 	VisitaService visitaService;
 	ClienteService clienteService;
 	
 	@Autowired
-	public UsuarioController(VisitaService visitaService,ClienteService clienteService) {
+	public UsuarioController(VisitaService visitaService,ClienteService clienteService,PropietarioService propietService) {
 		super();
 		this.visitaService = visitaService;
 		this.clienteService = clienteService;
+		this.propietarioService=propietService;
 	}
 
+//	@Autowired
+//	public UsuarioController(PropietarioService propietService) {
+//		this.propietarioService = propietService;
+//	}
 	// Santi-Alvaro
 
-	private final PropietarioService propietarioService;
-
-	@Autowired
-	public UsuarioController(PropietarioService clinicService) {
-		this.propietarioService = clinicService;
-	}
 
 	@InitBinder
 	public void setAllowedFields(WebDataBinder dataBinder) {
@@ -78,7 +78,6 @@ public class UsuarioController {
 
 	// Alvaro-MiguelEmmanuel
   
-  @GetMapping(value = { "/misVisitas" })
 	public String showListViviendas(ModelMap modelMap) {
 
 		User usuario = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

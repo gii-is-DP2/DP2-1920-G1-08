@@ -1,6 +1,5 @@
 package org.springframework.inmocasa.service;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collection;
@@ -14,22 +13,21 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PropietarioService {
-	
-	   PropietarioRepository propietarioRepository;
-  
-     PropietarioRepository propietarioRepository;
 
-	   private UsuarioService usuarioService;
+	PropietarioRepository propietarioRepository;
 
-	   private AuthoritiesService authoritiesService;
-		
-		@Autowired
-		public PropietarioService(PropietarioRepository propietarioRepository) {
-			this.propietarioRepository = propietarioRepository;
-		}
-	//Santi-Alvaro
-		@Transactional
-	public void savePropietario(Propietario propietario)  {
+	private UsuarioService usuarioService;
+
+	private AuthoritiesService authoritiesService;
+
+	@Autowired
+	public PropietarioService(PropietarioRepository propietarioRepository) {
+		this.propietarioRepository = propietarioRepository;
+	}
+
+	// Santi-Alvaro
+	@Transactional
+	public void savePropietario(Propietario propietario) {
 
 		propietarioRepository.save(propietario);
 
@@ -38,15 +36,13 @@ public class PropietarioService {
 		authoritiesService.saveAuthorities(propietario.getUsername(), "propietario");
 
 	}
-	
-	//Alvaro-MiguelEmmanuel
-	
+
+	// Alvaro-MiguelEmmanuel
+
 	public Propietario findByUsername(String username) {
 		return propietarioRepository.findByUsername(username);
 	}
-	
-	//Alba-Alejandro
-	
-	
+
+	// Alba-Alejandro
 
 }

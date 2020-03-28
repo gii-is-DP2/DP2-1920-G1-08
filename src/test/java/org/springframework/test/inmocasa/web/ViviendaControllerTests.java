@@ -1,8 +1,10 @@
 package org.springframework.test.inmocasa.web;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -10,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.time.LocalDate;
 
 import org.assertj.core.util.Lists;
+import org.hamcrest.Matcher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -35,6 +38,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import static org.hamcrest.Matchers.hasProperty;
 
 import javafx.beans.binding.When;
 
@@ -63,6 +67,7 @@ class ViviendaControllerTests {
 	private Vivienda vivienda2;
 
 	private Compra compra1;
+	private Propietario prop;
 
 	@BeforeEach
 	void setup() {
@@ -88,7 +93,7 @@ class ViviendaControllerTests {
 		vivienda2.setCaracteristicas("Caracteristicas");
 		vivienda2.setHorarioVisita("Martes de 9:00 a 13:00");
 
-		Propietario prop = new Propietario();
+		prop = new Propietario();
 		prop.setId(8);
 		prop.setNombre("John");
 		prop.setApellidos("Doe");
@@ -118,18 +123,45 @@ class ViviendaControllerTests {
 		compra1.setCliente(clie);
 	}
 
+	// HU-02
 	@WithMockUser(value = "gilmar", authorities = { "propietario" })
 	@Test
 	void testListViviendasOfertadasOK() throws Exception {
-		mockMvc.perform(get("/viviendas/ofertadas")).andExpect(status().isOk())
-				.andExpect(view().name("/viviendas/listaViviendasOferta"));
+		mockMvc.perform(get("/viviendas/ofertadas")).andExpect(view().name("viviendas/listaViviendasOferta"))
+				.andExpect(status().isOk());
 	}
 
 	@WithMockUser(value = "gilmar", authorities = { "propietario" })
 	@Test
 	void testListViviendasOfertadasNotOK() throws Exception {
 		mockMvc.perform(get("/viviendas/ofertadas").with(csrf()).param("estado", "Estado.PENDIENTE"))
-				.andExpect(status().isOk()).andExpect(view().name("/viviendas/listaViviendasOferta"));
+				.andExpect(view().name("viviendas/listaViviendasOferta")).andExpect(status().isOk());
+		;
+	}
+
+	// HU-04
+	@WithMockUser(value = "gilmar", authorities = { "propietario" })
+	@Test
+	void testListMisViviendasOk() throws Exception {
+		mockMvc.perform(get("/viviendas/mis-viviendas")).andExpect(view().name("viviendas/misViviendas"))
+				.andExpect(status().isOk());
+	}
+
+	@WithMockUser(value = "gilmar", authorities = { "propietario" })
+	@Test
+	void testListMisViviendasNotOk() throws Exception {
+		mockMvc.perform(get("/viviendas/mis-viviendas")).andExpect(view().name("viviendas/misViviendas"))
+				.andExpect(status().isOk());
+	}
+
+	@WithMockUser(value = "gilmar", authorities = { "propietario" })
+	@Test
+	void testEditarVivienda() throws Exception {
+		mockMvc.perform(post("/viviendas/{viviendaId}/edit", TEST_VIVIENDA_ID_1).with(csrf())
+				.param("titulo", "Piso en venta").param("fechaPublicacion", "2015/02/12")
+				.param("dirección", "Calle EMILIO ").param("precio", "10").param("propietario", "prop"))
+		.andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/viviendas/editVivienda"));
 	}
 
 //	@WithMockUser(value = "spring")

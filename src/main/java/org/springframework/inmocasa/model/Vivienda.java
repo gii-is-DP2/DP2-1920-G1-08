@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 public class Vivienda extends BaseEntity {
 
 	
-	@NotNull
+	//@NotNull
 	private String titulo;
 	
 	

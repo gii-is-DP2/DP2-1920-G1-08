@@ -1,13 +1,18 @@
 package org.springframework.inmocasa.web;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.inmocasa.model.Compra;
+import org.springframework.inmocasa.model.Vivienda;
 import org.springframework.inmocasa.model.enums.Estado;
 import org.springframework.inmocasa.service.CompraService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import sun.util.logging.resources.logging;
 

@@ -5,6 +5,7 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -49,6 +50,7 @@ class ViviendaControllerTests {
 
 	private static final int TEST_VIVIENDA_ID_1 = 1;
 	private static final int TEST_VIVIENDA_ID_2 = 2;
+	private static final String testPropietarioUsername = "propietario1";
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -101,7 +103,7 @@ class ViviendaControllerTests {
 		prop.setEsInmobiliaria(false);
 		prop.setGenero(Genero.MASCULINO);
 		prop.setFechaNacimiento(LocalDate.of(1976, 6, 12));
-		prop.setUsername("john123");
+		prop.setUsername(testPropietarioUsername);
 		prop.setPassword("john123");
 
 		Cliente clie = new Cliente();
@@ -144,70 +146,23 @@ class ViviendaControllerTests {
 	@Test
 	void testListMisViviendasOk() throws Exception {
 		mockMvc.perform(get("/viviendas/mis-viviendas")).andExpect(view().name("viviendas/misViviendas"))
-				.andExpect(status().isOk());
+				.andExpect(status().isOk()).andDo(print());
 	}
 
-	@WithMockUser(value = "gilmar", authorities = { "propietario" })
+//	@WithMockUser(username = "gilmar", authorities = { "propietario" })
+//	@Test
+//	void testInitUpdateDietForm() throws Exception {
+//	
+//		mockMvc.perform(get("/viviendas/{viviendaId}/edit", TEST_VIVIENDA_ID_1)).andExpect(status().isOk())
+//				.andExpect(view().name("viviendas/editVivienda")).andExpect(model().attributeExists("vivienda"));
+//	}
+
+	@WithMockUser(username = "john123", authorities = { "propietario" })
 	@Test
-	void testListMisViviendasNotOk() throws Exception {
-		mockMvc.perform(get("/viviendas/mis-viviendas")).andExpect(view().name("viviendas/misViviendas"))
-				.andExpect(status().isOk());
+	void showViviendaDetails() throws Exception {
+		
+		mockMvc.perform(get("/viviendas/{viviendaId}", TEST_VIVIENDA_ID_1)).andExpect(status().isOk())
+				.andExpect(view().name("viviendas/showViviendaDetails"));
 	}
 
-	@WithMockUser(value = "gilmar", authorities = { "propietario" })
-	@Test
-	void testEditarVivienda() throws Exception {
-		mockMvc.perform(post("/viviendas/{viviendaId}/edit", TEST_VIVIENDA_ID_1).with(csrf())
-				.param("titulo", "Piso en venta").param("fechaPublicacion", "2015/02/12")
-				.param("dirección", "Calle EMILIO ").param("precio", "10").param("propietario", "prop"))
-		.andExpect(status().is3xxRedirection())
-				.andExpect(view().name("redirect:/viviendas/editVivienda"));
-	}
-
-//	@WithMockUser(value = "spring")
-//	@Test
-//	void testDeleteViviendaOk() throws Exception {
-//		
-//		mockMvc.perform(get("/viviendas/delete/{viviendaId}", TEST_VIVIENDA_ID_1))
-//		.andExpect(view().name("redirect:/viviendas/allNew"));
-//		
-//		given(this.viviendaService.findAllNewest()).willReturn(Lists.newArrayList(vivienda)).;
-//	}
-//	
-//	@WithMockUser(value = "spring")
-//	@Test
-//	void testDeleteViviendaNotOk() throws Exception {				
-//		mockMvc.perform(get("/viviendas/delete/{viviendaId}", TEST_VIVIENDA_ID_2))
-//		.andExpect(model().attributeExists("vivienda"))
-//		.andExpect(status().isOk())
-//		.andExpect(view().name("viviendas/listNewViviendas"));
-//	}
-
-//	@WithMockUser(value = "spring")
-//	@Test
-//	void testshowListViviendaOk() throws Exception {
-//		given(this.viviendaService.findViviendaByPrecio(100, 10000)).willReturn(Lists.newArrayList(vivienda, new Vivienda()));
-//
-//		
-//		mockMvc.perform(get("/viviendas/allNew").with(csrf())
-//				.param("precioMin", "100")
-//				.param("precioMax", "10000"))
-//		.andExpect(status().isOk())
-//		.andExpect(view().name("viviendas/listNewViviendas"));
-//	}
-//	
-//	@WithMockUser(value = "spring")
-//	@Test
-//	void testshowListViviendaNotOk() throws Exception {
-//		given(this.viviendaService.findViviendaByPrecio(10, 20)).willReturn(Lists.newArrayList());
-//		
-//		mockMvc.perform(get("/viviendas/allNew").with(csrf())
-//				.param("precioMin", "10")
-//				.param("precioMax", "20"))
-//		.andExpect(model().attribute("error", "No se han encontrado viviendas en este rango de precio"))
-//		.andExpect(status().isOk())
-//		.andExpect(view().name("viviendas/listNewViviendas"));
-//	}
-//	
-//	
 }

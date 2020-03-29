@@ -143,7 +143,6 @@ public class ViviendaController {
 	
 	@PostMapping(value= {"/save"})
 	public String guardarVivienda(@Valid Vivienda vivienda, BindingResult result, ModelMap modelMap) {
-		String view= "viviendas/listNewViviendas";
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
 		Propietario propietario = propService.findByUsername(userPrincipal.getUsername());
@@ -161,14 +160,13 @@ public class ViviendaController {
 	
 	@GetMapping(value = "/{viviendaId}/denunciar")
 	public String denunciarVivienda(@PathVariable("viviendaId") int viviendaId, ModelMap model) {
-		String view = "/viviendas/listNewViviendas";
 		Vivienda viviendas = this.viviendaService.ViviendaById(viviendaId);
 		viviendas.setDenunciado(true);
 		viviendaService.save(viviendas);
 		model.addAttribute("viviendas", viviendas);
 		model.addAttribute("message", "La vivienda ha sido denunciada correctamente");
 
-		return "redirect:" + view;
+		return showListViviendas(model);
 	}
 	// Alba-Alejandro
 

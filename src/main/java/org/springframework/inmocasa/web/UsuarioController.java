@@ -36,22 +36,22 @@ public class UsuarioController {
 	
 	VisitaService visitaService;
 	ClienteService clienteService;
+    PropietarioService propietarioService;
+
 	
 	@Autowired
-	public UsuarioController(VisitaService visitaService,ClienteService clienteService) {
+	public UsuarioController(VisitaService visitaService,ClienteService clienteService, PropietarioService clinicService) {
 		super();
 		this.visitaService = visitaService;
 		this.clienteService = clienteService;
+		this.propietarioService = clinicService;
+
 	}
 
 	// Santi-Alvaro
 
-	private final PropietarioService propietarioService;
 
-	@Autowired
-	public UsuarioController(PropietarioService clinicService) {
-		this.propietarioService = clinicService;
-	}
+
 
 	@InitBinder
 	public void setAllowedFields(WebDataBinder dataBinder) {

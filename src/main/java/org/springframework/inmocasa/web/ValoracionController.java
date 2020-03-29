@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ValoracionController {
 
 	private final String VISTA_FORM_VALORACION = "/visita/valoracion/createValoracionForm"; 
-	private final String VISTA_MIS_VISITAS = "/usuario/misVisitas"; 
+	private final String VISTA_MIS_VISITAS = "usuario/misVisitas"; 
 	
 	UsuarioController usuarioController;
 	VisitaService visitaService;
@@ -81,9 +81,10 @@ public class ValoracionController {
 	@PostMapping(value="/save")
 	public String saveValoracion(@Valid Valoracion valoracion, ModelMap model) {
 		
+		Valoracion v = valoracionService.save(valoracion);
+		model.addAttribute("success", "Valoracion guardada correctamente") ;
 		
-		
-		return VISTA_MIS_VISITAS;
+		return usuarioController.showListViviendas(model);
 	}
 	
 	//Alba-Alejandro

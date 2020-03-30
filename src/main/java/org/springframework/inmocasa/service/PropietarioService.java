@@ -13,14 +13,25 @@ import org.springframework.stereotype.Service;
 public class PropietarioService {
 
 
-		propietarioRepository.save(propietario);
+	   PropietarioRepository propietarioRepository;
 
-		usuarioService.saveUsuario(propietario);
+	   private UsuarioService usuarioService;
 
-		authoritiesService.saveAuthorities(propietario.getUsername(), "propietario");
+	   private AuthoritiesService authoritiesService;
 
-	}
+		@Autowired
+		public PropietarioService(PropietarioRepository propietarioRepository) {
+			this.propietarioRepository = propietarioRepository;
+		}
+	
+		//Santi-Alvaro
+		@Transactional
+		public void savePropietario(Propietario propietario)  {
+			propietarioRepository.save(propietario);
 
+			usuarioService.saveUsuario(propietario);
+			authoritiesService.saveAuthorities(propietario.getUsername(), "propietario");
+		}
 	
 	//Alvaro-MiguelEmmanuel
 	

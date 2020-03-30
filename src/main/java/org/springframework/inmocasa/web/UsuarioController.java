@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.inmocasa.model.Cliente;
+import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.model.Visita;
 import org.springframework.inmocasa.service.ClienteService;
 import org.springframework.inmocasa.service.VisitaService;
@@ -19,13 +20,9 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.service.PropietarioService;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -37,8 +34,8 @@ public class UsuarioController {
 	VisitaService visitaService;
 	ClienteService clienteService;
     PropietarioService propietarioService;
-
 	
+
 	@Autowired
 	public UsuarioController(VisitaService visitaService,ClienteService clienteService, PropietarioService clinicService) {
 		super();
@@ -92,7 +89,8 @@ public class UsuarioController {
 
 		return "users/visitas";
 	}
-	// Alba-Alejandro
-
-
+	
+	//Alba-Alejandro
+	
+	
 }

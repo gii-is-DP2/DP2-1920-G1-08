@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.inmocasa.model.Cliente;
 import org.springframework.inmocasa.model.Visita;
+import org.springframework.inmocasa.model.Vivienda;
 import org.springframework.inmocasa.repository.VisitaRepository;
 import org.springframework.stereotype.Service;
 

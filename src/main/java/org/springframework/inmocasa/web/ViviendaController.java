@@ -34,10 +34,11 @@ public class ViviendaController {
 	private ViviendaService viviendaService;
 
 	@Autowired
-	private  PropietarioService propService;
+	private PropietarioService propService;
 
 	@Autowired
 	private CompraService compraService;
+
 	// Santi-Alvaro
 
 	@GetMapping(path = "/ofertadas")
@@ -62,9 +63,9 @@ public class ViviendaController {
 
 	@GetMapping(value = "/{viviendaId}")
 	public String showVivienda(@PathVariable("viviendaId") int viviendaId, ModelMap model) {
-		Vivienda viviendas = this.viviendaService.findViviendaById(viviendaId).get();
+		Vivienda vivienda = this.viviendaService.findViviendaById(viviendaId).get();
 		String view = "viviendas/showViviendaDetails";
-		model.put("viviendas", viviendas);
+		model.put("vivienda", vivienda);
 		return view;
 
 	}
@@ -167,7 +168,17 @@ public class ViviendaController {
 		model.addAttribute("message", "La vivienda ha sido denunciada correctamente");
 
 		return showListViviendas(model);
+
 	}
+	
 	// Alba-Alejandro
+
+	@GetMapping(value = "/delete/{viviendaId}")
+	public String borrarVivienda(@PathVariable("viviendaId") int viviendaId) {
+		Vivienda vivienda = viviendaService.findViviendaId(viviendaId);
+		viviendaService.delete(vivienda);
+		
+		return "viviendas/listaViviendasOferta";
+	}
 
 }

@@ -1,7 +1,6 @@
 package org.springframework.inmocasa.service;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.inmocasa.model.Cliente;
 import org.springframework.inmocasa.repository.ClienteRepository;
@@ -9,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ClienteService {
-
+	
 	private ClienteRepository crep;
 	
 	@Autowired
@@ -26,5 +25,5 @@ public class ClienteService {
 	}
 	
 	//Alba-Alejandro
-	
+
 }

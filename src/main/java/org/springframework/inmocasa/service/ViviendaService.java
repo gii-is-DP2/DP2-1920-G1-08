@@ -29,12 +29,6 @@ public class ViviendaService {
 		return vr.findAll();
 	}
 
-
-	public Optional<Vivienda> findViviendaById(int viviendaId) {
-		// TODO Auto-generated method stub
-		return vr.findById(viviendaId);
-	}
-
 	// Alvaro-MiguelEmmanuel
 	public Collection<Vivienda> findAllNewest() {
 		return vr.findAllNewest();
@@ -50,7 +44,7 @@ public class ViviendaService {
 	}
 	
 	//Alba-Alejandro
-	public Vivienda findViviendaId(Integer viviendaId) {
+	public Vivienda findViviendaById(Integer viviendaId) {
 		return vr.findViviendaById(viviendaId);
 	}
 	
@@ -59,11 +53,6 @@ public class ViviendaService {
 		res.removeAll(vr.getViviendasCompradas());
 		return res;
 	}
-	
-//	public Collection<Vivienda> findViviendaByPrecio(Integer preciomin, Integer preciomax){
-//		Collection<Vivienda> res = vr.findViviendaByPrecio(preciomin, preciomax);
-//		return res;
-//	}
 
 
 	public void delete(Vivienda vivienda) {

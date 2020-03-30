@@ -83,7 +83,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/usuarios/**").permitAll()	
 				.antMatchers("/propietarios/**").permitAll()		
 				.antMatchers("/compras/**").permitAll()
-				.antMatchers("/owners/**").hasAnyAuthority("owner","admin")				
 				
 				.antMatchers("/usuario/misVisitas").hasAuthority("cliente")
 				.antMatchers("/valoracion/**").permitAll()
@@ -97,6 +96,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/valoracion/**").permitAll()
 				.antMatchers("/visita/valoracion/**").hasRole("cliente")
 				
+
 				.anyRequest().denyAll()
 
 				.and()

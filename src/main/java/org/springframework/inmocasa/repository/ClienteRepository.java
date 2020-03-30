@@ -8,10 +8,6 @@ import org.springframework.inmocasa.model.Cliente;
 
 public interface ClienteRepository extends JpaRepository<Cliente, Integer>{
 
-	
-
-	
-
 	//Santi-Alvaro
 	
 	
@@ -20,5 +16,4 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer>{
 	public List<Cliente> findByUsername(String username);
 	
 	//Alba-Alejandro
-	
 }

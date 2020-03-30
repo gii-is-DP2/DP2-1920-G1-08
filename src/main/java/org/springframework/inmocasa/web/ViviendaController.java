@@ -63,13 +63,13 @@ public class ViviendaController {
 
 	@GetMapping(value = "/{viviendaId}")
 	public String showVivienda(@PathVariable("viviendaId") int viviendaId, ModelMap model) {
-		Vivienda vivienda = this.viviendaService.findViviendaById(viviendaId).get();
+		Vivienda vivienda = this.viviendaService.findViviendaById(viviendaId);
 		String view = "viviendas/showViviendaDetails";
 		model.put("vivienda", vivienda);
 		return view;
 
 	}
-	
+
 	@GetMapping(path = "/mis-viviendas")
 	public String misViviendas(ModelMap model) {
 		String vista = "viviendas/misViviendas";
@@ -92,7 +92,7 @@ public class ViviendaController {
 
 	@GetMapping(path = "/{viviendaId}/edit")
 	public String editVivienda(@PathVariable("viviendaId") int viviendaId, ModelMap model) {
-		Vivienda vivienda = this.viviendaService.findViviendaById(viviendaId).get();
+		Vivienda vivienda = this.viviendaService.findViviendaById(viviendaId);
 		String view = "viviendas/editVivienda";
 		model.addAttribute("vivienda", vivienda);
 		return view;
@@ -128,8 +128,8 @@ public class ViviendaController {
 
 		return "viviendas/listNewViviendas";
 	}
-	
-	@GetMapping(value= {"/new"})
+
+	@GetMapping(value = { "/new" })
 	public String crearVivienda(ModelMap modelMap) {
 		String view = "viviendas/editVivienda";
 		Vivienda vivienda = new Vivienda();
@@ -141,7 +141,7 @@ public class ViviendaController {
 		modelMap.addAttribute("vivienda", vivienda);
 		return view;
 	}
-	
+
 	@PostMapping(value= {"/save"})
 	public String guardarVivienda(@Valid Vivienda vivienda, BindingResult result, ModelMap modelMap) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -158,7 +158,7 @@ public class ViviendaController {
 	     }
 		return misViviendas(modelMap);
 	}
-	
+
 	@GetMapping(value = "/{viviendaId}/denunciar")
 	public String denunciarVivienda(@PathVariable("viviendaId") int viviendaId, ModelMap model) {
 		Vivienda viviendas = this.viviendaService.ViviendaById(viviendaId);
@@ -170,14 +170,12 @@ public class ViviendaController {
 		return showListViviendas(model);
 
 	}
-	
-	// Alba-Alejandro
 
 	@GetMapping(value = "/delete/{viviendaId}")
 	public String borrarVivienda(@PathVariable("viviendaId") int viviendaId) {
-		Vivienda vivienda = viviendaService.findViviendaId(viviendaId);
+		Vivienda vivienda = viviendaService.findViviendaById(viviendaId);
 		viviendaService.delete(vivienda);
-		
+
 		return "viviendas/listaViviendasOferta";
 	}
 

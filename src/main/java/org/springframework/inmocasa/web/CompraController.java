@@ -53,7 +53,7 @@ public class CompraController {
 	@GetMapping(value = "/create/{viviendaId}")
 	public String create(@PathVariable("viviendaId") Integer viviendaId, ModelMap model) {
 		Compra compra = new Compra();
-		Vivienda vivienda = viviendaService.findViviendaId(viviendaId);
+		Vivienda vivienda = viviendaService.findViviendaById(viviendaId);
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
@@ -73,7 +73,7 @@ public class CompraController {
 			model.put("compra", compra);
 			return VIEWS_COMPRA_CREATE_UPDATE_FORM;
 		} else {
-			Vivienda vivienda = viviendaService.findViviendaId(viviendaId);
+			Vivienda vivienda = viviendaService.findViviendaById(viviendaId);
 
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 			UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();

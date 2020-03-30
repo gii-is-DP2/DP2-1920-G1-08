@@ -103,7 +103,9 @@ public class CompraController {
 		Compra compras = this.compraService.findCompraByViviendaId(viviendaId);
 		compras.setEstado(Estado.ACEPTADO);
 		compraService.save(compras);
-		model.put("compras", compras);
+		model.addAttribute("compras", compras);
+		model.addAttribute("message", "La oferta ha sido aceptada correctamente");
+
 		return "redirect:" + view;
 	}
 
@@ -114,7 +116,8 @@ public class CompraController {
 		compras.setEstado(Estado.RECHAZADO);
 		compraService.deleteById(compras.getId());
 		compraService.save(compras);
-		model.put("compras", compras);
+		model.addAttribute("compras", compras);
+		model.addAttribute("message", "La oferta ha sido rechazada correctamente");
 		return "redirect:" + view;
 	}
 

@@ -30,38 +30,41 @@ public class Vivienda extends BaseEntity{
 	@NotNull
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate fechaPublicacion;
-	
+
 	@NotBlank
 	private String direccion;
-	
+
 	@NotBlank
 	private String zona;
-	
+
 	@NotNull
 	private Integer precio;
-		
+
 	private Integer dimensiones;
-	
+
 	private Boolean amueblado;
-	
+
 	private String planta;
 
 	@URL
 	private String foto;
-	
+
 	private String caracteristicas;
-	
+
 	private String equipamiento;
-	
+
 	private Boolean denunciado;
 	
-	@Column(name="horario_visita")
-	private String horarioVisita;
+	@Column(name = "comentario")
+    private String comentario;
 	
+	@Column(name="horario_visita")
+
+	private String horarioVisita;
+
 	@NotNull
 	@Valid
 	@ManyToOne
 	private Propietario propietario;
 
-	
 }

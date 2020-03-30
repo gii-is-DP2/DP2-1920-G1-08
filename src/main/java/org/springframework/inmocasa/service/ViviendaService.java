@@ -48,6 +48,7 @@ public class ViviendaService {
 	}
 
 	// Alba-Alejandro
+
 	public Vivienda findViviendaId(Integer viviendaId) {
 		return vr.findViviendaById(viviendaId);
 	}

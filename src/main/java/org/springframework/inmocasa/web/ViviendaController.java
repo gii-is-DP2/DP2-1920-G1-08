@@ -35,10 +35,12 @@ public class ViviendaController {
 	private ViviendaService viviendaService;
 
 	@Autowired
-	private  PropietarioService propService;
+
+	private PropietarioService propService;
 
 	@Autowired
 	private CompraService compraService;
+
 	// Santi-Alvaro
 
 	@GetMapping(path = "/ofertadas")
@@ -82,6 +84,7 @@ public class ViviendaController {
 			}
 
 		}
+
 
 		model.addAttribute("viviendas", viviendas);
 
@@ -138,6 +141,55 @@ public class ViviendaController {
 		return misViviendas(modelMap);
 	}
 
+	@GetMapping(path = "/mis-viviendas")
+	public String misViviendas(ModelMap model) {
+		String vista = "viviendas/misViviendas";
+		List<Vivienda> viviendas = new ArrayList<>();
+		String username = SecurityContextHolder.getContext().getAuthentication().getName(); // username Actual
+		Iterable<Vivienda> cmp = viviendaService.findAll();
+		for (Vivienda v : cmp) {
+			if (v.getPropietario().getUsername().equals(username)) {
+
+				viviendas.add(v);
+
+			}
+
+		}
+
+		model.addAttribute("viviendas", viviendas);
+
+		return vista;
+	}
+
+	@GetMapping(path = "/{viviendaId}/edit")
+	public String editVivienda(@PathVariable("viviendaId") int viviendaId, ModelMap model) {
+		Vivienda vivienda = this.viviendaService.findViviendaById(viviendaId);
+		String view = "viviendas/editVivienda";
+		model.addAttribute("vivienda", vivienda);
+		return view;
+
+	}
+
+	@PostMapping(path = { "/{viviendaId}/save" })
+	public String guardarPostActualizarVivienda(@PathVariable("viviendaId") int viviendaId, @Valid Vivienda vivienda,
+			BindingResult result, ModelMap modelMap) {
+		String view = "viviendas/listNewViviendas";
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
+		Propietario propietario = propService.findByUsername(userPrincipal.getUsername());
+		vivienda.setPropietario(propietario);
+		vivienda.setDenunciado(false);
+		if (result.hasErrors()) {
+			vivienda.setId(viviendaId);
+			modelMap.addAttribute("vivienda", vivienda);
+			return "viviendas/editVivienda";
+		} else {
+			viviendaService.save(vivienda);
+			modelMap.addAttribute("message", "La vivienda ha sido registrada correctamente");
+		}
+		return view;
+	}
+
 	// Alvaro-MiguelEmmanuel
 	@GetMapping(value = { "/allNew" })
 	public String showListViviendas(Map<String, Object> model) {
@@ -147,8 +199,9 @@ public class ViviendaController {
 
 		return "viviendas/listNewViviendas";
 	}
-	
-	@GetMapping(value= {"/new"})
+
+
+	@GetMapping(value = { "/new" })
 	public String crearVivienda(ModelMap modelMap) {
 		String view = "viviendas/editVivienda";
 		Vivienda vivienda = new Vivienda();
@@ -160,10 +213,10 @@ public class ViviendaController {
 		modelMap.addAttribute("vivienda", vivienda);
 		return view;
 	}
-	
+
+
 	@PostMapping(value= {"/save"})
 	public String guardarVivienda(@Valid Vivienda vivienda, BindingResult result, ModelMap modelMap) {
-		String view= "viviendas/listNewViviendas";
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
 		Propietario propietario = propService.findByUsername(userPrincipal.getUsername());
@@ -178,18 +231,27 @@ public class ViviendaController {
 	     }
 		return misViviendas(modelMap);
 	}
-	
+
+
 	@GetMapping(value = "/{viviendaId}/denunciar")
 	public String denunciarVivienda(@PathVariable("viviendaId") int viviendaId, ModelMap model) {
-		String view = "/viviendas/listNewViviendas";
 		Vivienda viviendas = this.viviendaService.ViviendaById(viviendaId);
 		viviendas.setDenunciado(true);
 		viviendaService.save(viviendas);
 		model.addAttribute("viviendas", viviendas);
 		model.addAttribute("message", "La vivienda ha sido denunciada correctamente");
 
-		return "redirect:" + view;
+
+		return showListViviendas(model);
+
 	}
-	// Alba-Alejandro
+
+	@GetMapping(value = "/delete/{viviendaId}")
+	public String borrarVivienda(@PathVariable("viviendaId") int viviendaId) {
+		Vivienda vivienda = viviendaService.findViviendaById(viviendaId);
+		viviendaService.delete(vivienda);
+
+		return "viviendas/listaViviendasOferta";
+	}
 
 }

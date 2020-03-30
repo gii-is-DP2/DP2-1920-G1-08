@@ -3,38 +3,45 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
-<%@ taglib prefix="sec"	uri="http://www.springframework.org/security/tags"%>
-
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 
 <petclinic:layout pageName="viviendas">
-	<h2>Vivienda</h2>
 
-	<table id="showVivienda" class="table table-striped">
+	<sec:authorize access="hasAnyAuthority('cliente, admin')">
+		<spring:url value="/compra/create/{viviendaId}" var="compraUrl">
+			<spring:param name="viviendaId" value="${vivienda.id}" />
+		</spring:url>
+		<a href="${fn:escapeXml(compraUrl)}" class="btn btn-default">Comprar
+			vivienda</a>
+		<br />
+		<br />
+	</sec:authorize>
+	
+	
+
+	<h2>Informacion de vivienda</h2>
+
+	<table class="table table-striped">
+		<tr>
+			<th>Título</th>
+			<td><b><c:out value="${vivienda.titulo}"></c:out></b></td>
+		</tr>
+		<tr>
+			<th>Fecha de publicación</th>
+			<td><b><c:out value="${vivienda.fechaPublicacion}"></c:out></b></td>
+		</tr>
+		<tr>
+			<th>Dirección</th>
+			<td><b><c:out value="${vivienda.direccion}"></c:out></b></td>
+		</tr>
 		<tr>
 			<th>Zona</th>
-			<td><c:out value="${vivienda.zona}" /></td>
-		</tr>
-		<tr>
-			<th>Direccion</th>
-			<td><c:out value="${vivienda.direccion}" /></td>
-		</tr>
-		<tr>
-			<th>Planta</th>
-			<td><c:out value="${vivienda.planta}" /></td>
-		</tr>
-		<tr>
-			<th>CaracterÃ­sticas</th>
-			<td><c:out value="${vivienda.caracteristicas}" /></td>
-
-		</tr>
-		<tr>
-			<th>Equipamiento</th>
-			<td><c:out value="${vivienda.equipamiento}" /></td>
+			<td><b><c:out value="${vivienda.zona}"></c:out></b></td>
 		</tr>
 		<tr>
 			<th>Precio</th>
-			<td><c:out value="${vivienda.precio}" /></td>
-
+			<td><b><c:out value="${vivienda.precio}"></c:out> euros </b></td>
 		</tr>
 		<c:if test="${vivienda.horarioVisita != null}">
 			<tr>
@@ -45,12 +52,12 @@
 		<c:if test="${vivienda.dimensiones != null}">
 			<tr>
 				<th>Dimensiones</th>
-				<td><b><c:out value="${vivienda.dimensiones}"></c:out> mÂ² </b></td>
+				<td><b><c:out value="${vivienda.dimensiones}"></c:out> m² </b></td>
 			</tr>
 		</c:if>
 		<c:if test="${vivienda.amueblado != null}">
 			<tr>
-				<th>Â¿EstÃ¡ amueblado?</th>
+				<th>¿Está amueblado?</th>
 				<td><b> <c:if test="${vivienda.amueblado==true}">
 							<c:out value="SI"></c:out>
 						</c:if> <c:if test="${vivienda.amueblado==false}">
@@ -74,7 +81,7 @@
 		</c:if>
 		<c:if test="${vivienda.caracteristicas != null}">
 			<tr>
-				<th>CaracterÃ­sticas</th>
+				<th>Características</th>
 				<td><b><c:out value="${vivienda.caracteristicas}"></c:out></b></td>
 			</tr>
 		</c:if>
@@ -85,25 +92,10 @@
 			</tr>
 		</c:if>
 		<tr>
-			<th>Horario de visita</th>
-			<td><c:out value="${vivienda.horarioVisita}" /></td>
-
+			<th>Propietario</th>
+			<td><b><c:out
+						value="${vivienda.propietario.nombre} ${vivienda.propietario.apellidos}"></c:out></b></td>
 		</tr>
 	</table>
-
-	<sec:authorize access="isAuthenticated()">
-		<spring:url value="/visita/vivienda/{viviendaId}/new" var="createVivUrl">
-                    <spring:param name="viviendaId" value="${vivienda.id}"/>
-                </spring:url>
-				<a href="${fn:escapeXml(createVivUrl)}" class="btn btn-primary" role="button">Pedir cita</a>
-	</sec:authorize>
-
-	<sec:authorize access="isAuthenticated()">
-	<spring:url value="/viviendas/{viviendaId}/denunciar"
-			var="denunciarVivienda">
-			<spring:param name="viviendaId" value="${vivienda.id}" />
-		</spring:url> <a href="${fn:escapeXml(denunciarVivienda)}" class="btn btn-primary" role="button">Denunciar</a>
-	</sec:authorize>
-
 
 </petclinic:layout>

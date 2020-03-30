@@ -22,7 +22,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Entity
-public class Vivienda extends BaseEntity {
+
+public class Vivienda extends BaseEntity{
+	
+	@NotNull
+	private String titulo;
 
 	
 	//@NotNull

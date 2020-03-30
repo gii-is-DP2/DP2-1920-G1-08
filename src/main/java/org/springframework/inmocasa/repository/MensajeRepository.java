@@ -1,9 +1,9 @@
 package org.springframework.inmocasa.repository;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.inmocasa.model.Mensaje;
 
-public interface MensajeRepository  extends  CrudRepository<Mensaje, Integer>{
+public interface MensajeRepository  extends JpaRepository<Mensaje, Integer>{
 
 	//Santi-Alvaro
 	

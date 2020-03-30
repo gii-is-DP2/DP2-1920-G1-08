@@ -2,6 +2,8 @@ package org.springframework.inmocasa.service;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.inmocasa.model.Valoracion;
 import org.springframework.inmocasa.model.Visita;
@@ -26,6 +28,10 @@ public class ValoracionService {
 	//Alvaro-MiguelEmmanuel
 	public List<Valoracion> findByVisita(Visita visita) {
 		return valoracionRepository.findByVisita(visita);
+	}
+
+	public Valoracion save(@Valid Valoracion valoracion) {
+		return valoracionRepository.save(valoracion);
 	}
 	
 	//Alba-Alejandro

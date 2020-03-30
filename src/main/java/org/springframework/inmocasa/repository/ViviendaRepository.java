@@ -1,7 +1,6 @@
 package org.springframework.inmocasa.repository;
 
 import java.util.Collection;
-import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -13,8 +12,8 @@ public interface ViviendaRepository extends JpaRepository<Vivienda, Integer> {
 	
 	
 	//Santi-Alvaro
-//	@Query("select v from Vivienda v where v.id=?1")
-//	public Vivienda findById(int id);
+    @Query("select v from Vivienda v where v.id=?1")
+    public Vivienda ViviendaById(int id);
 
 	
 	//Alvaro-MiguelEmmanuel

@@ -63,6 +63,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/cliente/**").hasAnyAuthority("cliente","admin")
 				.antMatchers("/dashboard").hasAnyAuthority("admin")
 
+
 				.antMatchers("/resources/**", "/webjars/**", "/h2-console/**").permitAll()
 
 				.antMatchers(HttpMethod.GET, "/", "/oups").permitAll()
@@ -74,6 +75,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/viviendas/allNew").permitAll()
 				.antMatchers("/viviendas/ofertadas").permitAll()
 				.antMatchers("/viviendas/{viviendaId}").permitAll()
+				.antMatchers("/viviendas/{viviendaId}/denunciar").hasAnyAuthority("cliente")
+				.antMatchers("/viviendas/new").hasAnyAuthority("propietario")
+				.antMatchers("/viviendas/save").hasAnyAuthority("propietario")
+				.antMatchers("/visita/**").hasAnyAuthority("cliente","admin")
+				.antMatchers("/viviendas/mis-viviendas").hasAnyAuthority("propietario").antMatchers("/viviendas/{viviendaId}/**").permitAll()
+				.antMatchers("/usuarios/**").permitAll()	
+				.antMatchers("/propietarios/**").permitAll()		
+				.antMatchers("/compras/**").permitAll()
+				.antMatchers("/owners/**").hasAnyAuthority("owner","admin")				
+				
+				.antMatchers("/usuario/misVisitas").hasAuthority("cliente")
+				.antMatchers("/valoracion/**").permitAll()
+				.antMatchers("/visita/valoracion/**").hasRole("cliente")
 				.antMatchers("/viviendas/new").hasAnyAuthority("propietario")
 				.antMatchers("/viviendas/save").hasAnyAuthority("propietario")
 				.antMatchers("/visita/**").hasAnyAuthority("cliente","admin")
@@ -83,7 +97,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/valoracion/**").permitAll()
 				.antMatchers("/visita/valoracion/**").hasRole("cliente")
 				
-
 				.anyRequest().denyAll()
 
 				.and()

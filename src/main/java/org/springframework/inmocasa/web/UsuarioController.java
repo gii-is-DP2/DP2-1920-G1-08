@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.inmocasa.model.Cliente;
+import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.model.Visita;
 import org.springframework.inmocasa.service.ClienteService;
 import org.springframework.inmocasa.service.VisitaService;
@@ -15,6 +16,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import java.util.Map;
+
+import javax.validation.Valid;
+
+import org.springframework.inmocasa.service.PropietarioService;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PostMapping;
+
 
 @RequestMapping(value="usuario")
 @Controller
@@ -22,21 +33,49 @@ public class UsuarioController {
 	
 	VisitaService visitaService;
 	ClienteService clienteService;
+    PropietarioService propietarioService;
 	
+
 	@Autowired
-	public UsuarioController(VisitaService visitaService,ClienteService clienteService) {
+	public UsuarioController(VisitaService visitaService,ClienteService clienteService, PropietarioService clinicService) {
 		super();
 		this.visitaService = visitaService;
 		this.clienteService = clienteService;
+		this.propietarioService = clinicService;
+
 	}
 
+	// Santi-Alvaro
 
 
-	//Santi-Alvaro
-	
-	
-	//Alvaro-MiguelEmmanuel
-	@GetMapping(value = { "/misVisitas" })
+
+
+	@InitBinder
+	public void setAllowedFields(WebDataBinder dataBinder) {
+		dataBinder.setDisallowedFields("id");
+	}
+
+	@GetMapping(value = "/usuarios/new")
+	public String initCreationForm(Map<String, Object> model) {
+		Propietario propietario = new Propietario();
+		model.put("propietario", propietario);
+		return "usuarios/createPropietarioForm";
+	}
+
+	@PostMapping(value = "/usuarios/new")
+	public String processCreationForm(@Valid Propietario propietario, BindingResult result) {
+		if (result.hasErrors()) {
+			return "usuarios/createPropietarioForm";
+		} else {
+			// creating propietario, usuario, and authority
+			this.propietarioService.savePropietario(propietario);
+			return "redirect:/";
+		}
+	}
+
+	// Alvaro-MiguelEmmanuel
+  
+  @GetMapping(value = { "/misVisitas" })
 	public String showListViviendas(ModelMap modelMap) {
 
 		User usuario = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

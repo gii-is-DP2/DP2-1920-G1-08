@@ -3,11 +3,12 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
-<%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec"	uri="http://www.springframework.org/security/tags"%>
+
 
 <petclinic:layout pageName="Show Vivienda">
 	<h2>Vivienda</h2>
+
 
 	<sec:authorize access="hasAnyAuthority('cliente, admin')">
 		<spring:url value="/compras/create/{viviendaId}" var="compraUrl">
@@ -113,6 +114,20 @@
 						value="${vivienda.propietario.nombre} ${vivienda.propietario.apellidos}"></c:out></b></td>
 		</tr>
 	</table>
+
+	<sec:authorize access="isAuthenticated()">
+		<spring:url value="/visita/vivienda/{viviendaId}/new" var="createVivUrl">
+                    <spring:param name="viviendaId" value="${viviendas.id}"/>
+                </spring:url>
+				<a href="${fn:escapeXml(createVivUrl)}" class="btn btn-primary" role="button">Pedir cita</a>
+	</sec:authorize>
+
+	<sec:authorize access="hasAnyAuthority('cliente')">
+	<spring:url value="/viviendas/{viviendaId}/denunciar"
+			var="denunciarVivienda">
+			<spring:param name="viviendaId" value="${viviendas.id}" />
+		</spring:url> <a href="${fn:escapeXml(denunciarVivienda)}" class="btn btn-primary" role="button">Denunciar</a>
+	</sec:authorize>
 
 
 </petclinic:layout>

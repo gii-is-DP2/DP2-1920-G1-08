@@ -1,14 +1,12 @@
 package org.springframework.test.inmocasa.web;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -62,6 +60,8 @@ class CompraControllerTests {
 	private Vivienda vivienda2;
 
 	private Compra compra1;
+	
+	
 	private Propietario prop;
 
 	@BeforeEach
@@ -128,7 +128,7 @@ class CompraControllerTests {
 
 	@WithMockUser(username = "john123", authorities = { "propietario" })
 	@Test
-	void testDeleteProductSuccess() throws Exception {
+	void testRechazarCompraSuccess() throws Exception {
 
 		Cliente clie = new Cliente();
 		clie.setId(8);
@@ -142,15 +142,19 @@ class CompraControllerTests {
 
 		Compra compra1 = new Compra();
 		compra1.setVivienda(vivienda2);
-		compra1.setEstado(Estado.PENDIENTE);
+		compra1.setEstado(Estado.RECHAZADO);
 		compra1.setPrecioFinal(200);
 		vivienda.setPropietario(prop);
 		vivienda2.setPropietario(prop);
 		compra1.setCliente(clie);
-		mockMvc.perform(post("/compras/{viviendaId}/aceptar", TEST_VIVIENDA_ID_1).with(csrf())
-				.param("estado", compra1.getEstado().toString())
-				.param("precioFinal", compra1.getPrecioFinal().toString())
-				.param("propietario", compra1.getCliente().toString()))
-				.andExpect(view().name("viviendas/ofertadas"));
+		
+		List<Compra> compras = (List<Compra>) this.compraService.findAll();
+		this.compraService.deleteById(compra1.getId());
+		assertThat(!compras.contains(compra1));
+
+	
+			}
+
+		
 	}
-}
+

@@ -1,19 +1,14 @@
 package org.springframework.test.inmocasa.web;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.time.LocalDate;
 
-import org.assertj.core.util.Lists;
-import org.hamcrest.Matcher;
+import org.hamcrest.beans.HasProperty;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -39,9 +34,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import static org.hamcrest.Matchers.hasProperty;
-
-import javafx.beans.binding.When;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
 @WebMvcTest(controllers = ViviendaController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
 @RunWith(SpringRunner.class)
@@ -69,6 +62,7 @@ class ViviendaControllerTests {
 	private Vivienda vivienda2;
 
 	private Compra compra1;
+
 	private Propietario prop;
 
 	@BeforeEach
@@ -149,18 +143,18 @@ class ViviendaControllerTests {
 				.andExpect(status().isOk()).andDo(print());
 	}
 
-//	@WithMockUser(username = "gilmar", authorities = { "propietario" })
-//	@Test
-//	void testInitUpdateDietForm() throws Exception {
-//	
-//		mockMvc.perform(get("/viviendas/{viviendaId}/edit", TEST_VIVIENDA_ID_1)).andExpect(status().isOk())
-//				.andExpect(view().name("viviendas/editVivienda")).andExpect(model().attributeExists("vivienda"));
-//	}
+	@WithMockUser(username = "gilmar", authorities = { "propietario" })
+	@Test
+	void testInitUpdateDietForm() throws Exception {
+		mockMvc.perform(get("/viviendas/{viviendaId}/edit", TEST_VIVIENDA_ID_1)).andExpect(status().isOk())
+				.andExpect(model().attribute(vivienda.getZona(), "Cerro Amate"))
+				.andExpect(view().name("viviendas/editVivienda"));
+	}
 
 	@WithMockUser(username = "john123", authorities = { "propietario" })
 	@Test
 	void showViviendaDetails() throws Exception {
-		
+
 		mockMvc.perform(get("/viviendas/{viviendaId}", TEST_VIVIENDA_ID_1)).andExpect(status().isOk())
 				.andExpect(view().name("viviendas/showViviendaDetails"));
 	}

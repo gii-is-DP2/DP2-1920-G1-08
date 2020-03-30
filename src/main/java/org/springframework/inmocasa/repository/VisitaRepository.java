@@ -1,5 +1,6 @@
 package org.springframework.inmocasa.repository;
 
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.time.LocalDateTime;
 import java.util.Collection;

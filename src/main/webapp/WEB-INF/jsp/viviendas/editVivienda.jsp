@@ -5,7 +5,8 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 
-<petclinic:layout pageName="Viviendas">
+<petclinic:layout pageName="editVivienda">
+
     <jsp:attribute name="customScript">
         <script>
             $(function () {
@@ -19,7 +20,7 @@
         <form:form modelAttribute="vivienda" class="form-horizontal" action = "/viviendas/save">
             <div class="form-group has-feedback">
                 <petclinic:inputField label="Fecha de publicacion" name="fechaPublicacion"/>
-                <petclinic:inputField label="Dirección" name="direccion"/>
+                <petclinic:inputField label="DirecciÃ³n" name="direccion"/>
                 <petclinic:inputField label="Zona" name="zona"/>
                 <petclinic:inputField label="Precio" name="precio"/>
                 <petclinic:inputField label="Dimensiones" name="dimensiones"/>

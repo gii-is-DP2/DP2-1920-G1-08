@@ -1,5 +1,6 @@
 package org.springframework.inmocasa.repository;
 
+
 import java.util.Collection;
 
 import org.springframework.data.repository.query.Param;
@@ -20,4 +21,5 @@ public interface PropietarioRepository extends JpaRepository<Propietario, Intege
 		
 		//Alba-Alejandro
 		
+
 }

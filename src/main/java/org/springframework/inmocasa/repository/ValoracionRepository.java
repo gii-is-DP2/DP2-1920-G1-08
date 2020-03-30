@@ -1,6 +1,3 @@
-package org.springframework.inmocasa.repository;
-
-import java.util.List;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,5 +16,6 @@ public interface ValoracionRepository extends JpaRepository<Valoracion, Integer>
 	List<Valoracion> findByVisita(Visita visita);
 
 	// Alba-Alejandro
+
 
 }

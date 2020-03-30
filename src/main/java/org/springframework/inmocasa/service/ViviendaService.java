@@ -28,6 +28,14 @@ public class ViviendaService {
 	public Iterable<Vivienda> findAll() {
 		return vr.findAll();
 	}
+	
+	public Optional<Vivienda> findViviendaById(int viviendaId) {
+		// TODO Auto-generated method stub
+		return vr.findById(viviendaId);
+	}
+
+
+
 
 	// Alvaro-MiguelEmmanuel
 	public Collection<Vivienda> findAllNewest() {
@@ -44,6 +52,7 @@ public class ViviendaService {
 	}
 	
 	//Alba-Alejandro
+
 	public Vivienda findViviendaById(Integer viviendaId) {
 		return vr.findViviendaById(viviendaId);
 	}

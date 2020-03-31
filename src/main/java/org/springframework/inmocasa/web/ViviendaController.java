@@ -3,7 +3,6 @@ package org.springframework.inmocasa.web;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -15,6 +14,7 @@ import org.springframework.inmocasa.model.enums.Estado;
 import org.springframework.inmocasa.service.CompraService;
 import org.springframework.inmocasa.service.PropietarioService;
 import org.springframework.inmocasa.service.ViviendaService;
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -35,7 +36,6 @@ public class ViviendaController {
 	private ViviendaService viviendaService;
 
 	@Autowired
-
 	private PropietarioService propService;
 
 	@Autowired
@@ -114,10 +114,20 @@ public class ViviendaController {
 
 	// Alvaro-MiguelEmmanuel
 	@GetMapping(value = { "/allNew" })
-	public String showListViviendas(Map<String, Object> model) {
-
-		Collection<Vivienda> vivs = viviendaService.findAllNewest();
-		model.put("viviendas", vivs);
+	public String showListViviendas(ModelMap model, @Nullable@RequestParam("precioMin") String precioMin, @Nullable@RequestParam("precioMax") String precioMax) {
+		if(precioMin == null  && precioMax ==null) {
+			Collection<Vivienda> vivs = viviendaService.findAllNewest();
+			model.put("viviendas", vivs);
+		} else  if (precioMin != null && precioMax != null) {
+			//Filtrar viviendas por precio
+			Integer min = Integer.valueOf(precioMin); 
+			Integer max = Integer.valueOf(precioMax);
+			Collection<Vivienda> viviendasPrecio = viviendaService.findViviendaByPrecio(min, max);
+			if (viviendasPrecio.isEmpty()) {
+				model.addAttribute("error", "No se han encontrado viviendas en este rango de precio");
+			}
+			model.put("viviendas", viviendasPrecio);	
+		}	
 
 		return "viviendas/listNewViviendas";
 	}
@@ -164,16 +174,16 @@ public class ViviendaController {
 		model.addAttribute("message", "La vivienda ha sido denunciada correctamente");
 
 
-		return showListViviendas(model);
+		return showListViviendas(model, null, null);
 
 	}
 
 	@GetMapping(value = "/delete/{viviendaId}")
-	public String borrarVivienda(@PathVariable("viviendaId") int viviendaId) {
+	public String borrarVivienda(@PathVariable("viviendaId") int viviendaId, ModelMap model) {
 		Vivienda vivienda = viviendaService.findViviendaById(viviendaId).orElse(null);
 		viviendaService.delete(vivienda);
 
-		return "viviendas/listaViviendasOferta";
+		return showListViviendas(model, null, null);
 	}
 
 }

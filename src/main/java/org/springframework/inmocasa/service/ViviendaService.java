@@ -62,7 +62,12 @@ public class ViviendaService {
 		res.removeAll(vr.getViviendasCompradas());
 		return res;
 	}
-
+	
+	public Collection<Vivienda> findViviendaByPrecio(Integer precioMin, Integer precioMax) {
+		Collection<Vivienda> res = vr.findViviendaByPrecio(precioMin, precioMax);
+		res.removeAll(vr.getViviendasCompradas());
+		return res;
+	}
 
 	public void delete(Vivienda vivienda) {
 		Collection<Habitacion> habitaciones;

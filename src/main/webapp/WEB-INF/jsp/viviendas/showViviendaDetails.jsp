@@ -3,7 +3,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
-<%@ taglib prefix="sec"	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 
 
 <petclinic:layout pageName="viviendas">
@@ -45,7 +46,8 @@
 		<c:if test="${vivienda.dimensiones != null}">
 			<tr>
 				<th>Dimensiones</th>
-				<td><b><c:out value="${vivienda.dimensiones}"></c:out> m² </b></td>
+				<td><b><c:out value="${vivienda.dimensiones}"></c:out> m²
+				</b></td>
 			</tr>
 		</c:if>
 		<c:if test="${vivienda.amueblado != null}">
@@ -92,18 +94,39 @@
 	</table>
 
 	<sec:authorize access="isAuthenticated()">
-		<spring:url value="/visita/vivienda/{viviendaId}/new" var="createVivUrl">
-                    <spring:param name="viviendaId" value="${vivienda.id}"/>
-                </spring:url>
-				<a href="${fn:escapeXml(createVivUrl)}" class="btn btn-primary" role="button">Pedir cita</a>
+		<spring:url value="/visita/vivienda/{viviendaId}/new"
+			var="createVivUrl">
+			<spring:param name="viviendaId" value="${vivienda.id}" />
+		</spring:url>
+		<a href="${fn:escapeXml(createVivUrl)}" class="btn btn-primary"
+			role="button">Pedir cita</a>
 	</sec:authorize>
 
 	<sec:authorize access="hasAnyAuthority('cliente')">
-	<spring:url value="/viviendas/{viviendaId}/denunciar"
+		<spring:url value="/viviendas/{viviendaId}/denunciar"
 			var="denunciarVivienda">
 			<spring:param name="viviendaId" value="${vivienda.id}" />
-		</spring:url> <a href="${fn:escapeXml(denunciarVivienda)}" class="btn btn-primary" role="button">Denunciar</a>
+		</spring:url>
+		<a href="${fn:escapeXml(denunciarVivienda)}" class="btn btn-primary"
+			role="button">Denunciar</a>
 	</sec:authorize>
 
+	<sec:authorize access="hasAnyAuthority('cliente, admin')">
+		<spring:url value="/compras/create/{viviendaId}" var="compraUrl">
+			<spring:param name="viviendaId" value="${vivienda.id}" />
+		</spring:url>
+		<a href="${fn:escapeXml(compraUrl)}" class="btn btn-primary">Comprar
+			vivienda</a>
+		<br />
+		<br />
+	</sec:authorize>
+
+	<sec:authorize access="hasAnyAuthority('admin, propietario')">
+		<spring:url value="/viviendas/delete/{viviendaId}" var="deleteUrl">
+			<spring:param name="viviendaId" value="${vivienda.id}" />
+		</spring:url>
+		<a href="${fn:escapeXml(deleteUrl)}" class="btn btn-primary">Borrar
+			vivienda</a>
+	</sec:authorize>
 
 </petclinic:layout>

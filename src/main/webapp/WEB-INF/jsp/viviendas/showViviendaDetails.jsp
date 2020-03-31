@@ -98,7 +98,7 @@
 				<a href="${fn:escapeXml(createVivUrl)}" class="btn btn-primary" role="button">Pedir cita</a>
 	</sec:authorize>
 
-	<sec:authorize access="isAuthenticated()">
+	<sec:authorize access="hasAnyAuthority('cliente')">
 	<spring:url value="/viviendas/{viviendaId}/denunciar"
 			var="denunciarVivienda">
 			<spring:param name="viviendaId" value="${vivienda.id}" />

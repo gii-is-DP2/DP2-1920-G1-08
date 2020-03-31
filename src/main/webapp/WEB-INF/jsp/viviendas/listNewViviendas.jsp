@@ -4,13 +4,18 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="sec"	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
 
 <petclinic:layout pageName="viviendas">
 
- <spring:url value="/viviendas/new" var="crearUrl">
+	<sec:authorize access="hasAnyAuthority('cliente')">
+      <spring:url value="/viviendas/new" var="crearUrl">
                     </spring:url>
-                                        <a href="${fn:escapeXml(crearUrl)}" class="btn btn-primary" role="button"  >Crear Vivienda</a>
+                    <a href="${fn:escapeXml(crearUrl)}" class="btn btn-primary" role="button"  >Crear Vivienda</a>
+                   	</sec:authorize>
+                   
+                                        
 	<c:forEach items="${viviendas}" var="viv">
 		<div class="panel panel-primary"
 			style="width: 70%; margin: 0 auto; margin-top: 30px;">

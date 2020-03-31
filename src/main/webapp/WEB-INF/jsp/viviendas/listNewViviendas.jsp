@@ -84,6 +84,13 @@
 	</sec:authorize>
 
 
+	<sec:authorize access="hasAnyAuthority('propietario')">
+      <spring:url value="/viviendas/new" var="crearUrl">
+                    </spring:url>
+                    <a href="${fn:escapeXml(crearUrl)}" class="btn btn-primary" role="button"  >Crear Vivienda</a>
+                   	</sec:authorize>
+                   
+                                        
 	<c:forEach items="${viviendas}" var="viv">
 		<div class="panel panel-primary"
 			style="width: 70%; margin: 0 auto; margin-top: 30px;">
@@ -126,5 +133,6 @@
 		</div>
 
 	</c:forEach>
+<<<<<<< HEAD
 
 </petclinic:layout>

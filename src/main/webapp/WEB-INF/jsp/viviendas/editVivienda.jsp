@@ -19,6 +19,7 @@
 
         <form:form modelAttribute="vivienda" class="form-horizontal" action = "/viviendas/save">
             <div class="form-group has-feedback">
+                <petclinic:inputField label="Título" name="titulo"/>
                 <petclinic:inputField label="Fecha de publicacion" name="fechaPublicacion"/>
                 <petclinic:inputField label="DirecciÃ³n" name="direccion"/>
                 <petclinic:inputField label="Zona" name="zona"/>

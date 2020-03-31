@@ -1,5 +1,7 @@
 package org.springframework.inmocasa.service;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.inmocasa.model.Compra;
 import org.springframework.inmocasa.model.enums.Estado;
@@ -18,7 +20,7 @@ public class CompraService {
 	}
 
 	// Santi-Alvaro
-	public Iterable<Compra> findAll() {
+	public Collection<Compra> findAll() {
 		return cr.findAll();
 	}
 

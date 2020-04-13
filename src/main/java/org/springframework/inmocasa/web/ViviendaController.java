@@ -94,12 +94,12 @@ public class ViviendaController {
 
 	
 	
-	@GetMapping("/{viviendaId}/edit")
-	public ModelAndView editVivienda(@PathVariable("viviendaId") int viviendaId) {
-		ModelAndView mav = new ModelAndView("viviendas/editVivienda");
-		mav.addObject("vivienda", this.viviendaService.ViviendaById(viviendaId));
-		return mav;
-	}
+//	@GetMapping("/{viviendaId}/edit")
+//	public ModelAndView editVivienda(@PathVariable("viviendaId") int viviendaId) {
+//		ModelAndView mav = new ModelAndView("viviendas/editVivienda");
+//		mav.addObject("vivienda", this.viviendaService.ViviendaById(viviendaId));
+//		return mav;
+//	}
 	
 
 //	@PostMapping(path = { "/{viviendaId}/save" })
@@ -122,17 +122,17 @@ public class ViviendaController {
 //		return view;
 //	}
 	
-	@PostMapping(path = "{viviendaId}/save")
-	private String processCreationForm(@Valid Vivienda vivienda, BindingResult res, ModelMap modelMap) {
-		if (res.hasErrors()) {
-			modelMap.addAttribute("vivienda", vivienda);
-			return "viviendas/editVivienda";
-		} else {
-			viviendaService.save(vivienda);
-			modelMap.addAttribute("message", "Saved successfully");
-		}
-		return misViviendas(modelMap);
-	}
+//	@PostMapping(path = "{viviendaId}/save")
+//	private String processCreationForm(@Valid Vivienda vivienda, BindingResult res, ModelMap modelMap) {
+//		if (res.hasErrors()) {
+//			modelMap.addAttribute("vivienda", vivienda);
+//			return "viviendas/editVivienda";
+//		} else {
+//			viviendaService.save(vivienda);
+//			modelMap.addAttribute("message", "Saved successfully");
+//		}
+//		return misViviendas(modelMap);
+//	}
 
 
 

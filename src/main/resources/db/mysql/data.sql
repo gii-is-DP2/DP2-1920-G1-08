@@ -68,3 +68,5 @@ INSERT INTO visita(id, cliente_id, vivienda_id, fecha, lugar) VALUES (1, 2, 1, '
 INSERT INTO visita(id, cliente_id, vivienda_id, fecha, lugar) VALUES (2, 2, 6, '2020-01-15', 'Cerro Amate');
 
 INSERT INTO valoracion(id, visita_id, puntuacion, comentario) VALUES (1, 1, 4, 'Me ha gustado mucho');
+
+

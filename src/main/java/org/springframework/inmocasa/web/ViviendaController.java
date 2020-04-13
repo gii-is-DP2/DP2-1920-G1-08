@@ -91,14 +91,7 @@ public class ViviendaController {
 		return vista;
 	}
 
-//	@GetMapping(path = "/{viviendaId}/edit")
-//	public String editVivienda(@PathVariable("viviendaId") int viviendaId, ModelMap model) {
-//		Vivienda vivienda = this.viviendaService.ViviendaById(viviendaId);
-//		String view = "viviendas/editVivienda";
-//		model.addAttribute("vivienda", vivienda);
-//		return view;
-//
-//	}
+
 	
 	
 	@GetMapping("/{viviendaId}/edit")
@@ -141,29 +134,12 @@ public class ViviendaController {
 		return misViviendas(modelMap);
 	}
 
-	@GetMapping(path = "/mis-viviendas")
-	public String misViviendas(ModelMap model) {
-		String vista = "viviendas/misViviendas";
-		List<Vivienda> viviendas = new ArrayList<>();
-		String username = SecurityContextHolder.getContext().getAuthentication().getName(); // username Actual
-		Iterable<Vivienda> cmp = viviendaService.findAll();
-		for (Vivienda v : cmp) {
-			if (v.getPropietario().getUsername().equals(username)) {
 
-				viviendas.add(v);
 
-			}
-
-		}
-
-		model.addAttribute("viviendas", viviendas);
-
-		return vista;
-	}
 
 	@GetMapping(path = "/{viviendaId}/edit")
 	public String editVivienda(@PathVariable("viviendaId") int viviendaId, ModelMap model) {
-		Vivienda vivienda = this.viviendaService.findViviendaById(viviendaId);
+		Vivienda vivienda = this.viviendaService.findViviendaById(viviendaId).get();
 		String view = "viviendas/editVivienda";
 		model.addAttribute("vivienda", vivienda);
 		return view;
@@ -248,7 +224,7 @@ public class ViviendaController {
 
 	@GetMapping(value = "/delete/{viviendaId}")
 	public String borrarVivienda(@PathVariable("viviendaId") int viviendaId) {
-		Vivienda vivienda = viviendaService.findViviendaById(viviendaId);
+		Vivienda vivienda = viviendaService.findViviendaById(viviendaId).get();
 		viviendaService.delete(vivienda);
 
 		return "viviendas/listaViviendasOferta";

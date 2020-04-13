@@ -53,7 +53,7 @@ public class VisitaController {
 		Authentication x = SecurityContextHolder.getContext().getAuthentication();
 		List<Cliente> clientes = clienteService.findClienteByUsername(((User)x.getPrincipal()).getUsername());		
 
-		Vivienda v = viviendaService.findViviendaById(vivId);
+		Vivienda v = viviendaService.findViviendaById(vivId).get();
 		
 		if( clientes.size() == 1) {
 			visita.setVivienda(v);

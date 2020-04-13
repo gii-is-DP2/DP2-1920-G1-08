@@ -1,17 +1,28 @@
 package org.springframework.inmocasa.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-
-import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.repository.PropietarioRepository;
+import org.springframework.inmocasa.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PropietarioService {
 
+PropietarioRepository propietarioRepository;
+UsuarioService usuarioService;
+AuthoritiesService authoritiesService;
+
+	
+	//Alvaro-MiguelEmmanuel
+	
+	public Propietario findByUsername(String username) {
+		return propietarioRepository.findByUsername(username);
+	}
+
+
+	public void savePropietario(@Valid Propietario propietario) {
 
 		propietarioRepository.save(propietario);
 
@@ -22,14 +33,9 @@ public class PropietarioService {
 	}
 
 	
-	//Alvaro-MiguelEmmanuel
-	
-	public Propietario findByUsername(String username) {
-		return propietarioRepository.findByUsername(username);
-	}
-	
 	//Alba-Alejandro
 	
 	
-
+	
 }
+

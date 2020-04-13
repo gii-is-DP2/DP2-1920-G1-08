@@ -29,8 +29,7 @@ public class Vivienda extends BaseEntity{
 	private String titulo;
 
 	
-	//@NotNull
-	private String titulo;
+
 	
 	
 	@NotNull

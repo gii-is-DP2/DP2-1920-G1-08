@@ -35,8 +35,6 @@ public class ViviendaService {
 	}
 
 
-
-
 	// Alvaro-MiguelEmmanuel
 	public Collection<Vivienda> findAllNewest() {
 		return vr.findAllNewest();

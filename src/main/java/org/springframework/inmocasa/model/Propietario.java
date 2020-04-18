@@ -29,7 +29,7 @@ public class Propietario extends Usuario {
 	@Column(name="cif")
 	private String cif;
 	
-	@OneToMany(mappedBy="receptor")
-	protected List<Mensaje> mensajeRecibido;
+	@OneToMany(mappedBy="prop")
+	protected List<Mensaje> mensaje;
 
 }

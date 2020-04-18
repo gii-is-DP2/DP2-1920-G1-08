@@ -2,17 +2,16 @@ package org.springframework.inmocasa.service;
 
 import java.util.Collection;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.inmocasa.model.Cliente;
 import org.springframework.inmocasa.model.Mensaje;
-import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.repository.MensajeRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MensajeService {
 
-	// Santi-Alvaro
 
 	MensajeRepository mr;
 
@@ -28,12 +27,18 @@ public class MensajeService {
 		return mr.findAll();
 	}
 
-	public Collection<Mensaje> findMensajeByEmisor(Cliente emisor) {
-		return mr.findByEmisor(emisor);
+	public Collection<Mensaje> findMensajeByEmisorId(Integer emisor) {
+		return mr.findByEmisorId(emisor);
 	}
 
-	public Collection<Mensaje> findMensajeByReceptor(Propietario receptor) {
-		return mr.findByReceptor(receptor);
+	public Collection<Mensaje> findMensajeByReceptor(Integer receptor) {
+		return mr.findByReceptorId(receptor);
+	}
+
+	public void save( Mensaje mensaje) {
+		// TODO Auto-generated method stub
+		mr.save(mensaje);
+		
 	}
 
 	// Alvaro-MiguelEmmanuel

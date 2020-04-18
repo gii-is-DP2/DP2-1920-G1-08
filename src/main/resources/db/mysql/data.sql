@@ -69,4 +69,4 @@ INSERT INTO visita(id, cliente_id, vivienda_id, fecha, lugar) VALUES (2, 2, 6, '
 
 INSERT INTO valoracion(id, visita_id, puntuacion, comentario) VALUES (1, 1, 4, 'Me ha gustado mucho');
 
-
+INSERT INTO mensaje(id, client, prop, asunto, cuerpo, emisor_id, receptor_id) VALUES (1,3,1,'CARAJAULA','GENIOS',1,3);

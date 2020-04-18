@@ -19,8 +19,11 @@ public class ClienteService {
 		this.crep = clienteR;
 	}
 	
-	//Santi-Alvaro
 	
+	//Santi-Alvaro
+	public List<Cliente> findAll() {
+		return crep.findAll();
+	}
 	
 	//Alvaro-MiguelEmmanuel
 	public List<Cliente> findClienteByUsername(String username) {

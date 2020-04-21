@@ -25,7 +25,7 @@
   <tbody>
    <c:forEach items="${mensajes}" var="mensajes">
 			
-		<tr>
+		<tr>		
 					<td><c:out value="${mensajes.asunto}" /></td>
 					<td><c:out value="${mensajes.cuerpo}" /></td>
 					<td><c:out value="${mensajes.client.nombre}" /><br>  <c:out value="${mensajes.client.apellidos}"/> </td>

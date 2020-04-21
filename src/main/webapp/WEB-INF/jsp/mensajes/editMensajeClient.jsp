@@ -5,11 +5,11 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 
-<petclinic:layout pageName="editMensaje">
+<petclinic:layout pageName="editMensajeClient">
 
   
     <jsp:body>
-        <h2>Crear mensaje</h2>
+        <h2>Crear mensaje </h2>
 
         <form:form modelAttribute="mensaje" class="form-horizontal" action = "/mensajes/save">
             <div class="form-group has-feedback">
@@ -17,15 +17,15 @@
                 <petclinic:inputField label="Cuerpo" name="cuerpo"/>
                 
                 <div class="col-sm-10" style="margin-bottom: 45px; left: 10px">
-                <form:select class="form-control" name="Cliente" path="client" size="4"
+                <form:select class="form-control" name="Prop" path="prop" size="4"
                     style="width: 20%">
-                    <c:forEach var="cliente" items="${allClients}">
-                        <option value="${cliente.id}">
-                        <c:out  value="${cliente.nombre} "/>
-                        <c:out value="${cliente.apellidos}"/></option>
+                    <c:forEach var="prop" items="${allProps}">
+                        <option value="${prop.id}">
+                        <c:out  value="${prop.nombre} "/>
+                        <c:out value="${prop.apellidos}"/></option>
                     </c:forEach>
                 </form:select>
-            <form:hidden path="client" />
+            <form:hidden path="prop" />
             </div>
             </div>
 
@@ -34,7 +34,7 @@
                     <input type="hidden" name="id" value="${mensaje.id}"/>
                   <!--   <input type="hidden" name="prop" value="${mensaje.prop}"/> --> 
 
-                    <button class="btn btn-default" type="submit">Enviar Mensaje</button>
+                    <button class="btn btn-default" type="submit">Guardar Mensaje</button>
                 </div>
             </div>
         </form:form>

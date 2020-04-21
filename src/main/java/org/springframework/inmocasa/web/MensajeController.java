@@ -19,7 +19,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -38,15 +41,20 @@ public class MensajeController {
 
 	// Santi-Alvaro
 
-//	@ModelAttribute("allClients")
-//    public Collection<Cliente> populateAllClients() {
-//        return clientService.findAll();
-//    }
-//	
-//	@ModelAttribute("allProps")
-//    public List<Propietario> populateAllProps() {
-//        return propService.findAll();
-//    }
+	@InitBinder
+	public void initCauseBinder(WebDataBinder dataBinder) {
+		dataBinder.setDisallowedFields("id");
+	}
+
+	@ModelAttribute("allClients")
+	public Collection<Cliente> populateAllClients() {
+		return clientService.findAll();
+	}
+
+	@ModelAttribute("allProps")
+	public Collection<Propietario> populateAllProps() {
+		return propService.findAll();
+	}
 
 	@GetMapping(path = "/mensajes-enviados")
 	public String listadoMensajesEnviados(ModelMap model) {
@@ -71,7 +79,9 @@ public class MensajeController {
 	public String listadoMensajesRecibidos(ModelMap model) {
 		String vista = "mensajes/misMensajes";
 		List<Mensaje> mensajes = new ArrayList<>();
-		String username = SecurityContextHolder.getContext().getAuthentication().getName(); // username Actual
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
+		String username = userPrincipal.getUsername(); // username Actual
 		Collection<Mensaje> mnsjs = mensajeService.findAll();
 		for (Mensaje m : mnsjs) {
 			if (m.getProp().getUsername().equals(username) && m.getProp().getId().equals(m.getReceptorId())) {
@@ -90,32 +100,24 @@ public class MensajeController {
 	@GetMapping(path = "/new")
 	public String crearMensaje(ModelMap modelMap) {
 		String viewProp = "mensajes/editMensaje";
-		String viewClient = "mensajes/editMensajeCliente";
-
+		String viewClient = "mensajes/editMensajeClient";
 		Mensaje mensaje = new Mensaje();
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
-		List<Propietario> props = propService.findAll();
-		List<Cliente> clients = clientService.findAll();
-		String username = userPrincipal.getUsername();
-
-		for (Propietario p : props) {
-			if (p.getUsername().equals(username)) {
-				mensaje.setEmisorId(p.getId());
-				mensaje.setReceptorId(mensaje.getClient().getId());
-				modelMap.addAttribute("mensaje", mensaje);
-				return viewProp;
-			}
+		List<Cliente> lista = clientService.findClienteByUsername(userPrincipal.getUsername());
+		if (!lista.isEmpty()) {
+			Cliente c = lista.get(0);
+			mensaje.setEmisorId(c.getId());
+			mensaje.setClient(c);
+			modelMap.addAttribute("mensaje", mensaje);
+			return viewClient;
+		} else {
+			Propietario p = propService.findByUsername(userPrincipal.getUsername());
+			mensaje.setEmisorId(p.getId());
+			mensaje.setProp(p);
+			modelMap.addAttribute("mensaje", mensaje);
+			return viewProp;
 		}
-		for (Cliente c : clients) {
-			if (c.getUsername().equals(username)) {
-				mensaje.setEmisorId(c.getId());
-				mensaje.setReceptorId(mensaje.getProp().getId());
-				modelMap.addAttribute("mensaje", mensaje);
-				return viewClient;
-			}
-		}
-		return listadoMensajesEnviados(modelMap);
 
 	}
 
@@ -123,18 +125,20 @@ public class MensajeController {
 	public String guardarMensaje(@Valid Mensaje mensaje, BindingResult result, ModelMap modelMap) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
-		String username = userPrincipal.getUsername();
-
-		List<Propietario> props = propService.findAll();
-		List<Cliente> clients = clientService.findAll();
+		String name = userPrincipal.getUsername();
+		Collection<Propietario> props = propService.findAll();
+		Collection<Cliente> clients = clientService.findAll();
 		for (Propietario p : props) {
-			if (p.getUsername().equals(username)) {
+			if (p.getUsername().equals(name)) {
+				mensaje.setProp(p);
 				mensaje.setEmisorId(p.getId());
 				mensaje.setReceptorId(mensaje.getClient().getId());
+
 			}
 		}
 		for (Cliente c : clients) {
-			if (c.getUsername().equals(username)) {
+			if (c.getUsername().equals(name)) {
+				mensaje.setClient(c);
 				mensaje.setEmisorId(c.getId());
 				mensaje.setReceptorId(mensaje.getProp().getId());
 			}
@@ -145,7 +149,7 @@ public class MensajeController {
 			return "mensajes/editMensaje";
 		} else {
 			mensajeService.save(mensaje);
-			modelMap.addAttribute("message", "La mensaje ha sido registrada correctamente");
+			modelMap.addAttribute("message", "El mensaje ha sido enviado correctamente");
 		}
 		return listadoMensajesEnviados(modelMap);
 	}

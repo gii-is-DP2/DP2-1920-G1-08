@@ -87,7 +87,7 @@ public class CompraServiceTests {
 	// La compra no se realiza porque la vivienda ya está comprada
 	@Test
 	void shouldNotCreateAndSaveCompra() {
-Collection<Compra> todas = this.compraService.findAll();
+		Collection<Compra> todas = this.compraService.findAll();
 		
 		Vivienda vivienda = new Vivienda();
 		vivienda.setId(1);

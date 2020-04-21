@@ -93,7 +93,7 @@
 				<img src="${viv.foto}"
 					style="margin-left: auto; margin-right: auto; display: block;" />
 				<p>
-					Fecha de publicación:
+					Fecha de publicacion:
 					<c:out value="${viv.fechaPublicacion}" />
 				</p>
 

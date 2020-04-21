@@ -34,5 +34,9 @@ public interface ViviendaRepository extends JpaRepository<Vivienda, Integer> {
 	@Query("select v from Vivienda v where v.precio between :min and :max")
 	public Collection<Vivienda> findViviendaByPrecio(@Param("min") Integer min, @Param("max") Integer max);
 	
+	@Query("select v from Vivienda v where v.publicitado = 1 order by fechaPublicacion desc")
+	public Collection<Vivienda> getPublicitadas();
 	
+	@Query("select v from Vivienda v where v.publicitado = 0 order by fechaPublicacion desc")
+	public Collection<Vivienda> getNOPublicitadas();
 }

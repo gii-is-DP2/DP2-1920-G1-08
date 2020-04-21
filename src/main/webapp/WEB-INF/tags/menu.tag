@@ -49,11 +49,16 @@
 							<span class="sr-only">Toggle Dropdown</span>
 						</button>
 						<div class="dropdown-menu">
-							<a class="dropdown-item" href="#">Mi perfil</a> <a
-								class="dropdown-item" href="#">Mis favoritos</a> <a
-								class="dropdown-item" href="/usuario/misVisitas">Mis visitas</a>
+							<a class="dropdown-item" href="#">Mi perfil</a> 
+							<sec:authorize access="hasAnyAuthority('cliente')">
+							<a class="dropdown-item" href="#">Mis favoritos</a> 
+							<a class="dropdown-item" href="/usuario/misVisitas">Mis visitas</a>
+							</sec:authorize>
 							<sec:authorize access="hasAnyAuthority('admin')">
 								<a class="dropdown-item" href="/dashboard">Estadísticas</a>
+							</sec:authorize>
+							<sec:authorize access="hasAnyAuthority('propietario')">
+								<a class="dropdown-item" href="/viviendas/mis-viviendas">Mis viviendas</a>
 							</sec:authorize>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" href="<c:url value="/logout" />">Logout</a>

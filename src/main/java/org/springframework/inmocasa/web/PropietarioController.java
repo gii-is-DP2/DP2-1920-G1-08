@@ -42,7 +42,7 @@ public class PropietarioController {
 			model.addAttribute("message", "Propietario creado");
 
 		}
-		return  "";
+		return  "viviendas/listNewViviendas";
 	}
 
 	// Alvaro-MiguelEmmanuel

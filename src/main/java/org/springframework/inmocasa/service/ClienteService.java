@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.inmocasa.model.Cliente;
@@ -13,11 +14,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class ClienteService {
 
-	private ClienteRepository crep;
+	ClienteRepository crep;
+	AuthoritiesService authoritiesService;
 
 	@Autowired
-	public ClienteService(ClienteRepository clienteR) {
-		this.crep = clienteR;
+	public ClienteService(ClienteRepository crep, AuthoritiesService authoritiesService) {
+		this.crep = crep;
+		this.authoritiesService = authoritiesService;
 	}
 
 	// Santi-Alvaro
@@ -28,6 +31,14 @@ public class ClienteService {
 
 	public Cliente findClienteByClienteUsername(String username) {
 		return crep.findByClienteUsername(username);
+	}
+
+	public void saveCliente(@Valid Cliente cliente) {
+
+		crep.save(cliente);
+
+		authoritiesService.saveAuthorities(cliente.getUsername(), "cliente");
+
 	}
 
 	// Alvaro-MiguelEmmanuel

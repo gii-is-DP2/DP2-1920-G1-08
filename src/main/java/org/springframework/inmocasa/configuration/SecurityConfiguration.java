@@ -62,6 +62,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/compras/create/{viviendaId}").hasAnyAuthority("cliente, admin")
 				.antMatchers("/propietario/**").hasAnyAuthority("propietario","admin")
 				.antMatchers("/cliente/**").hasAnyAuthority("cliente","admin")
+				.antMatchers("/clientes/**").permitAll()
 				.antMatchers("/dashboard").hasAnyAuthority("admin")
 				.antMatchers("/resources/**", "/webjars/**", "/h2-console/**").permitAll()
 				.antMatchers("/mensajes/**").permitAll()

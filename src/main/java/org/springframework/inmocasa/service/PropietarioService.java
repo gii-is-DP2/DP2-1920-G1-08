@@ -20,7 +20,6 @@ public class PropietarioService {
 	@Autowired
 	public PropietarioService(PropietarioRepository propRepo) {
 		// TODO Auto-generated constructor stub
-
 		this.propietarioRepository = propRepo;
 	}
 

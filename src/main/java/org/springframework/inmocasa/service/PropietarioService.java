@@ -18,7 +18,6 @@ public class PropietarioService {
 
 	@Autowired
 	public PropietarioService(PropietarioRepository propRepo, AuthoritiesService authoritiesService) {
-
 		this.propietarioRepository = propRepo;
 		this.authoritiesService = authoritiesService;
 	}

@@ -14,14 +14,13 @@ import org.springframework.stereotype.Service;
 public class PropietarioService {
 
 	PropietarioRepository propietarioRepository;
-	UsuarioService usuarioService;
 	AuthoritiesService authoritiesService;
 
 	@Autowired
-	public PropietarioService(PropietarioRepository propRepo) {
-		// TODO Auto-generated constructor stub
+	public PropietarioService(PropietarioRepository propRepo, AuthoritiesService authoritiesService) {
 
 		this.propietarioRepository = propRepo;
+		this.authoritiesService = authoritiesService;
 	}
 
 	// Santiago-Alvaro
@@ -37,8 +36,6 @@ public class PropietarioService {
 	public void savePropietario(@Valid Propietario propietario) {
 
 		propietarioRepository.save(propietario);
-
-		usuarioService.saveUsuario(propietario);
 
 		authoritiesService.saveAuthorities(propietario.getUsername(), "propietario");
 

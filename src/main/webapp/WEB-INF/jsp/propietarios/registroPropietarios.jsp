@@ -34,11 +34,11 @@
 					name="fechaNacimiento" />
 			<petclinic:inputField label="Email" name="email" />
 			<petclinic:inputField label="Usuario" name="username" />
-			<petclinic:inputField label="Contrasena" name="password" />
+			<petclinic:inputField label="Contrasena" name="password"/>
 			<form:label label="Eres inmobiliaria?" path="esInmobiliaria"> ¿Eres inmobiliaria?   </form:label>
 			<form:select id="esInmobiliaria" path="esInmobiliaria">
-                <form:option value="0" label="Sí" />
-                <form:option value="1" label="No" />
+                <form:option value="0" label="No" />
+                <form:option value="1" label="Si" />
                 <form:options items="${esInmobiliaria}"
 						itemLabel="esInmobiliaria" itemValue="esInmobiliaria" />
             </form:select>

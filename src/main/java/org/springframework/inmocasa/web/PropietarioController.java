@@ -34,7 +34,6 @@ public class PropietarioController {
 
 	@PostMapping(path = "/propietarios/save")
 	public String guardarPropietario(@Valid Propietario propietario, BindingResult result, ModelMap model) {
-		String view = "/propietarios/" + propietario.getId();
 		if (result.hasErrors()) {
 			model.addAttribute("propietario", propietario);
 			return "propietarios/registroPropietarios";
@@ -43,7 +42,7 @@ public class PropietarioController {
 			model.addAttribute("message", "Propietario creado");
 
 		}
-		return  view;
+		return  "";
 	}
 
 	// Alvaro-MiguelEmmanuel

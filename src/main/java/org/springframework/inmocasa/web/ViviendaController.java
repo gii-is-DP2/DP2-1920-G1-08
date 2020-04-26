@@ -68,8 +68,11 @@ public class ViviendaController {
 	@GetMapping(value = "/{viviendaId}")
 	public String showVivienda(@PathVariable("viviendaId") int viviendaId, ModelMap model) {
 		Vivienda vivienda = this.viviendaService.findViviendaById(viviendaId).get();
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		Propietario propietario = propService.findByUsername(username);
 		String view = "viviendas/showViviendaDetails";
 		model.put("vivienda", vivienda);
+		model.put("propietario", propietario);
 		return view;
 
 	}
@@ -196,16 +199,16 @@ public class ViviendaController {
 	@GetMapping(value = "/publicitar/{viviendaId}")
 	public String publicitar(@PathVariable("viviendaId") int viviendaId, ModelMap model) {
 		Vivienda vivienda = viviendaService.findViviendaId(viviendaId);
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
-		Propietario propietario = propService.findByUsername(userPrincipal.getUsername());
-		if (vivienda.getPropietario().equals(propietario)) {
+//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//		UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
+//		Propietario propietario = propService.findByUsername(userPrincipal.getUsername());
+//		if (vivienda.getPropietario().equals(propietario)) {
 			viviendaService.publicitar(vivienda);
 			model.addAttribute("vivienda", vivienda);
 			model.addAttribute("success", "La vivienda ha sido publicitada");
-		} else {
-			model.addAttribute("error", "No puede publicitar esta vivienda. Propietario incorrecto");
-		}
+//		} else {
+//			model.addAttribute("error", "No puede publicitar esta vivienda. Propietario incorrecto");
+//		}
 
 		return showListViviendas(model, null, null);
 	}

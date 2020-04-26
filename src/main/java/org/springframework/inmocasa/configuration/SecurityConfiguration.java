@@ -1,9 +1,12 @@
 package org.springframework.inmocasa.configuration;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +26,10 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.paypal.base.rest.APIContext;
+import com.paypal.base.rest.OAuthTokenCredential;
+import com.paypal.base.rest.PayPalRESTException;
 
 /*
 
@@ -47,15 +54,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-
 	DataSource dataSource;
+	
+	@Value("${paypal.client.app}")
+    private String clientId;
+	@Value("${paypal.client.secret}")
+    private String clientSecret;
+	@Value("${paypal.mode}")
+    private String mode;
 
 	@Override
-
 	protected void configure(HttpSecurity http) throws Exception {
 
 		http.authorizeRequests()
-
 				.antMatchers("/resources/**","/webjars/**","/h2-console/**").permitAll()
 				.antMatchers(HttpMethod.GET, "/","/oups").permitAll()
 				.antMatchers("/viviendas/delete/{viviendaId}").hasAnyAuthority("admin, propietario")
@@ -63,6 +74,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/propietario/**").hasAnyAuthority("propietario","admin")
 				.antMatchers("/cliente/**").hasAnyAuthority("cliente","admin")
 				.antMatchers("/dashboard").hasAnyAuthority("admin")
+				.antMatchers("/pay/**").hasAnyAuthority("propietario, admin")
+
+
 				.antMatchers("/resources/**", "/webjars/**", "/h2-console/**").permitAll()
 
 				.antMatchers(HttpMethod.GET, "/", "/oups").permitAll()
@@ -82,7 +96,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/usuarios/**").permitAll()	
 				.antMatchers("/propietarios/**").permitAll()		
 				.antMatchers("/compras/**").permitAll()
-
+				.antMatchers("/owners/**").hasAnyAuthority("owner","admin")				
 				
 				.antMatchers("/usuario/misVisitas").hasAuthority("cliente")
 				.antMatchers("/valoracion/**").permitAll()
@@ -96,8 +110,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/valoracion/**").permitAll()
 				.antMatchers("/visita/valoracion/**").hasRole("cliente")
 				
-
-
 				.anyRequest().denyAll()
 
 				.and()
@@ -129,7 +141,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 
 	@Override
-
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 
 		auth.jdbcAuthentication()
@@ -146,13 +157,30 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 
 	@Bean
-
 	public PasswordEncoder passwordEncoder() {
 
 		PasswordEncoder encoder = NoOpPasswordEncoder.getInstance();
 
 		return encoder;
-
+	}
+	
+	@Bean
+	public Map<String, String> paypalSdkConfig(){
+		Map<String, String> sdkConfig = new HashMap<>();
+		sdkConfig.put("mode", mode);
+		return sdkConfig;
+	}
+	
+	@Bean
+	public OAuthTokenCredential authTokenCredential(){
+		return new OAuthTokenCredential(clientId, clientSecret, paypalSdkConfig());
+	}
+	
+	@Bean
+	public APIContext apiContext() throws PayPalRESTException{
+		APIContext apiContext = new APIContext(authTokenCredential().getAccessToken());
+		apiContext.setConfigurationMap(paypalSdkConfig());
+		return apiContext;
 	}
 
 }

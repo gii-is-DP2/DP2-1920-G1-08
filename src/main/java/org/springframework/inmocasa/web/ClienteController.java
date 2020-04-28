@@ -4,7 +4,12 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.inmocasa.model.Cliente;
+import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.service.ClienteService;
+import org.springframework.inmocasa.service.PropietarioService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -18,6 +23,8 @@ public class ClienteController {
 
 	@Autowired
 	ClienteService clienteService;
+	@Autowired
+	PropietarioService propietarioService;
 
 	@GetMapping(path = "/clientes/new")
 	public String crearCliente(ModelMap model) {
@@ -38,6 +45,8 @@ public class ClienteController {
 		}
 		return "viviendas/listNewViviendas";
 	}
+
+	
 
 	// Alvaro-MiguelEmmanuel
 

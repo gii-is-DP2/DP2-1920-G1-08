@@ -25,12 +25,22 @@
 					href="/viviendas/allNew">Todas las viviendas <span
 						class="sr-only">(current)</span>
 				</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">Pon tu
-						anuncio</a></li>
+
+
 
 				<sec:authorize access="!isAuthenticated()">
 					<li class="nav-item"><a class="nav-link" href="/login">Acceso
 							usuarios</a></li>
+					<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+						role="button" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false"> Registro </a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="/clientes/new">Registrarse
+								como cliente</a> <a class="dropdown-item" href="/propietarios/new">Registrarse
+								como propietario</a>
+
+						</div></li>
 				</sec:authorize>
 
 
@@ -38,8 +48,18 @@
 				<!-- Panel usuario -->
 				<sec:authorize access="isAuthenticated()">
 
-					<li class="nav-item"><a class="nav-link" href="#">Tus
-							mensajes</a></li>
+					<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+						role="button" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false"> Mis mensajes </a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="/mensajes/mensajes-recibidos">Mensajes
+								recibidos</a> 
+							<a class="dropdown-item" href="/mensajes/mensajes-enviados">Mensajes
+								enviados</a>
+							<a class="dropdown-item" href="/mensajes/new">Enviar mensaje</a>
+
+						</div></li>
 					<div class="btn-group">
 						<button type="button" class="btn btn-success">
 							<sec:authentication property="name" />
@@ -55,7 +75,7 @@
 								class="dropdown-item" href="#">Mis favoritos</a> <a
 								class="dropdown-item" href="/usuario/misVisitas">Mis visitas</a>
 							<sec:authorize access="hasAnyAuthority('admin')">
-								<a class="dropdown-item" href="/dashboard">EstadÃ­sticas</a>
+								<a class="dropdown-item" href="/dashboard">Estadísticas</a>
 							</sec:authorize>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" href="<c:url value="/logout" />">Logout</a>

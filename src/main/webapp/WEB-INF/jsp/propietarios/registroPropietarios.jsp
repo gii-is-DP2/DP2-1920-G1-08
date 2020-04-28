@@ -34,7 +34,8 @@
 					name="fechaNacimiento" />
 			<petclinic:inputField label="Email" name="email" />
 			<petclinic:inputField label="Usuario" name="username" />
-			<petclinic:inputField label="Contrasena" name="password"/>
+			<label for="password">Contraseña:</label><br>
+			<input type="password" name="password" />
 			<form:label label="Eres inmobiliaria?" path="esInmobiliaria"> ¿Eres inmobiliaria?   </form:label>
 			<form:select id="esInmobiliaria" path="esInmobiliaria">
                 <form:option value="0" label="No" />
@@ -49,7 +50,7 @@
 		</div>
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
-					<input type="hidden" name="id" value="${propietario.id}"/>
+					<input type="hidden" name="id" value="${propietario.id}" />
 					<button class="btn btn-default" type="submit"> Save propietario</button>
 					
 			</div>

@@ -34,7 +34,8 @@
 					name="fechaNacimiento" />
 			<petclinic:inputField label="Email" name="email" />
 			<petclinic:inputField label="Usuario" name="username" />
-			<petclinic:inputField label="Contrasena" name="password" />
+			<label for="password">Contraseña:</label><br>
+			<input type="password" name="password" />
 			
 
 		</div>

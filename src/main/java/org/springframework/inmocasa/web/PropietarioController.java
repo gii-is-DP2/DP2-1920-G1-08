@@ -3,8 +3,13 @@ package org.springframework.inmocasa.web;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.inmocasa.model.Cliente;
 import org.springframework.inmocasa.model.Propietario;
+import org.springframework.inmocasa.service.ClienteService;
 import org.springframework.inmocasa.service.PropietarioService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -18,6 +23,8 @@ public class PropietarioController {
 
 	@Autowired
 	PropietarioService propietarioService;
+	@Autowired
+	ClienteService clienteService;
 
 //	@Autowired
 //	public PropietarioController(PropietarioService propietarioService, UsuarioService userService,
@@ -42,7 +49,7 @@ public class PropietarioController {
 			model.addAttribute("message", "Propietario creado");
 
 		}
-		return  "viviendas/listNewViviendas";
+		return  "welcome";
 	}
 
 	// Alvaro-MiguelEmmanuel

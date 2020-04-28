@@ -19,4 +19,5 @@ public interface ValoracionRepository extends JpaRepository<Valoracion, Integer>
 
 	// Alba-Alejandro
 
+
 }

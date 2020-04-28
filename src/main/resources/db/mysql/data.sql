@@ -59,10 +59,10 @@ INSERT INTO habitacion(id, vivienda_id, tipo_habitacion, num_camas, caracteristi
 INSERT INTO habitacion(id, vivienda_id, tipo_habitacion, num_camas, caracteristicas, foto) VALUES (6, 5, 1, null, 'Cocina nueva', 'https://i.blogs.es/1c5aea/planificacion-diseno-y-supervision-del-proyecto-eitan-cohen-studio-etn-creditos-de-imagenes-de-shay-epstein/450_1000.jpeg');
 INSERT INTO habitacion(id, vivienda_id, tipo_habitacion, num_camas, caracteristicas, foto) VALUES (7, 9, 3, null, 'Comedor moderno', 'https://cdn.portobellostreet.es/imagenes_muebles/Muebles-Comedor-vintage-Maze.jpg');
 
-INSERT INTO compra(id, cliente_id, vivienda_id, precio_final, estado, comentario) VALUES (1, 2, 1, 215.000, 0, null);
-INSERT INTO compra(id, cliente_id, vivienda_id, precio_final, estado, comentario) VALUES (2, 4, 3, 549.000, 1, 'No estoy de acuerdo con la oferta que ofrece');
-INSERT INTO compra(id, cliente_id, vivienda_id, precio_final, estado, comentario) VALUES (3, 3, 6, 195.960, 0, 'Muchas gracias');
-INSERT INTO compra(id, cliente_id, vivienda_id, precio_final, estado, comentario) VALUES (4, 2, 8, 260.800, 2, null);
+INSERT INTO compra(id, cliente_id, vivienda_id, precio_final, estado, comentario) VALUES (1, 2, 1, 215000, 2, null);
+INSERT INTO compra(id, cliente_id, vivienda_id, precio_final, estado, comentario) VALUES (2, 4, 2, 549000, 2, 'No estoy de acuerdo con la oferta que ofrece');
+INSERT INTO compra(id, cliente_id, vivienda_id, precio_final, estado, comentario) VALUES (3, 3, 6, 195960, 2, 'Muchas gracias');
+INSERT INTO compra(id, cliente_id, vivienda_id, precio_final, estado, comentario) VALUES (4, 2, 8, 260800, 2, null);
 
 INSERT INTO visita(id, cliente_id, vivienda_id, fecha, lugar) VALUES (1, 2, 1, '2019-10-23', 'Calle Juzgado, Sevilla');
 INSERT INTO visita(id, cliente_id, vivienda_id, fecha, lugar) VALUES (2, 2, 6, '2020-01-15', 'Cerro Amate');

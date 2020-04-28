@@ -52,10 +52,11 @@ public class VisitaController {
 		
 		Authentication x = SecurityContextHolder.getContext().getAuthentication();
 		List<Cliente> clientes = clienteService.findClienteByUsername(((User)x.getPrincipal()).getUsername());		
-		Optional<Vivienda> v = viviendaService.findViviendaById(vivId);
+
+		Vivienda v = viviendaService.findViviendaById(vivId).orElse(null);
 		
-		if(v.isPresent() && clientes.size() == 1) {
-			visita.setVivienda(v.get());
+		if( clientes.size() == 1) {
+			visita.setVivienda(v);
 			visita.setCliente(clientes.get(0));
 			model.addAttribute("visita", visita);
 		}else {

@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class ClienteService {
 
+	
 	private ClienteRepository crep;
 	
+
 	@Autowired
 	public ClienteService(ClienteRepository clienteR) {
 		this.crep = clienteR;
@@ -26,5 +28,5 @@ public class ClienteService {
 	}
 	
 	//Alba-Alejandro
-	
+
 }

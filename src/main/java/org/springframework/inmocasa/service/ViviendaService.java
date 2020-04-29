@@ -74,6 +74,27 @@ public class ViviendaService {
 		res.removeAll(vr.getViviendasCompradas());
 		return res;
 	}
+	
+	public Collection<Vivienda> findViviendaByZona(String zona) {
+		Collection<Vivienda> res = vr.findViviendaByZona(zona);
+		res.removeAll(vr.getViviendasCompradas());
+		return res;
+	}
+	
+	public Collection<Vivienda> findViviendaByNumHabitacion(Integer num) {
+		Collection<Vivienda> vivs = vr.findAllNewest();
+		Collection<Vivienda> res = new ArrayList<Vivienda>();
+		for(Vivienda v : vivs) {
+			Integer vivId = v.getId();
+			//Collection<Habitacion> habitaciones = vr.findHabitacionesByVivienda(vivId);
+			Integer numHabitaciones = vr.findNumHabitacionesByVivienda(vivId);
+			if(numHabitaciones == num) {
+				res.add(v);
+			}
+		}
+		res.removeAll(vr.getViviendasCompradas());
+		return res;
+	}
 
 	public Collection<Vivienda> getCompradas() {
 		return vr.getViviendasCompradas();
@@ -101,5 +122,7 @@ public class ViviendaService {
 			this.save(vivienda);
 		}
 	}
+
+	
 
 }

@@ -3,7 +3,6 @@ package org.springframework.inmocasa.web;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -127,8 +126,9 @@ public class ViviendaController {
 	// Alvaro-MiguelEmmanuel
 	@GetMapping(value = { "/allNew" })
 	public String showListViviendas(ModelMap model, @Nullable @RequestParam("precioMin") String precioMin,
-			@Nullable @RequestParam("precioMax") String precioMax) {
-		if (precioMin == null && precioMax == null) {
+			@Nullable @RequestParam("precioMax") String precioMax, @Nullable @RequestParam("zona") String zona,
+			@Nullable @RequestParam("numhabitacion") String numHabitaciones) {
+		if (precioMin == null && precioMax == null && zona == null && numHabitaciones == null) {
 			Collection<Vivienda> vivs = viviendaService.findAllNewest();
 			model.put("viviendas", vivs);
 		} else if (precioMin != null && precioMax != null) {
@@ -140,6 +140,21 @@ public class ViviendaController {
 				model.addAttribute("error", "No se han encontrado viviendas en este rango de precio");
 			}
 			model.put("viviendas", viviendasPrecio);
+		} else if (zona != null) {
+			//Filtrar viviendas por zona
+			Collection<Vivienda> viviendasZona = viviendaService.findViviendaByZona(zona);
+			if (viviendasZona.isEmpty()) {
+				model.addAttribute("error", "No se han encontrado viviendas en esta zona");
+			}
+			model.put("viviendas", viviendasZona);
+			
+		} else if(numHabitaciones != null) {
+			Integer num = Integer.valueOf(numHabitaciones);
+			Collection<Vivienda> viviendasHabitacion = viviendaService.findViviendaByNumHabitacion(num);
+			if (viviendasHabitacion.isEmpty()) {
+				model.addAttribute("error", "No se han encontrado viviendas con este número de habitaciones");
+			}
+			model.put("viviendas", viviendasHabitacion);
 		}
 
 		return "viviendas/listNewViviendas";
@@ -208,6 +223,6 @@ public class ViviendaController {
 //			model.addAttribute("error", "No puede publicitar esta vivienda. Propietario incorrecto");
 //		}
 
-		return showListViviendas(model, null, null);
+		return showListViviendas(model, null, null, null, null);
 	}
 }

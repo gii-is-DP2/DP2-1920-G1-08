@@ -103,7 +103,7 @@
 	</sec:authorize>
 
 	<sec:authorize access="hasAnyAuthority('cliente')">
-		<spring:url value="/viviendas/{viviendaId}/denunciar"
+		<spring:url value="/denuncias/create/{viviendaId}"
 			var="denunciarVivienda">
 			<spring:param name="viviendaId" value="${vivienda.id}" />
 		</spring:url>

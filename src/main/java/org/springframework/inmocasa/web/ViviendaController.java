@@ -3,7 +3,6 @@ package org.springframework.inmocasa.web;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -35,7 +34,7 @@ public class ViviendaController {
 
 	@Autowired
 	private ViviendaService viviendaService;
-
+	
 	@Autowired
 	private PropietarioService propService;
 
@@ -163,20 +162,8 @@ public class ViviendaController {
 		return misViviendas(modelMap);
 	}
 	
-	
 	// Alba-Alejandro
-	@GetMapping(value = "/{viviendaId}/denunciar")
-	public String denunciarVivienda(@PathVariable("viviendaId") int viviendaId, ModelMap model) {
-		Vivienda viviendas = this.viviendaService.ViviendaById(viviendaId);
-		viviendas.setDenunciado(true);
-		viviendaService.save(viviendas);
-		model.addAttribute("viviendas", viviendas);
-		model.addAttribute("message", "La vivienda ha sido denunciada correctamente");
-
-
-		return showListViviendas(model, null, null);
-
-	}
+	
 
 	@GetMapping(value = "/delete/{viviendaId}")
 	public String borrarVivienda(@PathVariable("viviendaId") int viviendaId, ModelMap model) {

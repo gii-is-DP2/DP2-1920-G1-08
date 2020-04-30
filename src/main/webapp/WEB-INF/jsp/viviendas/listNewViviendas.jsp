@@ -77,19 +77,12 @@
 		}
 	</script>
 
-	<sec:authorize access="hasAnyAuthority('cliente')">
+	<sec:authorize access="hasAnyAuthority('propietario')">
 		<spring:url value="/viviendas/new" var="crearUrl">
 		</spring:url>
 		<a href="${fn:escapeXml(crearUrl)}" class="btn btn-primary"
 			role="button">Crear Vivienda</a>
 	</sec:authorize>
-
-
-	<sec:authorize access="hasAnyAuthority('propietario')">
-      <spring:url value="/viviendas/new" var="crearUrl">
-                    </spring:url>
-                    <a href="${fn:escapeXml(crearUrl)}" class="btn btn-primary" role="button"  >Crear Vivienda</a>
-                   	</sec:authorize>
                    
 
 	<c:forEach items="${viviendas}" var="viv">

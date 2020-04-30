@@ -74,7 +74,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/viviendas/allNew").permitAll()
 				.antMatchers("/viviendas/ofertadas").permitAll()
 				.antMatchers("/viviendas/{viviendaId}").permitAll()
-				.antMatchers("/viviendas/{viviendaId}/denunciar").hasAnyAuthority("cliente")
 				.antMatchers("/viviendas/new").hasAnyAuthority("propietario")
 				.antMatchers("/viviendas/save").hasAnyAuthority("propietario")
 				.antMatchers("/visita/**").hasAnyAuthority("cliente","admin")
@@ -84,6 +83,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/compras/**").permitAll()
 				.antMatchers("/owners/**").hasAnyAuthority("owner","admin")				
 				
+				.antMatchers("/denuncias/create/**").hasAnyAuthority("cliente")
+				.antMatchers("/denuncias/save/**").hasAnyAuthority("cliente")
+
+
 				.antMatchers("/usuario/misVisitas").hasAuthority("cliente")
 				.antMatchers("/valoracion/**").permitAll()
 				.antMatchers("/visita/valoracion/**").hasRole("cliente")

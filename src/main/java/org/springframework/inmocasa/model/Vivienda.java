@@ -28,6 +28,7 @@ public class Vivienda extends BaseEntity{
 	@NotNull
 	private String titulo;
 
+	private Boolean denunciado;
 	
 	@NotNull
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
@@ -54,8 +55,6 @@ public class Vivienda extends BaseEntity{
 	private String caracteristicas;
 
 	private String equipamiento;
-
-	private Boolean denunciado;
 	
 	@Column(name = "comentario")
     private String comentario;

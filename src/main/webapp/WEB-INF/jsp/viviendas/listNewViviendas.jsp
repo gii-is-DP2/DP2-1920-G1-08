@@ -59,12 +59,12 @@
 		<div class="slidecontainer">
 			<h3>Precio</h3>
 			<input type="range" class="slider" id="precioMin" name="precioMin"
-				value="50" min="0" max="2000" onchange="filtroPrecios.submit()">
+				value="${precioMin}" min="0" max="2000" onchange="filtroPrecios.submit()">
 			<p>
 				Precio Minimo: <span id="valueMin"></span>
 			</p>
 			<input type="range" class="slider" id="precioMax" name="precioMax"
-				value="1000" min="0" max="2000" onchange="filtroPrecios.submit()"/>
+				value="${precioMax}" min="0" max="2000" onchange="filtroPrecios.submit()"/>
 			<p>
 				Precio Maximo: <span id="valueMax"></span>
 			</p>
@@ -76,9 +76,9 @@
 		<div class="filtroZona">
 		<h3>Zona</h3>
 		<select class="select" id="zona" name="zona" onchange="filtroZonas.submit()">
-			<option></option>
-			<c:forEach items="${viviendas}" var="viv">
-				<option value="${viv.zona}"><c:out value="${viv.zona}"/></option>
+			<option>Selecciona su zona:</option>
+			<c:forEach items="${zonas}" var="zona">
+				<option value="${zona}"><c:out value="${zona}"/></option>
 			</c:forEach>
 		</select>
 		</div>
@@ -88,7 +88,7 @@
 		<div class="filtroHabitacion">
 			<h3>Numero de habitaciones</h3>
 			<select class="select" id="numhabitacion" name="numhabitacion" onchange="filtroHabitaciones.submit()">
-				<option value=""></option>
+				<option value="">Seleccione el numero de habitaciones:</option>
 				<option value="1">1</option>
 				<option value="2">2</option>
 				<option value="3">3</option>

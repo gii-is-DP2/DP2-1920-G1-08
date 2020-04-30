@@ -81,6 +81,16 @@ public class ViviendaService {
 		return res;
 	}
 	
+	public Collection<String> findZonas() {
+		Collection<String> zonas = new ArrayList<String>();
+		Collection<Vivienda> viviendas = vr.findAllNewest();
+		viviendas.removeAll(vr.getViviendasCompradas());
+		for(Vivienda viv: viviendas) {
+			zonas.add(viv.getZona());
+		}
+		return zonas;
+	}
+	
 	public Collection<Vivienda> findViviendaByNumHabitacion(Integer num) {
 		Collection<Vivienda> vivs = vr.findAllNewest();
 		Collection<Vivienda> res = new ArrayList<Vivienda>();
@@ -122,6 +132,8 @@ public class ViviendaService {
 			this.save(vivienda);
 		}
 	}
+
+	
 
 	
 

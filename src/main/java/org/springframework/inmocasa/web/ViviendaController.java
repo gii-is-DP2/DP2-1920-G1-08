@@ -128,9 +128,18 @@ public class ViviendaController {
 	public String showListViviendas(ModelMap model, @Nullable @RequestParam("precioMin") String precioMin,
 			@Nullable @RequestParam("precioMax") String precioMax, @Nullable @RequestParam("zona") String zona,
 			@Nullable @RequestParam("numhabitacion") String numHabitaciones) {
+		model.put("precioMin", 50);
+		model.put("precioMax", 1000);
+		Collection<String> zonas = viviendaService.findZonas();
+		model.put("zonas", zonas);
 		if (precioMin == null && precioMax == null && zona == null && numHabitaciones == null) {
 			Collection<Vivienda> vivs = viviendaService.findAllNewest();
 			model.put("viviendas", vivs);
+//			model.put("precioMin", 50);
+//			model.put("precioMax", 1000);
+//			Collection<String> zonas = viviendaService.findZonas();
+//			model.put("zonas", zonas);
+//			model.put("numHabitaciones", null);
 		} else if (precioMin != null && precioMax != null) {
 			// Filtrar viviendas por precio
 			Integer min = Integer.valueOf(precioMin);
@@ -140,12 +149,17 @@ public class ViviendaController {
 				model.addAttribute("error", "No se han encontrado viviendas en este rango de precio");
 			}
 			model.put("viviendas", viviendasPrecio);
+			model.put("precioMin", precioMin);
+			model.put("precioMax", precioMax);
 		} else if (zona != null) {
 			//Filtrar viviendas por zona
 			Collection<Vivienda> viviendasZona = viviendaService.findViviendaByZona(zona);
+			//Collection<String> zonas = viviendaService.findZonas();
+			//model.put("zonas", zonas);
 			if (viviendasZona.isEmpty()) {
 				model.addAttribute("error", "No se han encontrado viviendas en esta zona");
 			}
+			
 			model.put("viviendas", viviendasZona);
 			
 		} else if(numHabitaciones != null) {
@@ -154,6 +168,7 @@ public class ViviendaController {
 			if (viviendasHabitacion.isEmpty()) {
 				model.addAttribute("error", "No se han encontrado viviendas con este número de habitaciones");
 			}
+//			model.put("numHabitaciones", numHabitaciones);
 			model.put("viviendas", viviendasHabitacion);
 		}
 

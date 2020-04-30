@@ -37,6 +37,9 @@ public interface ViviendaRepository extends JpaRepository<Vivienda, Integer> {
 	@Query("select v from Vivienda v where v.zona = ?1 order by fechaPublicacion desc")
 	public Collection<Vivienda> findViviendaByZona(String zona);
 	
+//	@Query("select zona from Vivienda")
+//	public Collection<String> findZonas();
+	
 	@Query("select h from Habitacion h where h.vivienda.id = ?1")
 	public Collection<Habitacion> findHabitacionesByVivienda(Integer vivId);
 	

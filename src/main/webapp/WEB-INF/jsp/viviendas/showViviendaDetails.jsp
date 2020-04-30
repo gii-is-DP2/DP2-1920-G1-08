@@ -24,7 +24,7 @@
 		<br />
 	</sec:authorize>
 
-	<sec:authorize access="hasAnyAuthority('admin, propietario')">
+	<sec:authorize access="hasAnyAuthority('admin')">
 		<spring:url value="/viviendas/delete/{viviendaId}" var="deleteUrl">
 			<spring:param name="viviendaId" value="${vivienda.id}" />
 		</spring:url>

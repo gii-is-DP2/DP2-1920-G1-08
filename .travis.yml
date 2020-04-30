@@ -7,7 +7,3 @@ notifications:
     on_success: never
     on_failure: always
 script: mvn test -Dspring-boot.run.profiles=mysql-travis
-branches:
-  only:
-  - master
-  - develop

@@ -136,7 +136,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	      .dataSource(dataSource)
 	      .usersByUsernameQuery(
-	      "select username,password,true from (select username,password,true from propietario union select username,password,true from cliente) where username =?")
+	      "select username,password,true from usuario where username =?")
 	    		  .authoritiesByUsernameQuery(
 	       "select username, authority "
 	        + "from authorities "

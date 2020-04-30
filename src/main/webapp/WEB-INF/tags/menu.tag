@@ -49,7 +49,7 @@
 							<span class="sr-only">Toggle Dropdown</span>
 						</button>
 						<div class="dropdown-menu">
-							<a class="dropdown-item" href="#">Mi perfil</a> 
+							<a class="dropdown-item" href="/usuario/miPerfil">Mi perfil</a> 
 							<sec:authorize access="hasAnyAuthority('cliente')">
 							<a class="dropdown-item" href="#">Mis favoritos</a> 
 							<a class="dropdown-item" href="/usuario/misVisitas">Mis visitas</a>

@@ -3,30 +3,30 @@ package org.springframework.inmocasa.web;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.inmocasa.model.Cliente;
-
 import org.springframework.inmocasa.model.Propietario;
+import org.springframework.inmocasa.model.Usuario;
 import org.springframework.inmocasa.model.Visita;
 import org.springframework.inmocasa.service.ClienteService;
+import org.springframework.inmocasa.service.PropietarioService;
+import org.springframework.inmocasa.service.UsuarioService;
 import org.springframework.inmocasa.service.VisitaService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import java.util.Map;
-
-import javax.validation.Valid;
-
-
-import org.springframework.inmocasa.service.PropietarioService;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 
 @RequestMapping(value="usuario")
@@ -36,14 +36,17 @@ public class UsuarioController {
 	VisitaService visitaService;
 	ClienteService clienteService;
     PropietarioService propietarioService;
+    UsuarioService usuarioService;
 	
 
 	@Autowired
-	public UsuarioController(VisitaService visitaService,ClienteService clienteService, PropietarioService clinicService) {
+	public UsuarioController(VisitaService visitaService,ClienteService clienteService, PropietarioService clinicService,
+								UsuarioService usuarioService) {
 		super();
 		this.visitaService = visitaService;
 		this.clienteService = clienteService;
 		this.propietarioService = clinicService;
+		this.usuarioService = usuarioService;
 
 	}
 
@@ -77,7 +80,7 @@ public class UsuarioController {
 
 	// Alvaro-MiguelEmmanuel
   
-  @GetMapping(value = { "/misVisitas" })
+	@GetMapping(value = { "/misVisitas" })
 	public String showListViviendas(ModelMap modelMap) {
 
 		User usuario = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -94,5 +97,33 @@ public class UsuarioController {
 	
 	//Alba-Alejandro
 	
+//  	@GetMapping(value = {"/miPerfil"})
+//  	public String showMyProfile(ModelMap model) {
+//  		
+//  		String view = "users/profile";
+//  		User usuario = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//  		Propietario prop = propietarioService.findByUsername(usuario.getUsername());
+//  		if(prop != null) {
+//  			model.addAttribute("propietario", prop);
+//  		}
+//  		
+//  		model.put("user", usuario);
+//  		return view;
+//  		
+//  	}
+  	@GetMapping(value= {"/miPerfil"})
+  	public ModelAndView showMyProfile() {
+  		ModelAndView res = new ModelAndView("users/profile");
+  		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+  		Usuario usuario = usuarioService.findUsuarioByUsername(user.getUsername());
+		Propietario prop = propietarioService.findByUsername(user.getUsername());
+		if(prop != null) {
+			res.addObject("propietario", prop);
+		}
+		
+		res.addObject("user", usuario);
+		return res;
+  	}
+  	
 
 }

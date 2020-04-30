@@ -75,7 +75,7 @@
 								class="dropdown-item" href="#">Mis favoritos</a> <a
 								class="dropdown-item" href="/usuario/misVisitas">Mis visitas</a>
 							<sec:authorize access="hasAnyAuthority('admin')">
-								<a class="dropdown-item" href="/dashboard">Estadísticas</a>
+								<a class="dropdown-item" href="/dashboard">EstadÃ­sticas</a>
 							</sec:authorize>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" href="<c:url value="/logout" />">Logout</a>

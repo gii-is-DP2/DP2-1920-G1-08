@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.inmocasa.model.Habitacion;
 import org.springframework.inmocasa.model.Vivienda;
 
@@ -30,8 +31,7 @@ public interface ViviendaRepository extends JpaRepository<Vivienda, Integer> {
 	@Query("select h from Habitacion h where h.vivienda.id = ?1")
 	public Collection<Habitacion> getHabitacionesVivienda(Integer viviendaId);
 
-//	@Query("select v from Vivienda v where v.precio between ?1 and ?2")
-//	public Collection<Vivienda> findViviendaByPrecio(Integer preciomin, Integer preciomax);
-	
+	@Query("select v from Vivienda v where v.precio between :min and :max")
+	public Collection<Vivienda> findViviendaByPrecio(@Param("min") Integer min, @Param("max") Integer max);	
 	
 }

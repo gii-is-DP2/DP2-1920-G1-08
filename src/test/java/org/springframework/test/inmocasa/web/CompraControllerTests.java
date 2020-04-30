@@ -24,6 +24,7 @@ import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.model.Vivienda;
 import org.springframework.inmocasa.model.enums.Estado;
 import org.springframework.inmocasa.model.enums.Genero;
+import org.springframework.inmocasa.service.ClienteService;
 import org.springframework.inmocasa.service.CompraService;
 import org.springframework.inmocasa.service.PropietarioService;
 import org.springframework.inmocasa.service.ViviendaService;
@@ -54,6 +55,9 @@ class CompraControllerTests {
 
 	@MockBean
 	private CompraService compraService;
+	
+	@MockBean
+	private ClienteService clienteService;
 
 	private Vivienda vivienda;
 
@@ -67,6 +71,7 @@ class CompraControllerTests {
 	@BeforeEach
 	void setup() {
 		vivienda = new Vivienda();
+		vivienda.setTitulo("Hola");
 		vivienda.setId(TEST_VIVIENDA_ID_1);
 		vivienda.setTitulo("Piso en venta en ocho de marzo s/n");
 		vivienda.setDireccion("Calle Ocho de Marzo s/n");
@@ -78,6 +83,7 @@ class CompraControllerTests {
 		vivienda.setHorarioVisita("Martes de 9:00 a 13:00");
 
 		vivienda2 = new Vivienda();
+		vivienda2.setTitulo("Hola");
 		vivienda2.setId(TEST_VIVIENDA_ID_2);
 		vivienda2.setTitulo("Piso en venta en ocho de marzo s/n");
 		vivienda2.setDireccion("Calle Ocho de Marzo s/n");

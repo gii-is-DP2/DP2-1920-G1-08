@@ -6,10 +6,4 @@ notifications:
     - alvestcas@alum.us.es
     on_success: never
     on_failure: always
-script:
-  - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-  - mvn test -B
-branches:
-  only:
-  - master
-  - develop
+script: mvn test -Dspring-boot.run.profiles=mysql-travis

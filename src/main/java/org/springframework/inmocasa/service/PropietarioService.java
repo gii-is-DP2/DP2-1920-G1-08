@@ -8,6 +8,9 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.inmocasa.model.Cliente;
+
+import javax.transaction.Transactional;
+
 import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.model.enums.Genero;
 import org.springframework.inmocasa.repository.ClienteRepository;
@@ -42,14 +45,11 @@ public class PropietarioService {
 	}
 
 	public void savePropietario(@Valid Propietario propietario) {
-
 		propietarioRepository.save(propietario);
 
 		authoritiesService.saveAuthorities(propietario.getUsername(), "propietario");
 
 	}
-
-	
 
 	public Collection<Propietario> findAll() {
 		return propietarioRepository.findAll();

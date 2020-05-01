@@ -75,4 +75,11 @@
 		
 	</table>
 	
+	
+	<spring:url value="/usuario/delete/{usuarioId}" var="deleteAllUrl">
+			<spring:param name="usuarioId" value="${user.id}" />
+	</spring:url>
+	<a href="${fn:escapeXml(deleteAllUrl)}" class="btn btn-primary">
+		Borrar todos mis datos de la página</a>
+	
 </petclinic:layout>

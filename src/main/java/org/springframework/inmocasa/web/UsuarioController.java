@@ -12,18 +12,21 @@ import org.springframework.inmocasa.model.Cliente;
 import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.model.Usuario;
 import org.springframework.inmocasa.model.Visita;
+import org.springframework.inmocasa.repository.UsuarioRepository;
 import org.springframework.inmocasa.service.ClienteService;
 import org.springframework.inmocasa.service.PropietarioService;
 import org.springframework.inmocasa.service.UsuarioService;
 import org.springframework.inmocasa.service.VisitaService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -123,6 +126,19 @@ public class UsuarioController {
 		
 		res.addObject("user", usuario);
 		return res;
+  	}
+  	
+  	@GetMapping(value="/delete/{usuarioId}")
+  	public String borrarUsuarioCompleto(@PathVariable("usuarioId") int userId, ModelMap model) {
+  		Usuario usuario = usuarioService.findUsuarioById(userId);
+  		UserDetails userPrincipalDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String username = userPrincipalDetails.getUsername();
+		Usuario userPrincipal = usuarioService.findUsuarioByUsername(username);
+		if(userPrincipal == usuario) {
+			usuarioService.delete(usuario);
+		}
+	
+		return "redirect:/";
   	}
   	
 

@@ -26,6 +26,8 @@ INSERT INTO AUTHORITIES(username, authority) VALUES ('gomez7', 'cliente');
 INSERT INTO AUTHORITIES(username, authority) VALUES ('rodrigo', 'cliente');
 INSERT INTO AUTHORITIES(username, authority) VALUES ('inversionesreina', 'propietario');
 
+INSERT INTO usuario(id, dtype, dni, nombre, apellidos, genero, telefono, fecha_nacimiento, email, username, password, favoritos) VALUES (13, 'Administrador', '65683746R', 'Administrador', null, 3, '654789958', '1991-09-18', 'admin@admin.com', 'admin', 'admin', null);
+
 INSERT INTO usuario(id, dtype, dni, nombre, apellidos, genero, telefono, fecha_nacimiento, email, username, password, es_inmobiliaria, inmobiliaria, CIF) VALUES (1, 'Propietario', '29537424L', 'Maria', 'Sanchez', 3, '916353741', '2010-05-08', 'maria@gilmarcentro.com', 'gilmar', 'gilmar', 1, 'Gilmar Centro', 'D98828643');
 INSERT INTO usuario(id, dtype, dni, nombre, apellidos, genero, telefono, fecha_nacimiento, email, username, password, es_inmobiliaria, inmobiliaria, CIF) VALUES (2, 'Propietario', '90422933C', 'Silvia', 'Hernandez Mora', 1, '689544723', '1988-10-10', 'silvia@inmocasa.com', 'inmocasa', 'inmocasa', 1, 'Inmocasa', 'H92374206');
 INSERT INTO usuario(id, dtype, dni, nombre, apellidos, genero, telefono, fecha_nacimiento, email, username, password, es_inmobiliaria, inmobiliaria, CIF) VALUES (3, 'Propietario', '43724217K', 'Vicente', 'Camacho', 0, '698854780', '1965-06-11', 'vicente@housin.com', 'housininmo', 'housininmo', 1, 'Housin', 'Q5021330E');
@@ -39,7 +41,6 @@ INSERT INTO usuario(id, dtype, dni, nombre, apellidos, genero, telefono, fecha_n
 INSERT INTO usuario(id, dtype, dni, nombre, apellidos, genero, telefono, fecha_nacimiento, email, username, password, favoritos) VALUES (10, 'Cliente', '22781434A', 'Alonso', 'Soler', 2, '925448965', '1976-01-04', 'alonso@gmail.com', 'alonso7', 'alonso7', '2, 6');
 INSERT INTO usuario(id, dtype, dni, nombre, apellidos, genero, telefono, fecha_nacimiento, email, username, password, favoritos) VALUES (11, 'Cliente', '25421224Z', 'Alejandra', null, 1, '965482301', '1999-07-25', 'ale@gmail.com', 'alejandra', 'alejandra', '8');
 INSERT INTO usuario(id, dtype, dni, nombre, apellidos, genero, telefono, fecha_nacimiento, email, username, password, favoritos) VALUES (12, 'Cliente', '68618216Q', 'Andres', 'Gomez', 2, '987452362', '1956-09-10', 'gomez@gmail.com', 'gomez7', 'gomez7', null);
-INSERT INTO usuario(id, dtype, dni, nombre, apellidos, genero, telefono, fecha_nacimiento, email, username, password, favoritos) VALUES (13, 'Cliente', '65683746R', 'Administrador', null, 3, '654789958', '1991-09-18', 'admin@admin.com', 'admin', 'admin', null);
 
 INSERT INTO vivienda(id, propietario_id, titulo, fecha_publicacion, direccion, zona, precio, dimensiones, amueblado, planta ,foto, caracteristicas, equipamiento, publicitado, horario_visita) VALUES (1, 1, 'Vivienda en San Julian', '2010-05-08', 'Calle Juzgado, Barrio San Julián, Sevilla', 'Centro', 215.000, 72, true, 'Primera planta', 'https://st3.idealista.com/news/archivos/styles/news_detail/public/2018-01/consejos_publicacion_foto_3.jpg', 'La entrada a la vivienda se encuentra en la planta primera del edificio (Sin ascensor). En la planta baja del piso se encuentra la cocina, el salón, una habitación con armario empotrado y un cuarto de baño completo con bañera.', 'Aire acondicionado', true, 'Martes 8:00-13:00');
 INSERT INTO vivienda(id, propietario_id, titulo, fecha_publicacion, direccion, zona, precio, dimensiones, amueblado, planta ,foto, caracteristicas, equipamiento, publicitado, horario_visita) VALUES (2, 1, 'Vivienda grande', '2015-09-18', 'Avenida Buhaira, 30, Sevilla', 'Nervion', 605.000, 151, true, 'Tercera planta', 'https://img3.idealista.com/blur/WEB_LISTING_TOP/90/id.pro.es.image.master/d5/7f/2a/733661786.jpg', 'Casa Forestier está situada al este del centro de Sevilla, en el moderno y lujoso distrito de Nervión. Céntrico pero tranquilo, y a un agradable paseo del centro histórico.', 'Garaje, Trastero', true, 'Martes 8:00-13:00');
@@ -66,5 +67,6 @@ INSERT INTO compra(id, cliente_id, vivienda_id, precio_final, estado, comentario
 
 INSERT INTO visita(id, cliente_id, vivienda_id, fecha, lugar) VALUES (1, 9, 1, '2019-10-23', 'Calle Juzgado, Sevilla');
 INSERT INTO visita(id, cliente_id, vivienda_id, fecha, lugar) VALUES (2, 9, 6, '2020-01-15', 'Cerro Amate');
+INSERT INTO visita(id, cliente_id, vivienda_id, fecha, lugar) VALUES (3, 9, 2, '2019-03-26', 'Avenida Buhaira, Nervion, Sevilla'); 
 
 INSERT INTO valoracion(id, visita_id, puntuacion, comentario) VALUES (1, 1, 4, 'Me ha gustado mucho');

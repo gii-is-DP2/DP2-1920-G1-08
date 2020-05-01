@@ -8,8 +8,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.inmocasa.model.Habitacion;
 import org.springframework.inmocasa.model.Propietario;
+import org.springframework.inmocasa.model.Visita;
 import org.springframework.inmocasa.model.Vivienda;
 import org.springframework.inmocasa.repository.HabitacionRepository;
+import org.springframework.inmocasa.repository.VisitaRepository;
 import org.springframework.inmocasa.repository.ViviendaRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,13 +24,16 @@ public class ViviendaService {
 	ViviendaRepository vr;
 	HabitacionRepository hr;
 	PropietarioService pr;
+	VisitaRepository visitaRepository;
 
 	@Autowired
-	public ViviendaService(ViviendaRepository vr, HabitacionRepository hr, PropietarioService pr) {
+	public ViviendaService(ViviendaRepository vr, HabitacionRepository hr, PropietarioService pr,
+							VisitaRepository visitaRepository) {
 		super();
 		this.vr = vr;
 		this.hr = hr;
 		this.pr = pr;
+		this.visitaRepository = visitaRepository;
 	}
 
 	// Santi-Alvaro
@@ -67,6 +72,14 @@ public class ViviendaService {
 		Collection<Vivienda> res = vr.findAllNewest();
 		res.removeAll(vr.getViviendasCompradas());
 		return res;
+	}
+	
+	public Integer precioMinViviendas() {
+		return vr.precioMinViviendas();
+	}
+	
+	public Integer precioMaxViviendas() {
+		return vr.precioMaxViviendas();
 	}
 
 	public Collection<Vivienda> findViviendaByPrecio(Integer precioMin, Integer precioMax) {
@@ -117,6 +130,11 @@ public class ViviendaService {
 			habitaciones = vr.getHabitacionesVivienda(vivienda.getId());
 			if (habitaciones != null) {
 				hr.deleteAll(habitaciones);
+			}
+			Collection<Visita> visitas;
+			visitas = visitaRepository.findVisitasByVivienda(vivienda.getId());
+			if(visitas != null) {
+				visitaRepository.deleteAll(visitas);
 			}
 			vr.delete(vivienda);
 		}

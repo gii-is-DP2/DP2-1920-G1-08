@@ -7,10 +7,12 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.inmocasa.model.Administrador;
 import org.springframework.inmocasa.model.Compra;
 import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.model.Vivienda;
 import org.springframework.inmocasa.model.enums.Estado;
+import org.springframework.inmocasa.service.AdministradorService;
 import org.springframework.inmocasa.service.CompraService;
 import org.springframework.inmocasa.service.PropietarioService;
 import org.springframework.inmocasa.service.ViviendaService;
@@ -40,6 +42,9 @@ public class ViviendaController {
 
 	@Autowired
 	private CompraService compraService;
+	
+	@Autowired
+	private AdministradorService adminService;
 
 	// Santi-Alvaro
 
@@ -128,8 +133,8 @@ public class ViviendaController {
 	public String showListViviendas(ModelMap model, @Nullable @RequestParam("precioMin") String precioMin,
 			@Nullable @RequestParam("precioMax") String precioMax, @Nullable @RequestParam("zona") String zona,
 			@Nullable @RequestParam("numhabitacion") String numHabitaciones) {
-		model.put("precioMin", 50);
-		model.put("precioMax", 1000);
+		model.put("precioMin", viviendaService.precioMinViviendas());
+		model.put("precioMax", viviendaService.precioMaxViviendas());
 		Collection<String> zonas = viviendaService.findZonas();
 		model.put("zonas", zonas);
 		if (precioMin == null && precioMax == null && zona == null && numHabitaciones == null) {
@@ -219,7 +224,16 @@ public class ViviendaController {
 	@GetMapping(value = "/delete/{viviendaId}")
 	public String borrarVivienda(@PathVariable("viviendaId") int viviendaId, ModelMap model) {
 		Vivienda vivienda = viviendaService.findViviendaId(viviendaId);
-		viviendaService.delete(vivienda);
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
+		Propietario propietario = propService.findByUsername(userPrincipal.getUsername());
+		Administrador admin = adminService.findAdministradorByUsername(userPrincipal.getUsername());
+		if(vivienda.getPropietario() == propietario) {
+			viviendaService.delete(vivienda);
+		} else if(admin != null) {
+			viviendaService.delete(vivienda);
+		}
+		
 
 		return "redirect:/viviendas/allNew";
 	}

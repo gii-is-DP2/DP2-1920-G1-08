@@ -31,7 +31,17 @@
 		<a href="${fn:escapeXml(deleteUrl)}" class="btn btn-primary">Borrar
 			vivienda</a>
 	</sec:authorize>
-
+	
+	<sec:authorize access="hasAnyAuthority('propietario')">
+		<c:if test="${vivienda.propietario == propietario}">
+		<spring:url value="/viviendas/delete/{viviendaId}" var="deleteUrl">
+			<spring:param name="viviendaId" value="${vivienda.id}" />
+		</spring:url>
+		<a href="${fn:escapeXml(deleteUrl)}" class="btn btn-primary">Borrar
+			vivienda</a>
+		</c:if>
+	</sec:authorize>
+	
 	<sec:authorize access="hasAnyAuthority('cliente')">
 		<spring:url value="/visita/vivienda/{viviendaId}/new"
 			var="createVivUrl">

@@ -11,8 +11,18 @@
 <petclinic:layout pageName="viviendas">
 
 	<style>
+	
+.filtros {
+	/* display: inline; */
+}
+	
+.filtroZona {
+	 
+}	
+	
 .slidecontainer {
-	width: 25%
+	/* float: left; */
+	width: 25%;
 }
 
 .slider {
@@ -43,24 +53,55 @@
 }
 </style>
 
-	<form>
+	<div class="filtros">
+
+	<form id="filtroPrecios">
 		<div class="slidecontainer">
 			<h3>Precio</h3>
-			<!-- <input type="text" id="precioMin" name="precioMin" required>
-		<input type="text" id="precioMax" name="precioMax" required> -->
 			<input type="range" class="slider" id="precioMin" name="precioMin"
-				value="50" min="0" max="2000">
+				value="${precioMin}" min="0" max="2000" onchange="filtroPrecios.submit()">
 			<p>
 				Precio Minimo: <span id="valueMin"></span>
 			</p>
 			<input type="range" class="slider" id="precioMax" name="precioMax"
-				value="1000" min="0" max="2000" />
+				value="${precioMax}" min="0" max="2000" onchange="filtroPrecios.submit()"/>
 			<p>
 				Precio Maximo: <span id="valueMax"></span>
 			</p>
-			<input type="submit" value="Buscar">
 		</div>
 	</form>
+	
+	
+	<form id="filtroZonas">
+		<div class="filtroZona">
+		<h3>Zona</h3>
+		<select class="select" id="zona" name="zona" onchange="filtroZonas.submit()">
+			<option>Selecciona su zona:</option>
+			<c:forEach items="${zonas}" var="zona">
+				<option value="${zona}"><c:out value="${zona}"/></option>
+			</c:forEach>
+		</select>
+		</div>
+	</form>
+	
+	<form id="filtroHabitaciones">
+		<div class="filtroHabitacion">
+			<h3>Numero de habitaciones</h3>
+			<select class="select" id="numhabitacion" name="numhabitacion" onchange="filtroHabitaciones.submit()">
+				<option value="">Seleccione el numero de habitaciones:</option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+			</select>
+		</div>
+	</form>
+	
+	</div>
+	<br>
+	<br>
+	
+	<!-- Scripts para los filtros -->
 	<script>
 		var sliderMin = document.getElementById("precioMin");
 		var sliderMax = document.getElementById("precioMax");
@@ -74,7 +115,19 @@
 		sliderMax.oninput = function() {
 			outputMax.innerHTML = this.value;
 		}
-	</script>
+		
+		var seen = {};
+		jQuery('.select').children().each(function() {
+		    var txt = jQuery(this).attr('value');
+		    if (seen[txt]) {
+		        jQuery(this).remove();
+		    } else {
+		        seen[txt] = true;
+		    }
+		});
+		
+		
+	</script> 
 
 	<sec:authorize access="hasAnyAuthority('cliente')">
 		<spring:url value="/viviendas/new" var="crearUrl">
@@ -105,7 +158,7 @@
 				<img src="${viv.foto}"
 					style="margin-left: auto; margin-right: auto; display: block;" />
 				<p>
-					Fecha de publicación:
+					Fecha de publicacion:
 					<c:out value="${viv.fechaPublicacion}" />
 				</p>
 
@@ -133,6 +186,5 @@
 		</div>
 
 	</c:forEach>
-<<<<<<< HEAD
 
 </petclinic:layout>

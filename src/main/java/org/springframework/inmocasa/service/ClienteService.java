@@ -39,6 +39,12 @@ public class ClienteService {
 	public Cliente findClienteByClienteUsername(String username) {
 		return crep.findByClienteUsername(username);
 	}
+	
+	public Cliente findClienteById(Integer id) {
+		return crep.findClienteById(id);
+	}
+	
+	
 
 	public void saveCliente(@Valid Cliente cliente) {
 

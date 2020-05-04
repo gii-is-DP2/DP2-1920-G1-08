@@ -15,6 +15,9 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer>{
 	@Query("select c from Cliente c where c.username = ?1")
 	public Cliente findByClienteUsername(String username);
 	
+	@Query("select c from Cliente c where c.id = ?1")
+	public Cliente findClienteById(Integer clienteId);
+	
 	
 	//Alvaro-MiguelEmmanuel
 	@Query("select c from Cliente c where username = ?1")

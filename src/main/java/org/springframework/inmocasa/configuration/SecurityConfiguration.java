@@ -64,6 +64,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/cliente/**").hasAnyAuthority("cliente","admin")
 			
 				.antMatchers("/clientes/new").permitAll()
+				.antMatchers("/clientes/miPerfil").permitAll()
+				.antMatchers("/clientes/{clienteId}/edit").permitAll()
+				.antMatchers("/clientes/{clienteId}/save").permitAll()
 				.antMatchers("/clientes/save").permitAll()
 				.antMatchers("/dashboard").hasAnyAuthority("admin")
 				.antMatchers("/resources/**", "/webjars/**", "/h2-console/**").permitAll()

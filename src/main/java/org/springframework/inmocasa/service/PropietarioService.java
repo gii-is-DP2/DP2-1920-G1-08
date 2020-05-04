@@ -43,6 +43,10 @@ public class PropietarioService {
 	public Propietario findByUsername(String username) {
 		return propietarioRepository.findByUsername(username);
 	}
+	
+	public Propietario findPropietarioById(Integer id) {
+		return propietarioRepository.findPropietarioById(id);
+	}
 
 	public void savePropietario(@Valid Propietario propietario) {
 		propietarioRepository.save(propietario);

@@ -11,13 +11,15 @@ public interface PropietarioRepository extends JpaRepository<Propietario, Intege
 	// Santi-Alvaro
 	@Query("select p from Propietario p where p.username = ?1")
 	public List<Propietario> findPropietarioByUsername(String username);
-	
-	
+
+	@Query("select p from Propietario p where p.id = ?1")
+	public Propietario findPropietarioById(Integer propietarioId);
+
 	// Alvaro-MiguelEmmanuel
 
 	@Query("select p from Propietario p where p.username = ?1")
 	public Propietario findByUsername(String username);
-		
-		//Alba-Alejandro
-		
+
+	// Alba-Alejandro
+
 }

@@ -136,6 +136,7 @@ public class UsuarioController {
 		Usuario userPrincipal = usuarioService.findUsuarioByUsername(username);
 		if(userPrincipal == usuario) {
 			usuarioService.delete(usuario);
+			return "redirect:/logout";
 		}
 	
 		return "redirect:/";

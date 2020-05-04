@@ -31,16 +31,22 @@ public class PaymentController {
 	public static final String PAYPAL_SUCCESS_URL = "pay/success";
 	public static final String PAYPAL_CANCEL_URL = "pay/cancel";
 	
+	public Integer idVivienda = null;
+	
 	private Logger log = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
 	private PaypalService paypalService;
 	
+	@Autowired
+	private ViviendaController viviendaController;
+	
 	@PostMapping("pay/{viviendaId}")
 	public String pay(HttpServletRequest request, @PathVariable("viviendaId") int viviendaId, ModelMap model){
 		String cancelUrl = URLUtils.getBaseURl(request) + "/" + PAYPAL_CANCEL_URL;
 		String successUrl = URLUtils.getBaseURl(request) + "/" + PAYPAL_SUCCESS_URL;
-		model.addAttribute("viviendaId", viviendaId);
+//		model.addAttribute("viviendaId", viviendaId);
+		idVivienda = viviendaId;
 		try {
 			Payment payment = paypalService.createPayment(
 					50, 
@@ -62,17 +68,16 @@ public class PaymentController {
 	}
 
 	@PostMapping(PAYPAL_CANCEL_URL)
-	public String cancelPay(){
-		return "redirect:/";
+	public String cancelPay(ModelMap model){
+		return "redirect:/viviendas/"+idVivienda;
 	}
 
 	@GetMapping(PAYPAL_SUCCESS_URL)
-	public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId, Integer viviendaId, ModelMap model){
+	public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId, ModelMap model){
 		try {
 			Payment payment = paypalService.executePayment(paymentId, payerId);
 			if(payment.getState().equals("approved")){
-				viviendaId = (Integer) model.getAttribute("viviendaId");
-				return "viviendas/publicitar/"+viviendaId;
+				return viviendaController.publicitar(idVivienda, model);
 			}
 		} catch (PayPalRESTException e) {
 			log.error(e.getMessage());

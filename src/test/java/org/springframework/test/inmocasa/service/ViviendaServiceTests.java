@@ -24,17 +24,15 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes={InmocasaApplication.class})
+@ContextConfiguration(classes = { InmocasaApplication.class })
 public class ViviendaServiceTests {
 
 	@Autowired
 	protected ViviendaService viviendaService;
-	
-	//La vivienda se borra sin problemas
+
+	// HU-020: La vivienda se borra sin problemas
 	@Test
 	void shouldDeleteVivienda() {
-		Collection<Vivienda> todas = this.viviendaService.findAllNewest();
-		
 		Vivienda vivienda = new Vivienda();
 		vivienda.setId(1);
 		vivienda.setTitulo("Piso en venta en ocho de marzo s/n");
@@ -43,7 +41,7 @@ public class ViviendaServiceTests {
 		vivienda.setFechaPublicacion(LocalDate.of(2020, 01, 20));
 		vivienda.setPrecio(2260);
 		vivienda.setAmueblado(true);
-		
+
 		Propietario prop = new Propietario();
 		prop.setId(1);
 		prop.setNombre("John");
@@ -54,18 +52,17 @@ public class ViviendaServiceTests {
 		prop.setFechaNacimiento(LocalDate.of(1976, 6, 12));
 		prop.setUsername("john123");
 		prop.setPassword("john123");
-		
+
 		vivienda.setPropietario(prop);
-		
+
+		Collection<Vivienda> todas = this.viviendaService.findAllNewest();
 		this.viviendaService.delete(vivienda);
 		assertThat(!todas.contains(vivienda));
 	}
-	
-	//La vivienda no se borra porque está comprada
+
+	// HU-020: La vivienda no se borra porque está comprada
 	@Test
 	void shoudNotDeleteVivienda() {
-		Collection<Vivienda> todas = this.viviendaService.findAllNewest();
-		
 		Vivienda vivienda2 = new Vivienda();
 		vivienda2.setId(2);
 		vivienda2.setTitulo("Piso en venta en ocho de marzo s/n");
@@ -74,12 +71,12 @@ public class ViviendaServiceTests {
 		vivienda2.setFechaPublicacion(LocalDate.of(2020, 01, 20));
 		vivienda2.setPrecio(2260);
 		vivienda2.setAmueblado(true);
-		
+
 		Compra compra = new Compra();
 		compra.setVivienda(vivienda2);
 		compra.setEstado(Estado.ACEPTADO);
 		compra.setPrecioFinal(200);
-		
+
 		Propietario prop = new Propietario();
 		prop.setId(1);
 		prop.setNombre("John");
@@ -90,7 +87,7 @@ public class ViviendaServiceTests {
 		prop.setFechaNacimiento(LocalDate.of(1976, 6, 12));
 		prop.setUsername("john123");
 		prop.setPassword("john123");
-		
+
 		Cliente clie = new Cliente();
 		clie.setId(8);
 		clie.setNombre("John");
@@ -100,12 +97,13 @@ public class ViviendaServiceTests {
 		clie.setFechaNacimiento(LocalDate.of(1976, 6, 12));
 		clie.setUsername("john123");
 		clie.setPassword("john123");
-		
+
 		vivienda2.setPropietario(prop);
 		compra.setCliente(clie);
-		
+
+		Collection<Vivienda> todas = this.viviendaService.findAllNewest();
 		this.viviendaService.delete(vivienda2);
-		assertThat(todas.contains(vivienda2));		
+		assertThat(todas.contains(vivienda2));
 	}
-	
+
 }

@@ -26,7 +26,8 @@ INSERT INTO AUTHORITIES(username, authority) VALUES ('gomez7', 'cliente');
 INSERT INTO AUTHORITIES(username, authority) VALUES ('rodrigo', 'cliente');
 INSERT INTO AUTHORITIES(username, authority) VALUES ('inversionesreina', 'propietario');
 
-INSERT INTO usuario(id, dtype, dni, nombre, apellidos, genero, telefono, fecha_nacimiento, email, username, password, favoritos) VALUES (13, 'Administrador', '65683746R', 'Administrador', null, 3, '654789958', '1991-09-18', 'admin@admin.com', 'admin', 'admin', null);
+
+INSERT INTO usuario(id, dtype, dni, nombre, apellidos, genero, telefono, fecha_nacimiento, email, username, password) VALUES (13,'Administrador', '65683746R', 'Administrador', null, 3, '654789958', '1991-09-18', 'admin@admin.com', 'admin', 'admin');
 
 INSERT INTO usuario(id, dtype, dni, nombre, apellidos, genero, telefono, fecha_nacimiento, email, username, password, es_inmobiliaria, inmobiliaria, CIF) VALUES (1, 'Propietario', '29537424L', 'Maria', 'Sanchez', 3, '916353741', '2010-05-08', 'maria@gilmarcentro.com', 'gilmar', 'gilmar', 1, 'Gilmar Centro', 'D98828643');
 INSERT INTO usuario(id, dtype, dni, nombre, apellidos, genero, telefono, fecha_nacimiento, email, username, password, es_inmobiliaria, inmobiliaria, CIF) VALUES (2, 'Propietario', '90422933C', 'Silvia', 'Hernandez Mora', 1, '689544723', '1988-10-10', 'silvia@inmocasa.com', 'inmocasa', 'inmocasa', 1, 'Inmocasa', 'H92374206');
@@ -35,6 +36,7 @@ INSERT INTO usuario(id, dtype, dni, nombre, apellidos, genero, telefono, fecha_n
 INSERT INTO usuario(id, dtype, dni, nombre, apellidos, genero, telefono, fecha_nacimiento, email, username, password, es_inmobiliaria, inmobiliaria, CIF) VALUES (5, 'Propietario', '57430722K', 'Celia', 'Herrero', 1, '658996632', '1993-12-12', 'herrero@gmail.com', 'celiaherrero', 'celiaherrero', 0, null, null);
 INSERT INTO usuario(id, dtype, dni, nombre, apellidos, genero, telefono, fecha_nacimiento, email, username, password, es_inmobiliaria, inmobiliaria, CIF) VALUES (6, 'Propietario', '20239533Q', 'Julia', 'Torres Ortiz', 1, '698854123', '1987-10-11', 'julia@gmail.com', 'juliatorres', 'juliatorres', 0, null, null);
 INSERT INTO usuario(id, dtype, dni, nombre, apellidos, genero, telefono, fecha_nacimiento, email, username, password, es_inmobiliaria, inmobiliaria, CIF) VALUES (7, 'Propietario', '89501021V', 'David', 'Salcedo', 2, '660196547', '1964-04-17', 'davidsa@gmail.com', 'davidsa', 'davidsa', 0, null, null);
+
 
 INSERT INTO usuario(id, dtype, dni, nombre, apellidos, genero, telefono, fecha_nacimiento, email, username, password, favoritos) VALUES (8, 'Cliente', '58876764F', 'Rodrigo', 'Castillo Castro', 2, '632100259', '1987-12-08', 'rcc@gmail.com', 'rodrigo', 'rodrigo', null);
 INSERT INTO usuario(id, dtype, dni, nombre, apellidos, genero, telefono, fecha_nacimiento, email, username, password, favoritos) VALUES (9, 'Cliente', '12815770D', 'Bruno', 'Velasco Bravo', 0, '954899654', '1980-08-18', 'bravo@gmail.com', 'bravo9', 'bravo9', null);
@@ -60,6 +62,7 @@ INSERT INTO habitacion(id, vivienda_id, tipo_habitacion, num_camas, caracteristi
 INSERT INTO habitacion(id, vivienda_id, tipo_habitacion, num_camas, caracteristicas, foto) VALUES (6, 5, 1, null, 'Cocina nueva', 'https://i.blogs.es/1c5aea/planificacion-diseno-y-supervision-del-proyecto-eitan-cohen-studio-etn-creditos-de-imagenes-de-shay-epstein/450_1000.jpeg');
 INSERT INTO habitacion(id, vivienda_id, tipo_habitacion, num_camas, caracteristicas, foto) VALUES (7, 9, 3, null, 'Comedor moderno', 'https://cdn.portobellostreet.es/imagenes_muebles/Muebles-Comedor-vintage-Maze.jpg');
 
+
 INSERT INTO compra(id, cliente_id, vivienda_id, precio_final, estado, comentario) VALUES (1, 9, 1, 215.000, 0, null);
 INSERT INTO compra(id, cliente_id, vivienda_id, precio_final, estado, comentario) VALUES (2, 11, 3, 549.000, 1, 'No estoy de acuerdo con la oferta que ofrece');
 INSERT INTO compra(id, cliente_id, vivienda_id, precio_final, estado, comentario) VALUES (3, 10, 6, 195.960, 0, 'Muchas gracias');
@@ -68,5 +71,6 @@ INSERT INTO compra(id, cliente_id, vivienda_id, precio_final, estado, comentario
 INSERT INTO visita(id, cliente_id, vivienda_id, fecha, lugar) VALUES (1, 9, 1, '2019-10-23', 'Calle Juzgado, Sevilla');
 INSERT INTO visita(id, cliente_id, vivienda_id, fecha, lugar) VALUES (2, 9, 6, '2020-01-15', 'Cerro Amate');
 INSERT INTO visita(id, cliente_id, vivienda_id, fecha, lugar) VALUES (3, 9, 2, '2019-03-26', 'Avenida Buhaira, Nervion, Sevilla'); 
+
 
 INSERT INTO valoracion(id, visita_id, puntuacion, comentario) VALUES (1, 1, 4, 'Me ha gustado mucho');

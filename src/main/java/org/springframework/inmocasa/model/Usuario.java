@@ -42,7 +42,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-//@MappedSuperclass
 @Entity
 public class Usuario extends BaseEntity {
 

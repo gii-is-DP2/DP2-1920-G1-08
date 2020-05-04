@@ -111,7 +111,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/usuario/misVisitas").hasAuthority("cliente")
 				.antMatchers("/valoracion/**").permitAll()
 				.antMatchers("/visita/valoracion/**").hasRole("cliente")
-				
 				.anyRequest().denyAll()
 
 				.and()
@@ -149,7 +148,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	      .dataSource(dataSource)
 	      .usersByUsernameQuery(
-	      "select username,password,true from (select username,password,true from usuario) where username =?")
+	      "select username,password,true from usuario where username =?")
+
 	    		  .authoritiesByUsernameQuery(
 	       "select username, authority "
 	        + "from authorities "

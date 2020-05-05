@@ -80,7 +80,7 @@ public class ViviendaController {
 	}
 	
 
-	@PostMapping(path = "{viviendaId}/save")
+	@PostMapping(path = "/{viviendaId}/save")
 	private String processCreationForm(@Valid Vivienda vivienda, BindingResult res, ModelMap modelMap) {
 		if (res.hasErrors()) {
 			modelMap.addAttribute("vivienda", vivienda);

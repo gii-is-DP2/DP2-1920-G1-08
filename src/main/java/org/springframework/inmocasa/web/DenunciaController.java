@@ -39,7 +39,7 @@ public class DenunciaController {
 	@GetMapping(value = "/create/{viviendaId}")
 	public String create(@PathVariable("viviendaId") Integer viviendaId, ModelMap model) {
 		Denuncia denuncia = new Denuncia();
-		Vivienda vivienda = viviendaService.findViviendaById(viviendaId);
+		Vivienda vivienda = viviendaService.findViviendaById(viviendaId).orElse(null);
 
 		denuncia.setVivienda(vivienda);
 		model.put("denuncia", denuncia);
@@ -53,7 +53,7 @@ public class DenunciaController {
 			model.put("denuncia", denuncia);
 			return VIEWS_DENUNCIA;
 		} else {
-			Vivienda vivienda = viviendaService.findViviendaById(viviendaId);
+			Vivienda vivienda = viviendaService.findViviendaById(viviendaId).orElse(null);
 
 			denuncia.setVivienda(vivienda);
 			denunciaService.save(denuncia);

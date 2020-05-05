@@ -1,10 +1,12 @@
 package org.springframework.inmocasa.service;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.inmocasa.model.Habitacion;
+import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.model.Vivienda;
 import org.springframework.inmocasa.repository.HabitacionRepository;
 import org.springframework.inmocasa.repository.ViviendaRepository;
@@ -49,6 +51,10 @@ public class ViviendaService {
 	public Vivienda ViviendaById(int viviendaId) {
 		// TODO Auto-generated method stub
 		return vr.ViviendaById(viviendaId);
+	}
+	
+	public List<Vivienda> findAllByPropietario(Propietario p){
+		return vr.findAllByPropietario(p);
 	}
 	
 	//Alba-Alejandro

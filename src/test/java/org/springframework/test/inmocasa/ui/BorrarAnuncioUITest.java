@@ -37,8 +37,16 @@ public class BorrarAnuncioUITest {
 		driver.get("http://localhost:8080/");
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		driver.findElement(By.id("password")).clear();
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+		}
 		driver.findElement(By.id("password")).sendKeys("housininmo");
 		driver.findElement(By.id("username")).clear();
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+		}
 		driver.findElement(By.id("username")).sendKeys("housininmo");
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
 		driver.findElement(By.xpath("//div[@id='menu-vertical']/button[2]")).click();
@@ -53,9 +61,17 @@ public class BorrarAnuncioUITest {
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		driver.findElement(By.id("password")).click();
 		driver.findElement(By.id("password")).clear();
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+		}
 		driver.findElement(By.id("password")).sendKeys("housininmo");
 		driver.findElement(By.id("username")).click();
 		driver.findElement(By.id("username")).clear();
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+		}
 		driver.findElement(By.id("username")).sendKeys("housininmo");
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
 		driver.findElement(By.xpath("//div[@id='menu-vertical']/button[2]")).click();

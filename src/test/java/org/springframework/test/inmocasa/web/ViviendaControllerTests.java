@@ -144,7 +144,6 @@ class ViviendaControllerTests {
 	void testListViviendasOfertadasNotOK() throws Exception {
 		mockMvc.perform(get("/viviendas/ofertadas").with(csrf()).param("estado", "Estado.PENDIENTE"))
 				.andExpect(view().name("viviendas/listaViviendasOferta")).andExpect(status().isOk());
-		;
 	}
 
 	// HU-04
@@ -228,5 +227,18 @@ class ViviendaControllerTests {
 		mockMvc.perform(get("/viviendas/allNew").with(csrf()).param("numhabitacion", "4"))
 				.andExpect(model().attribute("error", "No se han encontrado viviendas con este número de habitaciones"))
 				.andExpect(status().isOk()).andExpect(view().name("viviendas/listNewViviendas"));
+	}
+	
+	//HU-020: Borrar un anuncio
+	@WithMockUser(value = "gilmar", authorities = { "propietario" })
+	@Test
+	void testDeleteViviendaOk() throws Exception {
+		mockMvc.perform(get("/viviendas/delete/{viviendaId}", 1)).andExpect(status().isOk());
+	}
+	
+	//HU-020: Borrar un anuncio (No se borra porque no hay nadie logueado)
+	@Test
+	void testDeleteViviendaNotOk() throws Exception {
+		mockMvc.perform(get("/viviendas/delete/{viviendaId}", 1)).andExpect(status().is4xxClientError());
 	}
 }

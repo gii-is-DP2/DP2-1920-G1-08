@@ -36,7 +36,7 @@ public class ViviendaController {
 
 	@Autowired
 	private ViviendaService viviendaService;
-
+	
 	@Autowired
 	private PropietarioService propService;
 
@@ -192,6 +192,7 @@ public class ViviendaController {
 		return view;
 	}
 
+
 	@PostMapping(value = { "/save" })
 	public String guardarVivienda(@Valid Vivienda vivienda, BindingResult result, ModelMap modelMap) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -207,20 +208,9 @@ public class ViviendaController {
 		}
 		return misViviendas(modelMap);
 	}
-
-//	@GetMapping(value = "/{viviendaId}/denunciar")
-//	public String denunciarVivienda(@PathVariable("viviendaId") int viviendaId, ModelMap model) {
-//		Vivienda viviendas = this.viviendaService.findViviendaId(viviendaId);
-//		viviendas.setDenunciado(true);
-//		viviendaService.save(viviendas);
-//		model.addAttribute("viviendas", viviendas);
-//		model.addAttribute("message", "La vivienda ha sido denunciada correctamente");
-//
-//		return showListViviendas(model, null, null);
-//
-//	}
-//	
+	
 	// Alba-Alejandro
+	
 	@GetMapping(value = "/delete/{viviendaId}")
 	public String borrarVivienda(@PathVariable("viviendaId") int viviendaId, ModelMap model) {
 		Vivienda vivienda = viviendaService.findViviendaId(viviendaId);

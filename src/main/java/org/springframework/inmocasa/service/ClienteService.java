@@ -28,5 +28,9 @@ public class ClienteService {
 	}
 	
 	//Alba-Alejandro
+	
+//	public Cliente findClienteByUsername(String username) {
+//	return crep.findByUsername(username);
+//}
 
 }

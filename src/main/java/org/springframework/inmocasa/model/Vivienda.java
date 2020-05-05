@@ -22,7 +22,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Entity
-
 public class Vivienda extends BaseEntity{
 	
 	@NotNull
@@ -55,6 +54,8 @@ public class Vivienda extends BaseEntity{
 	private String caracteristicas;
 
 	private String equipamiento;
+
+	private Boolean publicitado;
 	
 	@Column(name = "comentario")
     private String comentario;

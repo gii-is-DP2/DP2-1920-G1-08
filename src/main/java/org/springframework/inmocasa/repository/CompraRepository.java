@@ -1,6 +1,7 @@
 package org.springframework.inmocasa.repository;
 
 import java.util.List;
+import java.util.Collection;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -24,4 +25,10 @@ public interface CompraRepository extends JpaRepository<Compra, Integer> {
 
 	@Query("select vivienda from Compra vivienda where vivienda.cliente = ?1")
 	public List<Compra> findAllByCliente(Cliente c);
+	
+	@Query("select c from Compra c where c.cliente.id = ?1")
+	public Collection<Compra> findComprasByCliente(Integer clientId);
+	
+	@Query("select c from Compra c where c.vivienda.id = ?1")
+	public Collection<Compra> findComprasByVivienda(Integer viviendaId);
 }

@@ -12,12 +12,13 @@ public interface MensajeRepository extends JpaRepository<Mensaje, Integer> {
 
 	@Query("select m from Mensaje m order by asunto desc")
 	public Collection<Mensaje> findAllMensajes();
-	
+
 	@Query("select m from Mensaje m where m.emisorId = ?1")
 	public Collection<Mensaje> findByEmisorId(Integer emisor);
 
 	@Query("select m from Mensaje m where m.receptorId = ?1")
 	public Collection<Mensaje> findByReceptorId(Integer receptor);
+
 	// Alvaro-MiguelEmmanuel
 
 	// Alba-Alejandro

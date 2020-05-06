@@ -22,13 +22,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Entity
-
 public class Vivienda extends BaseEntity{
 	
 	@NotNull
 	private String titulo;
 
-	
 	@NotNull
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate fechaPublicacion;
@@ -55,7 +53,7 @@ public class Vivienda extends BaseEntity{
 
 	private String equipamiento;
 
-	private Boolean denunciado;
+	private Boolean publicitado;
 	
 	@Column(name = "comentario")
     private String comentario;

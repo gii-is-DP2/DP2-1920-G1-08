@@ -1,0 +1,301 @@
+[33mcommit 4ce18264abc648dfaff0a75ecd8c244653a20ea2[m[33m ([m[1;36mHEAD -> [m[1;32mAlba-Ale-2[m[33m, [m[1;31morigin/develop[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;31morigin/Alba-Ale-2[m[33m, [m[1;32mdevelop[m[33m)[m
+Author: albanb23 <albaburdallo@gmail.com>
+Date:   Tue Apr 14 10:57:59 2020 +0200
+
+    uml acualizado
+
+[33mcommit f5ef650cbf75e8ea512b84b4fd3cca587a65ece1[m
+Author: albanb23 <albaburdallo@gmail.com>
+Date:   Tue Mar 31 12:43:35 2020 +0200
+
+    Correcion tests
+
+[33mcommit 2e391ddd38b9ae538935c1dd662a35f450975e2c[m
+Merge: ef7d574 7d13a60
+Author: albanb23 <albaburdallo@gmail.com>
+Date:   Tue Mar 31 12:36:59 2020 +0200
+
+    Correcciones
+
+[33mcommit ef7d5747fbd9263aa12261e372efec8ccee8b9ca[m
+Author: albanb23 <albaburdallo@gmail.com>
+Date:   Tue Mar 31 12:35:05 2020 +0200
+
+    Correcciones
+
+[33mcommit 7d13a606d765946811941b13bdc2ac3b92bdf835[m
+Author: Miguel Emmanuel Saavedra Gómez <47810501+migsaagom@users.noreply.github.com>
+Date:   Tue Mar 31 12:12:03 2020 +0200
+
+    Actualización del jsp listNewViviendas
+
+[33mcommit 938d06f3c02d55aa919c2a41875a99e80087df15[m
+Author: Miguel <Miguel@192.168.1.198>
+Date:   Tue Mar 31 11:53:07 2020 +0200
+
+    Pequeños arreglos
+
+[33mcommit 478709ffbb148b9954c6b36064e7b9e11992989e[m
+Merge: 9b8eba6 ac8a2d8
+Author: Santiago <santimartin3105@gmail.com>
+Date:   Tue Mar 31 11:20:08 2020 +0200
+
+    Merge branch 'develop' of https://github.com/gii-is-DP2/DP2-1920-G1-08.git into develop
+
+[33mcommit 9b8eba69ba9497262196b59aaacdf06ffe4f9526[m
+Author: Santiago <santimartin3105@gmail.com>
+Date:   Tue Mar 31 11:19:04 2020 +0200
+
+    Solución algunos errores.
+
+[33mcommit ac8a2d806cc2b8bee0169345f8293b4a66c21ae0[m
+Author: Santiago Martín Gómez <43965290+sanmargom2@users.noreply.github.com>
+Date:   Tue Mar 31 11:05:33 2020 +0200
+
+    Update data.sql
+
+[33mcommit 75bb924eefa667a9dabcb9ab6303f4978ef03e60[m[33m ([m[1;33mtag: v1.0[m[33m)[m
+Author: AlvaroEsteban <alvaroestebancastrillo@gmail.com>
+Date:   Mon Mar 30 23:47:31 2020 +0200
+
+    corrección
+
+[33mcommit 94a3bdff586adf28da172f3d785d8caa4744033f[m
+Author: AlvaroEsteban <alvaroestebancastrillo@gmail.com>
+Date:   Mon Mar 30 23:30:45 2020 +0200
+
+    Corrección
+
+[33mcommit e68d44158aa02c0600712019cd3ca691476b8b2a[m
+Author: Santiago Martín Gómez <43965290+sanmargom2@users.noreply.github.com>
+Date:   Mon Mar 30 22:40:44 2020 +0200
+
+    Santiago alvaro (#40)
+    
+    * Registro de propietarios ( con fallo por NotNull)
+    
+    * Intento de solución de HU-001
+    
+    * Alvaro miguel (#37)
+    
+    * cambios css
+    
+    * Css finalizado
+    
+    * Favicon
+    
+    * [WIP] Creación de formulario de visita
+    
+    * Update .travis.yml
+    
+    * Logo
+    
+    * ignore
+    
+    * Modificaciones en los estilos y el menú
+    
+    * HU3 finalizada
+    
+    * merge
+    
+    * incluido .project
+    
+    * merge
+    
+    * merge
+    
+    * [WIP] ISSUE #13 y otros.
+    Ya está medio hecha la HU-013.
+    Incluidos mensajes de error, info, warning y success.
+    Corrección en estilos.
+    Corrección en data.sql de los enum.
+    
+    * Corrección merge
+    
+    * Historia de Usuario 11 finalizada
+    
+    * HU4 finalizada
+    
+    Co-authored-by: alvdiaasc <alvdiaasc@gmail.com>
+    Co-authored-by: AlvaroEsteban <alvaroestebancastrillo@gmail.com>
+    Co-authored-by: Álvaro Díaz-Ligüeri Ascaso <alvdiaasc@alum.us.es>
+    Co-authored-by: Miguel <Miguel@192.168.1.198>
+    
+    * Alvaro miguel (#38)
+    
+    * cambios css
+    
+    * Css finalizado
+    
+    * Favicon
+    
+    * [WIP] Creación de formulario de visita
+    
+    * Update .travis.yml
+    
+    * Logo
+    
+    * ignore
+    
+    * Modificaciones en los estilos y el menú
+    
+    * HU3 finalizada
+    
+    * merge
+    
+    * incluido .project
+    
+    * merge
+    
+    * merge
+    
+    * [WIP] ISSUE #13 y otros.
+    Ya está medio hecha la HU-013.
+    Incluidos mensajes de error, info, warning y success.
+    Corrección en estilos.
+    Corrección en data.sql de los enum.
+    
+    * Corrección merge
+    
+    * Historia de Usuario 11 finalizada
+    
+    * HU4 finalizada
+    
+    Co-authored-by: alvdiaasc <alvdiaasc@gmail.com>
+    Co-authored-by: AlvaroEsteban <alvaroestebancastrillo@gmail.com>
+    Co-authored-by: Álvaro Díaz-Ligüeri Ascaso <alvdiaasc@alum.us.es>
+    Co-authored-by: Miguel <Miguel@192.168.1.198>
+    
+    * Preparación de tests.
+    
+    * Tests
+    
+    * Tests
+    
+    * Test HU
+    
+    Co-authored-by: alvdiaasc <alvdiaasc@gmail.com>
+    Co-authored-by: AlvaroEsteban <alvaroestebancastrillo@gmail.com>
+    Co-authored-by: Álvaro Díaz-Ligüeri Ascaso <alvdiaasc@alum.us.es>
+    Co-authored-by: Miguel <Miguel@192.168.1.198>
+
+[33mcommit de25b690d9f9e88bba1a42d2ee08c4d754f4c046[m
+Merge: fcadefc 445f8c4
+Author: albanb23 <albaburdallo@gmail.com>
+Date:   Mon Mar 30 22:14:29 2020 +0200
+
+    Merge remote-tracking branch 'origin/Alba-ale' into develop
+    
+    Conflicts:
+            src/main/java/org/springframework/inmocasa/configuration/SecurityConfiguration.java
+            src/main/java/org/springframework/inmocasa/repository/ClienteRepository.java
+            src/main/java/org/springframework/inmocasa/repository/PropietarioRepository.java
+            src/main/java/org/springframework/inmocasa/repository/ValoracionRepository.java
+            src/main/java/org/springframework/inmocasa/service/ClienteService.java
+            src/main/java/org/springframework/inmocasa/service/ViviendaService.java
+            src/main/java/org/springframework/inmocasa/web/CompraController.java
+            src/main/java/org/springframework/inmocasa/web/CompraValidator.java
+            src/main/java/org/springframework/inmocasa/web/ViviendaController.java
+
+[33mcommit fcadefce3717320d46e3bf4c56f78056ada12267[m
+Author: Santiago Martín Gómez <43965290+sanmargom2@users.noreply.github.com>
+Date:   Mon Mar 30 21:43:13 2020 +0200
+
+    Alvaro miguel (#36)
+    
+    * [WIP] Creación de formulario de visita
+    
+    * ignore
+    
+    * Modificaciones en los estilos y el menú
+    
+    * HU3 finalizada
+    
+    * merge
+    
+    * incluido .project
+    
+    * merge
+    
+    * merge
+    
+    * [WIP] ISSUE #13 y otros.
+    Ya está medio hecha la HU-013.
+    Incluidos mensajes de error, info, warning y success.
+    Corrección en estilos.
+    Corrección en data.sql de los enum.
+    
+    * Corrección merge
+    
+    * Registro de propietarios ( con fallo por NotNull)
+    
+    * Intento de solución de HU-001
+    
+    * Historia de Usuario 11 finalizada
+    
+    * HU4 finalizada
+    
+    * Arreglos visuales
+    
+    * merge
+    
+    * Terminado desarrollo de issue #13
+    
+    Co-authored-by: AlvaroEsteban <alvaroestebancastrillo@gmail.com>
+    Co-authored-by: Miguel <Miguel@192.168.1.198>
+    Co-authored-by: alvdiaasc <alvdiaasc@gmail.com>
+
+[33mcommit d65086d6c74141a3e38e6af7d8357404da91a9ab[m
+Author: albanb23 <albaburdallo@gmail.com>
+Date:   Mon Mar 30 20:15:23 2020 +0200
+
+    Documento Sprint Retrospective
+
+[33mcommit 8a814bed04c1fc1e13236ee65b6ad30033ecd2d1[m
+Author: albanb23 <albaburdallo@gmail.com>
+Date:   Wed Mar 25 18:07:01 2020 +0100
+
+    arreglos
+
+[33mcommit 38ee24d4fb9c539e9ad146d45675a4c14a5fbf2f[m
+Author: Alba Burdallo <43787112+albanb23@users.noreply.github.com>
+Date:   Wed Mar 25 17:11:29 2020 +0100
+
+    Alba ale (#34)
+    
+    * List vivienda y configuracion
+    
+    * Crear ofertas sin binding
+    
+    * Finished #19
+    
+    * HU-20: Delete Vivienda Done!
+    
+    * cambios
+    
+    Co-authored-by: alejandromol98 <alejandromol98@gmail.com>
+
+[33mcommit 445f8c454adc045ba3ad1e69828bc8cccbd216b1[m[33m ([m[1;31morigin/Alba-ale[m[33m)[m
+Merge: 62dc4ad d45ab86
+Author: Alba Burdallo <43787112+albanb23@users.noreply.github.com>
+Date:   Wed Mar 25 17:11:12 2020 +0100
+
+    Merge branch 'develop' into Alba-ale
+
+[33mcommit d45ab86da9660c2f4bb7e82ea5cba4cc2ab320d2[m
+Author: Alvaro Esteban Castrillo <alvarorota2011@gmail.com>
+Date:   Tue Mar 24 18:25:26 2020 +0100
+
+    Alvaro miguel (#33)
+    
+    * [WIP] Creación de formulario de visita
+    
+    * ignore
+    
+    * Modificaciones en los estilos y el menú
+    
+    * HU3 finalizada
+    
+    * merge
+    
+   

@@ -8,6 +8,7 @@ import org.springframework.inmocasa.model.Propietario;
 
 public interface PropietarioRepository extends JpaRepository<Propietario, Integer> {
 
+
 	// Santi-Alvaro
 	@Query("select p from Propietario p where p.username = ?1")
 	public List<Propietario> findPropietarioByUsername(String username);

@@ -7,10 +7,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.mockito.BDDMockito.given;
 
 import java.time.LocalDate;
 import static org.hamcrest.Matchers.hasProperty;
 
+
+import org.assertj.core.util.Lists;
+import org.hamcrest.beans.HasProperty;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -23,10 +27,12 @@ import org.springframework.inmocasa.InmocasaApplication;
 import org.springframework.inmocasa.configuration.SecurityConfiguration;
 import org.springframework.inmocasa.model.Cliente;
 import org.springframework.inmocasa.model.Compra;
+import org.springframework.inmocasa.model.Habitacion;
 import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.model.Vivienda;
 import org.springframework.inmocasa.model.enums.Estado;
 import org.springframework.inmocasa.model.enums.Genero;
+import org.springframework.inmocasa.service.AdministradorService;
 import org.springframework.inmocasa.service.CompraService;
 import org.springframework.inmocasa.service.PropietarioService;
 import org.springframework.inmocasa.service.ViviendaService;
@@ -63,6 +69,9 @@ class ViviendaControllerTests {
 
 	@MockBean
 	private CompraService compraService;
+
+	@MockBean
+	private AdministradorService adminService;
 
 	private Vivienda vivienda;
 
@@ -125,6 +134,11 @@ class ViviendaControllerTests {
 		vivienda.setPropietario(prop);
 		vivienda2.setPropietario(prop);
 		compra1.setCliente(clie);
+
+		Habitacion hab = new Habitacion();
+		hab.setId(1);
+		hab.setNumCamas(1);
+		hab.setVivienda(vivienda);
 	}
 
 	// HU-02
@@ -140,7 +154,6 @@ class ViviendaControllerTests {
 	void testListViviendasOfertadasNotOK() throws Exception {
 		mockMvc.perform(get("/viviendas/ofertadas").with(csrf()).param("estado", "Estado.PENDIENTE"))
 				.andExpect(view().name("viviendas/listaViviendasOferta")).andExpect(status().isOk());
-		;
 	}
 
 	// HU-04
@@ -181,13 +194,91 @@ class ViviendaControllerTests {
 				.andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.view().name("viviendas/editVivienda"));
 	}
+//	@WithMockUser(username = "john123", authorities = { "propietario" })
+//	@Test
+//	void showViviendaDetails() throws Exception {
+//
+//		mockMvc.perform(get("/viviendas/{viviendaId}", TEST_VIVIENDA_ID_1)).andExpect(status().isOk())
+//				.andExpect(view().name("viviendas/showViviendaDetails"));
+//	}
 
-	@WithMockUser(username = "john123", authorities = { "propietario" })
+	// HU-008: Filtrar por precio
+	@WithMockUser(value = "inmocasa")
 	@Test
-	void showViviendaDetails() throws Exception {
+	void testshowListViviendaPrecioOk() throws Exception {
+		given(this.viviendaService.findViviendaByPrecio(100, 10000))
+				.willReturn(Lists.newArrayList(vivienda, new Vivienda()));
 
-		mockMvc.perform(get("/viviendas/{viviendaId}", TEST_VIVIENDA_ID_1)).andExpect(status().isOk())
-				.andExpect(view().name("viviendas/showViviendaDetails"));
+		mockMvc.perform(get("/viviendas/allNew").with(csrf()).param("precioMin", "100").param("precioMax", "10000"))
+				.andExpect(status().isOk()).andExpect(view().name("viviendas/listNewViviendas"));
 	}
 
+	// HU-008: Filtrar por precio (No hay viviendas entre el rango de precio por lo
+	// que se muestra un mensaje de error)
+	@WithMockUser(value = "inmocasa")
+	@Test
+	void testshowListViviendaNotPrecioOk() throws Exception {
+		given(this.viviendaService.findViviendaByPrecio(10, 20)).willReturn(Lists.newArrayList());
+
+		mockMvc.perform(get("/viviendas/allNew").with(csrf()).param("precioMin", "10").param("precioMax", "20"))
+				.andExpect(model().attribute("error", "No se han encontrado viviendas en este rango de precio"))
+				.andExpect(status().isOk()).andExpect(view().name("viviendas/listNewViviendas"));
+	}
+
+	// HU-008: Filtrar por zona
+	@WithMockUser(value = "inmocasa")
+	@Test
+	void testshowListViviendaZonaOk() throws Exception {
+		given(this.viviendaService.findViviendaByZona("Cerro Amate"))
+				.willReturn(Lists.newArrayList(vivienda, vivienda2));
+
+		mockMvc.perform(get("/viviendas/allNew").with(csrf()).param("zona", "Cerro Amate")).andExpect(status().isOk())
+				.andExpect(view().name("viviendas/listNewViviendas"));
+	}
+
+	// HU-008: Filtrar por zona (No hay viviendas en la zona seleccionada)
+	@WithMockUser(value = "inmocasa")
+	@Test
+	void testshowListViviendaZonaNotOk() throws Exception {
+		given(this.viviendaService.findViviendaByZona("San Jerónimo")).willReturn(Lists.newArrayList());
+
+		mockMvc.perform(get("/viviendas/allNew").with(csrf()).param("zona", "San Jerónimo"))
+				.andExpect(model().attribute("error", "No se han encontrado viviendas en esta zona"))
+				.andExpect(status().isOk()).andExpect(view().name("viviendas/listNewViviendas"));
+	}
+
+	// HU-008: Filtrar por habitaciones
+	@WithMockUser(value = "inmocasa")
+	@Test
+	void testshowListViviendaHabitacionesOk() throws Exception {
+		given(this.viviendaService.findViviendaByNumHabitacion(1)).willReturn(Lists.newArrayList(vivienda));
+
+		mockMvc.perform(get("/viviendas/allNew").with(csrf()).param("numhabitacion", "1")).andExpect(status().isOk())
+				.andExpect(view().name("viviendas/listNewViviendas"));
+	}
+
+	// HU-008: Filtrar por Habitaciones (No hay viviendas con el número de
+	// habitaciones especificado)
+	@WithMockUser(value = "inmocasa")
+	@Test
+	void testshowListViviendaHabitacionesNotOk() throws Exception {
+		given(this.viviendaService.findViviendaByNumHabitacion(4)).willReturn(Lists.newArrayList());
+
+		mockMvc.perform(get("/viviendas/allNew").with(csrf()).param("numhabitacion", "4"))
+				.andExpect(model().attribute("error", "No se han encontrado viviendas con este número de habitaciones"))
+				.andExpect(status().isOk()).andExpect(view().name("viviendas/listNewViviendas"));
+	}
+	
+	//HU-020: Borrar un anuncio
+	@WithMockUser(value = "gilmar", authorities = { "propietario" })
+	@Test
+	void testDeleteViviendaOk() throws Exception {
+		mockMvc.perform(get("/viviendas/delete/{viviendaId}", 1)).andExpect(status().isOk());
+	}
+	
+	//HU-020: Borrar un anuncio (No se borra porque no hay nadie logueado)
+	@Test
+	void testDeleteViviendaNotOk() throws Exception {
+		mockMvc.perform(get("/viviendas/delete/{viviendaId}", 1)).andExpect(status().is4xxClientError());
+	}
 }

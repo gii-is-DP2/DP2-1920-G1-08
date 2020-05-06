@@ -59,6 +59,4 @@ public class ClienteService {
 		return crep.findByUsername(username);
 	}
 
-	// Alba-Alejandro
-
 }

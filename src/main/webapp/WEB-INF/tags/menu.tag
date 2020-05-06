@@ -7,6 +7,7 @@
 <%@ attribute name="name" required="true" rtexprvalue="true"
 	description="Name of the active menu: home, owners, vets or error"%>
 
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
 	<div class="container">
 		<a class="navbar-brand" href="/"> <img class="img-logo"
@@ -20,7 +21,6 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav ml-auto">
-
 				<li class="nav-item active"><a class="nav-link"
 					href="/viviendas/allNew">Todas las viviendas <span
 						class="sr-only">(current)</span>
@@ -47,6 +47,7 @@
 
 				<!-- Panel usuario -->
 				<sec:authorize access="isAuthenticated()">
+<<<<<<< HEAD
 
 					<li class="nav-item dropdown"><a
 						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
@@ -61,6 +62,11 @@
 
 						</div></li>
 					<div class="btn-group">
+=======
+					<li class="nav-item"><a class="nav-link" href="#">Tus
+							mensajes</a></li>
+					<div class="btn-group" id="menu-vertical">
+>>>>>>> refs/remotes/origin/Alba-Ale-2
 						<button type="button" class="btn btn-success">
 							<sec:authentication property="name" />
 						</button>
@@ -70,12 +76,16 @@
 							<span class="sr-only">Toggle Dropdown</span>
 						</button>
 						<div class="dropdown-menu">
-
-							<a class="dropdown-item" href="#">Mi perfil</a> <a
-								class="dropdown-item" href="#">Mis favoritos</a> <a
-								class="dropdown-item" href="/usuario/misVisitas">Mis visitas</a>
+							<a class="dropdown-item" href="/usuario/miPerfil">Mi perfil</a> 
+							<sec:authorize access="hasAnyAuthority('cliente')">
+							<a class="dropdown-item" href="#">Mis favoritos</a> 
+							<a class="dropdown-item" href="/usuario/misVisitas">Mis visitas</a>
+							</sec:authorize>
 							<sec:authorize access="hasAnyAuthority('admin')">
-								<a class="dropdown-item" href="/dashboard">EstadÃ­sticas</a>
+								<a class="dropdown-item" href="/dashboard">Estadísticas</a>
+							</sec:authorize>
+							<sec:authorize access="hasAnyAuthority('propietario')">
+								<a class="dropdown-item" href="/viviendas/mis-viviendas">Mis viviendas</a>
 							</sec:authorize>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" href="<c:url value="/logout" />">Logout</a>
@@ -83,7 +93,6 @@
 					</div>
 				</sec:authorize>
 			</ul>
-
 		</div>
 	</div>
 

@@ -23,26 +23,28 @@
 		</tr>
 		<tr>
 	</table>
-			<c:if test="${compras.estado == 'PENDIENTE'}">
-	
-	<td><spring:url value="/compras/{viviendaId}/aceptar"
-			var="aceptarCompra">
-			<spring:param name="viviendaId" value="${compras.vivienda.id}" />
-		</spring:url> <a href="${fn:escapeXml(aceptarCompra)}">Aceptar oferta</a></td>
+	<c:if test="${compras.estado == 'PENDIENTE'}">
+
+		<td><spring:url value="/compras/{viviendaId}/aceptar"
+				var="aceptarCompra">
+				<spring:param name="viviendaId" value="${compras.vivienda.id}" />
+			</spring:url> <a href="${fn:escapeXml(aceptarCompra)}" class="btn btn-primary">Aceptar
+				oferta</a></td>
 		
 		</>
 		
 		
 		<td><spring:url value="/compras/{viviendaId}/rechazar"
-			var="rechazarCompra">
-			<spring:param name="viviendaId" value="${compras.vivienda.id}" />
-		</spring:url> <a href="${fn:escapeXml(rechazarCompra)}">Rechazar oferta</a></td>
-		</c:if>
-		<c:if test="${compras.estado == 'ACEPTADO'}">
+				var="rechazarCompra">
+				<spring:param name="viviendaId" value="${compras.vivienda.id}" />
+			</spring:url> <a href="${fn:escapeXml(rechazarCompra)}" class="btn btn-primary">Rechazar
+				oferta</a></td>
+	</c:if>
+	<c:if test="${compras.estado == 'ACEPTADO'}">
 	Esta oferta ya ha sido aceptada
 				</c:if>
-				<c:if test="${compras.estado == 'RECHAZADO'}">
+	<c:if test="${compras.estado == 'RECHAZADO'}">
 	Esta oferta ya ha sido rechazada
 				</c:if>
-		
+
 </petclinic:layout>

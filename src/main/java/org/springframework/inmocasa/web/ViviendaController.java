@@ -7,10 +7,12 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.inmocasa.model.Administrador;
 import org.springframework.inmocasa.model.Compra;
 import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.model.Vivienda;
 import org.springframework.inmocasa.model.enums.Estado;
+import org.springframework.inmocasa.service.AdministradorService;
 import org.springframework.inmocasa.service.CompraService;
 import org.springframework.inmocasa.service.PropietarioService;
 import org.springframework.inmocasa.service.ViviendaService;
@@ -34,9 +36,11 @@ public class ViviendaController {
 
 	@Autowired
 	private ViviendaService viviendaService;
-
+	
 	@Autowired
-
+	private AdministradorService adminService;
+	
+	@Autowired
 	private PropietarioService propService;
 
 	@Autowired
@@ -150,6 +154,7 @@ public class ViviendaController {
 		return view;
 	}
 
+
 	@PostMapping(value = { "/save" })
 	public String guardarVivienda(@Valid Vivienda vivienda, BindingResult result, ModelMap modelMap) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -166,12 +171,34 @@ public class ViviendaController {
 		return misViviendas(modelMap);
 	}
 
+
 	@GetMapping(value = "/{viviendaId}/denunciar")
 	public String denunciarVivienda(@PathVariable("viviendaId") int viviendaId, ModelMap model) {
 		Vivienda viviendas = this.viviendaService.findViviendaById(viviendaId).orElse(null);
 		viviendaService.save(viviendas);
 		model.addAttribute("viviendas", viviendas);
 		model.addAttribute("message", "La vivienda ha sido denunciada correctamente");
+	
+		return showListViviendas(model, null, null);
+	}
+	// Alba-Alejandro
+	
+	@GetMapping(value = "/delete/{viviendaId}")
+	public String borrarVivienda(ModelMap model, @PathVariable("viviendaId") int viviendaId) {
+		Vivienda vivienda = viviendaService.findViviendaId(viviendaId);
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
+		Propietario propietario = propService.findByUsername(userPrincipal.getUsername());
+
+		Administrador admin = adminService.findAdministradorByUsername(userPrincipal.getUsername());
+		if (vivienda.getPropietario() == propietario || admin != null) {
+			Collection<Vivienda> compradas = viviendaService.getCompradas();
+			if (!compradas.contains(vivienda)) {
+				viviendaService.delete(vivienda);
+			} else {
+				model.addAttribute("error", "No se puede borrar el anuncio porque la vivienda ha sido comprada");
+			}
+		}
 
 		return showListViviendas(model, null, null);
 

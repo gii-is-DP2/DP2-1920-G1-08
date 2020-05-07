@@ -32,4 +32,5 @@ public class Propietario extends Usuario {
 	@OneToMany(mappedBy="prop")
 	protected List<Mensaje> mensaje;
 
+
 }

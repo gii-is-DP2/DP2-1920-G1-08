@@ -22,6 +22,7 @@ public class PropietarioService {
 
 	PropietarioRepository propietarioRepository;
 	AuthoritiesService authoritiesService;
+	UsuarioService usuarioService;
 	ClienteService clienteService;
 	ClienteRepository clienterRepository;
 
@@ -33,6 +34,10 @@ public class PropietarioService {
 		this.clienteService = clienteService;
 		this.clienterRepository = clienteRepository;
 	}
+	@Autowired
+	public PropietarioService(PropietarioRepository propietarioRepository) {
+		this.propietarioRepository = propietarioRepository;
+	}
 
 	// Santiago-Alvaro
 	public List<Propietario> findPropietarioByUsername(String username) {
@@ -40,10 +45,12 @@ public class PropietarioService {
 	}
 	// Alvaro-MiguelEmmanuel
 
+
+
 	public Propietario findByUsername(String username) {
 		return propietarioRepository.findByUsername(username);
 	}
-	
+
 	public Propietario findPropietarioById(Integer id) {
 		return propietarioRepository.findPropietarioById(id);
 	}

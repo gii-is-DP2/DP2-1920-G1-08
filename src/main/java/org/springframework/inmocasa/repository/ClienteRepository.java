@@ -11,6 +11,8 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer>{
 
 	
 
+	
+
 	//Santi-Alvaro
 	@Query("select c from Cliente c where c.username = ?1")
 	public Cliente findByClienteUsername(String username);

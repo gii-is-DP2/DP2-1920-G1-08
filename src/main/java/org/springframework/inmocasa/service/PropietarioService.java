@@ -34,10 +34,6 @@ public class PropietarioService {
 		this.clienteService = clienteService;
 		this.clienterRepository = clienteRepository;
 	}
-	@Autowired
-	public PropietarioService(PropietarioRepository propietarioRepository) {
-		this.propietarioRepository = propietarioRepository;
-	}
 
 	// Santiago-Alvaro
 	public List<Propietario> findPropietarioByUsername(String username) {

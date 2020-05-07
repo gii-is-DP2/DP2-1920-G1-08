@@ -204,13 +204,7 @@ public class ViviendaController {
 
 	}
 
-	@GetMapping(value = "/delete/{viviendaId}")
-	public String borrarVivienda(@PathVariable("viviendaId") int viviendaId, ModelMap model) {
-		Vivienda vivienda = viviendaService.findViviendaById(viviendaId).orElse(null);
-		viviendaService.delete(vivienda);
 
-		return showListViviendas(model, null, null);
-	}
 
 	@GetMapping(value = "/publicitar/{viviendaId}")
 	public String publicitar(@PathVariable("viviendaId") int viviendaId, ModelMap model) {

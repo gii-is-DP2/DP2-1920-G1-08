@@ -63,12 +63,10 @@ INSERT INTO habitacion(id, vivienda_id, tipo_habitacion, num_camas, caracteristi
 INSERT INTO habitacion(id, vivienda_id, tipo_habitacion, num_camas, caracteristicas, foto) VALUES (7, 9, 3, null, 'Comedor moderno', 'https://cdn.portobellostreet.es/imagenes_muebles/Muebles-Comedor-vintage-Maze.jpg');
 
 
-
 INSERT INTO compra(id, cliente_id, vivienda_id, precio_final, estado, comentario) VALUES (1, 9, 1, 215.000, 0, null);
 INSERT INTO compra(id, cliente_id, vivienda_id, precio_final, estado, comentario) VALUES (2, 11, 3, 549.000, 1, 'No estoy de acuerdo con la oferta que ofrece');
 INSERT INTO compra(id, cliente_id, vivienda_id, precio_final, estado, comentario) VALUES (3, 10, 6, 195.960, 0, 'Muchas gracias');
 INSERT INTO compra(id, cliente_id, vivienda_id, precio_final, estado, comentario) VALUES (4, 9, 8, 260.800, 2, null);
-
 
 INSERT INTO visita(id, cliente_id, vivienda_id, fecha, lugar) VALUES (1, 9, 1, '2019-10-23', 'Calle Juzgado, Sevilla');
 INSERT INTO visita(id, cliente_id, vivienda_id, fecha, lugar) VALUES (2, 9, 6, '2020-01-15', 'Cerro Amate');
@@ -78,5 +76,3 @@ INSERT INTO valoracion(id, visita_id, puntuacion, comentario) VALUES (1, 1, 4, '
 
 INSERT INTO mensaje(id, client, prop, asunto, cuerpo, emisor_id, receptor_id) VALUES (1,8,1,'Casa en venta','Es un poco cara',1,8);
 
-
-INSERT INTO valoracion(id, visita_id, puntuacion, comentario) VALUES (1, 1, 4, 'Me ha gustado mucho');

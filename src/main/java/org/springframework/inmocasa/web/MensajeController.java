@@ -59,41 +59,41 @@ public class MensajeController {
 	@GetMapping(path = "/mensajes-enviados")
 	public String listadoMensajesEnviados(ModelMap model) {
 		String vista = "mensajes/misMensajes";
-		List<Mensaje> mensajes = new ArrayList<>();
+		List<Mensaje> mensaje = new ArrayList<>();
 		String username = SecurityContextHolder.getContext().getAuthentication().getName(); // username Actual
 		Collection<Mensaje> mnsjs = mensajeService.findAll();
 		for (Mensaje m : mnsjs) {
 			if (m.getProp().getUsername().equals(username) && m.getProp().getId().equals(m.getEmisorId())) {
-				mensajes.add(m);
+				mensaje.add(m);
 			} else if (m.getClient().getUsername().equals(username) && m.getClient().getId().equals(m.getEmisorId())) {
-				mensajes.add(m);
+				mensaje.add(m);
 			}
 
 		}
 
-		model.addAttribute("mensajes", mensajes);
+		model.addAttribute("mensaje", mensaje);
 		return vista;
 	}
 
 	@GetMapping(path = "/mensajes-recibidos")
 	public String listadoMensajesRecibidos(ModelMap model) {
 		String vista = "mensajes/misMensajes";
-		List<Mensaje> mensajes = new ArrayList<>();
+		List<Mensaje> mensaje = new ArrayList<>();
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
 		String username = userPrincipal.getUsername(); // username Actual
 		Collection<Mensaje> mnsjs = mensajeService.findAll();
 		for (Mensaje m : mnsjs) {
 			if (m.getProp().getUsername().equals(username) && m.getProp().getId().equals(m.getReceptorId())) {
-				mensajes.add(m);
+				mensaje.add(m);
 			} else if (m.getClient().getUsername().equals(username)
 					&& m.getClient().getId().equals(m.getReceptorId())) {
-				mensajes.add(m);
+				mensaje.add(m);
 			}
 
 		}
 
-		model.addAttribute("mensajes", mensajes);
+		model.addAttribute("mensaje", mensaje);
 		return vista;
 	}
 

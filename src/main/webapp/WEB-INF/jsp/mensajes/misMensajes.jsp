@@ -9,7 +9,7 @@
 
 <petclinic:layout pageName="misMensajes">
 	<jsp:body>
-	<h2>Mis mensajes</h2>
+	<h2>Mis mensaje</h2>
 	
 	<table id="MensajesTable" class="table table-striped">
   <thead>
@@ -23,13 +23,13 @@
     </tr>
   </thead>
   <tbody>
-   <c:forEach items="${mensajes}" var="mensajes">
+   <c:forEach items="${mensaje}" var="mensaje">
 			
 		<tr>		
-					<td><c:out value="${mensajes.asunto}" /></td>
-					<td><c:out value="${mensajes.cuerpo}" /></td>
-					<td><c:out value="${mensajes.client.nombre}" /><br>  <c:out value="${mensajes.client.apellidos}"/> </td>
-					<td><c:out value="${mensajes.prop.nombre}" /> <br>  <c:out value="${mensajes.prop.apellidos}"/> </td>		
+					<td><c:out value="${mensaje.asunto}" /></td>
+					<td><c:out value="${mensaje.cuerpo}" /></td>
+					<td><c:out value="${mensaje.client.nombre}" /><br>  <c:out value="${mensaje.client.apellidos}"/> </td>
+					<td><c:out value="${mensaje.prop.nombre}" /> <br>  <c:out value="${mensaje.prop.apellidos}"/> </td>		
 			</tr>
 			</c:forEach>
 		

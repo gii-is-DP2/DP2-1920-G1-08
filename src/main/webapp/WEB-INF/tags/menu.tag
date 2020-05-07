@@ -47,7 +47,6 @@
 
 				<!-- Panel usuario -->
 				<sec:authorize access="isAuthenticated()">
-<<<<<<< HEAD
 
 					<li class="nav-item dropdown"><a
 						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
@@ -62,11 +61,7 @@
 
 						</div></li>
 					<div class="btn-group">
-=======
-					<li class="nav-item"><a class="nav-link" href="#">Tus
-							mensajes</a></li>
-					<div class="btn-group" id="menu-vertical">
->>>>>>> refs/remotes/origin/Alba-Ale-2
+
 						<button type="button" class="btn btn-success">
 							<sec:authentication property="name" />
 						</button>

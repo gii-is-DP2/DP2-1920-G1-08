@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -22,13 +23,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Entity
-
 public class Vivienda extends BaseEntity{
 	
 	@NotNull
 	private String titulo;
-
-	private Boolean denunciado;
 	
 	@NotNull
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
@@ -55,6 +53,8 @@ public class Vivienda extends BaseEntity{
 	private String caracteristicas;
 
 	private String equipamiento;
+
+	private Boolean publicitado;
 	
 	@Column(name = "comentario")
     private String comentario;
@@ -62,6 +62,9 @@ public class Vivienda extends BaseEntity{
 	@Column(name="horario_visita")
 
 	private String horarioVisita;
+	
+	@Transient
+	private boolean fav;
 
 	@NotNull
 	@Valid

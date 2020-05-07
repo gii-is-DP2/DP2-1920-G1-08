@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 @Controller
 @RequestMapping("/viviendas")
 public class ViviendaController {
@@ -42,7 +41,7 @@ public class ViviendaController {
 
 	@Autowired
 	private CompraService compraService;
-	
+
 	@Autowired
 	private AdministradorService adminService;
 
@@ -140,11 +139,6 @@ public class ViviendaController {
 		if (precioMin == null && precioMax == null && zona == null && numHabitaciones == null) {
 			Collection<Vivienda> vivs = viviendaService.findAllNewest();
 			model.put("viviendas", vivs);
-//			model.put("precioMin", 50);
-//			model.put("precioMax", 1000);
-//			Collection<String> zonas = viviendaService.findZonas();
-//			model.put("zonas", zonas);
-//			model.put("numHabitaciones", null);
 		} else if (precioMin != null && precioMax != null) {
 			// Filtrar viviendas por precio
 			Integer min = Integer.valueOf(precioMin);
@@ -157,17 +151,15 @@ public class ViviendaController {
 			model.put("precioMin", precioMin);
 			model.put("precioMax", precioMax);
 		} else if (zona != null) {
-			//Filtrar viviendas por zona
+			// Filtrar viviendas por zona
 			Collection<Vivienda> viviendasZona = viviendaService.findViviendaByZona(zona);
-			//Collection<String> zonas = viviendaService.findZonas();
-			//model.put("zonas", zonas);
 			if (viviendasZona.isEmpty()) {
 				model.addAttribute("error", "No se han encontrado viviendas en esta zona");
 			}
-			
+
 			model.put("viviendas", viviendasZona);
-			
-		} else if(numHabitaciones != null) {
+
+		} else if (numHabitaciones != null) {
 			Integer num = Integer.valueOf(numHabitaciones);
 			Collection<Vivienda> viviendasHabitacion = viviendaService.findViviendaByNumHabitacion(num);
 			if (viviendasHabitacion.isEmpty()) {
@@ -212,36 +204,31 @@ public class ViviendaController {
 	// Alba-Alejandro
 	
 	@GetMapping(value = "/delete/{viviendaId}")
-	public String borrarVivienda(@PathVariable("viviendaId") int viviendaId, ModelMap model) {
+	public String borrarVivienda(ModelMap model, @PathVariable("viviendaId") int viviendaId) {
 		Vivienda vivienda = viviendaService.findViviendaId(viviendaId);
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
 		Propietario propietario = propService.findByUsername(userPrincipal.getUsername());
 		Administrador admin = adminService.findAdministradorByUsername(userPrincipal.getUsername());
-		if(vivienda.getPropietario() == propietario) {
-			viviendaService.delete(vivienda);
-		} else if(admin != null) {
-			viviendaService.delete(vivienda);
+		if (vivienda.getPropietario() == propietario || admin != null) {
+			Collection<Vivienda> compradas = viviendaService.getCompradas();
+			if (!compradas.contains(vivienda)) {
+				viviendaService.delete(vivienda);
+			} else {
+				model.addAttribute("error", "No se puede borrar el anuncio porque la vivienda ha sido comprada");
+			}
 		}
-		
 
-		return "redirect:/viviendas/allNew";
+		return "viviendas/listNewViviendas";
 	}
 
 	@GetMapping(value = "/publicitar/{viviendaId}")
 	public String publicitar(@PathVariable("viviendaId") int viviendaId, ModelMap model) {
 		Vivienda vivienda = viviendaService.findViviendaId(viviendaId);
-//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//		UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
-//		Propietario propietario = propService.findByUsername(userPrincipal.getUsername());
-//		if (vivienda.getPropietario().equals(propietario)) {
-			viviendaService.publicitar(vivienda);
-			model.addAttribute("vivienda", vivienda);
-			model.addAttribute("success", "La vivienda ha sido publicitada");
-//		} else {
-//			model.addAttribute("error", "No puede publicitar esta vivienda. Propietario incorrecto");
-//		}
+		viviendaService.publicitar(vivienda);
+		model.addAttribute("vivienda", vivienda);
+		model.addAttribute("success", "La vivienda ha sido publicitada");
 
-		return showListViviendas(model, null, null, null, null);
+		return "redirect:/viviendas/allNew";
 	}
 }

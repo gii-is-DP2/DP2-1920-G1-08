@@ -181,13 +181,14 @@ public class UsuarioController {
   	}
   	
   	@GetMapping(value="/delete/{usuarioId}")
-  	public String borrarUsuarioCompleto(@PathVariable("usuarioId") int userId, ModelMap model) {
-  		Usuario usuario = usuarioService.findUsuarioById(userId);
+  	public String borrarUsuarioCompleto(@PathVariable("usuarioId") int usuarioId, ModelMap model) {
+  		Usuario usuario = usuarioService.findUsuarioById(usuarioId);
   		UserDetails userPrincipalDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = userPrincipalDetails.getUsername();
 		Usuario userPrincipal = usuarioService.findUsuarioByUsername(username);
 		if(userPrincipal == usuario) {
 			usuarioService.delete(usuario);
+			return "redirect:/logout";
 		}
 	
 		return "redirect:/";

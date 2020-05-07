@@ -82,6 +82,9 @@
 							<sec:authorize access="hasAnyAuthority('propietario')">
 								<a class="dropdown-item" href="/viviendas/mis-viviendas">Mis viviendas</a>
 							</sec:authorize>
+							<sec:authorize access="hasAnyAuthority('propietario')">
+								<a class="dropdown-item" href="/viviendas/ofertadas">Viviendas con oferta</a>
+							</sec:authorize>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" href="<c:url value="/logout" />">Logout</a>
 						</div>

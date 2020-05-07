@@ -14,9 +14,10 @@
 	<table id="viviendaOfertaTable" class="table table-striped">
   <thead>
     <tr>
-     <th style="width: 200px;">Foto</th>
+     <th style="width: 150px;">Foto</th>
+     			<th style="width: 150px;">Titulo</th>
 				<th style="width: 150px;">Zona</th>
-				<th style="width: 200px;">Direccion</th>
+				<th style="width: 100px;">Direccion</th>
 				<th style="width: 150px;">Planta</th>
 				<th style="width: 150px;">Precio</th>
 				
@@ -37,7 +38,7 @@
                     <a href="${fn:escapeXml(viviendaUrl)}"><c:out
 									value="${vivienda.titulo} " /></a>
                 </td>
-                <td><c:out value="${vivienda.zona}" /></td>
+            	    <td><c:out value="${vivienda.zona}" /></td>
 					<td><c:out value="${vivienda.direccion}" /></td>
 					<td><c:out value="${vivienda.planta}" /></td>
 					<td><c:out value="${vivienda.precio}" /> Euros</td>

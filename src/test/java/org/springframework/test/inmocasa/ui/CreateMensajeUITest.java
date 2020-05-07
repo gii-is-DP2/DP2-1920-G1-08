@@ -1,5 +1,6 @@
 package org.springframework.test.inmocasa.ui;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import java.util.concurrent.TimeUnit;
@@ -7,6 +8,8 @@ import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
@@ -14,7 +17,6 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
-
 
 public class CreateMensajeUITest {
   private WebDriver driver;
@@ -27,36 +29,38 @@ public class CreateMensajeUITest {
 	  String pathToGeckoDriver = "C:\\Users\\Santiago\\Downloads";
 		System.setProperty("webdriver.chrome.driver", pathToGeckoDriver + "\\chromedriver.exe");
 		driver = new ChromeDriver();
-    baseUrl = "https://www.google.com/";
+		baseUrl = "https://www.google.com/";
     driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
   }
 
   @Test
-  public void testUntitledTestCase() throws Exception {
+  public void testCrearMensajeOK() throws Exception {
     driver.get("http://localhost:8080/");
-    driver.findElement(By.linkText("Accesousuarios")).click();
-    driver.findElement(By.id("username")).clear();
-    driver.findElement(By.id("username")).sendKeys("celiaherrero");
-    driver.findElement(By.id("password")).clear();
-    driver.findElement(By.id("password")).sendKeys("celiaherrero");
-    driver.findElement(By.xpath("//button[@type='submit']")).click();
     driver.findElement(By.id("navbarDropdown")).click();
-    driver.findElement(By.linkText("Enviar mensaje")).click();
-    driver.findElement(By.xpath("//body/div/div")).click();
-    driver.findElement(By.id("cuerpo")).click();
-    driver.findElement(By.xpath("//h2")).click();
-    driver.findElement(By.id("asunto")).click();
-    driver.findElement(By.id("asunto")).clear();
-    driver.findElement(By.id("asunto")).sendKeys("Buenos dias");
-    driver.findElement(By.id("cuerpo")).clear();
-    driver.findElement(By.id("cuerpo")).sendKeys("Esto es una prueba");
-    new Select(driver.findElement(By.id("client"))).selectByVisibleText("Andres Gomez");
-    driver.findElement(By.xpath("//option[@value='12']")).click();
+    driver.findElement(By.xpath("//a[contains(@href, '/mensajes/new')]")).click();
+    driver.findElement(By.xpath("//form[@id='mensaje']/div/div/div/input")).click();
+    driver.findElement(By.xpath("//form[@id='mensaje']/div/div/div/input")).clear();
+    driver.findElement(By.xpath("//form[@id='mensaje']/div/div/div/input")).sendKeys("Hola");
+    driver.findElement(By.xpath("//form[@id='mensaje']/div/div[2]/div/input")).clear();
+    driver.findElement(By.xpath("//form[@id='mensaje']/div/div[2]/div/input")).sendKeys("Esto es una prueba");
+    new Select(driver.findElement(By.xpath("//form[@id='mensaje']/div/div[3]/select"))).selectByVisibleText("Alejandra");
+    driver.findElement(By.xpath("//select[@id='client']/option[4]")).click();
     driver.findElement(By.xpath("//form[@id='mensaje']/div[2]/div/button/h4")).click();
-    driver.findElement(By.id("navbarDropdown")).click();
-    driver.findElement(By.linkText("Mensajesenviados")).click();
   }
 
+  @Test
+  public void testCreateMensajeNotOk() throws Exception {
+    driver.get("http://localhost:8080/");
+    driver.findElement(By.id("navbarDropdown")).click();
+    driver.findElement(By.xpath("//a[contains(@href, '/mensajes/new')]")).click();
+    driver.findElement(By.xpath("//form[@id='mensaje']/div/div[2]/div/input")).click();
+    driver.findElement(By.xpath("//form[@id='mensaje']/div/div[2]/div/input")).clear();
+    driver.findElement(By.xpath("//form[@id='mensaje']/div/div[2]/div/input")).sendKeys("Hola");
+    new Select(driver.findElement(By.xpath("//form[@id='mensaje']/div/div[3]/select"))).selectByVisibleText("Alejandra");
+    driver.findElement(By.xpath("//select[@id='client']/option[4]")).click();
+    driver.findElement(By.xpath("//form[@id='mensaje']/div[2]/div/button/h4")).click();
+  }
+  
   @AfterEach
   public void tearDown() throws Exception {
     driver.quit();

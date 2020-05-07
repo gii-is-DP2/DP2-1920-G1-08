@@ -27,8 +27,6 @@ public class Vivienda extends BaseEntity{
 	
 	@NotNull
 	private String titulo;
-
-	private Boolean denunciado;
 	
 	@NotNull
 	@DateTimeFormat(pattern = "yyyy/MM/dd")

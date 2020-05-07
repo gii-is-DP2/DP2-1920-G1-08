@@ -3,6 +3,7 @@ package org.springframework.inmocasa.service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,10 +58,20 @@ public class ViviendaService {
 		viviendas.removeAll(viviendasCompradas);
 		return viviendas;
 	}
-
+	
 	public void save(Vivienda vivienda) {
-		vr.save(vivienda);
+		   vr.save(vivienda);
+		}
+	
+	public Vivienda ViviendaById(int viviendaId) {
+		// TODO Auto-generated method stub
+		return vr.ViviendaById(viviendaId);
 	}
+	
+	public List<Vivienda> findAllByPropietario(Propietario p){
+		return vr.findAllByPropietario(p);
+	}
+	
 
 	// Alba-Alejandro
 

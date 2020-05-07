@@ -1,8 +1,10 @@
 package org.springframework.inmocasa.service;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.inmocasa.model.Cliente;
 import org.springframework.inmocasa.model.Compra;
 import org.springframework.inmocasa.model.enums.Estado;
 import org.springframework.inmocasa.repository.CompraRepository;
@@ -40,7 +42,9 @@ public class CompraService {
 	}
 	
 	//Alvaro-MiguelEmmanuel
-	
+	public List<Compra> findAllFromCliente(Cliente c){
+		return cr.findAllByCliente(c);
+	}
 	
 	//Alba-Alejandro
 	

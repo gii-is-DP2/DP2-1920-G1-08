@@ -31,5 +31,4 @@ public class Propietario extends Usuario {
 	
 	@OneToMany(mappedBy="receptor")
 	protected List<Mensaje> mensajeRecibido;
-
 }

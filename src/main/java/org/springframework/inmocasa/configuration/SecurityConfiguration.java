@@ -95,8 +95,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/usuarios/**").permitAll()	
 				.antMatchers("/propietarios/**").permitAll()		
 				.antMatchers("/compras/**").permitAll()
+<<<<<<< HEAD
 				.antMatchers("/clientes/**").hasAnyAuthority("cliente")
 				.antMatchers("/owners/**").hasAnyAuthority("owner","admin")			
+=======
+				.antMatchers("/owners/**").hasAnyAuthority("owner","admin")				
+>>>>>>> branch 'Alvaro-Miguel' of https://github.com/gii-is-DP2/DP2-1920-G1-08
 				.antMatchers("/denuncias/create/**").hasAnyAuthority("cliente")
 				.antMatchers("/denuncias/save/**").hasAnyAuthority("cliente")
 				.antMatchers("/usuario/miPerfil").permitAll()

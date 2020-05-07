@@ -6,6 +6,27 @@
     <groupId>org.springframework.samples</groupId>
     <artifactId>spring-petclinic</artifactId>
     <version>2.2.0.BUILD-SNAPSHOT</version>
+    
+    <repositories>
+    <repository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>http://repo.spring.io/libs-milestone</url>
+		</repository>
+    	<repository>
+			<id>jcenter-snapshots</id>
+			<name>jcenter</name>
+			<url>https://jcenter.bintray.com/</url>
+		</repository>
+    </repositories>
+    
+    <pluginRepositories>
+		<pluginRepository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>http://repo.spring.io/libs-milestone</url>
+		</pluginRepository>
+	</pluginRepositories>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -145,6 +166,17 @@
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
         </dependency>
+        <dependency>
+		    <groupId>com.itextpdf</groupId>
+		    <artifactId>itextpdf</artifactId>
+		    <version>5.5.13</version>
+		</dependency>
+        <!-- PayPal -->
+        <dependency>
+			<groupId>com.paypal.sdk</groupId>
+			<artifactId>rest-api-sdk</artifactId>
+			<version>1.4.2</version>
+		</dependency>
     </dependencies>
 
     <build>

@@ -105,6 +105,12 @@ public class ViviendaService {
 		return res;
 	}
 	
+	
+	public Boolean esFavorita(List<Vivienda> favoritas) {
+		
+		return null;
+	}
+	
 	public Collection<String> findZonas() {
 		Collection<String> zonas = new ArrayList<String>();
 		Collection<Vivienda> viviendas = vr.findAllNewest();
@@ -161,13 +167,4 @@ public class ViviendaService {
 			this.save(vivienda);
 		}
 	}
-
-	
-	public Boolean esFavorita(List<Vivienda> favoritas) {
-		
-		return null;
-	}
-	
-	
-
 }

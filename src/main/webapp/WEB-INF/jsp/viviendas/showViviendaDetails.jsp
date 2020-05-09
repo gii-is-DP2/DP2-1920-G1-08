@@ -14,6 +14,7 @@
 	<input type="hidden" name="viviendaId" value="${vivienda.id}" />
 	<input type="hidden" name="propietario" value="${propietario}" />
 
+	
 	<sec:authorize access="hasAnyAuthority('cliente, admin')">
 		<spring:url value="/compras/create/{viviendaId}" var="compraUrl">
 			<spring:param name="viviendaId" value="${vivienda.id}" />
@@ -50,8 +51,8 @@
 		<a href="${fn:escapeXml(createVivUrl)}" class="btn btn-primary"
 			role="button">Pedir cita</a>
 	</sec:authorize>
-	<br />
-	<br />
+	<br/>
+	<br/>
 
 	<h2>Informacion de vivienda</h2>
 

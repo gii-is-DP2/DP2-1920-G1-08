@@ -39,7 +39,7 @@
 				<sec:authorize access="isAuthenticated()">
 					<li class="nav-item"><a class="nav-link" href="#">Tus
 							mensajes</a></li>
-					<div class="btn-group">
+					<div class="btn-group" id="menu-vertical">
 						<button type="button" class="btn btn-success">
 							<sec:authentication property="name" />
 						</button>

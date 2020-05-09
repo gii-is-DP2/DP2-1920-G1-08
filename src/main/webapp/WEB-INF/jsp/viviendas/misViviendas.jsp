@@ -26,7 +26,8 @@
    <c:forEach items="${viviendas}" var="vivienda">
 			
 		<tr>
-					<td><img src="${vivienda.foto}" /> </td>
+					<td><img height="200px" width="300px"
+							src="<c:out value="${vivienda.foto}"/>" /></td>
 					 <td>
                     <spring:url value="/viviendas/{viviendaId}"
 								var="viviendaUrl">
@@ -34,8 +35,9 @@
 									value="${vivienda.id}" />
                     </spring:url>
                     <a href="${fn:escapeXml(viviendaUrl)}"><c:out
-									value="${vivienda.zona} " /></a>
+									value="${vivienda.titulo} " /></a>
                 </td>
+                <td><c:out value="${vivienda.zona}" /></td>
 					<td><c:out value="${vivienda.direccion}" /></td>
 					<td><c:out value="${vivienda.planta}" /></td>
 					<td><c:out value="${vivienda.precio}" /> Euros</td>

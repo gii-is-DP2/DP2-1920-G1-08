@@ -73,13 +73,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/compras/create/{viviendaId}").hasAnyAuthority("cliente, admin")
 				.antMatchers("/propietario/**").hasAnyAuthority("propietario","admin")
 				.antMatchers("/cliente/**").hasAnyAuthority("cliente","admin")
+			
+				.antMatchers("/clientes/new").permitAll()
+				.antMatchers("/clientes/miPerfil").permitAll()
+				.antMatchers("/clientes/{clienteId}/edit").permitAll()
+				.antMatchers("/clientes/{clienteId}/save").permitAll()
+				.antMatchers("/clientes/save").permitAll()
 				.antMatchers("/dashboard").hasAnyAuthority("admin")
 				.antMatchers("/pay/**").hasAnyAuthority("propietario, admin")
 
 
 				.antMatchers("/resources/**", "/webjars/**", "/h2-console/**").permitAll()
-
-				.antMatchers(HttpMethod.GET, "/", "/oups").permitAll()
+				.antMatchers("/mensajes/**").permitAll()
 
 				.antMatchers("/users/new").permitAll()
 
@@ -95,6 +100,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/usuarios/**").permitAll()	
 				.antMatchers("/propietarios/**").permitAll()		
 				.antMatchers("/compras/**").permitAll()
+				.antMatchers("/owners/**").hasAnyAuthority("owner","admin")				
 				.antMatchers("/clientes/**").hasAnyAuthority("cliente")
 				.antMatchers("/owners/**").hasAnyAuthority("owner","admin")			
 				.antMatchers("/denuncias/create/**").hasAnyAuthority("cliente")

@@ -17,39 +17,7 @@
 
 <petclinic:layout pageName="home">
 
-<section class="search-sec" style="margin-left: 100px;">
-	<div class="container">
-		<form action="#" method="post" novalidate="novalidate">
-			<div class="row">
-				<div class="col-lg-12">
-					<div class="row">
-						<div class="col-lg-3 col-md-3 col-sm-12 p-0">
-							<input type="text" class="form-control search-slt"
-								placeholder="Alquilar">
-						</div>
-						<div class="col-lg-3 col-md-3 col-sm-12 p-0">
-							<input type="text" class="form-control search-slt"
-								placeholder="Comprar">
-						</div>
-						<div class="col-lg-3 col-md-3 col-sm-12 p-0">
-							<select class="form-control search-slt"
-								id="exampleFormControlSelect1">
-								<option>Seleccionar el tipo de vivienda</option>
-								<option>Vivienda</option>
-								<option>Habitaciones</option>
-								<option>Garaje</option>
 
-							</select>
-						</div>
-						<div class="col-lg-3 col-md-3 col-sm-12 p-0">
-							<button type="button" class="btn btn-danger wrn-btn">Buscar</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</form>
-	</div>
-</section>
 
 	<!-- <!-- Footer 
 	<footer class="page-footer font-small indigo" style="margin-left: 70px;">

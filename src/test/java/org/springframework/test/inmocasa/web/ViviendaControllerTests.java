@@ -1,5 +1,7 @@
 package org.springframework.test.inmocasa.web;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -8,6 +10,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.mockito.BDDMockito.given;
 
 import java.time.LocalDate;
+import static org.hamcrest.Matchers.hasProperty;
+
 
 import org.assertj.core.util.Lists;
 import org.hamcrest.beans.HasProperty;
@@ -35,9 +39,14 @@ import org.springframework.inmocasa.service.ViviendaService;
 import org.springframework.inmocasa.web.ViviendaController;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
 @WebMvcTest(controllers = ViviendaController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
@@ -84,6 +93,7 @@ class ViviendaControllerTests {
 		vivienda.setAmueblado(true);
 		vivienda.setCaracteristicas("Caracteristicas");
 		vivienda.setHorarioVisita("Martes de 9:00 a 13:00");
+		vivienda.setComentario("Comentario");
 
 		vivienda2 = new Vivienda();
 		vivienda2.setId(TEST_VIVIENDA_ID_2);
@@ -154,6 +164,36 @@ class ViviendaControllerTests {
 				.andExpect(status().isOk()).andDo(print());
 	}
 
+	@WithMockUser(value = "gilmar", authorities = { "propietario" })
+	@Test
+	void testInitEditVivienda() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/viviendas/{viviendaId}/edit", TEST_VIVIENDA_ID_1))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.model().attribute("vivienda", nullValue()))
+				.andExpect(MockMvcResultMatchers.view().name("viviendas/editVivienda"));
+	}
+
+	@WithMockUser(value = "gilmar")
+	@Test
+	void testProcessUpdateFormSuccess() throws Exception {
+		this.mockMvc
+				.perform(MockMvcRequestBuilders.post("/viviendas/{viviendaId}/save", TEST_VIVIENDA_ID_1)
+						.with(SecurityMockMvcRequestPostProcessors.csrf())
+						.param("titulo", "Piso en venta en ocho de marzo ").param("fechaPublicacion", "2020/02/12"))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.view().name("viviendas/editVivienda"));
+	}
+	@WithMockUser(value = "gilmar")
+	@Test
+	void testProcessUpdateFormHasErrors() throws Exception {
+		this.mockMvc
+				.perform(MockMvcRequestBuilders.post("/viviendas/{viviendaId}/save", TEST_VIVIENDA_ID_1)
+						.with(SecurityMockMvcRequestPostProcessors.csrf())
+						.param("titulo", "Piso en venta en ocho de marzo ").param("fechaPublicacion", "20/02/12"))
+				.andExpect(model().attributeHasErrors("vivienda")).andExpect(status().isOk())
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.view().name("viviendas/editVivienda"));
+	}
 //	@WithMockUser(username = "john123", authorities = { "propietario" })
 //	@Test
 //	void showViviendaDetails() throws Exception {

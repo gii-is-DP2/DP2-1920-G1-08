@@ -6,7 +6,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
 
-<petclinic:layout pageName="propietarios">
+<petclinic:layout pageName="clientes">
 
 	<jsp:attribute name="customScript">
         <script>
@@ -19,11 +19,11 @@
     </jsp:attribute>
 	<jsp:body>
 	<h2>
-		<c:if test="${propietario['new']}">New </c:if>
-		Propietario
+		<c:if test="${cliente['new']}">New </c:if>
+		Cliente
 	</h2>
-	<form:form modelAttribute="propietario" class="form-horizontal"
-			action="/propietarios/save">
+	<form:form modelAttribute="cliente" class="form-horizontal"
+			action="/clientes/save">
 		<div class="form-group has-feedback">
 			<petclinic:inputField label="DNI" name="dni" />
 			<petclinic:inputField label="Nombre" name="nombre" />
@@ -36,25 +36,17 @@
 			<petclinic:inputField label="Usuario" name="username" />
 			<label for="password">Contraseña:</label><br>
 			<input type="password" name="password" />
-			<form:label label="Eres inmobiliaria?" path="esInmobiliaria"> ¿Eres inmobiliaria?   </form:label>
-			<form:select id="esInmobiliaria" path="esInmobiliaria">
-                <form:option value="0" label="No" />
-                <form:option value="1" label="Si" />
-                <form:options items="${esInmobiliaria}"
-						itemLabel="esInmobiliaria" itemValue="esInmobiliaria" />
-            </form:select>
-			<petclinic:inputField label="Nombre de la inmobiliaria"
-					name="inmobiliaria" />
-			<petclinic:inputField label="CIF" name="cif" />
+			
 
 		</div>
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
-					<input type="hidden" name="id" value="${propietario.id}" />
-					<button class="btn btn-default" type="submit"> Save propietario</button>
+					<input type="hidden" name="id" value="${cliente.id}" />
+					<button class="btn btn-default" type="submit"> Save cliente</button>
 					
 			</div>
 		</div>
+	
 	</form:form>
 	</jsp:body>
 </petclinic:layout>

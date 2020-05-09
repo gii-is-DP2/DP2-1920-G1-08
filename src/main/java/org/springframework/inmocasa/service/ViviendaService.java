@@ -47,6 +47,7 @@ public class ViviendaService {
 		return vr.findById(viviendaId);
 	}
 
+
 	// Alvaro-MiguelEmmanuel
 	public Collection<Vivienda> findAllNewest() {
 		Collection<Vivienda> publicitadas = vr.getPublicitadas();

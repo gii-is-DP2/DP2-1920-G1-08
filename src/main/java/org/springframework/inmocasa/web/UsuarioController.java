@@ -57,11 +57,14 @@ public class UsuarioController {
 	VisitaService visitaService;
 	ClienteService clienteService;
     PropietarioService propietarioService;
+
 	CompraService compraService;
 	ViviendaService viviendaService;
     UsuarioService usuarioService;
 	
 
+
+	
 	@Autowired
 	public UsuarioController(VisitaService visitaService,ClienteService clienteService, PropietarioService clinicService,
 			CompraService compraService, ViviendaService viviendaService, UsuarioService usuarioService) {
@@ -75,9 +78,11 @@ public class UsuarioController {
 
 	}
 
+//	@Autowired
+//	public UsuarioController(PropietarioService propietService) {
+//		this.propietarioService = propietService;
+//	}
 	// Santi-Alvaro
-
-
 
 
 	@InitBinder
@@ -105,6 +110,7 @@ public class UsuarioController {
 
 	// Alvaro-MiguelEmmanuel
   
+
 	@GetMapping(value = { "/misVisitas" })
 	public String showListViviendas(ModelMap modelMap) {
 
@@ -119,6 +125,7 @@ public class UsuarioController {
 
 		return "users/visitas";
 	}
+
   
   @RequestMapping(value = "/exportPDF", method = RequestMethod.GET,
           produces = MediaType.APPLICATION_PDF_VALUE)
@@ -193,6 +200,5 @@ public class UsuarioController {
 	
 		return "redirect:/";
   	}
-  	
 
 }

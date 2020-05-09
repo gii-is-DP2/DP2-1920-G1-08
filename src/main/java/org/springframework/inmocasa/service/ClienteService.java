@@ -42,6 +42,20 @@ public class ClienteService {
 		   crep.save(cliente);
 		}
 	
+	public Boolean esFavorito(List<Vivienda> favoritos, Integer idVivienda) {
+		Boolean res = false;
+		Integer i = 0;
+		Integer tamaño = favoritos.size();
+		while(i < tamaño) {
+		res = favoritos.get(i).getId() == idVivienda;
+		if(res) {
+			break;
+		}
+		i++;
+		}
+		return res;
+	}
+	
 	//Alba-Alejandro
 	
 //	public Cliente findClienteByUsername(String username) {

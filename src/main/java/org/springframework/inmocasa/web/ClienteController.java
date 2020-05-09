@@ -27,9 +27,11 @@ public class ClienteController {
 	
 	ClienteService clienteService;
 	
+	ViviendaService viviendaService;
 	@Autowired
-	public ClienteController(ClienteService clienteService) {
+	public ClienteController(ClienteService clienteService, ViviendaService viviendaService) {
 		this.clienteService = clienteService;
+		this.viviendaService = viviendaService;
 	}
 
 
@@ -48,7 +50,9 @@ public class ClienteController {
 		favoritas.addAll(cliente.getFavoritas());
 		favoritas.add(vivienda);
 		cliente.setFavoritas(favoritas);
+		vivienda.setFav(true);
 		clienteService.save(cliente);
+		viviendaService.save(vivienda);
 		model.addAttribute("clientes", cliente);
 		model.addAttribute("message", "La vivienda ha sido añadida a favoritos correctamente");
 		return favoritos(model);

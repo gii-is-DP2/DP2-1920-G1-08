@@ -155,13 +155,15 @@
 	</sec:authorize>
 
 	
-		<sec:authorize access="hasAnyAuthority('admin, cliente')">
+	<c:if test="${!vivienda.fav}">
+		<sec:authorize access="hasAnyAuthority('cliente')">	
 		<spring:url value="/clientes/{viviendaId}/favoritos" var="favoritoUrl">
 			<spring:param name="viviendaId" value="${vivienda.id}" />
 		</spring:url>
 		<a href="${fn:escapeXml(favoritoUrl)}" class="btn btn-primary">Añadir a favoritos
 			</a>
 	</sec:authorize>
+	</c:if>
 
 
 </petclinic:layout>

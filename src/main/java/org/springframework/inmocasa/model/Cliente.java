@@ -3,6 +3,7 @@ package org.springframework.inmocasa.model;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,4 +28,5 @@ public class Cliente extends Usuario {
 	
 	@ManyToMany
 	protected List<Vivienda> favoritas;
+	
 }

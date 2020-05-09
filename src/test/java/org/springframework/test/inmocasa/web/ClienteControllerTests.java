@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,6 +24,7 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.inmocasa.InmocasaApplication;
 import org.springframework.inmocasa.configuration.SecurityConfiguration;
 import org.springframework.inmocasa.model.Cliente;
+import org.springframework.inmocasa.model.Vivienda;
 import org.springframework.inmocasa.model.enums.Genero;
 import org.springframework.inmocasa.service.ClienteService;
 import org.springframework.inmocasa.service.PropietarioService;
@@ -61,7 +63,7 @@ public class ClienteControllerTests {
 		cliente.setApellidos("Martín");
 		cliente.setDni("12345678D");
 		cliente.setEmail("gregorio@gmail.com");
-		cliente.setFavoritos("");
+		cliente.setFavoritas(new ArrayList<Vivienda>());
 		cliente.setGenero(Genero.MASCULINO);
 		cliente.setUsername("theGrefg");
 		cliente.setPassword("calvoGames");

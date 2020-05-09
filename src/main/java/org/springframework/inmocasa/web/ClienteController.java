@@ -1,17 +1,18 @@
 package org.springframework.inmocasa.web;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.inmocasa.model.Cliente;
-import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.model.Vivienda;
-import org.springframework.inmocasa.repository.ClienteRepository;
 import org.springframework.inmocasa.service.ClienteService;
 import org.springframework.inmocasa.service.PropietarioService;
+import org.springframework.inmocasa.service.ViviendaService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -19,26 +20,36 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
+@RequestMapping("/clientes")
 public class ClienteController {
+	
+	ClienteService clienteService;
+	
+	ViviendaService viviendaService;
+	PropietarioService propietarioService;
+	@Autowired
+	public ClienteController(ClienteService clienteService, ViviendaService viviendaService,PropietarioService propietarioService) {
+		this.clienteService = clienteService;
+		this.viviendaService = viviendaService;
+		this.propietarioService = propietarioService;
+	}
+
 
 	// Santi-Alvaro
 
-	@Autowired
-	ClienteService clienteService;
-	@Autowired
-	PropietarioService propietarioService;
 
-	@GetMapping(path = "/clientes/new")
+	@GetMapping(path = "/new")
 	public String crearCliente(ModelMap model) {
 		Cliente cliente = new Cliente();
 		model.addAttribute("cliente", cliente);
 		return "clientes/registroClientes";
 	}
 
-	@PostMapping(path = "/clientes/save")
+	@PostMapping(path = "/save")
 	public String guardarCliente(@Valid Cliente cliente, BindingResult result, ModelMap model) {
 		if (result.hasErrors()) {
 			model.addAttribute("cliente", cliente);
@@ -51,7 +62,7 @@ public class ClienteController {
 		return "welcome";
 	}
 
-	@GetMapping(value = { "clientes/miPerfil" })
+	@GetMapping(value = { "/miPerfil" })
 	public ModelAndView showMyProfile() {
 		ModelAndView res = new ModelAndView("clientes/profile");
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -65,14 +76,14 @@ public class ClienteController {
 		return res;
 	}
 
-	@GetMapping("clientes/{clienteId}/edit")
+	@GetMapping("/{clienteId}/edit")
 	public ModelAndView editVivienda(@PathVariable("clienteId") int clienteId) {
 		ModelAndView mav = new ModelAndView("clientes/registroClientes");
 		mav.addObject("cliente", this.clienteService.findClienteById(clienteId));
 		return mav;
 	}
 
-	@PostMapping(path = "clientes/{clienteId}/save")
+	@PostMapping(path = "/{clienteId}/save")
 	private String processCreationForm(@Valid Cliente cliente, BindingResult res, ModelMap modelMap) {
 		if (res.hasErrors()) {
 			modelMap.addAttribute("cliente", cliente);
@@ -84,8 +95,39 @@ public class ClienteController {
 		return "clientes/profile";
 	}
 
-	// Alvaro-MiguelEmmanuel
-
-	// Alba-Alejandro
-
+	
+	
+	//Alvaro-MiguelEmmanuel
+	
+	@GetMapping(value = "/{viviendaId}/favoritos")
+	public String añadirFavorito(@PathVariable("viviendaId") int viviendaId, ModelMap model) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
+		Cliente cliente = clienteService.findByUsername(userPrincipal.getUsername());
+		Vivienda vivienda = clienteService.findViviendaById(viviendaId);
+		List<Vivienda> favoritas = new ArrayList<>();
+		favoritas.addAll(cliente.getFavoritas());
+		favoritas.add(vivienda);
+		cliente.setFavoritas(favoritas);
+		vivienda.setFav(true);
+		clienteService.save(cliente);
+		viviendaService.save(vivienda);
+		model.addAttribute("clientes", cliente);
+		model.addAttribute("message", "La vivienda ha sido añadida a favoritos correctamente");
+		return favoritos(model);
+	}
+	
+	
+	@GetMapping(value = "/lista/favoritas")
+	public String favoritos(ModelMap model) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
+		Cliente cliente = clienteService.findByUsername(userPrincipal.getUsername());
+		model.addAttribute("viviendas", cliente.getFavoritas());
+		return "viviendas/listNewViviendas";
+		
+	}
+	//Alba-Alejandro
+	
+	
 }

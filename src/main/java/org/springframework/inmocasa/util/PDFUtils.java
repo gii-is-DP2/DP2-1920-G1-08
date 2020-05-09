@@ -157,7 +157,7 @@ public class PDFUtils {
 		for (Compra compra : compras) {
 			Paragraph p = new Paragraph();
 			p.add("Id: "+compra.getId());
-			p.add("\nId vivienda"+compra.getVivienda().getId());
+			p.add("\nId vivienda: "+compra.getVivienda().getId());
 			p.add("\nEstado: "+compra.getEstado());
 			p.add("\nPrecio final: "+compra.getPrecioFinal());
 			p.add("\nComentario: "+compra.getComentario());

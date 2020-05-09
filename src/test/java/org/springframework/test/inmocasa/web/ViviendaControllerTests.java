@@ -2,6 +2,7 @@ package org.springframework.test.inmocasa.web;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -11,6 +12,10 @@ import java.time.LocalDate;
 
 import org.assertj.core.util.Lists;
 import org.hamcrest.beans.HasProperty;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.is;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -38,9 +43,14 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+
+import junit.framework.Assert;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
-@WebMvcTest(controllers = ViviendaController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
+@WebMvcTest(controllers = ViviendaController.class, 
+	excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), 
+	excludeAutoConfiguration = SecurityConfiguration.class)
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = { InmocasaApplication.class })
 class ViviendaControllerTests {
@@ -146,6 +156,44 @@ class ViviendaControllerTests {
 				.andExpect(view().name("viviendas/listaViviendasOferta")).andExpect(status().isOk());
 	}
 
+	//HU-03 Publicar una nueva vivienda
+	@WithMockUser(value = "gilmar", authorities = { "propietario" })
+	@Test
+	void testNewVivienda() throws Exception {
+		mockMvc.perform(get("/viviendas/new"))
+			.andExpect(status().isOk())
+			.andExpect(model().attributeExists("vivienda"))
+			.andExpect(model().attribute("vivienda", hasProperty("propietario")))
+			.andExpect(view().name("viviendas/editVivienda"));
+	}
+	
+	@WithMockUser(value = "alejandra", authorities = { "cliente" })
+	@Test
+	void testNewViviendaDenied() throws Exception {
+		mockMvc.perform(get("/viviendas/new"))
+			.andExpect(status().isForbidden());
+	}
+	
+	@Test
+	void testCreateViviendaNegativo() throws Exception {
+		vivienda.setId(20);
+		vivienda.setCaracteristicas(null);
+		this.viviendaService.save(vivienda);
+		
+		Vivienda res = this.viviendaService.findViviendaById(vivienda.getId()).orElse(null);
+		assertThat(res== null);
+	}
+	
+	@WithMockUser(value = "gilmar", authorities = { "propietario" })
+	@Test
+	void testCreateVivienda() throws Exception {
+		vivienda.setId(20);
+		this.viviendaService.save(vivienda);
+		
+		Vivienda res = this.viviendaService.findViviendaById(vivienda.getId()).orElse(null);
+		assertThat(res!= null);
+	}
+	
 	// HU-04
 	@WithMockUser(value = "gilmar", authorities = { "propietario" })
 	@Test

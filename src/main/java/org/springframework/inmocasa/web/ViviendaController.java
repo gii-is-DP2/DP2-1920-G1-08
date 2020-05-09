@@ -8,11 +8,13 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.inmocasa.model.Administrador;
+import org.springframework.inmocasa.model.Cliente;
 import org.springframework.inmocasa.model.Compra;
 import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.model.Vivienda;
 import org.springframework.inmocasa.model.enums.Estado;
 import org.springframework.inmocasa.service.AdministradorService;
+import org.springframework.inmocasa.service.ClienteService;
 import org.springframework.inmocasa.service.CompraService;
 import org.springframework.inmocasa.service.PropietarioService;
 import org.springframework.inmocasa.service.ViviendaService;
@@ -38,6 +40,9 @@ public class ViviendaController {
 	
 	@Autowired
 	private PropietarioService propService;
+	
+	@Autowired
+	private ClienteService clienteService;
 
 	@Autowired
 	private CompraService compraService;
@@ -72,11 +77,20 @@ public class ViviendaController {
 		Vivienda vivienda = this.viviendaService.findViviendaById(viviendaId).get();
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Propietario propietario = propService.findByUsername(username);
+		Cliente cliente = clienteService.findByUsername(username);
+		if(cliente!= null) {
+			if(clienteService.esFavorito(cliente.getFavoritas(), vivienda.getId())) {
+				vivienda.setFav(true);
+			}else {
+				vivienda.setFav(false);
+			}
+		}
+		
 		String view = "viviendas/showViviendaDetails";
 		model.put("vivienda", vivienda);
 		model.put("propietario", propietario);
 		return view;
-
+		
 	}
 
 	@GetMapping(path = "/mis-viviendas")

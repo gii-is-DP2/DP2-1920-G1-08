@@ -1,7 +1,9 @@
 package org.springframework.inmocasa.model;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,9 +22,11 @@ import javax.persistence.Column;
 @Entity
 public class Cliente extends Usuario {
 	
-	@Column(name="favoritos")
-	protected String favoritos;
 	
 	@OneToMany(mappedBy="emisor")
 	protected List<Mensaje> mensajeEnviado;
+	
+	@ManyToMany
+	protected List<Vivienda> favoritas;
+	
 }

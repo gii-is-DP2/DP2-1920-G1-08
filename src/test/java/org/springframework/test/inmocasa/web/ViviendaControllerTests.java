@@ -1,23 +1,21 @@
 package org.springframework.test.inmocasa.web;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static org.mockito.BDDMockito.given;
 
 import java.time.LocalDate;
 
 import org.assertj.core.util.Lists;
-import org.hamcrest.beans.HasProperty;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasProperty;
-import static org.hamcrest.Matchers.is;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -33,6 +31,7 @@ import org.springframework.inmocasa.model.Vivienda;
 import org.springframework.inmocasa.model.enums.Estado;
 import org.springframework.inmocasa.model.enums.Genero;
 import org.springframework.inmocasa.service.AdministradorService;
+import org.springframework.inmocasa.service.ClienteService;
 import org.springframework.inmocasa.service.CompraService;
 import org.springframework.inmocasa.service.PropietarioService;
 import org.springframework.inmocasa.service.ViviendaService;
@@ -42,13 +41,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-
-import junit.framework.Assert;
 
 @WebMvcTest(controllers = ViviendaController.class, 
 	excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), 
@@ -75,6 +67,9 @@ class ViviendaControllerTests {
 
 	@MockBean
 	private AdministradorService adminService;
+	
+	@MockBean
+	private ClienteService clienteService;
 
 	private Vivienda vivienda;
 
@@ -195,6 +190,8 @@ class ViviendaControllerTests {
 		Vivienda res = this.viviendaService.findViviendaById(vivienda.getId()).orElse(null);
 		assertThat(res!= null);
 	}
+	
+	//HU-0
 	
 	// HU-04
 	@WithMockUser(value = "gilmar", authorities = { "propietario" })

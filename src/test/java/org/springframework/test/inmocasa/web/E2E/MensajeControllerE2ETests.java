@@ -43,14 +43,14 @@ public class MensajeControllerE2ETests {
 	@Autowired
 	private MockMvc mockMvc;
 
-	@WithMockUser(username = "gilmar", authorities = { "gilmar" })
+	@WithMockUser(username = "gilmar", authorities = { "propietario" })
 	@Test
 	void testInitCreationForm() throws Exception {
 		mockMvc.perform(get("/mensajes/new")).andExpect(status().isOk()).andExpect(view().name("mensajes/editMensaje"))
 				.andExpect(model().attributeExists("mensaje"));
 	}
 
-	@WithMockUser(username = "gilmar", authorities = { "gilmar" })
+	@WithMockUser(username = "gilmar", authorities = { "propietario" })
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
 		Cliente c = clienteService.findClienteById(TEST_CLIENTE_ID);
@@ -58,18 +58,11 @@ public class MensajeControllerE2ETests {
 		mockMvc.perform(post("/mensajes/save").with(csrf()).param("asunto", "Hola").param("cuerpo", "Amigo"))
 				.andExpect(status().isOk()).andExpect(view().name("/mensajes/editMensaje"));
 	}
-//
-//	@WithMockUser(username="admin1",authorities= {"admin"})
-//    @Test
-//	void testProcessCreationFormHasErrors() throws Exception {
-//		mockMvc.perform(post("/owners/{ownerId}/pets/{petId}/edit", TEST_OWNER_ID, TEST_PET_ID)
-//							.with(csrf())
-//							.param("name", "Betty")
-//							.param("birthDate", "2015/02/12"))
-//				.andExpect(model().attributeHasNoErrors("owner"))
-//				.andExpect(model().attributeHasErrors("pet"))
-//				.andExpect(status().isOk())
-//				.andExpect(view().name("pets/createOrUpdatePetForm"));
-//	}
+	@WithMockUser(username = "gilmar", authorities = { "propietario" })
+	@Test
+	void testListadoMensajesEnviados() throws Exception {
+		mockMvc.perform(get("/mensajes/mensajes-enviados")).andExpect(view().name("mensajes/misMensajes"))
+				.andExpect(model().attributeExists("mensajes"));
+	}
 //
 }

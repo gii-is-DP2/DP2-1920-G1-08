@@ -65,8 +65,8 @@ public class ClienteControllerTests {
 		cliente.setEmail("gregorio@gmail.com");
 		cliente.setFavoritas(new ArrayList<Vivienda>());
 		cliente.setGenero(Genero.MASCULINO);
-		cliente.setUsername("theGrefg");
-		cliente.setPassword("calvoGames");
+		cliente.setUsername("gregorio23");
+		cliente.setPassword("12345678b");
 		cliente.setFechaNacimiento(LocalDate.of(1997, 04, 22));
 	}
 

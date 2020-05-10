@@ -90,7 +90,7 @@
 	
 	<sec:authorize access="hasAnyAuthority('cliente')">
         <spring:url value="/clientes/{clienteId}/edit" var="editUrl">
-            <spring:param name="clienteId" value="${cliente.id}" />
+            <spring:param name="clienteId" value="${user.id}" />
         </spring:url>
         <a href="${fn:escapeXml(editUrl)}" class="btn btn-primary"> Editar
             perfil</a>
@@ -98,7 +98,7 @@
 
     <sec:authorize access="hasAnyAuthority('propietario')">
         <spring:url value="/propietarios/{propietarioId}/edit" var="editUrl">
-            <spring:param name="propietarioId" value="${propietario.id}" />
+            <spring:param name="propietarioId" value="${user.id}" />
         </spring:url>
         <a href="${fn:escapeXml(editUrl)}" class="btn btn-primary"> Editar
             perfil</a>

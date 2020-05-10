@@ -3,6 +3,7 @@ package org.springframework.inmocasa.model;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
@@ -23,7 +24,7 @@ public class Cliente extends Usuario {
 	@OneToMany(mappedBy="client")
 	protected List<Mensaje> mensaje;
 	
-	@ManyToMany
+	@ManyToMany()
 	protected List<Vivienda> favoritas;
 	
 }

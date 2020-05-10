@@ -73,8 +73,8 @@ public class ViviendaController {
 	}
 
 	@GetMapping("/{viviendaId}")
-	public ModelAndView showVivienda(@PathVariable("viviendaId") int viviendaId) {
-		ModelAndView mav = new ModelAndView("viviendas/showViviendaDetails");
+	public String showVivienda(@PathVariable("viviendaId") int viviendaId,ModelMap model) {
+		String view = "viviendas/showViviendaDetails";
 		Vivienda vivienda = this.viviendaService.findViviendaById(viviendaId).get();
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Cliente cliente = clienteService.findByUsername(username);
@@ -85,8 +85,8 @@ public class ViviendaController {
 				vivienda.setFav(false);
 			}
 		}
-		mav.addObject("vivienda", vivienda);
-		return mav;
+		model.addAttribute("vivienda", vivienda);
+		return view;
 	}
 //	@GetMapping(value = "/{viviendaId}")
 //	public String showVivienda(@PathVariable("viviendaId") int viviendaId, ModelMap model) {

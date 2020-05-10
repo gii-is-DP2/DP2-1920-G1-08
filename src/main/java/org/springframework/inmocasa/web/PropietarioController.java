@@ -67,14 +67,14 @@ public class PropietarioController {
 	}
 
 	@GetMapping("propietarios/{propietarioId}/edit")
-	public ModelAndView editVivienda(@PathVariable("propietarioId") int propietarioId) {
-		ModelAndView mav = new ModelAndView("propietarios/registroPropietarios");
-		mav.addObject("propietario", this.propietarioService.findPropietarioById(propietarioId));
-		return mav;
+	public String editProfile(@PathVariable("propietarioId") int propietarioId,ModelMap model) {
+		String view = "propietarios/registroPropietarios";
+		model.addAttribute("propietario", this.propietarioService.findPropietarioById(propietarioId));
+		return view;
 	}
 
 	@PostMapping(path = "propietarios/{propietarioId}/save")
-	private String processCreationForm(@Valid Propietario propietario, BindingResult res, ModelMap modelMap) {
+	public String processUpdateForm(@Valid Propietario propietario, BindingResult res, ModelMap modelMap) {
 		if (res.hasErrors()) {
 			modelMap.addAttribute("propietario", propietario);
 			return "propietarios/registroPropietarios";

@@ -43,20 +43,20 @@ public class MensajeControllerE2ETests {
 	@Autowired
 	private MockMvc mockMvc;
 
-	@WithMockUser(username = "admin1", authorities = { "admin" })
+	@WithMockUser(username = "gilmar", authorities = { "gilmar" })
 	@Test
 	void testInitCreationForm() throws Exception {
 		mockMvc.perform(get("/mensajes/new")).andExpect(status().isOk()).andExpect(view().name("mensajes/editMensaje"))
 				.andExpect(model().attributeExists("mensaje"));
 	}
 
-	@WithMockUser(username = "admin1", authorities = { "admin" })
+	@WithMockUser(username = "gilmar", authorities = { "gilmar" })
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
 		Cliente c = clienteService.findClienteById(TEST_CLIENTE_ID);
 		Propietario p = propietarioService.findPropietarioById(TEST_PROPIETARIO_ID);
 		mockMvc.perform(post("/mensajes/save").with(csrf()).param("asunto", "Hola").param("cuerpo", "Amigo"))
-				.andExpect(status().isOk()).andExpect(view().name("mensajes/editMensaje"));
+				.andExpect(status().isOk()).andExpect(view().name("/mensajes/editMensaje"));
 	}
 //
 //	@WithMockUser(username="admin1",authorities= {"admin"})

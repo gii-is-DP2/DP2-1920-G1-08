@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -17,7 +18,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.inmocasa.InmocasaApplication;
 import org.springframework.inmocasa.model.Cliente;
 import org.springframework.inmocasa.model.Compra;
+import org.springframework.inmocasa.model.Mensaje;
 import org.springframework.inmocasa.model.Vivienda;
+import org.springframework.inmocasa.model.enums.Estado;
 import org.springframework.inmocasa.service.ClienteService;
 import org.springframework.inmocasa.service.ViviendaService;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -54,10 +57,11 @@ public class CompraControllerE2ETests {
 	@Test
 	void testShowCompra() throws Exception {
 		Cliente c= clienteService.findClienteById(TEST_CLIENTE_ID);
+		c.setMensaje(new ArrayList<Mensaje>());
 		Vivienda v = viviendaService.findViviendaId(TEST_VIVIENDA_ID);
 		this.mockMvc.perform(get("/compras/{viviendaId}", TEST_VIVIENDA_ID)).andExpect(status().isOk())
 				.andExpect(model().attribute("compra", Matchers.hasProperty("precioFinal", Matchers.is(215.000))))
-				.andExpect(model().attribute("compra", Matchers.hasProperty("estado", Matchers.is("ACEPTADO"))))
+				.andExpect(model().attribute("compra", Matchers.hasProperty("estado", Matchers.is(Estado.ACEPTADO))))
 				.andExpect(model().attribute("compra", Matchers.hasProperty("cliente", Matchers.is(c))))
 				.andExpect(model().attribute("compra", Matchers.hasProperty("vivienda",Matchers.is(v))))
 				.andExpect(view().name("compras/showCompraDetails"));

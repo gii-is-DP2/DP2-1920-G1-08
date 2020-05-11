@@ -90,7 +90,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/viviendas/allNew").permitAll()
 				.antMatchers("/viviendas/ofertadas").permitAll()
 				.antMatchers("/viviendas/{viviendaId}").permitAll()
+<<<<<<< HEAD
 				.antMatchers("/viviendas/new").hasAuthority("propietario")
+=======
+>>>>>>> refs/remotes/origin/develop
 				.antMatchers("/viviendas/save").hasAnyAuthority("propietario")
 				.antMatchers("/visita/**").hasAnyAuthority("cliente","admin")
 				.antMatchers("/viviendas/mis-viviendas").hasAnyAuthority("propietario")
@@ -109,6 +112,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/usuario/exportPDF").hasAnyAuthority("cliente", "propietario")
 				.antMatchers("/valoracion/**").permitAll()
 				.antMatchers("/visita/valoracion/**").hasRole("cliente")
+<<<<<<< HEAD
+=======
+				.antMatchers("/viviendas/new").hasRole("propietario")
+				.antMatchers("/viviendas/save").hasAnyAuthority("propietario")
+				.antMatchers("/visita/**").hasAnyAuthority("cliente","admin")
+>>>>>>> refs/remotes/origin/develop
 				.antMatchers("/compras/").permitAll()
 				.antMatchers("/usuario/misVisitas").hasAuthority("cliente")
 				.antMatchers("/valoracion/**").permitAll()

@@ -99,8 +99,8 @@ public class MensajeController {
 
 	@GetMapping(path = "/new")
 	public String crearMensaje(ModelMap modelMap) {
-		String viewProp = "mensajes/editMensaje";
-		String viewClient = "mensajes/editMensajeClient";
+		String view = "mensajes/editMensaje";
+
 		Mensaje mensaje = new Mensaje();
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
@@ -110,15 +110,13 @@ public class MensajeController {
 			mensaje.setEmisorId(c.getId());
 			mensaje.setClient(c);
 			modelMap.addAttribute("mensaje", mensaje);
-			return viewClient;
 		} else {
 			Propietario p = propService.findByUsername(userPrincipal.getUsername());
 			mensaje.setEmisorId(p.getId());
 			mensaje.setProp(p);
 			modelMap.addAttribute("mensaje", mensaje);
-			return viewProp;
 		}
-
+		return view;
 	}
 
 	@PostMapping(value = { "/save" })

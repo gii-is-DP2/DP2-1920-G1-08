@@ -19,6 +19,7 @@
 			<url>https://jcenter.bintray.com/</url>
 		</repository>
 	</repositories>
+	
 
 	<pluginRepositories>
 		<pluginRepository>
@@ -195,6 +196,7 @@
 		    <groupId>com.itextpdf</groupId>
 		    <artifactId>itextpdf</artifactId>
 		    <version>5.5.13</version>
+		    
 		</dependency>
 	</dependencies>
 

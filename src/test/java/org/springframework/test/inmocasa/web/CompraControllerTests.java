@@ -31,9 +31,12 @@ import org.springframework.inmocasa.service.ViviendaService;
 import org.springframework.inmocasa.web.CompraController;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @WebMvcTest(controllers = CompraController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
 @RunWith(SpringRunner.class)
@@ -55,7 +58,7 @@ class CompraControllerTests {
 
 	@MockBean
 	private CompraService compraService;
-	
+
 	@MockBean
 	private ClienteService clienteService;
 
@@ -64,8 +67,7 @@ class CompraControllerTests {
 	private Vivienda vivienda2;
 
 	private Compra compra1;
-	
-	
+
 	private Propietario prop;
 
 	@BeforeEach
@@ -153,14 +155,22 @@ class CompraControllerTests {
 		vivienda.setPropietario(prop);
 		vivienda2.setPropietario(prop);
 		compra1.setCliente(clie);
-		
+
 		List<Compra> compras = (List<Compra>) this.compraService.findAll();
 		this.compraService.deleteById(compra1.getId());
 		assertThat(!compras.contains(compra1));
 
-	
-			}
-
-		
 	}
 
+	@WithMockUser(username = "john123", authorities = { "propietario" })
+	@Test
+	void testProcessAceptarComprarSuccess() throws Exception {
+		
+		this.mockMvc
+				.perform(MockMvcRequestBuilders.post("/compras/{viviendaId}/aceptar", TEST_VIVIENDA_ID_1)
+						.with(SecurityMockMvcRequestPostProcessors.csrf()).param("estado", "ACEPTADO"))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.view().name("compras/form"));
+	}
+
+}

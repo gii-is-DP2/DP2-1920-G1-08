@@ -78,14 +78,14 @@ public class ClienteController {
 	}
 
 	@GetMapping("/{clienteId}/edit")
-	public ModelAndView editVivienda(@PathVariable("clienteId") int clienteId) {
-		ModelAndView mav = new ModelAndView("clientes/registroClientes");
-		mav.addObject("cliente", this.clienteService.findClienteById(clienteId));
-		return mav;
+	public String editProfile(@PathVariable("clienteId") int clienteId,ModelMap model) {
+		String view = "clientes/registroClientes";
+		model.addAttribute("cliente",this.clienteService.findClienteById(clienteId));
+		return view;
 	}
 
 	@PostMapping(path = "/{clienteId}/save")
-	private String processCreationForm(@Valid Cliente cliente, BindingResult res, ModelMap modelMap) {
+	public String processUpdateForm(@Valid Cliente cliente, BindingResult res, ModelMap modelMap) {
 		if (res.hasErrors()) {
 			modelMap.addAttribute("cliente", cliente);
 			return "clientes/registroClientes";

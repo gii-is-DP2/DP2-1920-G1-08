@@ -1,20 +1,18 @@
 package org.springframework.test.inmocasa.web;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static org.mockito.BDDMockito.given;
 
 import java.time.LocalDate;
-import static org.hamcrest.Matchers.hasProperty;
-
 
 import org.assertj.core.util.Lists;
-import org.hamcrest.beans.HasProperty;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -33,23 +31,20 @@ import org.springframework.inmocasa.model.Vivienda;
 import org.springframework.inmocasa.model.enums.Estado;
 import org.springframework.inmocasa.model.enums.Genero;
 import org.springframework.inmocasa.service.AdministradorService;
+import org.springframework.inmocasa.service.ClienteService;
 import org.springframework.inmocasa.service.CompraService;
 import org.springframework.inmocasa.service.PropietarioService;
 import org.springframework.inmocasa.service.ViviendaService;
 import org.springframework.inmocasa.web.ViviendaController;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-
-@WebMvcTest(controllers = ViviendaController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
+@WebMvcTest(controllers = ViviendaController.class, 
+	excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), 
+	excludeAutoConfiguration = SecurityConfiguration.class)
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = { InmocasaApplication.class })
 class ViviendaControllerTests {
@@ -72,6 +67,9 @@ class ViviendaControllerTests {
 
 	@MockBean
 	private AdministradorService adminService;
+	
+	@MockBean
+	private ClienteService clienteService;
 
 	private Vivienda vivienda;
 
@@ -93,7 +91,6 @@ class ViviendaControllerTests {
 		vivienda.setAmueblado(true);
 		vivienda.setCaracteristicas("Caracteristicas");
 		vivienda.setHorarioVisita("Martes de 9:00 a 13:00");
-		vivienda.setComentario("Comentario");
 
 		vivienda2 = new Vivienda();
 		vivienda2.setId(TEST_VIVIENDA_ID_2);
@@ -156,6 +153,46 @@ class ViviendaControllerTests {
 				.andExpect(view().name("viviendas/listaViviendasOferta")).andExpect(status().isOk());
 	}
 
+	//HU-03 Publicar una nueva vivienda
+	@WithMockUser(value = "gilmar", authorities = { "propietario" })
+	@Test
+	void testNewVivienda() throws Exception {
+		mockMvc.perform(get("/viviendas/new"))
+			.andExpect(status().isOk())
+			.andExpect(model().attributeExists("vivienda"))
+			.andExpect(model().attribute("vivienda", hasProperty("propietario")))
+			.andExpect(view().name("viviendas/editVivienda"));
+	}
+	
+	@WithMockUser(value = "alejandra", authorities = { "cliente" })
+	@Test
+	void testNewViviendaDenied() throws Exception {
+		mockMvc.perform(get("/viviendas/new"))
+			.andExpect(status().isForbidden());
+	}
+	
+	@Test
+	void testCreateViviendaNegativo() throws Exception {
+		vivienda.setId(20);
+		vivienda.setCaracteristicas(null);
+		this.viviendaService.save(vivienda);
+		
+		Vivienda res = this.viviendaService.findViviendaById(vivienda.getId()).orElse(null);
+		assertThat(res== null);
+	}
+	
+	@WithMockUser(value = "gilmar", authorities = { "propietario" })
+	@Test
+	void testCreateVivienda() throws Exception {
+		vivienda.setId(20);
+		this.viviendaService.save(vivienda);
+		
+		Vivienda res = this.viviendaService.findViviendaById(vivienda.getId()).orElse(null);
+		assertThat(res!= null);
+	}
+	
+	//HU-0
+	
 	// HU-04
 	@WithMockUser(value = "gilmar", authorities = { "propietario" })
 	@Test
@@ -164,36 +201,6 @@ class ViviendaControllerTests {
 				.andExpect(status().isOk()).andDo(print());
 	}
 
-	@WithMockUser(value = "gilmar", authorities = { "propietario" })
-	@Test
-	void testInitEditVivienda() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/viviendas/{viviendaId}/edit", TEST_VIVIENDA_ID_1))
-				.andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(MockMvcResultMatchers.model().attribute("vivienda", nullValue()))
-				.andExpect(MockMvcResultMatchers.view().name("viviendas/editVivienda"));
-	}
-
-	@WithMockUser(value = "gilmar")
-	@Test
-	void testProcessUpdateFormSuccess() throws Exception {
-		this.mockMvc
-				.perform(MockMvcRequestBuilders.post("/viviendas/{viviendaId}/save", TEST_VIVIENDA_ID_1)
-						.with(SecurityMockMvcRequestPostProcessors.csrf())
-						.param("titulo", "Piso en venta en ocho de marzo ").param("fechaPublicacion", "2020/02/12"))
-				.andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(MockMvcResultMatchers.view().name("viviendas/editVivienda"));
-	}
-	@WithMockUser(value = "gilmar")
-	@Test
-	void testProcessUpdateFormHasErrors() throws Exception {
-		this.mockMvc
-				.perform(MockMvcRequestBuilders.post("/viviendas/{viviendaId}/save", TEST_VIVIENDA_ID_1)
-						.with(SecurityMockMvcRequestPostProcessors.csrf())
-						.param("titulo", "Piso en venta en ocho de marzo ").param("fechaPublicacion", "20/02/12"))
-				.andExpect(model().attributeHasErrors("vivienda")).andExpect(status().isOk())
-				.andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(MockMvcResultMatchers.view().name("viviendas/editVivienda"));
-	}
 //	@WithMockUser(username = "john123", authorities = { "propietario" })
 //	@Test
 //	void showViviendaDetails() throws Exception {

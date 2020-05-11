@@ -1,5 +1,6 @@
 package org.springframework.inmocasa.web;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -44,7 +45,7 @@ public class ViviendaController {
 
 	@Autowired
 	private PropietarioService propService;
-
+	
 	@Autowired
 	private ClienteService clienteService;
 
@@ -195,6 +196,7 @@ public class ViviendaController {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
 		Propietario propietario = propService.findByUsername(userPrincipal.getUsername());
+		vivienda.setFechaPublicacion(LocalDate.now());
 		vivienda.setPropietario(propietario);
 		if (result.hasErrors()) {
 			modelMap.addAttribute("vivienda", vivienda);

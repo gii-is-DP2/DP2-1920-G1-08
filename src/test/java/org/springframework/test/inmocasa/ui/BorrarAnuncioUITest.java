@@ -8,16 +8,25 @@ import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+ 
+@ExtendWith(SpringExtension.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@DirtiesContext
 public class BorrarAnuncioUITest {
+	
+	@LocalServerPort
+	private int port;
 	private WebDriver driver;
 	private String baseUrl;
 	private boolean acceptNextAlert = true;
@@ -32,7 +41,7 @@ public class BorrarAnuncioUITest {
 
 	@Test
 	public void testBorrarAnuncioOK() throws Exception {
-		driver.get("http://localhost:8080/");
+		driver.get("http://localhost:"+port);
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		driver.findElement(By.id("password")).clear();
 		try {
@@ -55,7 +64,7 @@ public class BorrarAnuncioUITest {
 
 	@Test
 	public void testBorrarAnuncioNotOK() throws Exception {
-		driver.get("http://localhost:8080/");
+		driver.get("http://localhost:"+port);
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		driver.findElement(By.id("password")).click();
 		driver.findElement(By.id("password")).clear();

@@ -63,8 +63,6 @@ public class UsuarioController {
     UsuarioService usuarioService;
 	
 
-
-	
 	@Autowired
 	public UsuarioController(VisitaService visitaService,ClienteService clienteService, PropietarioService clinicService,
 			CompraService compraService, ViviendaService viviendaService, UsuarioService usuarioService) {

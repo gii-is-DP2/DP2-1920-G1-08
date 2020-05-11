@@ -7,19 +7,107 @@
 <%@ attribute name="name" required="true" rtexprvalue="true"
 	description="Name of the active menu: home, owners, vets or error"%>
 
-<nav class="navbar navbar-default" role="navigation">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
 	<div class="container">
-		<div class="navbar-header">
-			<a class="navbar-brand"
-				href="<spring:url value="/" htmlEscape="true" />"><span></span></a>
-			<button type="button" class="navbar-toggle" data-toggle="collapse"
-				data-target="#main-navbar">
-				<span class="sr-only"><os-p>Toggle navigation</os-p></span> <span
-					class="icon-bar"></span> <span class="icon-bar"></span> <span
-					class="icon-bar"></span>
-			</button>
+		<a class="navbar-brand" href="/"> <img class="img-logo"
+			src="/resources/images/Logo_inmocasa.png" alt=""
+			style="margin-left: -100px">
+		</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarResponsive" aria-controls="navbarResponsive"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarResponsive">
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item active"><a class="nav-link"
+					href="/viviendas/allNew">Todas las viviendas <span
+						class="sr-only">(current)</span>
+				</a></li>
+
+
+
+				<sec:authorize access="!isAuthenticated()">
+					<li class="nav-item"><a class="nav-link" href="/login">Acceso
+							usuarios</a></li>
+					<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+						role="button" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false"> Registro </a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="/clientes/new">Registrarse
+								como cliente</a> <a class="dropdown-item" href="/propietarios/new">Registrarse
+								como propietario</a>
+
+						</div></li>
+				</sec:authorize>
+
+
+
+				<!-- Panel usuario -->
+				<sec:authorize access="isAuthenticated()">
+
+					<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+						role="button" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false"> Mis mensajes </a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="/mensajes/mensajes-recibidos">Mensajes
+								recibidos</a> 
+							<a class="dropdown-item" href="/mensajes/mensajes-enviados">Mensajes
+								enviados</a>
+							<a class="dropdown-item" href="/mensajes/new">Enviar mensaje</a>
+
+						</div></li>
+					<div class="btn-group">
+
+						<button type="button" class="btn btn-success">
+							<sec:authentication property="name" />
+						</button>
+						<button type="button"
+							class="btn btn-danger dropdown-toggle dropdown-toggle-split"
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<span class="sr-only">Toggle Dropdown</span>
+						</button>
+						<div class="dropdown-menu">
+							<a class="dropdown-item" href="/usuario/miPerfil">Mi perfil</a> 
+							<sec:authorize access="hasAnyAuthority('cliente')">
+							<a class="dropdown-item" href="/clientes/lista/favoritas">Mis favoritos</a>
+							<a class="dropdown-item" href="/usuario/misVisitas">Mis visitas</a>
+							</sec:authorize>
+							<sec:authorize access="hasAnyAuthority('admin')">
+								<a class="dropdown-item" href="/dashboard">Estadísticas</a>
+							</sec:authorize>
+							<sec:authorize access="hasAnyAuthority('propietario')">
+								<a class="dropdown-item" href="/viviendas/mis-viviendas">Mis viviendas</a>
+							</sec:authorize>
+							<sec:authorize access="hasAnyAuthority('propietario')">
+								<a class="dropdown-item" href="/viviendas/ofertadas">Viviendas con oferta</a>
+							</sec:authorize>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="<c:url value="/logout" />">Logout</a>
+						</div>
+					</div>
+				</sec:authorize>
+			</ul>
 		</div>
+	</div>
+
+</nav>
+<%-- <nav class="navbar navbar-default" role="navigation">
+	<div class="dropdown">
+		<button class="btn btn-secondary dropdown-toggle" type="button"
+			id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+			aria-expanded="false">Dropdown button</button>
+		<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+			<a class="dropdown-item" href="#">Action</a> <a class="dropdown-item"
+				href="#">Another action</a> <a class="dropdown-item" href="#">Something
+				else here</a>
+		</div>
+
 		<div class="navbar-collapse collapse" id="main-navbar">
+		
 			<ul class="nav navbar-nav">
 
 				<petclinic:menuItem active="${name eq 'home'}" url="/"
@@ -28,18 +116,27 @@
 					<span>Home</span>
 				</petclinic:menuItem>
 
-				<petclinic:menuItem active="${name eq 'owners'}" url="/owners/find"
-					title="find owners">
+				<petclinic:menuItem active="${name eq 'viviendas'}"
+					url="/vivienda/list" title="Viviendas">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-					<span>Find owners</span>
+					<span>Viviendas</span>
 				</petclinic:menuItem>
 
-				<petclinic:menuItem active="${name eq 'vets'}" url="/vets"
-					title="veterinarians">
+				<sec:authorize access="hasAnyAuthority('admin')">
+					<petclinic:menuItem active="${name eq 'dashboard'}"
+						url="/dashboard" title="dashboard">
+						<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+						<span>Estadisticas</span>
+					</petclinic:menuItem>
+				</sec:authorize>
+
+				
+				<petclinic:menuItem active="${name eq 'viviendas'}" url="/viviendas/allNew"
+					title="viviendas">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>Veterinarians</span>
+					<span>Viviendas</span>
 				</petclinic:menuItem>
-
+				
 				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
 					title="trigger a RuntimeException to see how it is handled">
 					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
@@ -48,9 +145,6 @@
 
 			</ul>
 
-
-
-
 			<ul class="nav navbar-nav navbar-right">
 				<sec:authorize access="!isAuthenticated()">
 					<li><a href="<c:url value="/login" />">Login</a></li>
@@ -58,7 +152,7 @@
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span>Â 
+						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span>
 							<strong><sec:authentication property="name" /></strong> <span
 							class="glyphicon glyphicon-chevron-down"></span>
 					</a>
@@ -84,7 +178,7 @@
 								</div>
 							</li>
 							<li class="divider"></li>
-<!-- 							
+							<!-- 							
                             <li> 
 								<div class="navbar-login navbar-login-session">
 									<div class="row">
@@ -106,5 +200,8 @@
 
 
 
+
 	</div>
 </nav>
+
+ --%>

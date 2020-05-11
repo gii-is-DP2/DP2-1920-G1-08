@@ -58,10 +58,6 @@ INSERT INTO USUARIO_FAVORITAS (cliente_id, favoritas_id) VALUES (10, 2);
 INSERT INTO USUARIO_FAVORITAS (cliente_id, favoritas_id) VALUES (10, 6);
 INSERT INTO USUARIO_FAVORITAS (cliente_id, favoritas_id) VALUES (11,8);
 
-INSERT INTO USUARIO_FAVORITAS (cliente_id, favoritas_id) VALUES (10, 2);
-INSERT INTO USUARIO_FAVORITAS (cliente_id, favoritas_id) VALUES (10, 6);
-INSERT INTO USUARIO_FAVORITAS (cliente_id, favoritas_id) VALUES (11,8);
-
 INSERT INTO habitacion(id, vivienda_id, tipo_habitacion, num_camas, caracteristicas, foto) VALUES (1, 2, 0, 2, 'Habitación doble con cama de matrimonio', 'https://d1vp8nomjxwyf1.cloudfront.net/wp-content/uploads/sites/406/2019/11/12151329/23.-COM-800x533.jpg');
 INSERT INTO habitacion(id, vivienda_id, tipo_habitacion, num_camas, caracteristicas, foto) VALUES (2, 2, 1, null, 'Cocina amueblada con horno, microondas, frigorifico', 'https://i.pinimg.com/originals/f8/af/17/f8af17df7fa83f09cc403065859c4414.jpg');
 INSERT INTO habitacion(id, vivienda_id, tipo_habitacion, num_camas, caracteristicas, foto) VALUES (3, 4, 0, 1, 'Habitación individual', 'https://d1bvpoagx8hqbg.cloudfront.net/originals/habitacion-estudiantes-casa-familia-aa8c8a0f835c7a0b15f3f68d849a1d88.jpg');

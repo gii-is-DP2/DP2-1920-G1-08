@@ -33,6 +33,7 @@ import org.springframework.inmocasa.model.Vivienda;
 import org.springframework.inmocasa.model.enums.Estado;
 import org.springframework.inmocasa.model.enums.Genero;
 import org.springframework.inmocasa.service.AdministradorService;
+import org.springframework.inmocasa.service.ClienteService;
 import org.springframework.inmocasa.service.CompraService;
 import org.springframework.inmocasa.service.PropietarioService;
 import org.springframework.inmocasa.service.ViviendaService;
@@ -72,6 +73,9 @@ class ViviendaControllerTests {
 
 	@MockBean
 	private AdministradorService adminService;
+	
+	@MockBean
+	private ClienteService clienteService;
 
 	private Vivienda vivienda;
 

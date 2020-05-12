@@ -14,6 +14,7 @@
 	<input type="hidden" name="viviendaId" value="${vivienda.id}" />
 	<input type="hidden" name="propietario" value="${propietario}" />
 
+	
 	<sec:authorize access="hasAnyAuthority('cliente, admin')">
 		<spring:url value="/compras/create/{viviendaId}" var="compraUrl">
 			<spring:param name="viviendaId" value="${vivienda.id}" />
@@ -50,8 +51,8 @@
 		<a href="${fn:escapeXml(createVivUrl)}" class="btn btn-primary"
 			role="button">Pedir cita</a>
 	</sec:authorize>
-	<br />
-	<br />
+	<br/>
+	<br/>
 
 	<h2>Informacion de vivienda</h2>
 
@@ -153,6 +154,17 @@
 		<a href="${fn:escapeXml(denunciarVivienda)}" class="btn btn-primary"
 			role="button">Denunciar</a>
 	</sec:authorize>
+
+	
+	<c:if test="${!vivienda.fav}">
+		<sec:authorize access="hasAnyAuthority('cliente')">	
+		<spring:url value="/clientes/{viviendaId}/favoritos" var="favoritoUrl">
+			<spring:param name="viviendaId" value="${vivienda.id}" />
+		</spring:url>
+		<a href="${fn:escapeXml(favoritoUrl)}" class="btn btn-primary">Añadir a favoritos
+			</a>
+	</sec:authorize>
+	</c:if>
 
 
 </petclinic:layout>

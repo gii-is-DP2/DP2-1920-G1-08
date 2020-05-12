@@ -81,5 +81,26 @@
 	</spring:url>
 	<a href="${fn:escapeXml(deleteAllUrl)}" class="btn btn-primary">
 		Borrar todos mis datos de la página</a>
+		
+	<spring:url value="/usuario/exportPDF" var="pdfURL">
+	</spring:url>
+	<a href="${fn:escapeXml(pdfURL)}" class="btn btn-primary" target="_blank">
+		Descargar PDF con mis datos</a>
 	
+	
+	<sec:authorize access="hasAnyAuthority('cliente')">
+        <spring:url value="/clientes/{clienteId}/edit" var="editUrl">
+            <spring:param name="clienteId" value="${cliente.id}" />
+        </spring:url>
+        <a href="${fn:escapeXml(editUrl)}" class="btn btn-primary"> Editar
+            perfil</a>
+    </sec:authorize>
+
+    <sec:authorize access="hasAnyAuthority('propietario')">
+        <spring:url value="/propietarios/{propietarioId}/edit" var="editUrl">
+            <spring:param name="propietarioId" value="${propietario.id}" />
+        </spring:url>
+        <a href="${fn:escapeXml(editUrl)}" class="btn btn-primary"> Editar
+            perfil</a>
+    </sec:authorize>
 </petclinic:layout>

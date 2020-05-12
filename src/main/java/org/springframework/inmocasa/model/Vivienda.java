@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -26,8 +27,6 @@ public class Vivienda extends BaseEntity{
 	
 	@NotNull
 	private String titulo;
-
-	private Boolean denunciado;
 	
 	@NotNull
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
@@ -63,6 +62,9 @@ public class Vivienda extends BaseEntity{
 	@Column(name="horario_visita")
 
 	private String horarioVisita;
+	
+	@Transient
+	private boolean fav;
 
 	@NotNull
 	@Valid

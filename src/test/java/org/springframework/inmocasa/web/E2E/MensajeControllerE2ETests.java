@@ -25,7 +25,6 @@ import org.springframework.test.web.servlet.MockMvc;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
-@ContextConfiguration(classes = { InmocasaApplication.class })
 public class MensajeControllerE2ETests {
 
 	private static int TEST_CLIENTE_ID = 9;

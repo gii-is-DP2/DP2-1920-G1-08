@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
-@ContextConfiguration(classes = { InmocasaApplication.class })
 public class PropietarioControllerE2ETests {
 
 	int TEST_PROPIETARIO_ID = 1;

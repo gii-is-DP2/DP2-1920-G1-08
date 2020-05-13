@@ -19,7 +19,6 @@ import org.springframework.test.web.servlet.MockMvc;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
-@ContextConfiguration(classes = { InmocasaApplication.class })
 public class ViviendaControllerE2ETests {
 
 	@Autowired

@@ -40,7 +40,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @WebMvcTest(controllers = CompraController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = { InmocasaApplication.class })
 class CompraControllerTests {
 
 	private static final int TEST_VIVIENDA_ID_1 = 1;

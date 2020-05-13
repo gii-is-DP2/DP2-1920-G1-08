@@ -48,6 +48,7 @@ public class EditarViviendaUITest {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
 		}
+		driver.findElement(By.id("username")).sendKeys("gilmar");
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
 		driver.findElement(By.xpath("(//button[@type='button'])[3]")).click();
 		driver.findElement(By.linkText("Mis viviendas")).click();

@@ -22,8 +22,6 @@ public class AceptarOfertaUITest {
 
 	@BeforeEach
 	public void setUp() throws Exception {
-//		String pathToGeckoDriver = "C:\\Users\\Santiago\\Downloads";
-//		System.setProperty("webdriver.chrome.driver", pathToGeckoDriver + "\\chromedriver.exe");
 		System.setProperty("webdriver.chrome.driver", System.getenv("webdriver.chrome.driver"));
 		driver = new ChromeDriver();
 		baseUrl = "https://www.google.com/";
@@ -33,20 +31,47 @@ public class AceptarOfertaUITest {
 	@Test
 	public void testAceptarOfertaOk() throws Exception {
 		driver.get("http://localhost:8080/");
-		driver.findElement(By.xpath("//div[@id='navbarResponsive']/ul/div/button[2]")).click();
+		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
+		driver.findElement(By.id("password")).clear();
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+		}
+		driver.findElement(By.id("password")).sendKeys("davidsa");
+		driver.findElement(By.id("username")).clear();
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+		}
+		driver.findElement(By.id("username")).sendKeys("davidsa");
+		driver.findElement(By.xpath("//button[@type='submit']")).click();
+		driver.findElement(By.xpath("(//button[@type='button'])[3]")).click();
 		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/ofertadas')]")).click();
 		driver.findElement(By.xpath("//a[contains(@href, '/compras/8')]")).click();
 		driver.findElement(By.xpath("//a[contains(@href, '/compras/8/aceptar')]")).click();
 	}
-	
-	
-	  @Test
-	  public void testAceptarOfertaNoOk() throws Exception {
-	    driver.get("http://localhost:8080/");
-	    driver.findElement(By.xpath("(//button[@type='button'])[3]")).click();
-	    driver.findElement(By.xpath("//a[contains(@href, '/viviendas/ofertadas')]")).click();
-	    driver.findElement(By.xpath("//a[contains(@href, '/compras/1')]")).click();
-	  }
+
+	@Test
+	public void testAceptarOfertaNoOk() throws Exception {
+		driver.get("http://localhost:8080/");
+		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
+		driver.findElement(By.id("password")).clear();
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+		}
+		driver.findElement(By.id("password")).sendKeys("gilmar");
+		driver.findElement(By.id("username")).clear();
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+		}
+		driver.findElement(By.id("username")).sendKeys("gilmar");
+		driver.findElement(By.xpath("//button[@type='submit']")).click();
+		driver.findElement(By.xpath("(//button[@type='button'])[3]")).click();
+		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/ofertadas')]")).click();
+		driver.findElement(By.xpath("//a[contains(@href, '/compras/1')]")).click();
+	}
 
 	@AfterEach
 	public void tearDown() throws Exception {

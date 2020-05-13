@@ -26,8 +26,7 @@ public class EditarPerfilUITest {
 
 	@BeforeEach
 	public void setUp() throws Exception {
-		String pathToGeckoDriver = "C:\\Users\\adiaz\\Downloads";
-		System.setProperty("webdriver.chrome.driver", pathToGeckoDriver + "\\chromedriver.exe");
+		System.setProperty("webdriver.chrome.driver", System.getenv("webdriver.chrome.driver"));
 		driver = new ChromeDriver();
 		baseUrl = "https://www.google.com/";
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);

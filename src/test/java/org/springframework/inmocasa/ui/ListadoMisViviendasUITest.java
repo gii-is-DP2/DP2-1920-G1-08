@@ -26,8 +26,7 @@ public class ListadoMisViviendasUITest {
 
 	@BeforeEach
 	public void setUp() throws Exception {
-		String pathToGeckoDriver = "C:\\Users\\adiaz\\Downloads";
-		System.setProperty("webdriver.chrome.driver", pathToGeckoDriver + "\\chromedriver.exe");
+		System.setProperty("webdriver.chrome.driver", System.getenv("webdriver.chrome.driver"));
 		driver = new ChromeDriver();
 		baseUrl = "https://www.google.com/";
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
@@ -51,8 +50,8 @@ public class ListadoMisViviendasUITest {
 		driver.findElement(By.id("username")).sendKeys("gilmar");
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
 		driver.findElement(By.xpath("(//button[@type='button'])[3]")).click();
-	    driver.findElement(By.linkText("Mis viviendas")).click();
-	    driver.findElement(By.xpath("//a[contains(@href, '/viviendas/mis-viviendas')]")).click();
+		driver.findElement(By.linkText("Mis viviendas")).click();
+		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/mis-viviendas')]")).click();
 	}
 
 	@AfterEach

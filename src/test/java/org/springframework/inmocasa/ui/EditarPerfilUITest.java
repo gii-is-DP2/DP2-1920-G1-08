@@ -67,7 +67,7 @@ public class EditarPerfilUITest {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
 		}
-		driver.findElement(By.id("password")).sendKeys("12345678");
+		driver.findElement(By.id("password")).sendKeys("gilmar");
 		driver.findElement(By.id("username")).clear();
 		try {
 			Thread.sleep(500);

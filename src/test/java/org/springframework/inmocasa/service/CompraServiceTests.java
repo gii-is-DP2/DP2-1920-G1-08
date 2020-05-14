@@ -30,7 +30,7 @@ import com.paypal.base.rest.PayPalRESTException;
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 //@RunWith(SpringRunner.class)
 //@ContextConfiguration(classes= {InmocasaApplication.class})
-//@AutoConfigureTestDatabase(replace=Replace.NONE)
+@AutoConfigureTestDatabase(replace=Replace.NONE)
 public class CompraServiceTests {
 
 	@Autowired

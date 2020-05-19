@@ -53,7 +53,7 @@ public class CompraControllerE2ETests {
 				.andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/viviendas/ofertadas"));
 	}
 
-	@WithMockUser(username = "admin1", authorities = { "admin" })
+	@WithMockUser(username = "inmocasa", authorities = { "propietario" })
 	@Test
 	void testShowCompra() throws Exception {
 		Cliente c= clienteService.findClienteById(TEST_CLIENTE_ID);

@@ -47,14 +47,21 @@ public class EditarViviendaUITest {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
 		}
+		driver.findElement(By.id("username")).sendKeys("gilmar");
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
 		driver.findElement(By.xpath("(//button[@type='button'])[3]")).click();
-		driver.findElement(By.linkText("Mis viviendas")).click();
+		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/mis-viviendas')]")).click();
+		driver.findElement(By.xpath("//table[@id='viviendaOfertaTable']/tbody/tr/td[3]")).click();
+		assertEquals("Centro",
+				driver.findElement(By.xpath("//table[@id='viviendaOfertaTable']/tbody/tr/td[3]")).getText());
 		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/1/edit')]")).click();
-		driver.findElement(By.xpath("//form[@id='vivienda']/div/div[9]/div/input")).click();
-		driver.findElement(By.id("comentario")).clear();
-		driver.findElement(By.id("comentario")).sendKeys("Este es un comentario");
+		driver.findElement(By.xpath("//form[@id='vivienda']/div/div[4]/div/input")).click();
+		driver.findElement(By.xpath("//form[@id='vivienda']/div/div[4]/div/input")).clear();
+		driver.findElement(By.xpath("//form[@id='vivienda']/div/div[4]/div/input")).sendKeys("Bami");
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
+		assertEquals("Bami",
+				driver.findElement(By.xpath("//table[@id='viviendaOfertaTable']/tbody/tr/td[3]")).getText());
+
 	}
 
 	@Test
@@ -75,14 +82,17 @@ public class EditarViviendaUITest {
 		driver.findElement(By.id("username")).sendKeys("gilmar");
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
 		driver.findElement(By.xpath("(//button[@type='button'])[3]")).click();
-		driver.findElement(By.linkText("Mis viviendas")).click();
+		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/mis-viviendas')]")).click();
+		assertEquals("Centro",
+				driver.findElement(By.xpath("//table[@id='viviendaOfertaTable']/tbody/tr/td[3]")).getText());
 		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/1/edit')]")).click();
-		driver.findElement(By.xpath("//form[@id='vivienda']/div/div[5]/div/input")).click();
-		driver.findElement(By.id("precio")).click();
-		driver.findElement(By.id("precio")).clear();
-		driver.findElement(By.id("precio")).sendKeys("");
+		driver.findElement(By.xpath("//form[@id='vivienda']/div/div[4]/div/input")).clear();
+		driver.findElement(By.xpath("//form[@id='vivienda']/div/div[4]/div/input")).sendKeys("");
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
-
+		driver.findElement(By.xpath("(//button[@type='button'])[3]")).click();
+		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/mis-viviendas')]")).click();
+		assertEquals("Centro",
+				driver.findElement(By.xpath("//table[@id='viviendaOfertaTable']/tbody/tr/td[3]")).getText());
 	}
 
 	@AfterEach

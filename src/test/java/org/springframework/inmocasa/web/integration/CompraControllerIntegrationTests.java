@@ -46,7 +46,6 @@ public class CompraControllerIntegrationTests {
         c.setEstado(Estado.RECHAZADO);
 
         String view = compraController.rechazarCompra(c.getVivienda().getId(), model);
-
         assertEquals(view, "redirect:/viviendas/ofertadas");
     }
 	

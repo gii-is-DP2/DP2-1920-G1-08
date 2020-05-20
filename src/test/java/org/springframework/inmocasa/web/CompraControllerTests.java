@@ -165,12 +165,10 @@ class CompraControllerTests {
 	@WithMockUser(username = "john123", authorities = { "propietario" })
 	@Test
 	void testProcessAceptarComprarSuccess() throws Exception {
-		
-		this.mockMvc
-				.perform(MockMvcRequestBuilders.post("/compras/{viviendaId}/aceptar", TEST_VIVIENDA_ID_1)
-						.with(SecurityMockMvcRequestPostProcessors.csrf()).param("estado", "ACEPTADO"))
-				.andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(MockMvcResultMatchers.view().name("compras/form"));
+
+		mockMvc.perform(get("/compras/{viviendaId}/aceptar", 4).with(SecurityMockMvcRequestPostProcessors.csrf())
+				.param("estado", "ACEPTADO")).andExpect(status().isOk())
+				.andExpect(view().name("compras/form"));
 	}
 
 }

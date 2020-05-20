@@ -35,9 +35,9 @@ public class ShowViviendaUITest {
 	@Test
 	public void testShowViviendaUI() throws Exception {
 		driver.get("http://localhost:8080/");
-		driver.findElement(By.xpath("(//button[@type='button'])[3]")).click();
-		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/mis-viviendas')]")).click();
-		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/8')]")).click();
+		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/allNew')]")).click();
+		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/2')]")).click();
+		assertEquals("Vivienda grande", driver.findElement(By.xpath("//td")).getText());
 	}
 
 	@AfterEach

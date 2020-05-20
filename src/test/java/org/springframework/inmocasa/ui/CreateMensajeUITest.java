@@ -1,21 +1,34 @@
 package org.springframework.inmocasa.ui;
 
 import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
+import org.springframework.inmocasa.service.PropietarioService;
+import org.springframework.security.test.context.support.WithMockUser;
+
+@TestMethodOrder(OrderAnnotation.class)
 
 public class CreateMensajeUITest {
+
+	private PropietarioService propietarioService;
 	private WebDriver driver;
 	private String baseUrl;
 	private boolean acceptNextAlert = true;
@@ -57,9 +70,12 @@ public class CreateMensajeUITest {
 				.selectByVisibleText("Alejandra");
 		driver.findElement(By.xpath("//select[@id='client']/option[4]")).click();
 		driver.findElement(By.xpath("//form[@id='mensaje']/div[2]/div/button/h4")).click();
+		assertEquals("Hola", driver.findElement(By.xpath("//table[@id='MensajesTable']/tbody/tr[1]/td[1]")).getText());
+
 	}
 
 	@Test
+    @Order(1)
 	public void testCreateMensajeNotOk() throws Exception {
 		driver.get("http://localhost:8080/");
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
@@ -85,6 +101,8 @@ public class CreateMensajeUITest {
 				.selectByVisibleText("Alejandra");
 		driver.findElement(By.xpath("//select[@id='client']/option[4]")).click();
 		driver.findElement(By.xpath("//form[@id='mensaje']/div[2]/div/button/h4")).click();
+		assertEquals("no puede estar vacío", this.driver.findElement(By.xpath("//form[@id='mensaje']/div/div/div")).getText());
+
 	}
 
 	@AfterEach

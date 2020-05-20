@@ -45,7 +45,7 @@ public class ViviendaController {
 
 	@Autowired
 	private PropietarioService propService;
-	
+
 	@Autowired
 	private ClienteService clienteService;
 
@@ -74,7 +74,7 @@ public class ViviendaController {
 	}
 
 	@GetMapping("/{viviendaId}")
-	public String showVivienda(@PathVariable("viviendaId") int viviendaId,ModelMap model) {
+	public String showVivienda(@PathVariable("viviendaId") int viviendaId, ModelMap model) {
 		String view = "viviendas/showViviendaDetails";
 		Vivienda vivienda = this.viviendaService.findViviendaById(viviendaId).get();
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();

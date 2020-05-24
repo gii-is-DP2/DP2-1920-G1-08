@@ -13,7 +13,6 @@ import org.springframework.inmocasa.model.Cliente;
 import org.springframework.inmocasa.model.Compra;
 import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.model.Vivienda;
-import org.springframework.inmocasa.model.enums.Estado;
 import org.springframework.inmocasa.service.AdministradorService;
 import org.springframework.inmocasa.service.ClienteService;
 import org.springframework.inmocasa.service.CompraService;
@@ -31,7 +30,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/viviendas")
@@ -207,6 +205,7 @@ public class ViviendaController {
 	public String crearVivienda(ModelMap modelMap) {
 		String view = "viviendas/editVivienda";
 		Vivienda vivienda = new Vivienda();
+		vivienda.setFechaPublicacion(LocalDate.now());
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
 		Propietario propietario = propService.findByUsername(userPrincipal.getUsername());

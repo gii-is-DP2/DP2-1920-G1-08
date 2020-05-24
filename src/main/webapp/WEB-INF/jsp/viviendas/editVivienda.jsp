@@ -22,14 +22,14 @@
                 <petclinic:inputField label="Título" name="titulo"/>
                 <petclinic:inputField label="DirecciÃ³n" name="direccion"/>
                 <petclinic:inputField label="Zona" name="zona"/>
-                <petclinic:inputField label="Precio" name="precio"/>
-                <petclinic:inputField label="Dimensiones" name="dimensiones"/>
-                <petclinic:inputField label="Amueblado" name="amueblado"/>
-               <!--  <span> </span>
-             	<form:select class="form-control" path="Amueblado" >
+                <petclinic:inputNumber label="Precio" name="precio"/>
+                <petclinic:inputNumber label="Dimensiones" name="dimensiones"/>   
+                <label class="col-sm-2 control-label">Amueblado: </label>       
+             	<form:select class="form-control" path="Amueblado" style="width: 100px;">
              		<option value="true">Si</option>
              		<option value="false">No</option>
-             	</form:select>-->
+             	</form:select>
+             	<br/>
                 <petclinic:inputField label="Planta" name="planta"/>
                 <petclinic:inputField label="Comentario" name="comentario"/>
                 <petclinic:inputField label="Foto" name="foto"/>

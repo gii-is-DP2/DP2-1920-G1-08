@@ -59,7 +59,7 @@ public class CompraControllerE2ETests {
 		Cliente c= clienteService.findClienteById(TEST_CLIENTE_ID);
 		c.setMensaje(new ArrayList<Mensaje>());
 		Vivienda v = viviendaService.findViviendaId(TEST_VIVIENDA_ID);
-		this.mockMvc.perform(get("/compras/{viviendaId}", TEST_VIVIENDA_ID)).andExpect(status().isOk())
+		this.mockMvc.perform(get("compras/{viviendaId}", TEST_VIVIENDA_ID)).andExpect(status().isOk())
 				.andExpect(model().attribute("compra", Matchers.hasProperty("precioFinal", Matchers.is(215.000))))
 				.andExpect(model().attribute("compra", Matchers.hasProperty("estado", Matchers.is(Estado.ACEPTADO))))
 				.andExpect(model().attribute("compra", Matchers.hasProperty("cliente", Matchers.is(c))))

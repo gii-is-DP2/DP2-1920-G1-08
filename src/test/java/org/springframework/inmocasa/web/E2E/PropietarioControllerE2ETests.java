@@ -35,7 +35,7 @@ public class PropietarioControllerE2ETests {
 	@WithMockUser(username = "gilmar", authorities = { "propietario" })
 	@Test
 	void testUpdatePropietarioForm() throws Exception {
-		mockMvc.perform(get("propietarios/{propietarioId}/edit", TEST_PROPIETARIO_ID)).andExpect(status().isOk())
+		mockMvc.perform(get("/propietarios/{propietarioId}/edit", TEST_PROPIETARIO_ID)).andExpect(status().isOk())
 				.andExpect(view().name("propietarios/registroPropietarios"));
 	}
 

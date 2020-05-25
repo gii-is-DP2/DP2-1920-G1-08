@@ -54,7 +54,7 @@ public class MensajeControllerE2ETests {
 	@WithMockUser(username = "gilmar", password = "gilmar", authorities = { "propietario" })
 	@Test
 	void testInitCreationForm() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("mensajes/new")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(view().name("mensajes/editMensaje"))
+		mockMvc.perform(MockMvcRequestBuilders.get("/mensajes/new")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(view().name("mensajes/editMensaje"))
 				.andExpect(MockMvcResultMatchers.model().attributeExists("mensaje"));
 	}
 

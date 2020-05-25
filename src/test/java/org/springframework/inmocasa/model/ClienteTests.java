@@ -32,7 +32,7 @@ public class ClienteTests extends ValidatorTests {
 	}
 
 	@Test
-	void shouldClienteWithoutUsername() {
+	void shouldClienteWithoutPassword() {
 		Cliente client = new Cliente();
 		client.setId(10);
 		client.setNombre("John");

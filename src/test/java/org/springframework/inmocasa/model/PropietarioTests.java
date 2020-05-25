@@ -35,7 +35,7 @@ public class PropietarioTests extends ValidatorTests {
 	}
 
 	@Test
-	void shouldPropietarioWithoutUsername() {
+	void shouldPropietarioWithoutPassword() {
 		Propietario prop = new Propietario();
 		prop.setId(1);
 		prop.setNombre("John");

@@ -7,6 +7,8 @@ import java.util.Collection;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
@@ -23,9 +25,7 @@ import com.paypal.base.rest.APIContext;
 //import com.sun.xml.internal.ws.wsdl.writer.document.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
-//@RunWith(SpringRunner.class)
-//@ContextConfiguration(classes= {InmocasaApplication.class})
-//@AutoConfigureTestDatabase(replace=Replace.NONE)
+@AutoConfigureTestDatabase(replace=Replace.NONE)
 public class CompraServiceTests {
 
 	@Autowired
@@ -150,7 +150,6 @@ public class CompraServiceTests {
 	}
 
 	// Se encuentran la compra por el id de la vivienda y esta existe
-
 	@Test
 	void shouldFindCompraByViviendaId() {
 		Collection<Compra> todas = this.compraService.findAll();

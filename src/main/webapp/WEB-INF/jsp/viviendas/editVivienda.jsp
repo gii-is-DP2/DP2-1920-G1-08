@@ -20,12 +20,16 @@
         <form:form modelAttribute="vivienda" class="form-horizontal" action = "/viviendas/save">
             <div class="form-group has-feedback">
                 <petclinic:inputField label="Título" name="titulo"/>
-                <petclinic:inputField label="Fecha de publicacion" name="fechaPublicacion"/>
                 <petclinic:inputField label="DirecciÃ³n" name="direccion"/>
                 <petclinic:inputField label="Zona" name="zona"/>
                 <petclinic:inputField label="Precio" name="precio"/>
                 <petclinic:inputField label="Dimensiones" name="dimensiones"/>
                 <petclinic:inputField label="Amueblado" name="amueblado"/>
+               <!--  <span> </span>
+             	<form:select class="form-control" path="Amueblado" >
+             		<option value="true">Si</option>
+             		<option value="false">No</option>
+             	</form:select>-->
                 <petclinic:inputField label="Planta" name="planta"/>
                 <petclinic:inputField label="Comentario" name="comentario"/>
                 <petclinic:inputField label="Foto" name="foto"/>

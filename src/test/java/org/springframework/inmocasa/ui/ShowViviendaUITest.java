@@ -1,4 +1,4 @@
-package org.springframework.test.inmocasa.ui;
+package org.springframework.inmocasa.ui;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -12,13 +12,13 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
 
-public class ListadoMisViviendasUITest {
+public class ShowViviendaUITest {
 	private WebDriver driver;
 	private String baseUrl;
 	private boolean acceptNextAlert = true;
@@ -26,33 +26,18 @@ public class ListadoMisViviendasUITest {
 
 	@BeforeEach
 	public void setUp() throws Exception {
-		String pathToGeckoDriver = "C:\\Users\\adiaz\\Downloads";
-		System.setProperty("webdriver.chrome.driver", pathToGeckoDriver + "\\chromedriver.exe");
+		System.setProperty("webdriver.chrome.driver", System.getenv("webdriver.chrome.driver"));
 		driver = new ChromeDriver();
 		baseUrl = "https://www.google.com/";
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
 
 	@Test
-	public void testListadoViviendasOk() throws Exception {
+	public void testShowViviendaUI() throws Exception {
 		driver.get("http://localhost:8080/");
-		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
-		driver.findElement(By.id("password")).clear();
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
-		}
-		driver.findElement(By.id("password")).sendKeys("gilmar");
-		driver.findElement(By.id("username")).clear();
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
-		}
-		driver.findElement(By.id("username")).sendKeys("gilmar");
-		driver.findElement(By.xpath("//button[@type='submit']")).click();
 		driver.findElement(By.xpath("(//button[@type='button'])[3]")).click();
-	    driver.findElement(By.linkText("Mis viviendas")).click();
-	    driver.findElement(By.xpath("//a[contains(@href, '/viviendas/mis-viviendas')]")).click();
+		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/mis-viviendas')]")).click();
+		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/8')]")).click();
 	}
 
 	@AfterEach
@@ -96,4 +81,5 @@ public class ListadoMisViviendasUITest {
 			acceptNextAlert = true;
 		}
 	}
+
 }

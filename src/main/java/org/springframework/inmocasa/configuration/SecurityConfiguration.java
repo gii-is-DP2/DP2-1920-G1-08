@@ -79,24 +79,22 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/clientes/{clienteId}/edit").permitAll()
 				.antMatchers("/clientes/{clienteId}/save").permitAll()
 				.antMatchers("/clientes/save").permitAll()
+				.antMatchers("/clientes/{viviendaId}/favoritos").hasAuthority("cliente")
+				.antMatchers("/clientes/lista/favoritas").hasAuthority("cliente")
 				.antMatchers("/dashboard").hasAnyAuthority("admin")
 				.antMatchers("/pay/**").hasAnyAuthority("propietario, admin")
-
-
 				.antMatchers("/resources/**", "/webjars/**", "/h2-console/**").permitAll()
 				.antMatchers("/mensajes/**").permitAll()
-
 				.antMatchers("/users/new").permitAll()
-
 				.antMatchers("/admin/**").hasAnyAuthority("admin")
-
 				.antMatchers("/viviendas/allNew").permitAll()
 				.antMatchers("/viviendas/ofertadas").permitAll()
 				.antMatchers("/viviendas/{viviendaId}").permitAll()
-				.antMatchers("/viviendas/new").hasAnyAuthority("propietario")
+				.antMatchers("/viviendas/new").hasAuthority("propietario")
 				.antMatchers("/viviendas/save").hasAnyAuthority("propietario")
 				.antMatchers("/visita/**").hasAnyAuthority("cliente","admin")
-				.antMatchers("/viviendas/mis-viviendas").hasAnyAuthority("propietario").antMatchers("/viviendas/{viviendaId}/**").permitAll()
+				.antMatchers("/viviendas/mis-viviendas").hasAnyAuthority("propietario")
+				.antMatchers("/viviendas/{viviendaId}/**").permitAll()
 				.antMatchers("/usuarios/**").permitAll()	
 				.antMatchers("/propietarios/**").permitAll()		
 				.antMatchers("/compras/**").permitAll()
@@ -111,40 +109,25 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/usuario/exportPDF").hasAnyAuthority("cliente", "propietario")
 				.antMatchers("/valoracion/**").permitAll()
 				.antMatchers("/visita/valoracion/**").hasRole("cliente")
-				.antMatchers("/viviendas/new").hasAnyAuthority("propietario")
-				.antMatchers("/viviendas/save").hasAnyAuthority("propietario")
-				.antMatchers("/visita/**").hasAnyAuthority("cliente","admin")
 				.antMatchers("/compras/").permitAll()
-				
 				.antMatchers("/usuario/misVisitas").hasAuthority("cliente")
 				.antMatchers("/valoracion/**").permitAll()
 				.antMatchers("/visita/valoracion/**").hasRole("cliente")
 				.anyRequest().denyAll()
-
 				.and()
-
 				.formLogin()
-
 				/* .loginPage("/login") */
-
 				.failureUrl("/login-error")
-
 				.and()
-
 				.logout()
-
 				.logoutSuccessUrl("/");
 
 		// Configuración para que funcione la consola de administración
-
 		// de la BD H2 (deshabilitar las cabeceras de protección contra
-
 		// ataques de tipo csrf y habilitar los framesets si su contenido
-
 		// se sirve desde esta misma página.
 
 		http.csrf().ignoringAntMatchers("/h2-console/**");
-
 		http.headers().frameOptions().sameOrigin();
 
 	}
@@ -157,7 +140,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	      .dataSource(dataSource)
 	      .usersByUsernameQuery(
 	      "select username,password,true from usuario where username =?")
-
 	    		  .authoritiesByUsernameQuery(
 	       "select username, authority "
 	        + "from authorities "

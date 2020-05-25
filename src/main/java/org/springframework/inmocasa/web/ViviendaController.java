@@ -1,5 +1,6 @@
 package org.springframework.inmocasa.web;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -44,7 +45,7 @@ public class ViviendaController {
 
 	@Autowired
 	private PropietarioService propService;
-
+	
 	@Autowired
 	private ClienteService clienteService;
 
@@ -73,8 +74,8 @@ public class ViviendaController {
 	}
 
 	@GetMapping("/{viviendaId}")
-	public ModelAndView showVivienda(@PathVariable("viviendaId") int viviendaId) {
-		ModelAndView mav = new ModelAndView("viviendas/showViviendaDetails");
+	public String showVivienda(@PathVariable("viviendaId") int viviendaId,ModelMap model) {
+		String view = "viviendas/showViviendaDetails";
 		Vivienda vivienda = this.viviendaService.findViviendaById(viviendaId).get();
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Cliente cliente = clienteService.findByUsername(username);
@@ -85,8 +86,8 @@ public class ViviendaController {
 				vivienda.setFav(false);
 			}
 		}
-		mav.addObject("vivienda", vivienda);
-		return mav;
+		model.addAttribute("vivienda", vivienda);
+		return view;
 	}
 //	@GetMapping(value = "/{viviendaId}")
 //	public String showVivienda(@PathVariable("viviendaId") int viviendaId, ModelMap model) {
@@ -219,6 +220,7 @@ public class ViviendaController {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
 		Propietario propietario = propService.findByUsername(userPrincipal.getUsername());
+		vivienda.setFechaPublicacion(LocalDate.now());
 		vivienda.setPropietario(propietario);
 		if (result.hasErrors()) {
 			modelMap.addAttribute("vivienda", vivienda);
@@ -237,7 +239,7 @@ public class ViviendaController {
 		model.addAttribute("viviendas", viviendas);
 		model.addAttribute("message", "La vivienda ha sido denunciada correctamente");
 
-		return showListViviendas(model, null, null, null, null);
+		return "viviendas/listNewViviendas";
 	}
 	// Alba-Alejandro
 

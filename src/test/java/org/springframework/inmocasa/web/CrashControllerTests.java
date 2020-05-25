@@ -1,4 +1,4 @@
-package org.springframework.test.inmocasa.web;
+package org.springframework.inmocasa.web;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

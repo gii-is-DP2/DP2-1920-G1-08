@@ -1,5 +1,6 @@
-package org.springframework.test.inmocasa.ui;
+package org.springframework.inmocasa.ui;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import java.util.concurrent.TimeUnit;
@@ -7,14 +8,17 @@ import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-public class AceptarOfertaUITest {
+public class ListadoMisViviendasUITest {
 	private WebDriver driver;
 	private String baseUrl;
 	private boolean acceptNextAlert = true;
@@ -22,30 +26,33 @@ public class AceptarOfertaUITest {
 
 	@BeforeEach
 	public void setUp() throws Exception {
-		String pathToGeckoDriver = "C:\\Users\\Santiago\\Downloads";
-		System.setProperty("webdriver.chrome.driver", pathToGeckoDriver + "\\chromedriver.exe");
+		System.setProperty("webdriver.chrome.driver", System.getenv("webdriver.chrome.driver"));
 		driver = new ChromeDriver();
 		baseUrl = "https://www.google.com/";
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
 
 	@Test
-	public void testAceptarOfertaOk() throws Exception {
+	public void testListadoViviendasOk() throws Exception {
 		driver.get("http://localhost:8080/");
-		driver.findElement(By.xpath("//div[@id='navbarResponsive']/ul/div/button[2]")).click();
-		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/ofertadas')]")).click();
-		driver.findElement(By.xpath("//a[contains(@href, '/compras/8')]")).click();
-		driver.findElement(By.xpath("//a[contains(@href, '/compras/8/aceptar')]")).click();
+		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
+		driver.findElement(By.id("password")).clear();
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+		}
+		driver.findElement(By.id("password")).sendKeys("gilmar");
+		driver.findElement(By.id("username")).clear();
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+		}
+		driver.findElement(By.id("username")).sendKeys("gilmar");
+		driver.findElement(By.xpath("//button[@type='submit']")).click();
+		driver.findElement(By.xpath("(//button[@type='button'])[3]")).click();
+		driver.findElement(By.linkText("Mis viviendas")).click();
+		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/mis-viviendas')]")).click();
 	}
-	
-	
-	  @Test
-	  public void testAceptarOfertaNoOk() throws Exception {
-	    driver.get("http://localhost:8080/");
-	    driver.findElement(By.xpath("(//button[@type='button'])[3]")).click();
-	    driver.findElement(By.xpath("//a[contains(@href, '/viviendas/ofertadas')]")).click();
-	    driver.findElement(By.xpath("//a[contains(@href, '/compras/1')]")).click();
-	  }
 
 	@AfterEach
 	public void tearDown() throws Exception {
@@ -88,5 +95,4 @@ public class AceptarOfertaUITest {
 			acceptNextAlert = true;
 		}
 	}
-
 }

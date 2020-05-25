@@ -1,4 +1,4 @@
-package org.springframework.test.inmocasa.model;
+package org.springframework.inmocasa.model;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

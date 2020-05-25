@@ -1,4 +1,4 @@
-package org.springframework.test.inmocasa.web;
+package org.springframework.inmocasa.web;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -38,7 +38,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(controllers = PropietarioController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = { InmocasaApplication.class })
 public class PropietarioControllerTests {
 	private static final int TEST_CLIENTE_ID = 1;
 

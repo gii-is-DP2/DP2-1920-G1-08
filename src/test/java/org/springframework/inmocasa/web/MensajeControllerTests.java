@@ -1,4 +1,4 @@
-package org.springframework.test.inmocasa.web;
+package org.springframework.inmocasa.web;
 
 import java.time.LocalDate;
 
@@ -36,7 +36,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(controllers = MensajeController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = { InmocasaApplication.class })
 public class MensajeControllerTests {
 
 	private static final int TEST_MENSAJE_ID = 1;
@@ -95,8 +94,7 @@ public class MensajeControllerTests {
 	@WithMockUser(username = "gilmar", password = "gilmar", authorities = { "propietario" })
 	@Test
 	void testInitCreationForm() throws Exception {
-		mockMvc.perform(get("/mensajes/new")).andExpect(status().isOk()).
-		andExpect(view().name("mensajes/editMensaje"));
+		mockMvc.perform(get("/mensajes/new")).andExpect(status().isOk()).andExpect(view().name("mensajes/editMensaje"));
 	}
 
 	@WithMockUser(username = "gilmar", password = "gilmar", authorities = { "propietario" })
@@ -106,4 +104,17 @@ public class MensajeControllerTests {
 				.andExpect(status().isOk()).andExpect(view().name("mensajes/editMensaje"));
 	}
 
+	@WithMockUser(value = "gilmar", authorities = { "propietario" })
+	@Test
+	void testListMensajesRecibidosOK() throws Exception {
+		mockMvc.perform(get("/mensajes/mensajes-recibidos")).andExpect(view().name("mensajes/misMensajes"))
+				.andExpect(status().isOk());
+	}
+
+	@WithMockUser(value = "gilmar", authorities = { "propietario" })
+	@Test
+	void testListMensajesEnviados() throws Exception {
+		mockMvc.perform(get("/mensajes/mensajes-enviados")).andExpect(view().name("mensajes/misMensajes"))
+				.andExpect(status().isOk());
+	}
 }

@@ -1,6 +1,5 @@
-package org.springframework.test.inmocasa.ui;
+package org.springframework.inmocasa.ui;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import java.util.concurrent.TimeUnit;
@@ -8,17 +7,14 @@ import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-public class EditarViviendaUITest {
+public class AceptarOfertaUITest {
 	private WebDriver driver;
 	private String baseUrl;
 	private boolean acceptNextAlert = true;
@@ -26,15 +22,14 @@ public class EditarViviendaUITest {
 
 	@BeforeEach
 	public void setUp() throws Exception {
-		String pathToGeckoDriver = "C:\\Users\\adiaz\\Downloads";
-		System.setProperty("webdriver.chrome.driver", pathToGeckoDriver + "\\chromedriver.exe");
+		System.setProperty("webdriver.chrome.driver", System.getenv("webdriver.chrome.driver"));
 		driver = new ChromeDriver();
 		baseUrl = "https://www.google.com/";
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
 
 	@Test
-	public void testEditViviendaOk() throws Exception {
+	public void testAceptarOfertaOk() throws Exception {
 		driver.get("http://localhost:8080/");
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		driver.findElement(By.id("password")).clear();
@@ -42,24 +37,22 @@ public class EditarViviendaUITest {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
 		}
-		driver.findElement(By.id("password")).sendKeys("gilmar");
+		driver.findElement(By.id("password")).sendKeys("davidsa");
 		driver.findElement(By.id("username")).clear();
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
 		}
+		driver.findElement(By.id("username")).sendKeys("davidsa");
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
 		driver.findElement(By.xpath("(//button[@type='button'])[3]")).click();
-		driver.findElement(By.linkText("Mis viviendas")).click();
-		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/1/edit')]")).click();
-		driver.findElement(By.xpath("//form[@id='vivienda']/div/div[9]/div/input")).click();
-		driver.findElement(By.id("comentario")).clear();
-		driver.findElement(By.id("comentario")).sendKeys("Este es un comentario");
-		driver.findElement(By.xpath("//button[@type='submit']")).click();
+		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/ofertadas')]")).click();
+		driver.findElement(By.xpath("//a[contains(@href, '/compras/8')]")).click();
+		driver.findElement(By.xpath("//a[contains(@href, '/compras/8/aceptar')]")).click();
 	}
 
 	@Test
-	public void testEditViviendaNotOk() throws Exception {
+	public void testAceptarOfertaNoOk() throws Exception {
 		driver.get("http://localhost:8080/");
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		driver.findElement(By.id("password")).clear();
@@ -76,14 +69,8 @@ public class EditarViviendaUITest {
 		driver.findElement(By.id("username")).sendKeys("gilmar");
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
 		driver.findElement(By.xpath("(//button[@type='button'])[3]")).click();
-		driver.findElement(By.linkText("Mis viviendas")).click();
-		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/1/edit')]")).click();
-		driver.findElement(By.xpath("//form[@id='vivienda']/div/div[5]/div/input")).click();
-		driver.findElement(By.id("precio")).click();
-		driver.findElement(By.id("precio")).clear();
-		driver.findElement(By.id("precio")).sendKeys("");
-		driver.findElement(By.xpath("//button[@type='submit']")).click();
-
+		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/ofertadas')]")).click();
+		driver.findElement(By.xpath("//a[contains(@href, '/compras/1')]")).click();
 	}
 
 	@AfterEach
@@ -127,4 +114,5 @@ public class EditarViviendaUITest {
 			acceptNextAlert = true;
 		}
 	}
+
 }

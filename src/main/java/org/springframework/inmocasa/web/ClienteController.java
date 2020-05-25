@@ -3,12 +3,12 @@ package org.springframework.inmocasa.web;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.inmocasa.model.Cliente;
 import org.springframework.inmocasa.model.Vivienda;
 import org.springframework.inmocasa.service.ClienteService;
+import javax.validation.Valid;
+
 import org.springframework.inmocasa.service.PropietarioService;
 import org.springframework.inmocasa.service.ViviendaService;
 import org.springframework.security.core.Authentication;
@@ -16,11 +16,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -31,6 +31,7 @@ public class ClienteController {
 	
 	ViviendaService viviendaService;
 	PropietarioService propietarioService;
+	
 	@Autowired
 	public ClienteController(ClienteService clienteService, ViviendaService viviendaService,PropietarioService propietarioService) {
 		this.clienteService = clienteService;
@@ -77,14 +78,14 @@ public class ClienteController {
 	}
 
 	@GetMapping("/{clienteId}/edit")
-	public ModelAndView editVivienda(@PathVariable("clienteId") int clienteId) {
-		ModelAndView mav = new ModelAndView("clientes/registroClientes");
-		mav.addObject("cliente", this.clienteService.findClienteById(clienteId));
-		return mav;
+	public String editProfile(@PathVariable("clienteId") int clienteId,ModelMap model) {
+		String view = "clientes/registroClientes";
+		model.addAttribute("cliente",this.clienteService.findClienteById(clienteId));
+		return view;
 	}
 
 	@PostMapping(path = "/{clienteId}/save")
-	private String processCreationForm(@Valid Cliente cliente, BindingResult res, ModelMap modelMap) {
+	public String processUpdateForm(@Valid Cliente cliente, BindingResult res, ModelMap modelMap) {
 		if (res.hasErrors()) {
 			modelMap.addAttribute("cliente", cliente);
 			return "clientes/registroClientes";

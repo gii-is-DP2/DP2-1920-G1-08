@@ -1,5 +1,6 @@
 package org.springframework.inmocasa.web.integration;
 
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -10,14 +11,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.inmocasa.InmocasaApplication;
 import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.model.Vivienda;
 import org.springframework.inmocasa.service.PropietarioService;
 import org.springframework.inmocasa.service.ViviendaService;
 import org.springframework.inmocasa.web.ViviendaController;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -28,6 +27,8 @@ import org.springframework.validation.MapBindingResult;
 public class ViviendaControllerIntegrationTests {
 
 	private static final int TEST_VIVIENDA_ID = 1;
+
+	private static final int TEST_VIVIENDA_ID_BORRAR = 2;
 
 	private static final int TEST_PROPIETARIO_ID = 1;
 
@@ -77,17 +78,30 @@ public class ViviendaControllerIntegrationTests {
 		String view = viviendaController.misViviendas(model);
 		assertEquals(view, "viviendas/misViviendas");
 	}
-	
-	
+
 	@WithMockUser(value = "gilmar", authorities = { "propietario" })
 	@Test
 	void testShowViviendaDetails() throws Exception {
 		ModelMap model = new ModelMap();
-		String view = viviendaController.showVivienda(TEST_VIVIENDA_ID,model);
+		String view = viviendaController.showVivienda(TEST_VIVIENDA_ID, model);
 		assertEquals(view, "viviendas/showViviendaDetails");
 	}
 
-
-
+	// HU-020: Borrar anuncio
+	@WithMockUser(value = "gilmar", authorities = { "propietario" })
+	@Test
+	void testDeleteViviendaOk() throws Exception {
+		ModelMap model = new ModelMap();
+		String view = viviendaController.borrarVivienda(model, TEST_VIVIENDA_ID_BORRAR);
+		assertEquals(view, "viviendas/listNewViviendas");
+	}
+	
+	// HU-020: Borrar anuncio (No se borra porque no hay nadie logueado)
+	@Test
+	void testDeleteViviendaNotOk() throws Exception {
+		ModelMap model = new ModelMap();
+		String view = viviendaController.borrarVivienda(model, TEST_VIVIENDA_ID_BORRAR);
+		assertNotEquals(view, "viviendas/listNewViviendas");
+	}
 
 }

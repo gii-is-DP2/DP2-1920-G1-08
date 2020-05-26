@@ -9,10 +9,9 @@
 
 
 <petclinic:layout pageName="Show Vivienda">
-	<h2>Vivienda</h2>
 
 	<input type="hidden" name="viviendaId" value="${vivienda.id}" />
-	<input type="hidden" name="propietario" value="${propietario}" />
+	<input type="hidden" name="propietarioId" value="${propietarioId}" />
 
 	
 	<sec:authorize access="hasAnyAuthority('cliente, admin')">
@@ -34,7 +33,7 @@
 	</sec:authorize>
 	
 	<sec:authorize access="hasAnyAuthority('propietario')">
-		<c:if test="${vivienda.propietario == propietario}">
+		<c:if test="${vivienda.propietario.id == propietarioId}">
 		<spring:url value="/viviendas/delete/{viviendaId}" var="deleteUrl">
 			<spring:param name="viviendaId" value="${vivienda.id}" />
 		</spring:url>
@@ -134,7 +133,7 @@
 	</table>
 	
 	<sec:authorize access="hasAnyAuthority('propietario, admin')">
-		<c:if test="${vivienda.propietario == propietario}">
+		<c:if test="${vivienda.propietario.id == propietarioId}">
 			<spring:url value="/pay/{viviendaId}" var="payUrl">
 				<spring:param name="viviendaId" value="${vivienda.id}" />
 			</spring:url>

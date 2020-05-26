@@ -25,9 +25,9 @@
                 <petclinic:inputNumber label="Precio" name="precio"/>
                 <petclinic:inputNumber label="Dimensiones" name="dimensiones"/>   
                 <label class="col-sm-2 control-label">Amueblado: </label>       
-             	<form:select class="form-control" path="Amueblado" style="width: 100px;">
-             		<option value="true">Si</option>
-             		<option value="false">No</option>
+             	<form:select class="form-control" path="amueblado" style="width: 100px;">
+             		 <form:option value="0" label="No" />
+               		 <form:option value="1" label="Si" />
              	</form:select>
              	<br/>
                 <petclinic:inputField label="Planta" name="planta"/>

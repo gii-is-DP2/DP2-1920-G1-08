@@ -11,19 +11,17 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.inmocasa.model.Cliente;
 import org.springframework.inmocasa.model.Compra;
 import org.springframework.inmocasa.model.Propietario;
+import org.springframework.inmocasa.model.Usuario;
 import org.springframework.inmocasa.model.Vivienda;
 import org.springframework.inmocasa.model.enums.Estado;
 import org.springframework.inmocasa.model.enums.Genero;
-import org.springframework.inmocasa.service.CompraService;
 import org.springframework.stereotype.Service;
 
 import com.paypal.base.rest.APIContext;
-import com.paypal.base.rest.PayPalRESTException;
 
 //import com.sun.xml.internal.ws.wsdl.writer.document.Service;
 
@@ -51,7 +49,6 @@ public class CompraServiceTests {
 		vivienda.setZona("Cerro Amate");
 		vivienda.setFechaPublicacion(LocalDate.of(2020, 01, 20));
 		vivienda.setPrecio(2260);
-		vivienda.setAmueblado(true);
 
 		Propietario prop = new Propietario();
 		prop.setId(1);
@@ -60,20 +57,18 @@ public class CompraServiceTests {
 		prop.setDni("46900025N");
 		prop.setEsInmobiliaria(false);
 		prop.setGenero(Genero.MASCULINO);
-		prop.setFechaNacimiento(LocalDate.of(1976, 6, 12));
 		prop.setUsername("john123");
 		prop.setPassword("john123");
 
 		Cliente cl = new Cliente();
-		cl.setId(2);
+		cl.setId(8);
 		cl.setNombre("Antonio");
 		cl.setApellidos("Fernandez");
 		cl.setDni("46900025A");
 		cl.setGenero(Genero.MASCULINO);
-		cl.setFechaNacimiento(LocalDate.of(1978, 10, 12));
 		cl.setUsername("ant1978");
 		cl.setPassword("ant1978");
-
+		
 		Compra compra = new Compra();
 		compra.setId(1);
 		compra.setPrecioFinal(500);
@@ -114,7 +109,7 @@ public class CompraServiceTests {
 		prop.setPassword("john123");
 
 		Cliente cl = new Cliente();
-		cl.setId(2);
+		cl.setId(8);
 		cl.setNombre("Antonio");
 		cl.setApellidos("Fernandez");
 		cl.setDni("46900025A");
@@ -133,7 +128,7 @@ public class CompraServiceTests {
 		compra.setVivienda(vivienda);
 
 		Cliente cl2 = new Cliente();
-		cl2.setId(3);
+		cl2.setId(9);
 		cl2.setNombre("Juan");
 		cl2.setApellidos("Fernandez");
 		cl2.setDni("46900025E");
@@ -150,7 +145,7 @@ public class CompraServiceTests {
 
 		this.compraService.saveCompra(compra2);
 
-		assertThat(!compra.getEstado().equals(Estado.PENDIENTE) && !todas.contains(compra));
+		assertThat(!compra2.getEstado().equals(Estado.PENDIENTE) && !todas.contains(compra2));
 
 	}
 

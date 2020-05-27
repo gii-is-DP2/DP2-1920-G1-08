@@ -95,15 +95,39 @@ public class ViviendaService {
 	}
 
 	public Collection<Vivienda> findViviendaByPrecio(Integer precioMin, Integer precioMax) {
+		Collection<Vivienda> publicitadas = vr.getPublicitadas();
+		Collection<Vivienda> viviendas = new ArrayList<Vivienda>();
 		Collection<Vivienda> res = vr.findViviendaByPrecio(precioMin, precioMax);
-		res.removeAll(vr.getViviendasCompradas());
-		return res;
+		for(Vivienda v : publicitadas) {
+			if(res.contains(v)) {
+				viviendas.add(v);
+			}
+		}
+		for(Vivienda v : res) {
+			if(!viviendas.contains(v)) {
+				viviendas.add(v);
+			}
+		}
+		viviendas.removeAll(vr.getViviendasCompradas());
+		return viviendas;
 	}
 	
 	public Collection<Vivienda> findViviendaByZona(String zona) {
+		Collection<Vivienda> publicitadas = vr.getPublicitadas();
+		Collection<Vivienda> viviendas = new ArrayList<Vivienda>();
 		Collection<Vivienda> res = vr.findViviendaByZona(zona);
-		res.removeAll(vr.getViviendasCompradas());
-		return res;
+		for(Vivienda v : publicitadas) {
+			if(res.contains(v)) {
+				viviendas.add(v);
+			}
+		}
+		for(Vivienda v : res) {
+			if(!viviendas.contains(v)) {
+				viviendas.add(v);
+			}
+		}
+		viviendas.removeAll(vr.getViviendasCompradas());
+		return viviendas;
 	}
 	
 	
@@ -123,6 +147,8 @@ public class ViviendaService {
 	}
 	
 	public Collection<Vivienda> findViviendaByNumHabitacion(Integer num) {
+		Collection<Vivienda> publicitadas = vr.getPublicitadas();
+		Collection<Vivienda> viviendas = new ArrayList<Vivienda>();
 		Collection<Vivienda> vivs = vr.findAllNewest();
 		Collection<Vivienda> res = new ArrayList<Vivienda>();
 		for(Vivienda v : vivs) {
@@ -133,8 +159,18 @@ public class ViviendaService {
 				res.add(v);
 			}
 		}
-		res.removeAll(vr.getViviendasCompradas());
-		return res;
+		for(Vivienda v : publicitadas) {
+			if(res.contains(v)) {
+				viviendas.add(v);
+			}
+		}
+		for(Vivienda v : res) {
+			if(!viviendas.contains(v)) {
+				viviendas.add(v);
+			}
+		}		
+		viviendas.removeAll(vr.getViviendasCompradas());
+		return viviendas;
 	}
 
 	public Collection<Vivienda> getCompradas() {

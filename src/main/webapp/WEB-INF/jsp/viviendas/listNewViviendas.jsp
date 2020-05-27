@@ -141,11 +141,13 @@
 	<c:forEach items="${viviendas}" var="viv">
 		<div class="panel panel-primary"
 			style="width: 70%; margin: 0 auto; margin-top: 30px;">
+			
 			<div class="panel-heading">
 				<h3 class="panel-title">
 					<c:out value="${viv.direccion}" />
-				</h3>
+				</h3>	
 			</div>
+
 
 			<div class="panel-body">
 

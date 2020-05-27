@@ -79,6 +79,8 @@ public class ViviendaController {
 		Vivienda vivienda = this.viviendaService.findViviendaById(viviendaId).get();
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Cliente cliente = clienteService.findByUsername(username);
+		int propietarioId = propService.findByUsername(username).getId();
+		
 		if (cliente != null) {
 			if (clienteService.esFavorito(cliente.getFavoritas(), vivienda.getId())) {
 				vivienda.setFav(true);
@@ -87,6 +89,7 @@ public class ViviendaController {
 			}
 		}
 		model.addAttribute("vivienda", vivienda);
+		model.addAttribute("propietarioId", propietarioId);
 		return view;
 	}
 //	@GetMapping(value = "/{viviendaId}")

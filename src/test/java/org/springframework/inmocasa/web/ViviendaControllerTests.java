@@ -11,6 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
@@ -191,8 +192,6 @@ class ViviendaControllerTests {
 		assertThat(res!= null);
 	}
 	
-	//HU-0
-	
 	// HU-04
 	@WithMockUser(value = "gilmar", authorities = { "propietario" })
 	@Test
@@ -225,7 +224,7 @@ class ViviendaControllerTests {
 	@WithMockUser(value = "inmocasa")
 	@Test
 	void testshowListViviendaNotPrecioOk() throws Exception {
-		given(this.viviendaService.findViviendaByPrecio(10, 20)).willReturn(Lists.newArrayList());
+		given(this.viviendaService.findViviendaByPrecio(10, 20)).willReturn(new ArrayList<Vivienda>());
 
 		mockMvc.perform(get("/viviendas/allNew").with(csrf()).param("precioMin", "10").param("precioMax", "20"))
 				.andExpect(model().attribute("error", "No se han encontrado viviendas en este rango de precio"))
@@ -247,7 +246,7 @@ class ViviendaControllerTests {
 	@WithMockUser(value = "inmocasa")
 	@Test
 	void testshowListViviendaZonaNotOk() throws Exception {
-		given(this.viviendaService.findViviendaByZona("San Jerónimo")).willReturn(Lists.newArrayList());
+		given(this.viviendaService.findViviendaByZona("San Jerónimo")).willReturn(new ArrayList<Vivienda>());
 
 		mockMvc.perform(get("/viviendas/allNew").with(csrf()).param("zona", "San Jerónimo"))
 				.andExpect(model().attribute("error", "No se han encontrado viviendas en esta zona"))
@@ -269,7 +268,7 @@ class ViviendaControllerTests {
 	@WithMockUser(value = "inmocasa")
 	@Test
 	void testshowListViviendaHabitacionesNotOk() throws Exception {
-		given(this.viviendaService.findViviendaByNumHabitacion(4)).willReturn(Lists.newArrayList());
+		given(this.viviendaService.findViviendaByNumHabitacion(4)).willReturn(new ArrayList<Vivienda>());
 
 		mockMvc.perform(get("/viviendas/allNew").with(csrf()).param("numhabitacion", "4"))
 				.andExpect(model().attribute("error", "No se han encontrado viviendas con este número de habitaciones"))

@@ -28,8 +28,6 @@ public class Vivienda extends BaseEntity{
 	@NotNull
 	private String titulo;
 	
-	@NotNull
-	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate fechaPublicacion;
 
 	@NotBlank

@@ -6,8 +6,16 @@
 
 
 <petclinic:layout pageName="visitasViviendaForm">
-   
-    <jsp:body>
+	<jsp:attribute name="customScript">
+        <script>
+			$(function() {
+				$("#fecha").datepicker({
+					dateFormat : 'yy/mm/dd'
+				});
+			});
+		</script>
+    </jsp:attribute>
+	<jsp:body>
       
         <form:form modelAttribute="visita" action="/visita/save" class="form-horizontal">
             <div class="form-group has-feedback">

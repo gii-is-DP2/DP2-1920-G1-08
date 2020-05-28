@@ -64,7 +64,6 @@ public class AceptarOfertaUITest {
 	}
 
 	@Test
-<<<<<<< HEAD
 	@Order(2)
 	public void testAceptarOfertaNoOk() throws Exception {
 		driver.get("http://localhost:8080/");

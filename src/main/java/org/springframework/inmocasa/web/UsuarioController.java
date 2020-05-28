@@ -1,10 +1,9 @@
 package org.springframework.inmocasa.web;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -44,10 +43,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.itextpdf.text.BadElementException;
-import com.itextpdf.text.Image;
-import org.springframework.web.servlet.ModelAndView;
 
 
 @RequestMapping(value="usuario")
@@ -120,6 +118,7 @@ public class UsuarioController {
 		
 		Collection<Visita> vivs = visitaService.findOldVisitas(clientes.get(0), LocalDateTime.now());
 		modelMap.put("visitas", vivs);
+		modelMap.addAttribute("localDateTimeFormat", DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
 
 		return "users/visitas";
 	}

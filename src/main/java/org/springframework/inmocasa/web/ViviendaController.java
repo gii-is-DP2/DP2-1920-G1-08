@@ -13,12 +13,12 @@ import org.springframework.inmocasa.model.Cliente;
 import org.springframework.inmocasa.model.Compra;
 import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.model.Vivienda;
-import org.springframework.inmocasa.model.enums.Estado;
 import org.springframework.inmocasa.service.AdministradorService;
 import org.springframework.inmocasa.service.ClienteService;
 import org.springframework.inmocasa.service.CompraService;
 import org.springframework.inmocasa.service.PropietarioService;
 import org.springframework.inmocasa.service.ViviendaService;
+import org.springframework.inmocasa.web.validator.ViviendaValidator;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,12 +26,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/viviendas")
@@ -45,12 +46,17 @@ public class ViviendaController {
 
 	@Autowired
 	private PropietarioService propService;
-	
+
 	@Autowired
 	private ClienteService clienteService;
 
 	@Autowired
 	private CompraService compraService;
+
+	@InitBinder("vivienda")
+	public void initCompraBinder(WebDataBinder dataBinder) {
+		dataBinder.setValidator(new ViviendaValidator());
+	}
 
 	// Santi-Alvaro
 
@@ -74,7 +80,7 @@ public class ViviendaController {
 	}
 
 	@GetMapping("/{viviendaId}")
-	public String showVivienda(@PathVariable("viviendaId") int viviendaId,ModelMap model) {
+	public String showVivienda(@PathVariable("viviendaId") int viviendaId, ModelMap model) {
 		String view = "viviendas/showViviendaDetails";
 		Vivienda vivienda = this.viviendaService.findViviendaById(viviendaId).get();
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -142,7 +148,7 @@ public class ViviendaController {
 			return "viviendas/editVivienda";
 		} else {
 			viviendaService.save(vivienda);
-			modelMap.addAttribute("message", "La vivienda ha sido registrada correctamente");
+			modelMap.addAttribute("successMsg", "La vivienda ha sido registrada correctamente");
 		}
 		return view;
 	}
@@ -196,6 +202,7 @@ public class ViviendaController {
 	public String crearVivienda(ModelMap modelMap) {
 		String view = "viviendas/editVivienda";
 		Vivienda vivienda = new Vivienda();
+		vivienda.setFechaPublicacion(LocalDate.now());
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
 		Propietario propietario = propService.findByUsername(userPrincipal.getUsername());

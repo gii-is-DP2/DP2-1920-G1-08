@@ -26,8 +26,6 @@ import com.paypal.base.rest.APIContext;
 //import com.sun.xml.internal.ws.wsdl.writer.document.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
-//@RunWith(SpringRunner.class)
-//@ContextConfiguration(classes= {InmocasaApplication.class})
 @AutoConfigureTestDatabase(replace=Replace.NONE)
 public class CompraServiceTests {
 
@@ -149,4 +147,19 @@ public class CompraServiceTests {
 
 	}
 
+	// Se encuentran la compra por el id de la vivienda y esta existe
+	@Test
+	void shouldFindCompraByViviendaId() {
+		Collection<Compra> todas = this.compraService.findAll();
+		Compra c = this.compraService.findCompraByViviendaId(1);
+		assertThat(todas.contains(c));
+
+	}
+
+	// No se encuentra la compra porque esa vivienda no tiene oferta
+	@Test
+	void shouldNoFindCompraByViviendaId() {
+		Compra c = this.compraService.findCompraByViviendaId(2);
+		assertThat(c == null);
+	}
 }

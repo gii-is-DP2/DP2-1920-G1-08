@@ -9,7 +9,7 @@
 
 <petclinic:layout pageName="misMensajes">
 	<jsp:body>
-	<h2>Mis mensaje</h2>
+	<h2>Mis mensajes</h2>
 	
 	<table id="MensajesTable" class="table table-striped">
   <thead>

@@ -7,17 +7,19 @@
 
 <petclinic:layout pageName="editVivienda">
 
-    <jsp:attribute name="customScript">
+	<jsp:attribute name="customScript">
         <script>
-            $(function () {
-                $("#fechaPublicacion").datepicker({dateFormat: 'yy/mm/dd'});
-            });
-        </script>
+									$(function() {
+										$("#fechaPublicacion").datepicker({
+											dateFormat : 'yy/mm/dd'
+										});
+									});
+								</script>
     </jsp:attribute>
-    <jsp:body>
+	<jsp:body>
         <h2>Vivienda</h2>
 
-        <form:form modelAttribute="vivienda" class="form-horizontal" action = "/viviendas/save">
+        <form:form modelAttribute="vivienda" class="form-horizontal" action="/viviendas/save">
             <div class="form-group has-feedback">
                 <petclinic:inputField label="Título" name="titulo"/>
                 <petclinic:inputField label="DirecciÃ³n" name="direccion"/>
@@ -41,8 +43,10 @@
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <input type="hidden" name="id" value="${vivienda.id}"/>
-                    <input type="hidden" name="propietario" value="${vivienda.propietario.id}"/>
+                    <input type="hidden" name="id"
+						value="${vivienda.id}" />
+                    <input type="hidden" name="propietario"
+						value="${vivienda.propietario.id}" />
                  
                     <button class="btn btn-default" type="submit">Guardar Vivienda</button>
                 </div>

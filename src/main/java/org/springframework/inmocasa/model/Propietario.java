@@ -31,8 +31,8 @@ public class Propietario extends Usuario {
 	@Column(name="cif")
 	private String cif;
 	
-	@OneToMany(mappedBy="prop")
-	protected List<Mensaje> mensaje;
+//	@OneToMany(mappedBy="prop", fetch = FetchType.LAZY)
+//	protected List<Mensaje> mensaje;
 
 
 }

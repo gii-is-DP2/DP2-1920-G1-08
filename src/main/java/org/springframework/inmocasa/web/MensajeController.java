@@ -121,6 +121,7 @@ public class MensajeController {
 
 	@PostMapping(value = { "/save" })
 	public String guardarMensaje(@Valid Mensaje mensaje, BindingResult result, ModelMap modelMap) {
+
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
 		String name = userPrincipal.getUsername();
@@ -131,7 +132,6 @@ public class MensajeController {
 				mensaje.setProp(p);
 				mensaje.setEmisorId(p.getId());
 				mensaje.setReceptorId(mensaje.getClient().getId());
-
 			}
 		}
 		for (Cliente c : clients) {
@@ -143,7 +143,7 @@ public class MensajeController {
 		}
 
 		if (result.hasErrors()) {
-			modelMap.addAttribute("mensaje", mensaje);
+//			modelMap.addAttribute("mensaje", mensaje);
 			return "mensajes/editMensaje";
 		} else {
 			mensajeService.save(mensaje);

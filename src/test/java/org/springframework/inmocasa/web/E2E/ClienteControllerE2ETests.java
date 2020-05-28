@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.inmocasa.InmocasaApplication;
-import org.springframework.inmocasa.service.ClienteService;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -23,13 +22,9 @@ public class ClienteControllerE2ETests {
 
 	int TEST_CLIENTE_ID = 1;
 
-//	@Autowired
-//	private ClienteService clienteService;
-
 	@Autowired
 	private MockMvc mockMvc;
-	
-	
+
 	@WithMockUser(username = "admin", authorities = { "admin" })
 	@Test
 	void testUpdateClienteForm() throws Exception {

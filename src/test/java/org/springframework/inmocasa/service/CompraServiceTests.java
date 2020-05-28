@@ -1,6 +1,7 @@
 package org.springframework.inmocasa.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -15,7 +16,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.inmocasa.model.Cliente;
 import org.springframework.inmocasa.model.Compra;
 import org.springframework.inmocasa.model.Propietario;
-import org.springframework.inmocasa.model.Usuario;
 import org.springframework.inmocasa.model.Vivienda;
 import org.springframework.inmocasa.model.enums.Estado;
 import org.springframework.inmocasa.model.enums.Genero;
@@ -35,10 +35,9 @@ public class CompraServiceTests {
 	@MockBean
 	APIContext apiContext;
 
-	// La compra se crea y se guarda con estado pendiente sin problemas
+	// La compra se crea y se guarda con el estado pendiente sin problemas
 	@Test
 	void shouldCreateAndSaveCompra() {
-		Collection<Compra> todas = this.compraService.findAll();
 
 		Vivienda vivienda = new Vivienda();
 		vivienda.setId(1);
@@ -77,14 +76,13 @@ public class CompraServiceTests {
 
 		this.compraService.saveCompra(compra);
 
-		assertThat(compra.getEstado().equals(Estado.PENDIENTE) && todas.contains(compra));
+		assertEquals(compra.getEstado().equals(Estado.PENDIENTE), true);
 
 	}
 
-	// La compra no se realiza porque la vivienda ya está comprada
+	// La compra se rechaza directamente porque la vivienda ya está comprada
 	@Test
 	void shouldNotCreateAndSaveCompra() {
-		Collection<Compra> todas = this.compraService.findAll();
 
 		Vivienda vivienda = new Vivienda();
 		vivienda.setId(1);
@@ -143,7 +141,7 @@ public class CompraServiceTests {
 
 		this.compraService.saveCompra(compra2);
 
-		assertThat(!compra2.getEstado().equals(Estado.PENDIENTE) && !todas.contains(compra2));
+		assertEquals(compra2.getEstado().equals(Estado.RECHAZADO), false); 
 
 	}
 

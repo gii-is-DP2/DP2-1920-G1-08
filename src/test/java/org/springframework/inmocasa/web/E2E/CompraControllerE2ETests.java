@@ -22,7 +22,6 @@ import org.springframework.test.web.servlet.MockMvc;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 @ContextConfiguration(classes = { InmocasaApplication.class })
-
 public class CompraControllerE2ETests {
 
 	int TEST_VIVIENDA_ID = 1;

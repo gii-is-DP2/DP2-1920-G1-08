@@ -1,5 +1,6 @@
 package org.springframework.inmocasa.web.E2E;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -19,7 +20,6 @@ import org.springframework.test.web.servlet.MockMvc;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
-@ContextConfiguration(classes = { InmocasaApplication.class })
 public class ViviendaControllerE2ETests {
 
 	@Autowired
@@ -39,5 +39,70 @@ public class ViviendaControllerE2ETests {
 		mockMvc.perform(get("/viviendas/{viviendaId}/edit", TEST_VIVIENDA_ID)).andExpect(status().isOk())
 				.andExpect(view().name("viviendas/editVivienda"));
 	}
+	
+	@WithMockUser(value = "inmocasa")
+	@Test
+	void testshowListViviendaPrecioOk() throws Exception {
+		mockMvc.perform(get("/viviendas/allNew").with(csrf()).param("precioMin", "100").param("precioMax", "10000"))
+				.andExpect(status().isOk()).andExpect(view().name("viviendas/listNewViviendas"));
+	}
 
+	// HU-008: Filtrar por precio (No hay viviendas entre el rango de precio por lo
+	// que se muestra un mensaje de error)
+	@WithMockUser(value = "inmocasa")
+	@Test
+	void testshowListViviendaNotPrecioOk() throws Exception {
+		mockMvc.perform(get("/viviendas/allNew").with(csrf()).param("precioMin", "10").param("precioMax", "20"))
+				.andExpect(model().attribute("error", "No se han encontrado viviendas en este rango de precio"))
+				.andExpect(status().isOk()).andExpect(view().name("viviendas/listNewViviendas"));
+	}
+
+	// HU-008: Filtrar por zona
+	@WithMockUser(value = "inmocasa", authorities = "propietario")
+	@Test
+	void testshowListViviendaZonaOk() throws Exception {
+		mockMvc.perform(get("/viviendas/allNew").with(csrf()).param("zona", "Cerro Amate")).andExpect(status().isOk())
+				.andExpect(view().name("viviendas/listNewViviendas"));
+	}
+
+	// HU-008: Filtrar por zona (No hay viviendas en la zona seleccionada)
+	@WithMockUser(value = "inmocasa")
+	@Test
+	void testshowListViviendaZonaNotOk() throws Exception {
+		mockMvc.perform(get("/viviendas/allNew").with(csrf()).param("zona", "San Jerónimo"))
+				.andExpect(model().attribute("error", "No se han encontrado viviendas en esta zona"))
+				.andExpect(status().isOk()).andExpect(view().name("viviendas/listNewViviendas"));
+	}
+
+	// HU-008: Filtrar por habitaciones
+	@WithMockUser(value = "inmocasa")
+	@Test
+	void testshowListViviendaHabitacionesOk() throws Exception {
+		mockMvc.perform(get("/viviendas/allNew").with(csrf()).param("numhabitacion", "1")).andExpect(status().isOk())
+				.andExpect(view().name("viviendas/listNewViviendas"));
+	}
+
+	// HU-008: Filtrar por Habitaciones (No hay viviendas con el número de
+	// habitaciones especificado)
+	@WithMockUser(value = "inmocasa")
+	@Test
+	void testshowListViviendaHabitacionesNotOk() throws Exception {
+		mockMvc.perform(get("/viviendas/allNew").with(csrf()).param("numhabitacion", "4"))
+				.andExpect(model().attribute("error", "No se han encontrado viviendas con este número de habitaciones"))
+				.andExpect(status().isOk()).andExpect(view().name("viviendas/listNewViviendas"));
+	}
+
+	// HU-020: Borrar un anuncio
+	@WithMockUser(value = "gilmar", authorities = { "propietario" })
+	@Test
+	void testDeleteViviendaOk() throws Exception {
+		mockMvc.perform(get("/viviendas/delete/{viviendaId}", 1)).andExpect(status().isOk());
+	}
+
+	// HU-020: Borrar un anuncio (No se borra porque no hay nadie logueado)
+	@Test
+	void testDeleteViviendaNotOk() throws Exception {
+		mockMvc.perform(get("/viviendas/delete/{viviendaId}", 1)).andExpect(status().is3xxRedirection());
+	}
 }
+

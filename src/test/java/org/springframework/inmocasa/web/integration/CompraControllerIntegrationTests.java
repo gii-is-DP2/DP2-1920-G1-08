@@ -18,7 +18,6 @@ import org.springframework.ui.ModelMap;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ContextConfiguration(classes = { InmocasaApplication.class })
 public class CompraControllerIntegrationTests {
 
 	@Autowired

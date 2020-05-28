@@ -36,7 +36,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(controllers = MensajeController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = { InmocasaApplication.class })
 public class MensajeControllerTests {
 
 	private static final int TEST_MENSAJE_ID = 1;

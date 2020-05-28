@@ -31,7 +31,6 @@ import org.springframework.validation.MapBindingResult;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ContextConfiguration(classes = { InmocasaApplication.class })
 public class ClienteControllerIntegrationTests {
 
 	private static final int TEST_CLIENTE_ID = 8;

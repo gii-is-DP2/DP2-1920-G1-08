@@ -1,7 +1,8 @@
 package org.springframework.inmocasa.ui;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.util.concurrent.TimeUnit;
 
@@ -51,11 +52,19 @@ public class EditarPerfilUITest {
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
 		driver.findElement(By.xpath("(//button[@type='button'])[3]")).click();
 		driver.findElement(By.xpath("//a[contains(@href, '/usuario/miPerfil')]")).click();
-		driver.findElement(By.xpath("//a[contains(@href, '/propietarios/1/edit')]")).click();
+		assertEquals("Sanchez", driver.findElement(By.xpath("//tr[2]/td")).getText());
+		driver.findElement(By.xpath("//a[contains(text(),'Editar\n            perfil')]")).click();
 		driver.findElement(By.xpath("//form[@id='propietario']/div/input")).click();
 		driver.findElement(By.xpath("//form[@id='propietario']/div/input")).clear();
 		driver.findElement(By.xpath("//form[@id='propietario']/div/input")).sendKeys("gilmar");
-		driver.findElement(By.xpath("//form[@id='propietario']/div[2]/div/button")).click();
+		driver.findElement(By.xpath("//form[@id='propietario']/div/div[3]")).click();
+		driver.findElement(By.xpath("//form[@id='propietario']/div/div[3]/div/input")).clear();
+		driver.findElement(By.xpath("//form[@id='propietario']/div/div[3]/div/input")).sendKeys("Perez");
+		driver.findElement(By.xpath("//button[@type='submit']")).click();
+		driver.findElement(By.xpath("(//button[@type='button'])[3]")).click();
+		driver.findElement(By.xpath("//a[contains(@href, '/usuario/miPerfil')]")).click();
+		assertNotEquals("Sanchez", driver.findElement(By.xpath("//tr[2]/td")).getText());
+
 	}
 
 	@Test
@@ -67,7 +76,7 @@ public class EditarPerfilUITest {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
 		}
-		driver.findElement(By.id("password")).sendKeys("12345678");
+		driver.findElement(By.id("password")).sendKeys("gilmar");
 		driver.findElement(By.id("username")).clear();
 		try {
 			Thread.sleep(500);
@@ -77,9 +86,22 @@ public class EditarPerfilUITest {
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
 		driver.findElement(By.xpath("(//button[@type='button'])[3]")).click();
 		driver.findElement(By.xpath("//a[contains(@href, '/usuario/miPerfil')]")).click();
-		driver.findElement(By.xpath("//a[contains(@href, '/propietarios/1/edit')]")).click();
-		driver.findElement(By.xpath("//form[@id='propietario']/div/div/div/input")).sendKeys("77929029S");
-		driver.findElement(By.xpath("//form[@id='propietario']/div[2]/div/button")).click();
+		driver.findElement(By.xpath("//a[contains(text(),'Editar\n            perfil')]")).click();
+		driver.findElement(By.xpath("//form[@id='propietario']/div")).click();
+		driver.findElement(By.xpath("//form[@id='propietario']/div/div[3]/div/input")).clear();
+		driver.findElement(By.xpath("//form[@id='propietario']/div/div[3]/div/input")).sendKeys("Marquez");
+		driver.findElement(By.xpath("//form[@id='propietario']/div/div[3]/div/input")).click();
+		driver.findElement(By.xpath("//button[@type='submit']")).click();
+		assertNotEquals("Sanchez", driver.findElement(By.xpath("//div[3]/div/input")).getText());
+		driver.findElement(By.xpath("(//button[@type='button'])[3]")).click();
+		driver.findElement(By.xpath("//a[contains(@href, '/usuario/miPerfil')]")).click();
+		assertEquals("Sanchez", driver.findElement(By.xpath("//tr[2]/td")).getText());
+
+//		driver.findElement(By.xpath("(//button[@type='button'])[3]")).click();
+//		driver.findElement(By.xpath("//a[contains(@href, '/usuario/miPerfil')]")).click();
+//		driver.findElement(By.xpath("//a[contains(@href, '/propietarios/1/edit')]")).click();
+//		driver.findElement(By.xpath("//form[@id='propietario']/div/div/div/input")).sendKeys("77929029S");
+//		driver.findElement(By.xpath("//form[@id='propietario']/div[2]/div/button")).click();
 	}
 
 	@AfterEach

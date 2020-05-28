@@ -11,7 +11,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.inmocasa.model.Cliente;
 import org.springframework.inmocasa.model.Compra;
@@ -19,18 +18,14 @@ import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.model.Vivienda;
 import org.springframework.inmocasa.model.enums.Estado;
 import org.springframework.inmocasa.model.enums.Genero;
-import org.springframework.inmocasa.service.CompraService;
 import org.springframework.stereotype.Service;
 
 import com.paypal.base.rest.APIContext;
-import com.paypal.base.rest.PayPalRESTException;
 
 //import com.sun.xml.internal.ws.wsdl.writer.document.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
-//@RunWith(SpringRunner.class)
-//@ContextConfiguration(classes= {InmocasaApplication.class})
-//@AutoConfigureTestDatabase(replace=Replace.NONE)
+@AutoConfigureTestDatabase(replace=Replace.NONE)
 public class CompraServiceTests {
 
 	@Autowired
@@ -154,4 +149,19 @@ public class CompraServiceTests {
 
 	}
 
+	// Se encuentran la compra por el id de la vivienda y esta existe
+	@Test
+	void shouldFindCompraByViviendaId() {
+		Collection<Compra> todas = this.compraService.findAll();
+		Compra c = this.compraService.findCompraByViviendaId(1);
+		assertThat(todas.contains(c));
+
+	}
+
+	// No se encuentra la compra porque esa vivienda no tiene oferta
+	@Test
+	void shouldNoFindCompraByViviendaId() {
+		Compra c = this.compraService.findCompraByViviendaId(2);
+		assertThat(c == null);
+	}
 }

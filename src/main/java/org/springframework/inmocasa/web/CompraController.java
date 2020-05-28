@@ -104,6 +104,7 @@ public class CompraController {
 		String view = "/viviendas/ofertadas";
 		Compra compras = this.compraService.findCompraByViviendaId(viviendaId);
 		compras.setEstado(Estado.ACEPTADO);
+		compras.setComentario("VENDIDA");
 		compraService.save(compras);
 		model.addAttribute("compras", compras);
 		model.addAttribute("message", "La oferta ha sido aceptada correctamente");

@@ -58,7 +58,7 @@ public class ViviendaControllerE2ETests {
 	}
 
 	// HU-008: Filtrar por zona
-	@WithMockUser(value = "inmocasa")
+	@WithMockUser(value = "inmocasa", authorities = "propietario")
 	@Test
 	void testshowListViviendaZonaOk() throws Exception {
 		mockMvc.perform(get("/viviendas/allNew").with(csrf()).param("zona", "Cerro Amate")).andExpect(status().isOk())
@@ -102,7 +102,7 @@ public class ViviendaControllerE2ETests {
 	// HU-020: Borrar un anuncio (No se borra porque no hay nadie logueado)
 	@Test
 	void testDeleteViviendaNotOk() throws Exception {
-		mockMvc.perform(get("/viviendas/delete/{viviendaId}", 1)).andExpect(status().is4xxClientError());
+		mockMvc.perform(get("/viviendas/delete/{viviendaId}", 1)).andExpect(status().is3xxRedirection());
 	}
 }
 

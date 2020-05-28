@@ -50,8 +50,8 @@ public class ListadoMisViviendasUITest {
 		driver.findElement(By.id("username")).sendKeys("gilmar");
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
 		driver.findElement(By.xpath("(//button[@type='button'])[3]")).click();
-		driver.findElement(By.linkText("Mis viviendas")).click();
-		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/mis-viviendas')]")).click();
+	    driver.findElement(By.xpath("//a[contains(@href, '/viviendas/mis-viviendas')]")).click();
+	    assertEquals("Editar Vivienda",driver.findElement(By.xpath("//table[@id='viviendaOfertaTable']/tbody/tr/td[7]")).getText());
 	}
 
 	@AfterEach

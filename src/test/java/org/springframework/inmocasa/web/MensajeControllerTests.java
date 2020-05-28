@@ -91,13 +91,13 @@ public class MensajeControllerTests {
 	}
 
 	// HU-17
-	@WithMockUser(username = "gilmar", password = "gilmar", authorities = { "propietario" })
+	@WithMockUser(username = "gilmar", authorities = { "propietario" })
 	@Test
 	void testInitCreationForm() throws Exception {
-		mockMvc.perform(get("/mensajes/new")).andExpect(status().isOk()).andExpect(view().name("mensajes/editMensaje"));
+		mockMvc.perform(get("/mensajes/new")).andExpect(view().name("mensajes/editMensaje")).andExpect(status().isOk());
 	}
 
-	@WithMockUser(username = "gilmar", password = "gilmar", authorities = { "propietario" })
+	@WithMockUser(username = "gilmar", authorities = { "propietario" })
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
 		mockMvc.perform(post("/mensajes/new").param("asunto", "Hello").param("cuerpo", "Bonjour"))

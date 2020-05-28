@@ -2,6 +2,7 @@ package org.springframework.inmocasa.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
@@ -33,12 +34,12 @@ public class Mensaje extends BaseEntity{
 	private Integer receptorId;
 	
 	@Valid
-	@ManyToOne(optional=false)
+	@ManyToOne(optional=false,fetch = FetchType.EAGER)
 	@JoinColumn(name="client")
 	protected Cliente client;
 	
 	@Valid
-	@ManyToOne(optional=false)
+	@ManyToOne(optional=false,fetch = FetchType.EAGER)
 	@JoinColumn(name="prop")
 	protected Propietario prop;
 

@@ -168,7 +168,7 @@ class CompraControllerTests {
 
 		mockMvc.perform(get("/compras/{viviendaId}/aceptar", 4).with(SecurityMockMvcRequestPostProcessors.csrf())
 				.param("estado", "ACEPTADO")).andExpect(status().isOk())
-				.andExpect(view().name("compras/form"));
+				.andExpect(view().name("redirect:/viviendas/ofertadas"));
 	}
 
 }

@@ -10,12 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.inmocasa.InmocasaApplication;
-import org.springframework.inmocasa.service.ClienteService;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
@@ -25,14 +23,10 @@ public class PropietarioControllerE2ETests {
 
 	int TEST_PROPIETARIO_ID = 1;
 
-//	@Autowired
-//	private PropietarioService propietarioService;
-
 	@Autowired
 	private MockMvc mockMvc;
-	
-	
-	@WithMockUser(username = "gilmar", authorities = { "propietario" })
+
+	@WithMockUser(username = "admin", authorities = { "admin" })
 	@Test
 	void testUpdatePropietarioForm() throws Exception {
 		mockMvc.perform(get("/propietarios/{propietarioId}/edit", TEST_PROPIETARIO_ID)).andExpect(status().isOk())

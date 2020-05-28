@@ -39,14 +39,12 @@ public class MensajeControllerE2ETests {
 
 	@MockBean
 	APIContext apiContext;
-	
+
 	@Autowired
 	private PropietarioService propietarioService;
 
 	@Autowired
 	private ClienteService clienteService;
-
-
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -54,16 +52,16 @@ public class MensajeControllerE2ETests {
 	@WithMockUser(username = "gilmar", password = "gilmar", authorities = { "propietario" })
 	@Test
 	void testInitCreationForm() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/mensajes/new")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(view().name("mensajes/editMensaje"))
+		mockMvc.perform(MockMvcRequestBuilders.get("/mensajes/new")).andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(view().name("mensajes/editMensaje"))
 				.andExpect(MockMvcResultMatchers.model().attributeExists("mensaje"));
 	}
 
-	@WithMockUser(username = "gilmar", authorities = { "propietario" })
+	@WithMockUser(username = "admin", authorities = { "admin" })
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
-		Cliente c = clienteService.findClienteById(TEST_CLIENTE_ID);
-		Propietario p = propietarioService.findPropietarioById(TEST_PROPIETARIO_ID);
-		mockMvc.perform(post("mensajes/save").with(csrf()).param("asunto", "Hola").param("cuerpo", "Amigo"))
+
+		mockMvc.perform(post("/mensajes/save").with(csrf()).param("asunto", "Hola").param("cuerpo", "Amigo"))
 				.andExpect(status().isOk()).andExpect(view().name("/mensajes/editMensaje"));
 	}
 

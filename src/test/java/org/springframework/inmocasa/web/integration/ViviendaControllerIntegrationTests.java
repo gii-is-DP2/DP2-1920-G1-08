@@ -1,12 +1,15 @@
 package org.springframework.inmocasa.web.integration;
 
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.util.Collections;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,7 +90,7 @@ public class ViviendaControllerIntegrationTests {
 		assertEquals(view, "viviendas/showViviendaDetails");
 	}
 
-	// HU-020: Borrar anuncio
+	@DisplayName("Prueba borrar anuncio")
 	@WithMockUser(value = "gilmar", authorities = { "propietario" })
 	@Test
 	void testDeleteViviendaOk() throws Exception {
@@ -96,12 +99,22 @@ public class ViviendaControllerIntegrationTests {
 		assertEquals(view, "viviendas/listNewViviendas");
 	}
 	
-	// HU-020: Borrar anuncio (No se borra porque no hay nadie logueado)
+	@DisplayName("Prueba no borrar anuncio")
+	@WithMockUser(value = "housininmo", authorities = { "propietario" })
 	@Test
 	void testDeleteViviendaNotOk() throws Exception {
 		ModelMap model = new ModelMap();
 		String view = viviendaController.borrarVivienda(model, TEST_VIVIENDA_ID_BORRAR);
-		assertNotEquals(view, "viviendas/listNewViviendas");
+		assertEquals(view, "viviendas/listNewViviendas");
+	}
+	
+	@DisplayName("Prueba filtro")
+	@WithMockUser(value = "housininmo", authorities = { "propietario" })
+	@Test
+	void testshowListViviendaFiltroOk() throws Exception {
+		ModelMap model = new ModelMap();
+		String view = viviendaController.showListViviendas(model, "0", "300000", "Centro", null);
+		assertEquals(view, "viviendas/listNewViviendas");
 	}
 
 }

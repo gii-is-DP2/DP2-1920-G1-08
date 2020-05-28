@@ -2,12 +2,11 @@ package org.springframework.inmocasa.ui;
 
 import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.util.concurrent.TimeUnit;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -18,19 +17,24 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.inmocasa.service.PropietarioService;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @TestMethodOrder(OrderAnnotation.class)
-
+@ExtendWith(SpringExtension.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@DirtiesContext
 public class CreateMensajeUITest {
 
-
+	@LocalServerPort
+	private int port;
 	private WebDriver driver;
 	private String baseUrl;
 	private boolean acceptNextAlert = true;
 	private StringBuffer verificationErrors = new StringBuffer();
-
-	private PropietarioService propietarioService;
 
 	@BeforeEach
 	public void setUp() throws Exception {
@@ -42,7 +46,7 @@ public class CreateMensajeUITest {
 
 	@Test
 	public void testCrearMensajeOK() throws Exception {
-		driver.get("http://localhost:8080/");
+		driver.get("http://localhost:"+port);
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		driver.findElement(By.id("password")).clear();
 		try {
@@ -75,7 +79,7 @@ public class CreateMensajeUITest {
 	@Test
     @Order(1)
 	public void testCreateMensajeNotOk() throws Exception {
-		driver.get("http://localhost:8080/");
+		driver.get("http://localhost:"+port);
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		driver.findElement(By.id("password")).clear();
 		try {

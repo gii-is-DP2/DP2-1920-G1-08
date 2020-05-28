@@ -1,14 +1,15 @@
 package org.springframework.inmocasa.web;
 
+import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.inmocasa.InmocasaApplication;
 import org.springframework.inmocasa.configuration.SecurityConfiguration;
 import org.springframework.inmocasa.model.Cliente;
 import org.springframework.inmocasa.model.Compra;
@@ -28,15 +28,11 @@ import org.springframework.inmocasa.service.ClienteService;
 import org.springframework.inmocasa.service.CompraService;
 import org.springframework.inmocasa.service.PropietarioService;
 import org.springframework.inmocasa.service.ViviendaService;
-import org.springframework.inmocasa.web.CompraController;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @WebMvcTest(controllers = CompraController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
 @RunWith(SpringRunner.class)
@@ -135,6 +131,7 @@ class CompraControllerTests {
 
 	@WithMockUser(username = "john123", authorities = { "propietario" })
 	@Test
+	@DisplayName("Se rechaza una compra y se elimina")
 	void testRechazarCompraSuccess() throws Exception {
 
 		Cliente clie = new Cliente();
@@ -157,16 +154,15 @@ class CompraControllerTests {
 
 		List<Compra> compras = (List<Compra>) this.compraService.findAll();
 		this.compraService.deleteById(compra1.getId());
-		assertThat(!compras.contains(compra1));
+		assertTrue(!compras.contains(compra1));
 
 	}
 
-	@WithMockUser(username = "john123", authorities = { "propietario" })
+	@WithMockUser(username = "celiaherrero", authorities = { "propietario" })
 	@Test
 	void testProcessAceptarComprarSuccess() throws Exception {
-
-		mockMvc.perform(get("/compras/{viviendaId}/aceptar", 4).with(SecurityMockMvcRequestPostProcessors.csrf())
-				.param("estado", "ACEPTADO")).andExpect(status().isOk())
+		mockMvc.perform(get("/compras/{viviendaId}/aceptar", 8).with(SecurityMockMvcRequestPostProcessors.csrf())
+				.param("estado", "PENDIENTE")).andExpect(status().isOk())
 				.andExpect(view().name("redirect:/viviendas/ofertadas"));
 	}
 

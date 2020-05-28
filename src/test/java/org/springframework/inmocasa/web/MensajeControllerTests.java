@@ -91,10 +91,11 @@ public class MensajeControllerTests {
 	}
 
 	// HU-17
-	@WithMockUser(username = "gilmar", authorities = { "propietario" })
+	@WithMockUser(username = "gilmar")
 	@Test
 	void testInitCreationForm() throws Exception {
-		mockMvc.perform(get("/mensajes/new")).andExpect(view().name("mensajes/editMensaje")).andExpect(status().isOk());
+		mockMvc.perform(get("/mensajes/new")).andExpect(status().isOk()).andExpect(view().name("mensajes/editMensaje"))
+				.andExpect(model().attributeExists("mensaje"));
 	}
 
 	@WithMockUser(username = "gilmar", authorities = { "propietario" })

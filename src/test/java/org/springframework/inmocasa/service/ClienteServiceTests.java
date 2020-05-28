@@ -4,7 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
 import java.util.Collection;
-
+import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -33,9 +34,8 @@ public class ClienteServiceTests {
 	@Test
 	void shouldCreateAndSaveCliente() {
 		Collection<Cliente> clientes = this.clienteService.findAll();
-
 		Cliente cliente = new Cliente();
-		cliente.setId(2);
+//		cliente.setId(2);
 		cliente.setNombre("Antonio");
 		cliente.setApellidos("Fernandez");
 		cliente.setDni("46900025A");
@@ -56,14 +56,14 @@ public class ClienteServiceTests {
 		Collection<Cliente> clientes = this.clienteService.findAll();
 
 		Cliente cliente = new Cliente();
-		cliente.setId(2);
+//		cliente.setId(2);
 		cliente.setNombre("Antonio");
 		cliente.setApellidos("Fernandez");
 		cliente.setDni("46900025A");
 		cliente.setGenero(Genero.MASCULINO);
 		cliente.setFechaNacimiento(LocalDate.of(1978, 10, 12));
-		cliente.setUsername("ant1978");
-		cliente.setPassword("ant1978");
+		cliente.setUsername("santiago");
+		cliente.setPassword("alejandra");
 
 		this.clienteService.saveCliente(cliente);
 

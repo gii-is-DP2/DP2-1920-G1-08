@@ -1,6 +1,9 @@
 package org.springframework.inmocasa.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.List;
 
@@ -17,7 +20,7 @@ import org.springframework.stereotype.Service;
 import com.paypal.base.rest.APIContext;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
-@AutoConfigureTestDatabase(replace=Replace.NONE)
+@AutoConfigureTestDatabase(replace = Replace.NONE)
 public class MensajeServiceTests {
 
 	@MockBean
@@ -31,7 +34,7 @@ public class MensajeServiceTests {
 	void shouldFindMensajeByEmisorId() {
 		List<Mensaje> todos = (List<Mensaje>) mensajeService.findAll();
 		int emisor = todos.get(0).getEmisorId();
-		assertThat(mensajeService.findMensajeByEmisorId(emisor) != null);
+		assertNotEquals(mensajeService.findMensajeByEmisorId(emisor), null);
 	}
 
 	// Se encuentra el mensaje por el id del receptor
@@ -39,21 +42,21 @@ public class MensajeServiceTests {
 	void shouldFindMensajeByReceptorId() {
 		List<Mensaje> todos = (List<Mensaje>) mensajeService.findAll();
 		int receptor = todos.get(0).getReceptorId();
-		assertThat(mensajeService.findMensajeByReceptor(receptor) != null);
+		assertNotEquals(mensajeService.findMensajeByReceptor(receptor), null);
 	}
 
 	// No se encuentra el mensaje por el id del emisor porque no ha mandado mensaje
 	// ese usuario
 	@Test
 	void shouldNotFindMensajeByEmisorId() {
-		assertThat(mensajeService.findMensajeByEmisorId(2) == null);
+		assertThat(mensajeService.findMensajeByEmisorId(2)).isEmpty();
 	}
 
 	// No se encuentra el mensaje por el id del receptor porque no ha recibido
 	// mensaje ese usuario
 	@Test
 	void shouldNotFindMensajeByReceptorId() {
-		assertThat(mensajeService.findMensajeByReceptor(2) == null);
-
+		assertThat(mensajeService.findMensajeByReceptor(2)).isEmpty();
+	
 	}
 }

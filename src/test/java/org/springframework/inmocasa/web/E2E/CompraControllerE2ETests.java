@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,7 @@ public class CompraControllerE2ETests {
 
 	@WithMockUser(username = "admin", authorities = { "admin" })
 	@Test
+	@DisplayName("Show de una compra")
 	void testShowCompra() throws Exception {
 		this.mockMvc.perform(get("/compras/{viviendaId}", 1)).andExpect(status().isOk())
 				.andExpect(model().attribute("compras", Matchers.hasProperty("precioFinal", Matchers.is(215000))))

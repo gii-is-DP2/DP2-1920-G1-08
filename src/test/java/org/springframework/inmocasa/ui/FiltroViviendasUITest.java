@@ -3,14 +3,26 @@ package org.springframework.inmocasa.ui;
 import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+@ExtendWith(SpringExtension.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@DirtiesContext
 public class FiltroViviendasUITest {
+	
+	@LocalServerPort
+	private int port;
 	private WebDriver driver;
 	private String baseUrl;
 	private boolean acceptNextAlert = true;
@@ -36,7 +48,7 @@ public class FiltroViviendasUITest {
 
 	@Test
 	public void testFiltrarViviendasNotOK() throws Exception {
-		driver.get("http://localhost:8080/");
+		driver.get("http://localhost:"+port);
 		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/allNew')]")).click();
 		driver.findElement(By.id("precioMin")).clear();
 		driver.findElement(By.id("precioMin")).sendKeys("10000");

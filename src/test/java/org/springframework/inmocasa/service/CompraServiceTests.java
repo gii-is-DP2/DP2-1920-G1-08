@@ -1,6 +1,8 @@
 package org.springframework.inmocasa.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -79,7 +81,7 @@ public class CompraServiceTests {
 
 		this.compraService.saveCompra(compra);
 
-		assertThat(compra.getEstado().equals(Estado.PENDIENTE) && todas.contains(compra));
+		assertTrue(compra.getEstado().equals(Estado.PENDIENTE) && todas.contains(compra));
 
 	}
 
@@ -145,7 +147,7 @@ public class CompraServiceTests {
 
 		this.compraService.saveCompra(compra2);
 
-		assertThat(!compra.getEstado().equals(Estado.PENDIENTE) && !todas.contains(compra));
+		assertTrue(!compra.getEstado().equals(Estado.PENDIENTE) && !todas.contains(compra));
 
 	}
 
@@ -154,7 +156,7 @@ public class CompraServiceTests {
 	void shouldFindCompraByViviendaId() {
 		Collection<Compra> todas = this.compraService.findAll();
 		Compra c = this.compraService.findCompraByViviendaId(1);
-		assertThat(todas.contains(c));
+		assertTrue(todas.contains(c));
 
 	}
 
@@ -162,6 +164,6 @@ public class CompraServiceTests {
 	@Test
 	void shouldNoFindCompraByViviendaId() {
 		Compra c = this.compraService.findCompraByViviendaId(2);
-		assertThat(c == null);
+		assertTrue(c == null);
 	}
 }

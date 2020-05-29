@@ -1,9 +1,9 @@
 package org.springframework.inmocasa.ui;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
+import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.AfterEach;
@@ -13,9 +13,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.annotation.DirtiesContext;
@@ -24,11 +24,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext
-public class ShowDashboardUITest {
+public class RealizarCompraUITest {
 	@LocalServerPort
 	private int port;
 	private WebDriver driver;
-	private String baseUrl;
 	private boolean acceptNextAlert = true;
 	private StringBuffer verificationErrors = new StringBuffer();
 
@@ -36,38 +35,41 @@ public class ShowDashboardUITest {
 	public void setUp() throws Exception {
 		System.setProperty("webdriver.chrome.driver", System.getenv("webdriver.chrome.driver"));
 		driver = new ChromeDriver();
-		baseUrl = "https://www.google.com/";
+		//baseUrl = "https://www.google.com/";
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
 
-	// Caso positivo: El administrador tiene acceso a las estadísticas de la página
+	// Caso positivo: un cliente puede acceder a comprar una vivienda
 	@Test
-	public void testShowDashboardUIOK() throws Exception {
-		driver.get("localhost:"+port);
+	public void testRealizarCompraUIOk() throws Exception {
+		driver.get("http://localhost:" + port);
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		driver.findElement(By.id("username")).clear();
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
 		}
-		driver.findElement(By.id("username")).sendKeys("admin");
+		driver.findElement(By.id("username")).sendKeys("rodrigo");
 		driver.findElement(By.id("password")).clear();
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
 		}
-		driver.findElement(By.id("password")).sendKeys("admin");
+		driver.findElement(By.id("password")).sendKeys("rodrigo");
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
-		driver.findElement(By.xpath("(//button[@type='button'])[3]")).click();
-		assertEquals("Estadísticas", driver.findElement(By.linkText("Estadísticas")).getText());
-		driver.findElement(By.xpath("//a[contains(@href, '/dashboard')]")).click();
+		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/allNew')]")).click();
+		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/2')]")).click();
+		driver.findElement(By.xpath("//a[contains(@href, '/compras/create/2')]")).click();
+		driver.findElement(By.xpath("//input[@id='precioFinal']")).click();
+		driver.findElement(By.xpath("//input[@id='precioFinal']")).clear();
+		driver.findElement(By.xpath("//input[@id='precioFinal']")).sendKeys("100000");
+		driver.findElement(By.xpath("//button[@type='submit']")).click();
 	}
-
-	// Caso negativo: un usuario distinto al administrador no tiene acceso a dichas
-	// estadísticas
+	
+	// Caso negativo: un propietario no puede acceder a comprar una vivienda
 	@Test
-	public void testShowDashboardUINotOk() throws Exception {
-		driver.get("http://localhost/");
+	public void testRealizarCompraUINotOk() throws Exception {
+		driver.get("http://localhost:" + port);
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		driver.findElement(By.id("username")).clear();
 		try {
@@ -82,10 +84,12 @@ public class ShowDashboardUITest {
 		}
 		driver.findElement(By.id("password")).sendKeys("gilmar");
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
-		driver.findElement(By.xpath("(//button[@type='button'])[3]")).click();
+		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/allNew')]")).click();
+		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/2')]")).click();
 		assertFalse(
-				driver.findElement(By.cssSelector("BODY")).getText().matches("^[\\s\\S]*link=Estadísticas[\\s\\S]*$"));
+				driver.findElement(By.cssSelector("BODY")).getText().matches("^[\\s\\S]*link=Comprar Vivienda[\\s\\S]*$"));
 	}
+	
 
 	@AfterEach
 	public void tearDown() throws Exception {
@@ -129,4 +133,3 @@ public class ShowDashboardUITest {
 		}
 	}
 }
-

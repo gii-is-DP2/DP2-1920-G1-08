@@ -35,9 +35,9 @@ public class ValoracionVisitaUITest {
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
   }
 
-  //HU-13: Como cliente quiero añadir una puntuación y comentarios a las visitas que he 
-  //realizado para valorar mi experiencia y compartirla con otros usuarios.
+  //HU-13
   @Test
+  @DisplayName("Prueba en la que se añade una valoración")
   public void testValoracionVisita() throws Exception {
 		driver.get("http://localhost:"+port);
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
@@ -67,8 +67,9 @@ public class ValoracionVisitaUITest {
 	    assertEquals("Valoracion guardada correctamente", driver.findElement(By.xpath("//p")).getText());
   }
   
-  //HU-13: En este caso intenta realizar una valoración en una visita que ya ha sido valorada, lo cual no es válido.
+  //HU-13
   @Test
+  @DisplayName("Prueba en la que se añade una valoración que ya ha sido valorada previamente")
   public void testValoracionVisitaNotOk() throws Exception {
     driver.get("http://localhost:8080/");
     driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();

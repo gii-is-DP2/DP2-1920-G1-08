@@ -87,6 +87,14 @@ public class ViviendaControllerIntegrationTests {
 		assertEquals(view, "viviendas/showViviendaDetails");
 	}
 
+	@WithMockUser(value = "gilmar", authorities = { "propietario" })
+	@Test
+	void testShowListViviendass() throws Exception {
+		ModelMap model = new ModelMap();
+		String view = viviendaController.showListViviendas(model, null, null, null, null);
+		assertEquals(view, "viviendas/listNewViviendas");
+	}
+
 
 
 

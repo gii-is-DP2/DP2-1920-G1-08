@@ -1,8 +1,10 @@
 package org.springframework.inmocasa.ui;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.AfterEach;
@@ -17,6 +19,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -33,6 +36,8 @@ public class EditarViviendaUITest {
 	private String baseUrl;
 	private boolean acceptNextAlert = true;
 	private StringBuffer verificationErrors = new StringBuffer();
+//	private int allViviendas;
+
 
 	@BeforeEach
 	public void setUp() throws Exception {
@@ -64,46 +69,58 @@ public class EditarViviendaUITest {
 		driver.findElement(By.xpath("//table[@id='viviendaOfertaTable']/tbody/tr/td[3]")).click();
 		assertEquals("Centro",
 				driver.findElement(By.xpath("//table[@id='viviendaOfertaTable']/tbody/tr/td[3]")).getText());
-		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/1/edit')]")).click();
-		driver.findElement(By.xpath("//form[@id='vivienda']/div/div[4]/div/input")).click();
-		driver.findElement(By.xpath("//form[@id='vivienda']/div/div[4]/div/input")).clear();
-		driver.findElement(By.xpath("//form[@id='vivienda']/div/div[4]/div/input")).sendKeys("Bami");
-		driver.findElement(By.xpath("//button[@type='submit']")).click();
+	    driver.findElement(By.xpath("//a[contains(@href, '/viviendas/1/edit')]")).click();
+	    driver.findElement(By.xpath("//form[@id='vivienda']/div/div[3]/div/input")).click();
+	    driver.findElement(By.xpath("//form[@id='vivienda']/div/div[3]/div/input")).clear();
+	    driver.findElement(By.xpath("//form[@id='vivienda']/div/div[3]/div/input")).sendKeys("Bami");
+	    driver.findElement(By.xpath("//form[@id='vivienda']/div")).click();
+	    driver.findElement(By.xpath("//button[@type='submit']")).click();
 		assertEquals("Bami",
 				driver.findElement(By.xpath("//table[@id='viviendaOfertaTable']/tbody/tr/td[3]")).getText());
 
 	}
 
-	@Test
-	public void testEditViviendaNotOk() throws Exception {
-		driver.get("http://localhost:8080/");
-		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
-		driver.findElement(By.id("password")).clear();
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
-		}
-		driver.findElement(By.id("password")).sendKeys("gilmar");
-		driver.findElement(By.id("username")).clear();
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
-		}
-		driver.findElement(By.id("username")).sendKeys("gilmar");
-		driver.findElement(By.xpath("//button[@type='submit']")).click();
-		driver.findElement(By.xpath("(//button[@type='button'])[3]")).click();
-		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/mis-viviendas')]")).click();
-		assertEquals("Centro",
-				driver.findElement(By.xpath("//table[@id='viviendaOfertaTable']/tbody/tr/td[3]")).getText());
-		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/1/edit')]")).click();
-		driver.findElement(By.xpath("//form[@id='vivienda']/div/div[4]/div/input")).clear();
-		driver.findElement(By.xpath("//form[@id='vivienda']/div/div[4]/div/input")).sendKeys("");
-		driver.findElement(By.xpath("//button[@type='submit']")).click();
-		driver.findElement(By.xpath("(//button[@type='button'])[3]")).click();
-		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/mis-viviendas')]")).click();
-		assertEquals("Centro",
-				driver.findElement(By.xpath("//table[@id='viviendaOfertaTable']/tbody/tr/td[3]")).getText());
-	}
+//	@Test
+//	public void testEditViviendaNotOk() throws Exception {
+//		driver.get("http://localhost:"+port);
+//		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
+//		driver.findElement(By.id("password")).clear();
+//		try {
+//			Thread.sleep(500);
+//		} catch (InterruptedException e) {
+//		}
+//		driver.findElement(By.id("password")).sendKeys("gilmar");
+//		driver.findElement(By.id("username")).clear();
+//		try {
+//			Thread.sleep(500);
+//		} catch (InterruptedException e) {
+//		}
+//		driver.findElement(By.id("username")).sendKeys("gilmar");
+//		driver.findElement(By.xpath("//button[@type='submit']")).click();
+//		driver.findElement(By.xpath("(//button[@type='button'])[3]")).click();
+//		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/mis-viviendas')]")).click();
+//		
+//		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/1/edit')]")).click();
+//		driver.findElement(By.xpath("//form[@id='vivienda']/div/div[4]/div/input")).clear();
+//		driver.findElement(By.xpath("//form[@id='vivienda']/div/div[4]/div/input")).sendKeys("");
+//		driver.findElement(By.xpath("//button[@type='submit']")).click();
+//		allViviendas = viviendaCounter();
+//		driver.findElement(By.xpath("(//button[@type='button'])[3]")).click();
+//		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/mis-viviendas')]")).click();
+//	
+//	}
+//	
+//	private int viviendaCounter() {
+//		WebElement viviendas = driver.findElement(By.xpath("//table[@id='viviendaOfertaTable']"));
+//		List<WebElement> listaViviendas = viviendas.findElements(By.tagName("tr"));
+//		return listaViviendas.size() - 1;
+//	}
+//
+//	public void checkEditVivienda() {
+//		assertTrue(viviendaCounter() ==  allViviendas);
+//		assertTrue(driver.findElement(By.xpath("//table[@id='viviendaOfertaTable']")).getText().contains("Bami"));
+//	}
+
 
 	@AfterEach
 	public void tearDown() throws Exception {

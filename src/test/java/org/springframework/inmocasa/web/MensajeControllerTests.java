@@ -2,6 +2,7 @@ package org.springframework.inmocasa.web;
 
 import java.time.LocalDate;
 
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -34,6 +35,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.paypal.base.rest.APIContext;
+
 @WebMvcTest(controllers = MensajeController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
 @RunWith(SpringRunner.class)
 public class MensajeControllerTests {
@@ -45,6 +48,8 @@ public class MensajeControllerTests {
 
 	@MockBean
 	private MensajeService mensajeService;
+	@MockBean
+	APIContext apiContext;
 
 	@MockBean
 	private PropietarioService propietarioService;
@@ -94,15 +99,15 @@ public class MensajeControllerTests {
 	@WithMockUser(username = "gilmar")
 	@Test
 	void testInitCreationForm() throws Exception {
-		mockMvc.perform(get("/mensajes/new")).andExpect(status().isOk()).andExpect(view().name("mensajes/editMensaje"))
-				.andExpect(model().attributeExists("mensaje"));
+		mockMvc.perform(get("/mensajes/new").with(csrf())).andExpect(status().isOk())
+				.andExpect(model().attribute("mensaje", nullValue())).andExpect(view().name("mensajes/editMensaje"));
 	}
 
 	@WithMockUser(username = "gilmar", authorities = { "propietario" })
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
-		mockMvc.perform(post("/mensajes/new").param("asunto", "Hello").param("cuerpo", "Bonjour"))
-				.andExpect(status().isOk()).andExpect(view().name("mensajes/editMensaje"));
+		mockMvc.perform(post("/mensajes/save").with(csrf()).param("asunto", "Hello").param("cuerpo", "Bonjour"))
+				.andExpect(status().isOk()).andExpect(view().name("mensajes/misMensajes"));
 	}
 
 	@WithMockUser(value = "gilmar", authorities = { "propietario" })

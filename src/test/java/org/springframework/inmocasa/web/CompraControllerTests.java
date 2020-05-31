@@ -6,6 +6,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.time.LocalDate;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -161,9 +163,8 @@ class CompraControllerTests {
 	@WithMockUser(username = "celiaherrero", authorities = { "propietario" })
 	@Test
 	void testProcessAceptarComprarSuccess() throws Exception {
-		mockMvc.perform(get("/compras/{viviendaId}/aceptar", 8).with(SecurityMockMvcRequestPostProcessors.csrf())
-				.param("estado", "PENDIENTE")).andExpect(status().isOk())
-				.andExpect(view().name("redirect:/viviendas/ofertadas"));
+		mockMvc.perform(get("/compras/{viviendaId}/aceptar",8).with(csrf()).param("estado", "PENDIENTE"))
+				.andExpect(status().isOk()).andExpect(view().name("viviendas/ofertadas"));
 	}
 
 }

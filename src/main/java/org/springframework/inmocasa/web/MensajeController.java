@@ -23,6 +23,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -116,11 +117,12 @@ public class MensajeController {
 			mensaje.setProp(p);
 			modelMap.addAttribute("mensaje", mensaje);
 		}
-		return view;
+		return "mensajes/editMensaje";
 	}
 
-	@PostMapping(value = { "/save" })
-	public String guardarMensaje(@Valid Mensaje mensaje, BindingResult result, ModelMap modelMap) {
+	@PostMapping(path = { "/save" })
+	public String guardarMensaje(@Valid Mensaje mensaje, BindingResult result,
+			ModelMap modelMap) {
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();

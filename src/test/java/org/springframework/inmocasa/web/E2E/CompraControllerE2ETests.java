@@ -25,7 +25,6 @@ import org.springframework.test.web.servlet.MockMvc;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
-@ContextConfiguration(classes = { InmocasaApplication.class })
 @Transactional
 public class CompraControllerE2ETests {
 
@@ -47,11 +46,11 @@ public class CompraControllerE2ETests {
 				.andExpect(view().name("redirect:/viviendas/allNew"));
 	}
 
-	@WithMockUser(username = "admin", authorities = "admin")
+	@WithMockUser(username = "gilmar", authorities = { "propietario"})
 	@Test
 	void testProcessRechazarCompra() throws Exception {
-		this.mockMvc.perform(get("/compras/{viviendaId}/rechazar", TEST_VIVIENDA_ID))
-				.andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/viviendas/ofertadas"));
+		this.mockMvc.perform(get("/compras/{viviendaId}/rechazar", TEST_VIVIENDA_ID_2))
+				.andExpect(status().is2xxSuccessful());
 	}
 
 	@WithMockUser(username = "admin", authorities = { "admin" })

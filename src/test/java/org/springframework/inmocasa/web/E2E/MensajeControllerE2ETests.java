@@ -56,12 +56,12 @@ public class MensajeControllerE2ETests {
 				.andExpect(MockMvcResultMatchers.model().attributeExists("mensaje"));
 	}
 
-	@WithMockUser(username = "admin", authorities = { "admin" })
+	@WithMockUser(username = "alejandra", authorities = { "cliente" })
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
 
-		mockMvc.perform(post("/mensajes/save").with(csrf()).param("asunto", "Hola").param("cuerpo", "Amigo"))
-				.andExpect(status().isOk()).andExpect(view().name("/mensajes/editMensaje"));
+		mockMvc.perform(post("/mensajes/save").with(csrf()).param("asunto", "Hola").param("prop", "1").param("cuerpo", "Amigo"))
+				.andExpect(status().isOk()).andExpect(view().name("mensajes/misMensajes"));
 	}
 
 }

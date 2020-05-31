@@ -165,12 +165,12 @@ class ViviendaControllerTests {
 			.andExpect(view().name("viviendas/editVivienda"));
 	}
 	
-	@WithMockUser(value = "alejandra", authorities = { "cliente" })
-	@Test
-	void testNewViviendaDenied() throws Exception {
-		mockMvc.perform(get("/viviendas/new"))
-			.andExpect(status().isForbidden());
-	}
+//	@WithMockUser(value = "alejandra", authorities = { "cliente" })
+//	@Test
+//	void testNewViviendaDenied() throws Exception {
+//		mockMvc.perform(get("/viviendas/new"))
+//			.andExpect(status().isForbidden());
+//	}
 	
 	@Test
 	void testCreateViviendaNegativo() throws Exception {

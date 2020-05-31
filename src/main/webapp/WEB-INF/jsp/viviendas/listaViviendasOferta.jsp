@@ -21,26 +21,26 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${viviendas}" var="vivienda">
+			<c:forEach items="${compras}" var="compra">
 			
 		<tr>
-					<td><img src="${vivienda.foto}" /> </td>
+					<td><img src="${compra.vivienda.foto}" /> </td>
 					 <td>
                     <spring:url value="/viviendas/{viviendaId}"
 								var="viviendaUrl">
                         <spring:param name="viviendaId"
-									value="${vivienda.id}" />
+									value="${compra.vivienda.id}" />
                     </spring:url>
                     <a href="${fn:escapeXml(viviendaUrl)}"><c:out
-									value="${vivienda.zona} " /></a>
+									value="${compra.vivienda.zona} " /></a>
                 </td>
-					<td><c:out value="${vivienda.direccion}" /></td>
-					<td><c:out value="${vivienda.planta}" /></td>
-					<td><c:out value="${vivienda.precio}" /> Euros</td>
+					<td><c:out value="${compra.vivienda.direccion}" /></td>
+					<td><c:out value="${compra.vivienda.planta}" /></td>
+					<td><c:out value="${compra.vivienda.precio}" /> Euros</td>
 					<td>
-					  <spring:url value="/compras/{viviendaId}" var="compraUrl">
-                        <spring:param name="viviendaId"
-									value="${vivienda.id}" />
+					  <spring:url value="/compras/{compraId}" var="compraUrl">
+                        <spring:param name="compraId"
+									value="${compra.id}" />
                     </spring:url>
                     <a href="${fn:escapeXml(compraUrl)}">Ver oferta</a>
                 </td>

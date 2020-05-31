@@ -147,17 +147,17 @@ public class CompraServiceTests {
 
 	// Se encuentran la compra por el id de la vivienda y esta existe
 	@Test
-	void shouldFindCompraByViviendaId() {
+	void shouldFindCompraById() {
 		Collection<Compra> todas = this.compraService.findAll();
-		Compra c = this.compraService.findCompraByViviendaId(1);
+		Compra c = this.compraService.findCompraById(1);
 		assertThat(todas.contains(c));
 
 	}
 
 	// No se encuentra la compra porque esa vivienda no tiene oferta
 	@Test
-	void shouldNoFindCompraByViviendaId() {
-		Compra c = this.compraService.findCompraByViviendaId(2);
+	void shouldNoFindCompraById() {
+		Compra c = this.compraService.findCompraById(2);
 		assertThat(c == null);
 	}
 }

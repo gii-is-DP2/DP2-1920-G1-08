@@ -85,6 +85,13 @@ public class ViviendaController {
 		Vivienda vivienda = this.viviendaService.findViviendaById(viviendaId).get();
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Cliente cliente = clienteService.findByUsername(username);
+		Propietario prop = propService.findByUsername(username);
+		int propietarioId = 0;
+		if (prop!=null) {
+			propietarioId = prop.getId();
+			model.addAttribute("propietarioId", propietarioId);
+		}
+		
 		if (cliente != null) {
 			if (clienteService.esFavorito(cliente.getFavoritas(), vivienda.getId())) {
 				vivienda.setFav(true);
@@ -93,28 +100,10 @@ public class ViviendaController {
 			}
 		}
 		model.addAttribute("vivienda", vivienda);
+		
 		return view;
 	}
-//	@GetMapping(value = "/{viviendaId}")
-//	public String showVivienda(@PathVariable("viviendaId") int viviendaId, ModelMap model) {
-//		Vivienda vivienda = this.viviendaService.findViviendaById(viviendaId).get();
-//		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-//		Propietario propietario = propService.findByUsername(username);
-//		Cliente cliente = clienteService.findByUsername(username);
-//		if (cliente != null) {
-//			if (clienteService.esFavorito(cliente.getFavoritas(), vivienda.getId())) {
-//				vivienda.setFav(true);
-//			} else {
-//				vivienda.setFav(false);
-//			}
-//		}
-//
-//		String view = "viviendas/showViviendaDetails";
-//		model.put("vivienda", vivienda);
-//		model.put("propietario", propietario);
-//		return view;
-//
-//	}
+
 
 	@GetMapping(path = "/mis-viviendas")
 	public String misViviendas(ModelMap model) {
@@ -267,7 +256,7 @@ public class ViviendaController {
 			}
 		}
 
-		return "viviendas/listNewViviendas";
+		return misViviendas(model);
 
 	}
 

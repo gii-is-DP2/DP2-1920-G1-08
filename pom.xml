@@ -187,10 +187,12 @@
 			<artifactId>rest-api-sdk</artifactId>
 			<version>1.4.2</version>
 		</dependency>
-		 <dependency>
+		<dependency>
 		    <groupId>com.itextpdf</groupId>
 		    <artifactId>itextpdf</artifactId>
 		    <version>5.5.13</version>
+		    
+
 		</dependency>
 	</dependencies>
 
@@ -325,7 +327,6 @@
 			<url>https://www.apache.org/licenses/LICENSE-2.0</url>
 		</license>
 	</licenses>
-
 
 
 </project>

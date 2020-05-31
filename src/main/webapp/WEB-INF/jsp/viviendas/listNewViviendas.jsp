@@ -28,7 +28,7 @@
 
 .slider {
 	-webkit-appearance: none;
-	width: 25%;
+	width: 75%;
 	height: 25px;
 	background: #d3d3d3;
 	outline: none;
@@ -60,12 +60,12 @@
 		<div class="slidecontainer">
 			<h3>Precio</h3>
 			<input type="range" class="slider" id="precioMin" name="precioMin"
-				value="${precioMin}" min="0" max="2000" onchange="filtroPrecios.submit()">
+				value="${precioMin}" min="0" max="2000000" onchange="filtroPrecios.submit()">
 			<p>
 				Precio Minimo: <span id="valueMin"></span>
 			</p>
 			<input type="range" class="slider" id="precioMax" name="precioMax"
-				value="${precioMax}" min="0" max="2000" onchange="filtroPrecios.submit()"/>
+				value="${precioMax}" min="0" max="2000000" onchange="filtroPrecios.submit()"/>
 			<p>
 				Precio Maximo: <span id="valueMax"></span>
 			</p>
@@ -141,11 +141,13 @@
 	<c:forEach items="${viviendas}" var="viv">
 		<div class="panel panel-primary"
 			style="width: 70%; margin: 0 auto; margin-top: 30px;">
+			
 			<div class="panel-heading">
 				<h3 class="panel-title">
 					<c:out value="${viv.direccion}" />
-				</h3>
+				</h3>	
 			</div>
+
 
 			<div class="panel-body">
 

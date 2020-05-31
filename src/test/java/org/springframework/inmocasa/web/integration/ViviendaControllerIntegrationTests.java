@@ -99,15 +99,6 @@ public class ViviendaControllerIntegrationTests {
 		assertEquals(view, "viviendas/listNewViviendas");
 	}
 	
-	@DisplayName("Prueba no borrar anuncio")
-	@WithMockUser(value = "housininmo", authorities = { "propietario" })
-	@Test
-	void testDeleteViviendaNotOk() throws Exception {
-		ModelMap model = new ModelMap();
-		String view = viviendaController.borrarVivienda(model, TEST_VIVIENDA_ID_BORRAR);
-		assertEquals(view, "viviendas/listNewViviendas");
-	}
-	
 	@DisplayName("Prueba filtro")
 	@WithMockUser(value = "housininmo", authorities = { "propietario" })
 	@Test

@@ -23,7 +23,7 @@ public class UsuarioControllerIntegrationTests {
 		@DisplayName("Prueba borrar usuario")
 		@WithMockUser(value = "gilmar", authorities = { "propietario" })
 		@Test
-		void testDeleteUsuarioOk() throws Exception {
+		void testDeleteUsuario() throws Exception {
 			ModelMap model = new ModelMap();
 			String view = usuarioController.borrarUsuarioCompleto(1, model);
 			assertEquals(view, "redirect:/logout");

@@ -27,7 +27,7 @@ public interface ViviendaRepository extends JpaRepository<Vivienda, Integer> {
 	@Query("select v from Vivienda v where v.id = ?1")
 	public Vivienda findViviendaById(Integer viviendaId);
 	
-	@Query("select c.vivienda from Compra c")
+	@Query("select c.vivienda from Compra c where c.estado=0")
 	public Collection<Vivienda> getViviendasCompradas();
 	
 	@Query("select h from Habitacion h where h.vivienda.id = ?1")

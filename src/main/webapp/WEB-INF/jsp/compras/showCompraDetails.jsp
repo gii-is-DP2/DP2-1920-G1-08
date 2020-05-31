@@ -25,18 +25,18 @@
 	</table>
 	<c:if test="${compras.estado == 'PENDIENTE'}">
 
-		<td><spring:url value="/compras/{viviendaId}/aceptar"
+		<td><spring:url value="/compras/{compraId}/aceptar"
 				var="aceptarCompra">
-				<spring:param name="viviendaId" value="${compras.vivienda.id}" />
+				<spring:param name="compraId" value="${compras.id}" />
 			</spring:url> <a href="${fn:escapeXml(aceptarCompra)}" class="btn btn-primary">Aceptar
 				oferta</a></td>
 		
 		</>
 		
 		
-		<td><spring:url value="/compras/{viviendaId}/rechazar"
+		<td><spring:url value="/compras/{compraId}/rechazar"
 				var="rechazarCompra">
-				<spring:param name="viviendaId" value="${compras.vivienda.id}" />
+				<spring:param name="compraId" value="${compras.id}" />
 			</spring:url> <a href="${fn:escapeXml(rechazarCompra)}" class="btn btn-primary">Rechazar
 				oferta</a></td>
 	</c:if>

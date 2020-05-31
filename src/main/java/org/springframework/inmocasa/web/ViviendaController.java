@@ -61,20 +61,18 @@ public class ViviendaController {
 	// Santi-Alvaro
 
 	@GetMapping(path = "/ofertadas")
-	public String listadoViviendas(ModelMap model) {
+	public String listadoViviendasOfertadas(ModelMap model) {
 		String vista = "viviendas/listaViviendasOferta";
 		List<Vivienda> viviendas = new ArrayList<>();
 		String username = SecurityContextHolder.getContext().getAuthentication().getName(); // username Actual
-		Iterable<Compra> cmp = compraService.findAll();
-		for (Compra c : cmp) {
-			if (c.getVivienda().getPropietario().getUsername().equals(username)) {
-				viviendas.add(c.getVivienda());
-
-			}
-
+		Propietario propietario = propService.findByUsername(username);
+		Collection<Compra> compras = compraService.getAllComprasByPropietarioId(propietario.getId());
+		for (Compra c : compras) {
+			viviendas.add(c.getVivienda());
 		}
 
 		model.addAttribute("viviendas", viviendas);
+		model.addAttribute("compras", compras);
 
 		return vista;
 	}

@@ -63,7 +63,7 @@ public class ValoracionController {
 		Optional<Visita> visita = visitaService.findById(idVisita);
 		
 		
-		if(visita.isPresent() && !cliente.isEmpty() && visita.get().getCliente().equals(cliente.get(0))) {
+		if(visita.isPresent() && !cliente.isEmpty() && visita.get().getCliente().getUsername().equals(cliente.get(0).getUsername())) {
 			
 			List<Valoracion> valoraciones = valoracionService.findByVisita(visita.get());
 			if(valoraciones.isEmpty()) {

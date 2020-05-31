@@ -26,6 +26,6 @@ public class UsuarioControllerIntegrationTests {
 		void testDeleteUsuario() throws Exception {
 			ModelMap model = new ModelMap();
 			String view = usuarioController.borrarUsuarioCompleto(1, model);
-			assertEquals(view, "redirect:/logout");
+			assertEquals("redirect:/logout",view);
 		}
 }

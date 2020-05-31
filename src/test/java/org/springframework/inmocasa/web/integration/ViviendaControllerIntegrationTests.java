@@ -96,7 +96,7 @@ public class ViviendaControllerIntegrationTests {
 	void testDeleteViviendaOk() throws Exception {
 		ModelMap model = new ModelMap();
 		String view = viviendaController.borrarVivienda(model, TEST_VIVIENDA_ID_BORRAR);
-		assertEquals(view, "viviendas/listNewViviendas");
+		assertEquals(view, "viviendas/misViviendas");
 	}
 	
 	@DisplayName("Prueba filtro")

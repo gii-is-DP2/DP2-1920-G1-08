@@ -7,10 +7,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.inmocasa.model.Cliente;
 import org.springframework.inmocasa.model.Habitacion;
 import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.model.Visita;
 import org.springframework.inmocasa.model.Vivienda;
+import org.springframework.inmocasa.repository.ClienteRepository;
 import org.springframework.inmocasa.repository.HabitacionRepository;
 import org.springframework.inmocasa.repository.VisitaRepository;
 import org.springframework.inmocasa.repository.ViviendaRepository;
@@ -25,15 +27,17 @@ public class ViviendaService {
 	ViviendaRepository vr;
 	HabitacionRepository hr;
 	PropietarioService pr;
+	ClienteRepository clienteRepository;
 	VisitaRepository visitaRepository;
 
 	@Autowired
 	public ViviendaService(ViviendaRepository vr, HabitacionRepository hr, PropietarioService pr,
-							VisitaRepository visitaRepository) {
+							VisitaRepository visitaRepository, ClienteRepository clienteRepository) {
 		super();
 		this.vr = vr;
 		this.hr = hr;
 		this.pr = pr;
+		this.clienteRepository = clienteRepository;
 		this.visitaRepository = visitaRepository;
 	}
 
@@ -189,6 +193,12 @@ public class ViviendaService {
 			visitas = visitaRepository.findVisitasByVivienda(vivienda.getId());
 			if(visitas != null) {
 				visitaRepository.deleteAll(visitas);
+			}
+			Collection<Cliente> clientes = clienteRepository.findAll();
+			for(Cliente c : clientes ) {
+				if(c.getFavoritas().contains(vivienda)) {
+					c.getFavoritas().remove(vivienda);
+				}
 			}
 			vr.delete(vivienda);
 		}

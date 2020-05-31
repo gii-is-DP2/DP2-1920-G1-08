@@ -256,7 +256,7 @@ public class ViviendaController {
 			}
 		}
 
-		return "viviendas/listNewViviendas";
+		return misViviendas(model);
 
 	}
 

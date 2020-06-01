@@ -11,11 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.inmocasa.model.Administrador;
 import org.springframework.inmocasa.model.Cliente;
 import org.springframework.inmocasa.model.Compra;
+import org.springframework.inmocasa.model.Denuncia;
 import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.model.Vivienda;
 import org.springframework.inmocasa.service.AdministradorService;
 import org.springframework.inmocasa.service.ClienteService;
 import org.springframework.inmocasa.service.CompraService;
+import org.springframework.inmocasa.service.DenunciaService;
 import org.springframework.inmocasa.service.PropietarioService;
 import org.springframework.inmocasa.service.ViviendaService;
 import org.springframework.inmocasa.web.validator.ViviendaValidator;
@@ -38,26 +40,28 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/viviendas")
 public class ViviendaController {
 
-	@Autowired
 	private ViviendaService viviendaService;
-
-	@Autowired
 	private AdministradorService adminService;
-
-	@Autowired
 	private PropietarioService propService;
-
-	@Autowired
 	private ClienteService clienteService;
-
-	@Autowired
 	private CompraService compraService;
+	private DenunciaService denunciaService;
 
 	@InitBinder("vivienda")
 	public void initCompraBinder(WebDataBinder dataBinder) {
 		dataBinder.setValidator(new ViviendaValidator());
 	}
 
+	@Autowired
+	public ViviendaController(ViviendaService viviendaService, AdministradorService adminService, PropietarioService propService,
+			ClienteService clienteService, CompraService compraService, DenunciaService denunciaService) {
+		this.viviendaService = viviendaService;
+		this.adminService = adminService;
+		this.propService = propService;
+		this.clienteService = clienteService;
+		this.compraService = compraService;
+		this.denunciaService = denunciaService;
+	}
 	// Santi-Alvaro
 
 	@GetMapping(path = "/ofertadas")
@@ -229,6 +233,9 @@ public class ViviendaController {
 		Propietario propietario = propService.findByUsername(userPrincipal.getUsername());
 		vivienda.setFechaPublicacion(LocalDate.now());
 		vivienda.setPropietario(propietario);
+		if(vivienda.getFoto().isEmpty()) {
+			vivienda.setFoto("https://cdn.onlinewebfonts.com/svg/img_67240.png");
+		}
 		if (result.hasErrors()) {
 			modelMap.addAttribute("vivienda", vivienda);
 			return "viviendas/editVivienda";
@@ -248,6 +255,14 @@ public class ViviendaController {
 
 		return "viviendas/listNewViviendas";
 	}
+	
+	@GetMapping(value ="/denunciadas")
+	public String viviendasDenunciadasAdmin(ModelMap model) {
+		List<Denuncia> denun = denunciaService.findViviendasDenunciadas();
+		model.addAttribute("denuncias", denun);
+		return "viviendas/denunciadas";
+	}
+	
 	// Alba-Alejandro
 
 	@GetMapping(value = "/delete/{viviendaId}")
@@ -263,10 +278,13 @@ public class ViviendaController {
 			if (!compradas.contains(vivienda)) {
 				viviendaService.delete(vivienda);
 			} else {
-				model.addAttribute("error", "No se puede borrar el anuncio porque la vivienda ha sido comprada");
+				model.addAttribute("errMsg", "No se puede borrar el anuncio porque la vivienda ha sido comprada");
 			}
 		}
-
+		
+		if(admin != null) {
+			return "viviendas/denunciadas";
+		}
 		return "viviendas/listNewViviendas";
 
 	}

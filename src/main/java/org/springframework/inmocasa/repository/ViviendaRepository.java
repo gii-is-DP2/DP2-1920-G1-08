@@ -57,9 +57,24 @@ public interface ViviendaRepository extends JpaRepository<Vivienda, Integer> {
 	@Query("select v from Vivienda v where v.publicitado = 1 order by fechaPublicacion desc")
 	public Collection<Vivienda> getPublicitadas();
 	
+	@Query("select v from Vivienda v where v.publicitado = 1 and v not in (select c.vivienda from Compra c) order by fechaPublicacion desc")
+	public Collection<Vivienda> getPublicitadasSinComprar();
+	
 	@Query("select v from Vivienda v where v.publicitado = 0 order by fechaPublicacion desc")
 	public Collection<Vivienda> getNOPublicitadas();
 
 	@Query("select v from Vivienda v where v.propietario.id = ?1")
 	public Collection<Vivienda> findViviendasByPropietario(Integer propId);
+
+	@Query("select v from Vivienda v where v.precio < ?1")
+	public Collection<Vivienda> getViviendasLtMin(Integer min);
+
+	@Query("select v from Vivienda v where v.precio > ?1")
+	public Collection<Vivienda> getViviendasGtMax(Integer max);
+
+//	@Query("select v from Vivienda v where v.precio < ?1")
+//	public Collection<Vivienda> getViviendasNotNumHabs(Integer numHabs);
+
+	@Query("select v from Vivienda v where v.zona <> ?1")
+	public Collection<Vivienda> getViviendasNotInZona(String zona);
 }

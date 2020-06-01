@@ -21,12 +21,22 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav ml-auto">
-				<li class="nav-item active"><a class="nav-link"
+				<li class="nav-item"><a class="nav-link"
 					href="/viviendas/allNew">Todas las viviendas <span
 						class="sr-only">(current)</span>
 				</a></li>
+			
+					<sec:authorize access="hasAnyAuthority('propietario')">
+						<li class="nav-item">
+							<a class="nav-link"	href="/viviendas/new">Crear Vivienda </a>
+						</li>
+					</sec:authorize>
 
-
+					<sec:authorize access="hasAnyAuthority('admin')">
+						<li class="nav-item">
+							<a class="nav-link"	href="/viviendas/denunciadas">Viviendas denunciadas </a>
+						</li>
+					</sec:authorize>
 
 				<sec:authorize access="!isAuthenticated()">
 					<li class="nav-item"><a class="nav-link" href="/login">Acceso
@@ -42,7 +52,7 @@
 
 						</div></li>
 				</sec:authorize>
-
+	
 
 
 				<!-- Panel usuario -->

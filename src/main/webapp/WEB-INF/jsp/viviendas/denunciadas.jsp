@@ -22,7 +22,7 @@
 					style="margin-left: auto; margin-right: auto; display: block;" />
 				<p>
 					Fecha de publicacion:
-					<c:out value="${denun.vivienda.fechaPublicacion}" />
+					<c:out value="${localDateFormat.format(denun.vivienda.fechaPublicacion)}" />
 				</p>
 
 				<p>

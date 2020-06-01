@@ -64,7 +64,7 @@
 		</tr>
 		<tr>
 			<th>Fecha de publicación</th>
-			<td><c:out value="${vivienda.fechaPublicacion}"></c:out></td>
+			<td><c:out value="${localDateFormat.format(vivienda.fechaPublicacion)}"></c:out></td>
 		</tr>
 		<tr>
 			<th>Dirección</th>

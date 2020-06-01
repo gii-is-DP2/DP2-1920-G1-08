@@ -113,12 +113,7 @@ public class ViviendaService {
 	}
 	
 	public Collection<String> findZonas() {
-		Collection<String> zonas = new ArrayList<String>();
-		Collection<Vivienda> viviendas = vr.findAllNewest();
-		viviendas.removeAll(vr.getViviendasCompradas());
-		for(Vivienda viv: viviendas) {
-			zonas.add(viv.getZona());
-		}
+		Collection<String> zonas = vr.findAllZonas();
 		return zonas;
 	}
 	
@@ -169,7 +164,7 @@ public class ViviendaService {
 		}
 	}
 
-	public Collection<Vivienda> findViviendaByfiltros(Integer min, Integer max, Integer numHabs, String zona) {
+	public Collection<Vivienda> findViviendaByfiltros(Integer min, Integer max, String numHabs, String zona) {
 		Collection<Vivienda> viviendas = vr.getPublicitadasSinComprar();
 		if(min!= null)
 			viviendas.removeAll(vr.getViviendasLtMin(min));

@@ -15,12 +15,14 @@
         <label class="col-sm-2 control-label">${label}</label>
 
         <div class="col-sm-10">
-        	<c:if test="${max}">
-          	  <form:input type="number" step="1" min="0" max="${max}" class="form-control" path="${name}"/>
-            </c:if>
-            <c:otherwise>
-            	<form:input type="number" step="1" min="0"  class="form-control" path="${name}"/>
-            </c:otherwise>
+        	<c:choose>
+        		<c:when test="${max != null}">
+        			<form:input type="number" step="1" min="0" max="${max}" class="form-control" path="${name}"/>
+        		</c:when>
+        		<c:otherwise>
+        			<form:input type="number" step="1" min="0"  class="form-control" path="${name}"/>
+        		</c:otherwise>
+        	</c:choose>
             <c:if test="${valid}">
                 <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
             </c:if>

@@ -21,11 +21,12 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav ml-auto">
-				<li class="nav-item"><a class="nav-link"
-					href="/viviendas/allNew">Todas las viviendas <span
-						class="sr-only">(current)</span>
-				</a></li>
-			
+				<sec:authorize access="!isAuthenticated() or !hasAnyAuthority('admin')">
+					<li class="nav-item"><a class="nav-link"
+						href="/viviendas/allNew">Todas las viviendas <span
+							class="sr-only">(current)</span>
+					</a></li>
+				</sec:authorize>
 					<sec:authorize access="hasAnyAuthority('propietario')">
 						<li class="nav-item">
 							<a class="nav-link"	href="/viviendas/new">Crear Vivienda </a>
@@ -35,6 +36,9 @@
 					<sec:authorize access="hasAnyAuthority('admin')">
 						<li class="nav-item">
 							<a class="nav-link"	href="/viviendas/denunciadas">Viviendas denunciadas </a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link"	href="/viviendas/allViviendasAdmin">Todas las viviendas </a>
 						</li>
 					</sec:authorize>
 
@@ -91,6 +95,7 @@
 							</sec:authorize>
 							<sec:authorize access="hasAnyAuthority('propietario')">
 								<a class="dropdown-item" href="/viviendas/mis-viviendas">Mis viviendas</a>
+								<a class="dropdown-item" href="/valoracion/misValoraciones">Valoracion a mis viviendas</a>
 							</sec:authorize>
 							<sec:authorize access="hasAnyAuthority('propietario')">
 								<a class="dropdown-item" href="/viviendas/ofertadas">Viviendas con oferta</a>

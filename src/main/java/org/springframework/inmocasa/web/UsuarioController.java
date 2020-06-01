@@ -189,8 +189,7 @@ public class UsuarioController {
   		Usuario usuario = usuarioService.findUsuarioById(usuarioId);
   		UserDetails userPrincipalDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = userPrincipalDetails.getUsername();
-		Usuario userPrincipal = usuarioService.findUsuarioByUsername(username);
-		if(userPrincipal == usuario) {
+		if(username.equals(usuario.getUsername())) {
 			usuarioService.delete(usuario);
 			return "redirect:/logout";
 		}

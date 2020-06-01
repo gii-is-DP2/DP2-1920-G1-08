@@ -2,6 +2,7 @@ package org.springframework.inmocasa.web.E2E;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -40,16 +41,17 @@ public class UsuarioControllerE2ETests {
 	private MockMvc mockMvc;
 
 	@DisplayName("Prueba borrar usuario")
-	@WithMockUser(value = "alonso7", authorities = { "cliente" })
+	@WithMockUser(value = "inversionesreina", authorities = { "propietario" })
 	@Test
 	void testDeleteUsuarioOk() throws Exception {
-		mockMvc.perform(get("/usuario/delete/{usuarioId}", 10)).andExpect(status().isOk());
+		mockMvc.perform(get("/usuario/delete/{usuarioId}", 4)).andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/logout"));
 	}
 
 	@DisplayName("Prueba no borrar usuario")
+	@WithMockUser(value = "inversionesreina", authorities = { "propietario" })
 	@Test
 	void testDeleteUsuarioNotOk() throws Exception {
-		mockMvc.perform(get("/usuario/delete/{usuarioId}", 1)).andExpect(status().is4xxClientError());
+		mockMvc.perform(get("/usuario/delete/{usuarioId}", 1)).andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/"));
 	}
 
 }

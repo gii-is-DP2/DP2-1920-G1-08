@@ -1,6 +1,7 @@
 package org.springframework.inmocasa.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -34,10 +35,9 @@ public class CompraServiceTests {
 	@MockBean
 	APIContext apiContext;
 
-	// La compra se crea y se guarda con estado pendiente sin problemas
+	// La compra se crea y se guarda con el estado pendiente sin problemas
 	@Test
 	void shouldCreateAndSaveCompra() {
-		Collection<Compra> todas = this.compraService.findAll();
 
 		Vivienda vivienda = new Vivienda();
 		vivienda.setId(1);
@@ -46,7 +46,6 @@ public class CompraServiceTests {
 		vivienda.setZona("Cerro Amate");
 		vivienda.setFechaPublicacion(LocalDate.of(2020, 01, 20));
 		vivienda.setPrecio(2260);
-		vivienda.setAmueblado(true);
 
 		Propietario prop = new Propietario();
 		prop.setId(1);
@@ -55,20 +54,18 @@ public class CompraServiceTests {
 		prop.setDni("46900025N");
 		prop.setEsInmobiliaria(false);
 		prop.setGenero(Genero.MASCULINO);
-		prop.setFechaNacimiento(LocalDate.of(1976, 6, 12));
 		prop.setUsername("john123");
 		prop.setPassword("john123");
 
 		Cliente cl = new Cliente();
-		cl.setId(2);
+		cl.setId(8);
 		cl.setNombre("Antonio");
 		cl.setApellidos("Fernandez");
 		cl.setDni("46900025A");
 		cl.setGenero(Genero.MASCULINO);
-		cl.setFechaNacimiento(LocalDate.of(1978, 10, 12));
 		cl.setUsername("ant1978");
 		cl.setPassword("ant1978");
-
+		
 		Compra compra = new Compra();
 		compra.setId(1);
 		compra.setPrecioFinal(500);
@@ -79,14 +76,13 @@ public class CompraServiceTests {
 
 		this.compraService.saveCompra(compra);
 
-		assertThat(compra.getEstado().equals(Estado.PENDIENTE) && todas.contains(compra));
+		assertEquals(compra.getEstado().equals(Estado.PENDIENTE), true);
 
 	}
 
-	// La compra no se realiza porque la vivienda ya está comprada
+	// La compra se rechaza directamente porque la vivienda ya está comprada
 	@Test
 	void shouldNotCreateAndSaveCompra() {
-		Collection<Compra> todas = this.compraService.findAll();
 
 		Vivienda vivienda = new Vivienda();
 		vivienda.setId(1);
@@ -109,7 +105,7 @@ public class CompraServiceTests {
 		prop.setPassword("john123");
 
 		Cliente cl = new Cliente();
-		cl.setId(2);
+		cl.setId(8);
 		cl.setNombre("Antonio");
 		cl.setApellidos("Fernandez");
 		cl.setDni("46900025A");
@@ -128,7 +124,7 @@ public class CompraServiceTests {
 		compra.setVivienda(vivienda);
 
 		Cliente cl2 = new Cliente();
-		cl2.setId(3);
+		cl2.setId(9);
 		cl2.setNombre("Juan");
 		cl2.setApellidos("Fernandez");
 		cl2.setDni("46900025E");
@@ -145,23 +141,23 @@ public class CompraServiceTests {
 
 		this.compraService.saveCompra(compra2);
 
-		assertThat(!compra.getEstado().equals(Estado.PENDIENTE) && !todas.contains(compra));
+		assertEquals(compra2.getEstado().equals(Estado.RECHAZADO), false); 
 
 	}
 
 	// Se encuentran la compra por el id de la vivienda y esta existe
 	@Test
-	void shouldFindCompraByViviendaId() {
+	void shouldFindCompraById() {
 		Collection<Compra> todas = this.compraService.findAll();
-		Compra c = this.compraService.findCompraByViviendaId(1);
+		Compra c = this.compraService.findCompraById(1);
 		assertThat(todas.contains(c));
 
 	}
 
 	// No se encuentra la compra porque esa vivienda no tiene oferta
 	@Test
-	void shouldNoFindCompraByViviendaId() {
-		Compra c = this.compraService.findCompraByViviendaId(2);
+	void shouldNoFindCompraById() {
+		Compra c = this.compraService.findCompraById(2);
 		assertThat(c == null);
 	}
 }

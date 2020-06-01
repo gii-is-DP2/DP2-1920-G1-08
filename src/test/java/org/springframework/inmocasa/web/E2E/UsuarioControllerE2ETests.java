@@ -3,6 +3,7 @@ package org.springframework.inmocasa.web.E2E;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
@@ -38,14 +39,14 @@ public class UsuarioControllerE2ETests {
 	@Autowired
 	private MockMvc mockMvc;
 
-	// HU-023: Borrar un usuario
+	@DisplayName("Prueba borrar usuario")
 	@WithMockUser(value = "alonso7", authorities = { "cliente" })
 	@Test
 	void testDeleteUsuarioOk() throws Exception {
 		mockMvc.perform(get("/usuario/delete/{usuarioId}", 10)).andExpect(status().isOk());
 	}
 
-	// HU-023: Borrar un usuario (No se borra porque no hay nadie logueado)
+	@DisplayName("Prueba no borrar usuario")
 	@Test
 	void testDeleteUsuarioNotOk() throws Exception {
 		mockMvc.perform(get("/usuario/delete/{usuarioId}", 1)).andExpect(status().is4xxClientError());

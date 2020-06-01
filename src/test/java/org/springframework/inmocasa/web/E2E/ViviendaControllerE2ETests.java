@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,7 @@ public class ViviendaControllerE2ETests {
 				.andExpect(view().name("viviendas/editVivienda"));
 	}
 	
+	@DisplayName("Prueba filtro precio")
 	@WithMockUser(value = "inmocasa")
 	@Test
 	void testshowListViviendaPrecioOk() throws Exception {
@@ -54,8 +56,7 @@ public class ViviendaControllerE2ETests {
 				.andExpect(status().isOk()).andExpect(view().name("viviendas/listNewViviendas"));
 	}
 
-	// HU-008: Filtrar por precio (No hay viviendas entre el rango de precio por lo
-	// que se muestra un mensaje de error)
+	@DisplayName("Prueba filtro precio negativo")
 	@WithMockUser(value = "inmocasa")
 	@Test
 	void testshowListViviendaNotPrecioOk() throws Exception {
@@ -64,7 +65,7 @@ public class ViviendaControllerE2ETests {
 				.andExpect(status().isOk()).andExpect(view().name("viviendas/listNewViviendas"));
 	}
 
-	// HU-008: Filtrar por zona
+	@DisplayName("Prueba filtro zona")
 	@WithMockUser(value = "inmocasa", authorities = "propietario")
 	@Test
 	void testshowListViviendaZonaOk() throws Exception {
@@ -72,7 +73,7 @@ public class ViviendaControllerE2ETests {
 				.andExpect(view().name("viviendas/listNewViviendas"));
 	}
 
-	// HU-008: Filtrar por zona (No hay viviendas en la zona seleccionada)
+	@DisplayName("Prueba filtro zona negativo")
 	@WithMockUser(value = "inmocasa")
 	@Test
 	void testshowListViviendaZonaNotOk() throws Exception {
@@ -82,6 +83,7 @@ public class ViviendaControllerE2ETests {
 	}
 
 	// HU-008: Filtrar por habitaciones
+	@DisplayName("Prueba filtro habitaciones")
 	@WithMockUser(value = "inmocasa")
 	@Test
 	void testshowListViviendaHabitacionesOk() throws Exception {
@@ -89,8 +91,7 @@ public class ViviendaControllerE2ETests {
 				.andExpect(view().name("viviendas/listNewViviendas"));
 	}
 
-	// HU-008: Filtrar por Habitaciones (No hay viviendas con el número de
-	// habitaciones especificado)
+	@DisplayName("Prueba filtro habitaciones negativo")
 	@WithMockUser(value = "inmocasa")
 	@Test
 	void testshowListViviendaHabitacionesNotOk() throws Exception {
@@ -99,14 +100,14 @@ public class ViviendaControllerE2ETests {
 				.andExpect(status().isOk()).andExpect(view().name("viviendas/listNewViviendas"));
 	}
 
-	// HU-020: Borrar un anuncio
+	@DisplayName("Prueba borrar anuncio")
 	@WithMockUser(value = "gilmar", authorities = { "propietario" })
 	@Test
 	void testDeleteViviendaOk() throws Exception {
 		mockMvc.perform(get("/viviendas/delete/{viviendaId}", 1)).andExpect(status().isOk());
 	}
 
-	// HU-020: Borrar un anuncio (No se borra porque no hay nadie logueado)
+	@DisplayName("Prueba no borrar anuncio")
 	@Test
 	void testDeleteViviendaNotOk() throws Exception {
 		mockMvc.perform(get("/viviendas/delete/{viviendaId}", 1)).andExpect(status().is3xxRedirection());

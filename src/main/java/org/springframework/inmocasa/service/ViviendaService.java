@@ -7,10 +7,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.inmocasa.model.Cliente;
 import org.springframework.inmocasa.model.Habitacion;
 import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.model.Visita;
 import org.springframework.inmocasa.model.Vivienda;
+import org.springframework.inmocasa.repository.ClienteRepository;
 import org.springframework.inmocasa.repository.HabitacionRepository;
 import org.springframework.inmocasa.repository.VisitaRepository;
 import org.springframework.inmocasa.repository.ViviendaRepository;
@@ -25,15 +27,17 @@ public class ViviendaService {
 	ViviendaRepository vr;
 	HabitacionRepository hr;
 	PropietarioService pr;
+	ClienteRepository clienteRepository;
 	VisitaRepository visitaRepository;
 
 	@Autowired
 	public ViviendaService(ViviendaRepository vr, HabitacionRepository hr, PropietarioService pr,
-							VisitaRepository visitaRepository) {
+							VisitaRepository visitaRepository, ClienteRepository clienteRepository) {
 		super();
 		this.vr = vr;
 		this.hr = hr;
 		this.pr = pr;
+		this.clienteRepository = clienteRepository;
 		this.visitaRepository = visitaRepository;
 	}
 
@@ -95,15 +99,39 @@ public class ViviendaService {
 	}
 
 	public Collection<Vivienda> findViviendaByPrecio(Integer precioMin, Integer precioMax) {
+		Collection<Vivienda> publicitadas = vr.getPublicitadas();
+		Collection<Vivienda> viviendas = new ArrayList<Vivienda>();
 		Collection<Vivienda> res = vr.findViviendaByPrecio(precioMin, precioMax);
-		res.removeAll(vr.getViviendasCompradas());
-		return res;
+		for(Vivienda v : publicitadas) {
+			if(res.contains(v)) {
+				viviendas.add(v);
+			}
+		}
+		for(Vivienda v : res) {
+			if(!viviendas.contains(v)) {
+				viviendas.add(v);
+			}
+		}
+		viviendas.removeAll(vr.getViviendasCompradas());
+		return viviendas;
 	}
 	
 	public Collection<Vivienda> findViviendaByZona(String zona) {
+		Collection<Vivienda> publicitadas = vr.getPublicitadas();
+		Collection<Vivienda> viviendas = new ArrayList<Vivienda>();
 		Collection<Vivienda> res = vr.findViviendaByZona(zona);
-		res.removeAll(vr.getViviendasCompradas());
-		return res;
+		for(Vivienda v : publicitadas) {
+			if(res.contains(v)) {
+				viviendas.add(v);
+			}
+		}
+		for(Vivienda v : res) {
+			if(!viviendas.contains(v)) {
+				viviendas.add(v);
+			}
+		}
+		viviendas.removeAll(vr.getViviendasCompradas());
+		return viviendas;
 	}
 	
 	
@@ -118,6 +146,8 @@ public class ViviendaService {
 	}
 	
 	public Collection<Vivienda> findViviendaByNumHabitacion(Integer num) {
+		Collection<Vivienda> publicitadas = vr.getPublicitadas();
+		Collection<Vivienda> viviendas = new ArrayList<Vivienda>();
 		Collection<Vivienda> vivs = vr.findAllNewest();
 		Collection<Vivienda> res = new ArrayList<Vivienda>();
 		for(Vivienda v : vivs) {
@@ -128,8 +158,18 @@ public class ViviendaService {
 				res.add(v);
 			}
 		}
-		res.removeAll(vr.getViviendasCompradas());
-		return res;
+		for(Vivienda v : publicitadas) {
+			if(res.contains(v)) {
+				viviendas.add(v);
+			}
+		}
+		for(Vivienda v : res) {
+			if(!viviendas.contains(v)) {
+				viviendas.add(v);
+			}
+		}		
+		viviendas.removeAll(vr.getViviendasCompradas());
+		return viviendas;
 	}
 
 	public Collection<Vivienda> getCompradas() {
@@ -148,6 +188,12 @@ public class ViviendaService {
 			visitas = visitaRepository.findVisitasByVivienda(vivienda.getId());
 			if(visitas != null) {
 				visitaRepository.deleteAll(visitas);
+			}
+			Collection<Cliente> clientes = clienteRepository.findAll();
+			for(Cliente c : clientes ) {
+				if(c.getFavoritas().contains(vivienda)) {
+					c.getFavoritas().remove(vivienda);
+				}
 			}
 			vr.delete(vivienda);
 		}

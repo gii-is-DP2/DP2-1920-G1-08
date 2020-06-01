@@ -23,6 +23,7 @@
         			<form:input type="number" step="1" min="0"  class="form-control" path="${name}"/>
         		</c:otherwise>
         	</c:choose>
+
             <c:if test="${valid}">
                 <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
             </c:if>

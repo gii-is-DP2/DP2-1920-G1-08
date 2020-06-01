@@ -36,7 +36,7 @@ public class Compra extends BaseEntity{
 	
 	@NotNull
 	@Valid
-	@OneToOne(optional=false,fetch = FetchType.EAGER)
+	@ManyToOne(optional=false,fetch = FetchType.EAGER)
 	private Vivienda vivienda;
 
 	

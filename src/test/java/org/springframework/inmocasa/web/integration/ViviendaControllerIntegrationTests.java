@@ -1,23 +1,25 @@
 package org.springframework.inmocasa.web.integration;
 
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.util.Collections;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.inmocasa.InmocasaApplication;
 import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.model.Vivienda;
 import org.springframework.inmocasa.service.PropietarioService;
 import org.springframework.inmocasa.service.ViviendaService;
 import org.springframework.inmocasa.web.ViviendaController;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -28,6 +30,8 @@ import org.springframework.validation.MapBindingResult;
 public class ViviendaControllerIntegrationTests {
 
 	private static final int TEST_VIVIENDA_ID = 1;
+
+	private static final int TEST_VIVIENDA_ID_BORRAR = 2;
 
 	private static final int TEST_PROPIETARIO_ID = 1;
 
@@ -77,25 +81,42 @@ public class ViviendaControllerIntegrationTests {
 		String view = viviendaController.misViviendas(model);
 		assertEquals(view, "viviendas/misViviendas");
 	}
-	
-	
+
 	@WithMockUser(value = "gilmar", authorities = { "propietario" })
 	@Test
 	void testShowViviendaDetails() throws Exception {
 		ModelMap model = new ModelMap();
-		String view = viviendaController.showVivienda(TEST_VIVIENDA_ID,model);
+		String view = viviendaController.showVivienda(TEST_VIVIENDA_ID, model);
 		assertEquals(view, "viviendas/showViviendaDetails");
 	}
 
+	//TODO
+//	@WithMockUser(value = "gilmar", authorities = { "propietario" })
+//	@Test
+//	void testListViviendas() throws Exception {
+//		ModelMap model = new ModelMap();
+//		String view = viviendaController.showListViviendas(model, null, null, null, null);
+//		assertEquals(view, "viviendas/listNewViviendas");
+//	}
+
+
+	@DisplayName("Prueba borrar anuncio")
 	@WithMockUser(value = "gilmar", authorities = { "propietario" })
 	@Test
-	void testListViviendas() throws Exception {
+	void testDeleteViviendaOk() throws Exception {
 		ModelMap model = new ModelMap();
-		String view = viviendaController.showListViviendas(model, null, null, null, null);
-		assertEquals(view, "viviendas/listNewViviendas");
+		String view = viviendaController.borrarVivienda(model, TEST_VIVIENDA_ID_BORRAR);
+		assertEquals(view, "viviendas/misViviendas");
 	}
-
-
-
+	
+	//TODO
+//	@DisplayName("Prueba filtro")
+//	@WithMockUser(value = "housininmo", authorities = { "propietario" })
+//	@Test
+//	void testshowListViviendaFiltroOk() throws Exception {
+//		ModelMap model = new ModelMap();
+//		String view = viviendaController.showListViviendas(model, "0", "300000", "Centro", null);
+//		assertEquals(view, "viviendas/listNewViviendas");
+//	}
 
 }

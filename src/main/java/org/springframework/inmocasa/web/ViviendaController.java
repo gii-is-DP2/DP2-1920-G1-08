@@ -36,6 +36,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/viviendas")
@@ -63,23 +64,22 @@ public class ViviendaController {
 		this.compraService = compraService;
 		this.denunciaService = denunciaService;
 	}
+
 	// Santi-Alvaro
 
 	@GetMapping(path = "/ofertadas")
-	public String listadoViviendas(ModelMap model) {
+	public String listadoViviendasOfertadas(ModelMap model) {
 		String vista = "viviendas/listaViviendasOferta";
 		List<Vivienda> viviendas = new ArrayList<>();
 		String username = SecurityContextHolder.getContext().getAuthentication().getName(); // username Actual
-		Iterable<Compra> cmp = compraService.findAll();
-		for (Compra c : cmp) {
-			if (c.getVivienda().getPropietario().getUsername().equals(username)) {
-				viviendas.add(c.getVivienda());
-
-			}
-
+		Propietario propietario = propService.findByUsername(username);
+		Collection<Compra> compras = compraService.getAllComprasByPropietarioId(propietario.getId());
+		for (Compra c : compras) {
+			viviendas.add(c.getVivienda());
 		}
 
 		model.addAttribute("viviendas", viviendas);
+		model.addAttribute("compras", compras);
 
 		return vista;
 	}
@@ -90,6 +90,13 @@ public class ViviendaController {
 		Vivienda vivienda = this.viviendaService.findViviendaById(viviendaId).get();
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Cliente cliente = clienteService.findByUsername(username);
+		Propietario prop = propService.findByUsername(username);
+		int propietarioId = 0;
+		if (prop!=null) {
+			propietarioId = prop.getId();
+			model.addAttribute("propietarioId", propietarioId);
+		}
+		
 		if (cliente != null) {
 			if (clienteService.esFavorito(cliente.getFavoritas(), vivienda.getId())) {
 				vivienda.setFav(true);
@@ -99,6 +106,7 @@ public class ViviendaController {
 		}
 		model.addAttribute("localDateFormat", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 		model.addAttribute("vivienda", vivienda);
+		
 		return view;
 	}
 
@@ -270,11 +278,12 @@ public class ViviendaController {
 			}
 		}
 		
-		if(admin != null) {
+		/*if(admin != null) {
 			return "viviendas/denunciadas";
 		}
-		return "viviendas/listNewViviendas";
+		return "viviendas/listNewViviendas";*/
 
+		return misViviendas(model);
 	}
 
 	@GetMapping(value = "/publicitar/{viviendaId}")

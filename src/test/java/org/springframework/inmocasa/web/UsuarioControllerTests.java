@@ -46,18 +46,18 @@ public class UsuarioControllerTests {
 
 	@MockBean
 	private UsuarioService usuarioService;
-	
+
 	@MockBean
 	private ViviendaService viviendaService;
-	
+
 	@MockBean
 	private CompraService compraService;
-	
+
 	@MockBean
 	private AdministradorService adminstradorService;
-	
+
 	private Usuario usuario;
-	
+
 	@BeforeEach
 	void setup() {
 		usuario = new Usuario();
@@ -68,9 +68,8 @@ public class UsuarioControllerTests {
 		usuario.setDni("29504326H");
 	}
 
-
 	// HU-023: Borrar un usuario
-	@WithMockUser(value = "alonso7", authorities = { "cliente" })
+	@WithMockUser(value = "alonso7")
 	@Test
 	void testDeleteUsuarioOk() throws Exception {
 		mockMvc.perform(get("/usuario/delete/{usuarioId}", 10)).andExpect(status().isOk());

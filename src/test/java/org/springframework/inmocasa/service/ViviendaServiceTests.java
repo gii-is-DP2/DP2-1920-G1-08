@@ -1,6 +1,7 @@
 package org.springframework.inmocasa.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -28,6 +29,8 @@ public class ViviendaServiceTests {
 
 	@Autowired
 	protected ViviendaService viviendaService;
+	@Autowired
+	protected PropietarioService propService;
 
 	@MockBean
 	APIContext apiContext;
@@ -35,10 +38,10 @@ public class ViviendaServiceTests {
 	// La vivienda se crea y se guarda en el repositorio
 	@Test
 	void shouldCreateAndSaveVivienda() {
-		Collection<Vivienda> viviendas = (Collection<Vivienda>) this.viviendaService.findAll();
+		Propietario p = this.propService.findPropietarioById(1);
 
 		Vivienda vivienda = new Vivienda();
-		vivienda.setId(1);
+		vivienda.setId(17);
 		vivienda.setTitulo("Piso en venta en ocho de marzo s/n");
 		vivienda.setDireccion("Calle Ocho de Marzo s/n");
 		vivienda.setZona("Cerro Amate");
@@ -47,20 +50,23 @@ public class ViviendaServiceTests {
 		vivienda.setAmueblado(true);
 		vivienda.setCaracteristicas("Caracteristicas");
 		vivienda.setHorarioVisita("Martes de 9:00 a 13:00");
+		vivienda.setPropietario(p);
 
 		this.viviendaService.save(vivienda);
+		Collection<Vivienda> viviendas = (Collection<Vivienda>) this.viviendaService.findAll();
 
-		assertThat(viviendas.contains(vivienda));
+		assertTrue(viviendas.contains(vivienda));
 
 	}
 
 	// La vivienda no se guarda porque ya existe una con el mismo id
 	@Test
 	void shouldNotCreateAndSaveVivienda() {
-		Collection<Vivienda> viviendas = (Collection<Vivienda>) this.viviendaService.findAll();
+		
+		Propietario p = this.propService.findPropietarioById(2);
 
 		Vivienda vivienda = new Vivienda();
-		vivienda.setId(1);
+		vivienda.setId(17);
 		vivienda.setTitulo("Piso en venta en ocho de marzo s/n");
 		vivienda.setDireccion("Calle Ocho de Marzo s/n");
 		vivienda.setZona("Cerro Amate");
@@ -69,7 +75,9 @@ public class ViviendaServiceTests {
 		vivienda.setAmueblado(true);
 		vivienda.setCaracteristicas("Caracteristicas");
 		vivienda.setHorarioVisita("Martes de 9:00 a 13:00");
+		vivienda.setPropietario(p);
 		this.viviendaService.save(vivienda);
+		Collection<Vivienda> viviendas = (Collection<Vivienda>) this.viviendaService.findAll();
 
 		assertThat(!viviendas.contains(vivienda));
 
@@ -80,7 +88,7 @@ public class ViviendaServiceTests {
 	void shouldFindViviendaById() {
 		Collection<Vivienda> viviendas = (Collection<Vivienda>) this.viviendaService.findAll();
 		Vivienda v = this.viviendaService.findViviendaId(1);
-		assertThat(viviendas.contains(v));
+		assertTrue(viviendas.contains(v));
 
 	}
 
@@ -88,14 +96,14 @@ public class ViviendaServiceTests {
 	@Test
 	void shouldNoFindViviendaByViviendaId() {
 		Vivienda v = this.viviendaService.findViviendaId(10);
-		assertThat(v == null);
+		assertTrue(v == null);
 	}
-	
-	//La vivienda se borra sin problemas
+
+	// La vivienda se borra sin problemas
 	@Test
 	void shouldDeleteVivienda() {
 		Collection<Vivienda> todas = this.viviendaService.findAllNewest();
-		
+
 		Vivienda vivienda = new Vivienda();
 		vivienda.setId(1);
 		vivienda.setTitulo("Piso en venta en ocho de marzo s/n");
@@ -104,7 +112,7 @@ public class ViviendaServiceTests {
 		vivienda.setFechaPublicacion(LocalDate.of(2020, 01, 20));
 		vivienda.setPrecio(2260);
 		vivienda.setAmueblado(true);
-		
+
 		Propietario prop = new Propietario();
 		prop.setId(1);
 		prop.setNombre("John");
@@ -115,18 +123,18 @@ public class ViviendaServiceTests {
 		prop.setFechaNacimiento(LocalDate.of(1976, 6, 12));
 		prop.setUsername("john123");
 		prop.setPassword("john123");
-		
+
 		vivienda.setPropietario(prop);
-		
+
 		this.viviendaService.delete(vivienda);
 		assertThat(!todas.contains(vivienda));
 	}
-	
-	//La vivienda no se borra porque está comprada
+
+	// La vivienda no se borra porque está comprada
 	@Test
 	void shoudNotDeleteVivienda() {
 		Collection<Vivienda> todas = this.viviendaService.findAllNewest();
-		
+
 		Vivienda vivienda2 = new Vivienda();
 		vivienda2.setId(2);
 		vivienda2.setTitulo("Piso en venta en ocho de marzo s/n");
@@ -135,12 +143,12 @@ public class ViviendaServiceTests {
 		vivienda2.setFechaPublicacion(LocalDate.of(2020, 01, 20));
 		vivienda2.setPrecio(2260);
 		vivienda2.setAmueblado(true);
-		
+
 		Compra compra = new Compra();
 		compra.setVivienda(vivienda2);
 		compra.setEstado(Estado.ACEPTADO);
 		compra.setPrecioFinal(200);
-		
+
 		Propietario prop = new Propietario();
 		prop.setId(1);
 		prop.setNombre("John");
@@ -151,7 +159,7 @@ public class ViviendaServiceTests {
 		prop.setFechaNacimiento(LocalDate.of(1976, 6, 12));
 		prop.setUsername("john123");
 		prop.setPassword("john123");
-		
+
 		Cliente clie = new Cliente();
 		clie.setId(8);
 		clie.setNombre("John");
@@ -161,12 +169,12 @@ public class ViviendaServiceTests {
 		clie.setFechaNacimiento(LocalDate.of(1976, 6, 12));
 		clie.setUsername("john123");
 		clie.setPassword("john123");
-		
+
 		vivienda2.setPropietario(prop);
 		compra.setCliente(clie);
-		
+
 		this.viviendaService.delete(vivienda2);
-		assertThat(todas.contains(vivienda2));		
+		assertThat(todas.contains(vivienda2));
 	}
-	
+
 }

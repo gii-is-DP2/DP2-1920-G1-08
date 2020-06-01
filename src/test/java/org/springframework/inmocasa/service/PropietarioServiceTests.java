@@ -1,9 +1,9 @@
 package org.springframework.inmocasa.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import java.time.LocalDate;
 import java.util.Collection;
+
+import static org.junit.Assert.assertTrue;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,26 +31,22 @@ public class PropietarioServiceTests {
 	// El propietario se crea y se guarda en el repositorio
 	@Test
 	void shouldCreateAndSavePropietario() {
-		Collection<Propietario> propietarios = this.propietarioService.findAll();
 
 		Propietario propietario = new Propietario();
-		propietario.setId(1);
-		propietario.setNombre("Santiago");
-		propietario.setApellidos("Martín");
-		propietario.setDni("12345678D");
-		propietario.setEmail("santimartinguay@gmail.com");
-
+		// propietario.setId(20);
+		propietario.setNombre("Luis");
+		propietario.setApellidos("Melero");
+		propietario.setDni("123456789A");
 		propietario.setGenero(Genero.MASCULINO);
-		propietario.setUsername("santiago");
-		propietario.setPassword("santiago");
-		propietario.setCif("12345678X");
+		propietario.setFechaNacimiento(LocalDate.of(1998, 10, 12));
+		propietario.setUsername("lj2386");
+		propietario.setPassword("lj2386");
 		propietario.setEsInmobiliaria(true);
-		propietario.setInmobiliaria("inmocasa");
-		propietario.setFechaNacimiento(LocalDate.of(1998, 05, 31));
 
 		this.propietarioService.savePropietario(propietario);
+		Collection<Propietario> propietarios = this.propietarioService.findAll();
 
-		assertThat(propietarios.contains(propietario));
+		assertTrue(propietarios.contains(propietario));
 
 	}
 
@@ -60,39 +56,36 @@ public class PropietarioServiceTests {
 		Collection<Propietario> propietarios = this.propietarioService.findAll();
 
 		Propietario propietario = new Propietario();
-		propietario.setId(1);
-		propietario.setNombre("Santiago");
-		propietario.setApellidos("Martín");
-		propietario.setDni("12345678D");
-		propietario.setEmail("santimartinguay@gmail.com");
-
+		// propietario.setId(13);
+		propietario.setNombre("Antonio");
+		propietario.setApellidos("Fernandez");
+		propietario.setDni("46900025A");
 		propietario.setGenero(Genero.MASCULINO);
+		propietario.setFechaNacimiento(LocalDate.of(1978, 10, 12));
 		propietario.setUsername("santiago");
-		propietario.setPassword("santiago");
-		propietario.setCif("12345678X");
+		propietario.setPassword("alejandra");
 		propietario.setEsInmobiliaria(true);
-		propietario.setInmobiliaria("inmocasa");
-		propietario.setFechaNacimiento(LocalDate.of(1998, 05, 31));
+
 
 		this.propietarioService.savePropietario(propietario);
 
-		assertThat(!propietarios.contains(propietario));
+		assertTrue(!propietarios.contains(propietario));
 
 	}
 
-	// Se encuentra el propietario por el id y este existe.
+	// Se encuentran la propietario por el id y este existe.
 	@Test
 	void shouldFindPropietarioById() {
 		Collection<Propietario> propietarios = this.propietarioService.findAll();
-		Propietario p = this.propietarioService.findPropietarioById(1);
-		assertThat(propietarios.contains(p));
+		Propietario c = this.propietarioService.findPropietarioById(1);
+		assertTrue(propietarios.contains(c));
 
 	}
 
 	// No se encuentra el propietario porque el id no existe.
 	@Test
-	void shouldNoFindPropietarioByViviendaId() {
-		Propietario p = this.propietarioService.findPropietarioById(10);
-		assertThat(p == null);
+	void shouldNoFindPropietarioById() {
+		Propietario c = this.propietarioService.findPropietarioById(16);
+		assertTrue(c == null);
 	}
 }

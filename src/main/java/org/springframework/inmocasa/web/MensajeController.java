@@ -117,7 +117,7 @@ public class MensajeController {
 			mensaje.setProp(p);
 			modelMap.addAttribute("mensaje", mensaje);
 		}
-		return "mensajes/editMensaje";
+		return view;
 	}
 
 	@PostMapping(path = { "/save" })

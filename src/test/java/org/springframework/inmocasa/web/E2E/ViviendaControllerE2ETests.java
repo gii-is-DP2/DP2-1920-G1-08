@@ -33,6 +33,13 @@ public class ViviendaControllerE2ETests {
 		mockMvc.perform(get("/viviendas/mis-viviendas")).andExpect(view().name("viviendas/misViviendas"))
 				.andExpect(model().attributeExists("viviendas"));
 	}
+	
+	@WithMockUser(username = "gilmar", authorities = { "gilmar" })
+	@Test
+	void testTodasViviendas() throws Exception {
+		mockMvc.perform(get("/viviendas/allNew")).andExpect(view().name("viviendas/listNewViviendas"))
+				.andExpect(model().attributeExists("viviendas"));
+	}
 
 	@WithMockUser(username = "gilmar", authorities = { "gilmar" })
 	@Test
@@ -106,4 +113,3 @@ public class ViviendaControllerE2ETests {
 		mockMvc.perform(get("/viviendas/delete/{viviendaId}", 1)).andExpect(status().is3xxRedirection());
 	}
 }
-

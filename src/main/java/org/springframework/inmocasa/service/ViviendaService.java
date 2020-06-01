@@ -141,12 +141,7 @@ public class ViviendaService {
 	}
 	
 	public Collection<String> findZonas() {
-		Collection<String> zonas = new ArrayList<String>();
-		Collection<Vivienda> viviendas = vr.findAllNewest();
-		viviendas.removeAll(vr.getViviendasCompradas());
-		for(Vivienda viv: viviendas) {
-			zonas.add(viv.getZona());
-		}
+		Collection<String> zonas = vr.findAllZonas();
 		return zonas;
 	}
 	
@@ -213,5 +208,20 @@ public class ViviendaService {
 			vivienda.setFechaPublicacion(LocalDate.now());
 			this.save(vivienda);
 		}
+	}
+
+	public Collection<Vivienda> findViviendaByfiltros(Integer min, Integer max, String numHabs, String zona) {
+		Collection<Vivienda> viviendas = vr.getPublicitadasSinComprar();
+		if(min!= null)
+			viviendas.removeAll(vr.getViviendasLtMin(min));
+		if(max != null)
+			viviendas.removeAll(vr.getViviendasGtMax(max));
+//		if(numHabs != null)
+//			viviendas.removeAll(vr.getViviendasNotNumHabs(numHabs));
+		if(zona != null && !zona.isEmpty())
+			viviendas.removeAll(vr.getViviendasNotInZona(zona));
+		
+		
+		return viviendas;
 	}
 }

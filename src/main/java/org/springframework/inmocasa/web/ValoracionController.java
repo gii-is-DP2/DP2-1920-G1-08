@@ -1,6 +1,6 @@
 package org.springframework.inmocasa.web;
 
-import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,9 +8,11 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.inmocasa.model.Cliente;
+import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.model.Valoracion;
 import org.springframework.inmocasa.model.Visita;
 import org.springframework.inmocasa.service.ClienteService;
+import org.springframework.inmocasa.service.PropietarioService;
 import org.springframework.inmocasa.service.ValoracionService;
 import org.springframework.inmocasa.service.VisitaService;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -34,15 +36,17 @@ public class ValoracionController {
 	VisitaService visitaService;
 	ValoracionService valoracionService;
 	ClienteService clienteService;
+	PropietarioService propietarioService;
 	
 	@Autowired
 	public ValoracionController(VisitaService visitaService, ValoracionService valoracionService,
-			ClienteService clienteService, UsuarioController usuarioController) {
+			ClienteService clienteService, UsuarioController usuarioController,PropietarioService propietarioService) {
 		super();
 		this.visitaService = visitaService;
 		this.valoracionService = valoracionService;
 		this.clienteService = clienteService;
 		this.usuarioController = usuarioController;
+		this.propietarioService = propietarioService;
 	}
 	
 	
@@ -63,7 +67,7 @@ public class ValoracionController {
 		Optional<Visita> visita = visitaService.findById(idVisita);
 		
 		
-		if(visita.isPresent() && !cliente.isEmpty() && visita.get().getCliente().equals(cliente.get(0))) {
+		if(visita.isPresent() && !cliente.isEmpty() && visita.get().getCliente().getUsername().equals(cliente.get(0).getUsername())) {
 			
 			List<Valoracion> valoraciones = valoracionService.findByVisita(visita.get());
 			if(valoraciones.isEmpty()) {
@@ -86,6 +90,18 @@ public class ValoracionController {
 		
 		return usuarioController.showListViviendas(model);
 
+	}
+	
+	@GetMapping(value="/misValoraciones")
+	public String getMisValoraciones(ModelMap model) {
+		User usuario = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Propietario prop = propietarioService.findPropietarioByUsername(usuario.getUsername()).get(0);
+		List<Valoracion> valoraciones = valoracionService.findAllByPropietario(prop);
+		
+		model.addAttribute("valoraciones", valoraciones);
+		model.addAttribute("localDateTimeFormat", DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+		
+		return "valoracion/misValoraciones";
 	}
 	
 	//Alba-Alejandro

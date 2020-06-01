@@ -28,14 +28,18 @@
 			<petclinic:inputField label="DNI" name="dni" />
 			<petclinic:inputField label="Nombre" name="nombre" />
 			<petclinic:inputField label="Apellidos" name="apellidos" />
-			<petclinic:inputField label="Genero" name="genero" />
+			<label class="col-sm-2 control-label">Género</label>
+			<form:select id="genero" path="genero" style="width: 200px;">
+                <form:options items="${generos}" />
+            </form:select>
+            <br/>
+            <br/>
 			<petclinic:inputField label="Telefono" name="telefono" />
 			<petclinic:inputField label="Fecha de nacimiento"
 					name="fechaNacimiento" />
 			<petclinic:inputField label="Email" name="email" />
 			<petclinic:inputField label="Usuario" name="username" />
-			<label for="password">Contraseña:</label><br>
-			<input type="password" name="password" />
+			<petclinic:inputFieldPassword label="Contraseña" name="password" />
 			
 
 		</div>

@@ -12,7 +12,7 @@
     <jsp:body>
     	<form:form modelAttribute="valoracion" action="/valoracion/save" class="form-horizontal">
             <div class="form-group has-feedback">
-            	<petclinic:inputField label="Puntuación: " name="puntuacion" />
+            	<petclinic:inputNumber label="Puntuación: " name="puntuacion" />
                	<petclinic:inputField label="Comentario: " name="comentario"/>
             </div>
 

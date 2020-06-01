@@ -1,6 +1,7 @@
 package org.springframework.inmocasa.web;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -14,6 +15,7 @@ import org.springframework.inmocasa.model.Compra;
 import org.springframework.inmocasa.model.Denuncia;
 import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.model.Vivienda;
+import org.springframework.inmocasa.model.form.FiltrosForm;
 import org.springframework.inmocasa.service.AdministradorService;
 import org.springframework.inmocasa.service.ClienteService;
 import org.springframework.inmocasa.service.CompraService;
@@ -34,7 +36,6 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/viviendas")
@@ -96,29 +97,10 @@ public class ViviendaController {
 				vivienda.setFav(false);
 			}
 		}
+		model.addAttribute("localDateFormat", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 		model.addAttribute("vivienda", vivienda);
 		return view;
 	}
-//	@GetMapping(value = "/{viviendaId}")
-//	public String showVivienda(@PathVariable("viviendaId") int viviendaId, ModelMap model) {
-//		Vivienda vivienda = this.viviendaService.findViviendaById(viviendaId).get();
-//		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-//		Propietario propietario = propService.findByUsername(username);
-//		Cliente cliente = clienteService.findByUsername(username);
-//		if (cliente != null) {
-//			if (clienteService.esFavorito(cliente.getFavoritas(), vivienda.getId())) {
-//				vivienda.setFav(true);
-//			} else {
-//				vivienda.setFav(false);
-//			}
-//		}
-//
-//		String view = "viviendas/showViviendaDetails";
-//		model.put("vivienda", vivienda);
-//		model.put("propietario", propietario);
-//		return view;
-//
-//	}
 
 	@GetMapping(path = "/mis-viviendas")
 	public String misViviendas(ModelMap model) {
@@ -170,44 +152,41 @@ public class ViviendaController {
 
 	// Alvaro-MiguelEmmanuel
 	@GetMapping(value = { "/allNew" })
-	public String showListViviendas(ModelMap model, @Nullable @RequestParam("precioMin") String precioMin,
-			@Nullable @RequestParam("precioMax") String precioMax, @Nullable @RequestParam("zona") String zona,
-			@Nullable @RequestParam("numhabitacion") String numHabitaciones) {
-		model.put("precioMin", viviendaService.precioMinViviendas());
-		model.put("precioMax", viviendaService.precioMaxViviendas());
+	public String showListViviendas(ModelMap model, @Nullable FiltrosForm filtro,BindingResult result) {
 		Collection<String> zonas = viviendaService.findZonas();
-		model.put("zonas", zonas);
-		if (precioMin == null && precioMax == null && zona == null && numHabitaciones == null) {
+		model.addAttribute("zonas", zonas);
+		
+		Collection<Vivienda> vivs = viviendaService.findAllNewest();
+		model.addAttribute("viviendas", vivs);
+		model.addAttribute("filtro", new FiltrosForm());
+
+		return "viviendas/listNewViviendas";
+	}
+	
+	@GetMapping(value="/allNewFiltros")
+	public String showViviendasFiltros(ModelMap model, @Nullable FiltrosForm filtro, BindingResult result) {
+		Collection<String> zonas = viviendaService.findZonas();
+		model.addAttribute("zonas", zonas);
+		
+		
+		if(filtro != null && (filtro.getMin()!= null && filtro.getMax()!= null && filtro.getMax()< filtro.getMin())) {
+			model.addAttribute("errMsg","El precio mínimo debe ser menor al precio máximo.");
 			Collection<Vivienda> vivs = viviendaService.findAllNewest();
-			model.put("viviendas", vivs);
-		} else if (precioMin != null && precioMax != null) {
-			// Filtrar viviendas por precio
-			Integer min = Integer.valueOf(precioMin);
-			Integer max = Integer.valueOf(precioMax);
-			Collection<Vivienda> viviendasPrecio = viviendaService.findViviendaByPrecio(min, max);
-			if (viviendasPrecio.isEmpty()) {
-				model.addAttribute("error", "No se han encontrado viviendas en este rango de precio");
-			}
-			model.put("viviendas", viviendasPrecio);
-			model.put("precioMin", precioMin);
-			model.put("precioMax", precioMax);
-		} else if (zona != null) {
-			// Filtrar viviendas por zona
-			Collection<Vivienda> viviendasZona = viviendaService.findViviendaByZona(zona);
-			if (viviendasZona.isEmpty()) {
-				model.addAttribute("error", "No se han encontrado viviendas en esta zona");
-			}
-
-			model.put("viviendas", viviendasZona);
-
-		} else if (numHabitaciones != null) {
-			Integer num = Integer.valueOf(numHabitaciones);
-			Collection<Vivienda> viviendasHabitacion = viviendaService.findViviendaByNumHabitacion(num);
-			if (viviendasHabitacion.isEmpty()) {
-				model.addAttribute("error", "No se han encontrado viviendas con este número de habitaciones");
-			}
-//			model.put("numHabitaciones", numHabitaciones);
-			model.put("viviendas", viviendasHabitacion);
+			model.addAttribute("viviendas", vivs);
+			model.addAttribute("filtro", new FiltrosForm());
+			return "viviendas/listNewViviendas";
+		}
+		if(filtro == null) {
+			Collection<Vivienda> vivs = viviendaService.findAllNewest();
+			model.addAttribute("viviendas", vivs);
+			model.addAttribute("filtro", new FiltrosForm());
+		}else {
+			
+			Collection<Vivienda> viviendasFiltro = viviendaService.findViviendaByfiltros(filtro.getMin(), filtro.getMax(),
+					filtro.getHabitaciones(), filtro.getZona());
+			
+			model.addAttribute("viviendas", viviendasFiltro);
+			model.addAttribute("filtro", filtro);
 		}
 
 		return "viviendas/listNewViviendas";
@@ -260,7 +239,16 @@ public class ViviendaController {
 	public String viviendasDenunciadasAdmin(ModelMap model) {
 		List<Denuncia> denun = denunciaService.findViviendasDenunciadas();
 		model.addAttribute("denuncias", denun);
+		model.addAttribute("localDateFormat", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 		return "viviendas/denunciadas";
+	}
+	
+	@GetMapping(value ="/allViviendasAdmin")
+	public String getAllViviendasAdmin(ModelMap model) {
+		Iterable<Vivienda> viviendas = viviendaService.findAll();
+		model.addAttribute("viviendas", viviendas);
+		model.addAttribute("localDateFormat", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		return "viviendas/todas";
 	}
 	
 	// Alba-Alejandro

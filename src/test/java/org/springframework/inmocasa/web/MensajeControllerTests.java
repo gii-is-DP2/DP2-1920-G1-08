@@ -12,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,6 +99,7 @@ public class MensajeControllerTests {
 	// HU-17
 	@WithMockUser(username = "gilmar")
 	@Test
+	@DisplayName("Inicio envío mensaje")
 	void testInitCreationForm() throws Exception {
 		mockMvc.perform(get("/mensajes/new").with(csrf())).andExpect(status().isOk())
 				.andExpect(model().attribute("mensaje", nullValue())).andExpect(view().name("mensajes/editMensaje"));
@@ -105,6 +107,7 @@ public class MensajeControllerTests {
 
 	@WithMockUser(username = "gilmar", authorities = { "propietario" })
 	@Test
+	@DisplayName("Se envía mensaje")
 	void testProcessCreationFormSuccess() throws Exception {
 		mockMvc.perform(post("/mensajes/save").with(csrf()).param("asunto", "Hello").param("cuerpo", "Bonjour"))
 				.andExpect(status().isOk()).andExpect(view().name("mensajes/misMensajes"));
@@ -112,6 +115,7 @@ public class MensajeControllerTests {
 
 	@WithMockUser(value = "gilmar", authorities = { "propietario" })
 	@Test
+	@DisplayName("Lista mensajes recibidos")
 	void testListMensajesRecibidosOK() throws Exception {
 		mockMvc.perform(get("/mensajes/mensajes-recibidos")).andExpect(view().name("mensajes/misMensajes"))
 				.andExpect(status().isOk());
@@ -119,6 +123,7 @@ public class MensajeControllerTests {
 
 	@WithMockUser(value = "gilmar", authorities = { "propietario" })
 	@Test
+	@DisplayName("Lista mensajes aceptados")
 	void testListMensajesEnviados() throws Exception {
 		mockMvc.perform(get("/mensajes/mensajes-enviados")).andExpect(view().name("mensajes/misMensajes"))
 				.andExpect(status().isOk());

@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -43,6 +44,7 @@ public class ShowViviendaUITest {
 	}
 
 	@Test
+	@DisplayName("Show de una vivienda")
 	public void testShowViviendaUI() throws Exception {
 		driver.get("http://localhost:"+port);
 		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/allNew')]")).click();

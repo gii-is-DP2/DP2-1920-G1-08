@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.Order;
@@ -47,6 +48,7 @@ public class AceptarOfertaUITest {
 
 	@Test
 	@Order(1)
+	@DisplayName("Se acepta la compra sin problemas")
 	public void testAceptarOfertaOk() throws Exception {
 		driver.get("http://localhost:"+port);
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
@@ -75,6 +77,7 @@ public class AceptarOfertaUITest {
 
 	@Test
 	@Order(2)
+	@DisplayName("No se puede aceptar la compra porque ya está aceptada")
 	public void testAceptarOfertaNoOk() throws Exception {
 		driver.get("http://localhost:"+port);
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();

@@ -7,6 +7,7 @@ import static org.junit.Assert.assertNull;
 
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -31,6 +32,7 @@ public class MensajeServiceTests {
 
 	// Se encuentra el mensaje por el id del emisor
 	@Test
+	@DisplayName("Se encuentra el mensaje por el ID del emisor")
 	void shouldFindMensajeByEmisorId() {
 		List<Mensaje> todos = (List<Mensaje>) mensajeService.findAll();
 		int emisor = todos.get(0).getEmisorId();
@@ -39,6 +41,7 @@ public class MensajeServiceTests {
 
 	// Se encuentra el mensaje por el id del receptor
 	@Test
+	@DisplayName("Se encuentra el mensaje por el ID del receptor")
 	void shouldFindMensajeByReceptorId() {
 		List<Mensaje> todos = (List<Mensaje>) mensajeService.findAll();
 		int receptor = todos.get(0).getReceptorId();
@@ -48,6 +51,7 @@ public class MensajeServiceTests {
 	// No se encuentra el mensaje por el id del emisor porque no ha mandado mensaje
 	// ese usuario
 	@Test
+	@DisplayName("No se encuentra el mensaje por el ID del emisor")
 	void shouldNotFindMensajeByEmisorId() {
 		assertThat(mensajeService.findMensajeByEmisorId(2)).isEmpty();
 	}
@@ -55,6 +59,7 @@ public class MensajeServiceTests {
 	// No se encuentra el mensaje por el id del receptor porque no ha recibido
 	// mensaje ese usuario
 	@Test
+	@DisplayName("Se encuentra el mensaje por el ID del receptor")
 	void shouldNotFindMensajeByReceptorId() {
 		assertThat(mensajeService.findMensajeByReceptor(2)).isEmpty();
 	

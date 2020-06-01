@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.time.LocalDate;
 import java.util.Collections;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,7 @@ public class MensajeControllerIntegrationTests {
 
 	@WithMockUser(value = "alonso7", authorities = { "cliente" })
 	@Test
+	@DisplayName("Inicio envío mensaje")
 	void testInitCreate() throws Exception {
 		ModelMap model = new ModelMap();
 		String view = mensajeController.crearMensaje(model);
@@ -59,6 +61,7 @@ public class MensajeControllerIntegrationTests {
 
 	@WithMockUser(value = "gilmar", authorities = { "propietario" })
 	@Test
+	@DisplayName("Envío de mensaje")
 	void testProcessCreationForm() throws Exception {
 		ModelMap model = new ModelMap();
 		Mensaje mensaje = new Mensaje();
@@ -81,6 +84,7 @@ public class MensajeControllerIntegrationTests {
 	
 	@WithMockUser(value = "gilmar", authorities = { "propietario" })
 	@Test
+	@DisplayName("Listado mensaje enviados")
 	void testMensajesEnviados() throws Exception {
 		ModelMap model = new ModelMap();
 		String view = mensajeController.listadoMensajesEnviados(model);
@@ -88,6 +92,7 @@ public class MensajeControllerIntegrationTests {
 	}
 	@WithMockUser(value = "gilmar", authorities = { "propietario" })
 	@Test
+	@DisplayName("Listado mensajes recibidos")
 	void testMensajesRecibidos() throws Exception {
 		ModelMap model = new ModelMap();
 		String view = mensajeController.listadoMensajesRecibidos(model);

@@ -49,6 +49,7 @@ public class CompraControllerE2ETests {
 
 	@WithMockUser(username = "gilmar", authorities = { "propietario"})
 	@Test
+	@DisplayName("Se rechaza la compra correctamente")
 	void testProcessRechazarCompra() throws Exception {
 		this.mockMvc.perform(get("/compras/{viviendaId}/rechazar", TEST_VIVIENDA_ID_2))
 				.andExpect(status().is2xxSuccessful());

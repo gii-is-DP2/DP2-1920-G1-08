@@ -212,6 +212,7 @@ public class ViviendaService {
 
 	public Collection<Vivienda> findViviendaByfiltros(Integer min, Integer max, String numHabs, String zona) {
 		Collection<Vivienda> viviendas = vr.getPublicitadasSinComprar();
+		viviendas.addAll(vr.getNoPublicitadasSinComprar());
 		if(min!= null)
 			viviendas.removeAll(vr.getViviendasLtMin(min));
 		if(max != null)

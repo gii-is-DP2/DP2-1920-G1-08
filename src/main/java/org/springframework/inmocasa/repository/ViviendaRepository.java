@@ -63,6 +63,9 @@ public interface ViviendaRepository extends JpaRepository<Vivienda, Integer> {
 	@Query("select v from Vivienda v where v.publicitado = 1 and v not in (select c.vivienda from Compra c) order by fechaPublicacion desc")
 	public Collection<Vivienda> getPublicitadasSinComprar();
 	
+	@Query("select v from Vivienda v where v.publicitado = 0 and v not in (select c.vivienda from Compra c) order by fechaPublicacion desc")
+	public Collection<Vivienda> getNoPublicitadasSinComprar();
+	
 	@Query("select v from Vivienda v where v.publicitado = 0 order by fechaPublicacion desc")
 	public Collection<Vivienda> getNOPublicitadas();
 

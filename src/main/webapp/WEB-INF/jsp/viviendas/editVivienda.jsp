@@ -21,7 +21,7 @@
 
         <form:form modelAttribute="vivienda" class="form-horizontal" action="/viviendas/save">
             <div class="form-group has-feedback">
-                <petclinic:inputField label="T�tulo" name="titulo"/>
+                <petclinic:inputField label="Título" name="titulo"/>
                 <petclinic:inputField label="Dirección" name="direccion"/>
                 <petclinic:inputField label="Zona" name="zona"/>
                 <petclinic:inputNumber label="Precio" name="precio"/>

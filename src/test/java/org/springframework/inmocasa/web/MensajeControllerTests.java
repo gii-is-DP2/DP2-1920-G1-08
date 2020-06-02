@@ -87,13 +87,13 @@ public class MensajeControllerTests {
 
 		Cliente clie = new Cliente();
 		clie.setId(7);
-		clie.setNombre("John");
+		clie.setNombre("pepe");
 		clie.setApellidos("Doe");
 		clie.setDni("46900025N");
 		clie.setGenero(Genero.MASCULINO);
 		clie.setFechaNacimiento(LocalDate.of(1976, 6, 12));
-		clie.setUsername("john123");
-		clie.setPassword("john123");
+		clie.setUsername("pepe");
+		clie.setPassword("pepe");
 
 		mensaje.setClient(clie);
 		mensaje.setProp(prop);
@@ -102,23 +102,22 @@ public class MensajeControllerTests {
 	}
 
 	// HU-17
-	@WithMockUser(username = "gilmar")
+	@WithMockUser(username = "john123")
 	@Test
 	@DisplayName("Inicio envío mensaje")
 	void testInitCreationForm() throws Exception {
-		given(this.mensajeService.findMensajeByEmisorId(prop.getId())).willReturn(new ArrayList<Mensaje>());
-		mockMvc.perform(get("/mensajes/new").with(csrf())).andExpect(status().isOk())
+		given(this.propietarioService.findByUsername("john123")).willReturn(prop);		mockMvc.perform(get("/mensajes/new").with(csrf())).andExpect(status().isOk())
 				.andExpect(view().name("mensajes/editMensaje"));
 	}
 
-	@WithMockUser(username = "gilmar", authorities = { "propietario" })
+	@WithMockUser(username = "john123", authorities = { "propietario" })
 	@Test
 	@DisplayName("Se envía mensaje")
 	void testProcessCreationFormSuccess() throws Exception {
 		mockMvc.perform(post("/mensajes/save").with(csrf()).param("asunto", "Hello").param("cuerpo", "Bonjour"))
 				.andExpect(status().isOk()).andExpect(view().name("mensajes/misMensajes"));
 	}
-	@WithMockUser(username = "gilmar", authorities = { "propietario" })
+	@WithMockUser(username = "john123", authorities = { "propietario" })
 	@Test
 	@DisplayName("No se envía mensaje")
 	void testProcessCreationHasError() throws Exception{
@@ -134,7 +133,7 @@ public class MensajeControllerTests {
 	}
 	
 
-	@WithMockUser(value = "gilmar", authorities = { "propietario" })
+	@WithMockUser(value = "john123", authorities = { "propietario" })
 	@Test
 	@DisplayName("Lista mensajes recibidos")
 	void testListMensajesRecibidosOK() throws Exception {
@@ -142,7 +141,7 @@ public class MensajeControllerTests {
 				.andExpect(status().isOk());
 	}
 
-	@WithMockUser(value = "gilmar", authorities = { "propietario" })
+	@WithMockUser(value = "john123", authorities = { "propietario" })
 	@Test
 	@DisplayName("Lista mensajes aceptados")
 	void testListMensajesEnviados() throws Exception {

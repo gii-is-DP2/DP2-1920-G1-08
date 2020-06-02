@@ -1,8 +1,10 @@
 package org.springframework.inmocasa.web;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import static org.hamcrest.CoreMatchers.nullValue;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -25,6 +27,7 @@ import org.springframework.inmocasa.configuration.SecurityConfiguration;
 import org.springframework.inmocasa.model.Cliente;
 import org.springframework.inmocasa.model.Mensaje;
 import org.springframework.inmocasa.model.Propietario;
+import org.springframework.inmocasa.model.Vivienda;
 import org.springframework.inmocasa.model.enums.Genero;
 import org.springframework.inmocasa.service.ClienteService;
 import org.springframework.inmocasa.service.MensajeService;
@@ -101,8 +104,9 @@ public class MensajeControllerTests {
 	@Test
 	@DisplayName("Inicio envío mensaje")
 	void testInitCreationForm() throws Exception {
+		given(this.mensajeService.findMensajeByEmisorId(prop.getId())).willReturn(new ArrayList<Mensaje>());
 		mockMvc.perform(get("/mensajes/new").with(csrf())).andExpect(status().isOk())
-				.andExpect(model().attribute("mensaje", nullValue())).andExpect(view().name("mensajes/editMensaje"));
+				.andExpect(view().name("mensajes/editMensaje"));
 	}
 
 	@WithMockUser(username = "gilmar", authorities = { "propietario" })

@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.mockito.BDDMockito.given;
 
 import java.time.LocalDate;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -40,7 +41,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @RunWith(SpringRunner.class)
 class CompraControllerTests {
 
-	private static final int TEST_VIVIENDA_ID_1 = 1;
+	private static final int TEST_VIVIENDA_ID_1 = 23;
 	private static final int TEST_VIVIENDA_ID_2 = 2;
 	private static final String testPropietarioUsername = "propietario1";
 
@@ -103,6 +104,7 @@ class CompraControllerTests {
 		prop.setFechaNacimiento(LocalDate.of(1976, 6, 12));
 		prop.setUsername(testPropietarioUsername);
 		prop.setPassword("john123");
+		
 
 		Cliente clie = new Cliente();
 		clie.setId(8);
@@ -117,7 +119,7 @@ class CompraControllerTests {
 		Compra compra1 = new Compra();
 		compra1.setVivienda(vivienda2);
 		compra1.setEstado(Estado.PENDIENTE);
-		compra1.setPrecioFinal(200);
+		compra1.setPrecioFinal(200000);
 		vivienda.setPropietario(prop);
 		vivienda2.setPropietario(prop);
 		compra1.setCliente(clie);
@@ -131,40 +133,13 @@ class CompraControllerTests {
 				.andExpect(view().name("compras/showCompraDetails"));
 	}
 
+
 	@WithMockUser(username = "john123", authorities = { "propietario" })
 	@Test
-	@DisplayName("Se rechaza una compra y se elimina")
-	void testRechazarCompraSuccess() throws Exception {
-
-		Cliente clie = new Cliente();
-		clie.setId(8);
-		clie.setNombre("John");
-		clie.setApellidos("Doe");
-		clie.setDni("46900025N");
-		clie.setGenero(Genero.MASCULINO);
-		clie.setFechaNacimiento(LocalDate.of(1976, 6, 12));
-		clie.setUsername("john123");
-		clie.setPassword("john123");
-
-		Compra compra1 = new Compra();
-		compra1.setVivienda(vivienda2);
-		compra1.setEstado(Estado.RECHAZADO);
-		compra1.setPrecioFinal(200);
-		vivienda.setPropietario(prop);
-		vivienda2.setPropietario(prop);
-		compra1.setCliente(clie);
-
-		List<Compra> compras = (List<Compra>) this.compraService.findAll();
-		this.compraService.deleteById(compra1.getId());
-		assertTrue(!compras.contains(compra1));
-
-	}
-
-	@WithMockUser(username = "celiaherrero", authorities = { "propietario" })
-	@Test
 	void testProcessAceptarComprarSuccess() throws Exception {
-		mockMvc.perform(get("/compras/{viviendaId}/aceptar",8).with(csrf()).param("estado", "PENDIENTE"))
-				.andExpect(status().isOk()).andExpect(view().name("viviendas/ofertadas"));
+		given(this.compraService.findCompraByViviendaId(TEST_VIVIENDA_ID_1)).willReturn(new Compra());
+		mockMvc.perform(get("/compras/{viviendaId}/aceptar",TEST_VIVIENDA_ID_1).with(csrf()).param("estado", "PENDIENTE"))
+				.andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/viviendas/ofertadas"));
 	}
 
 }

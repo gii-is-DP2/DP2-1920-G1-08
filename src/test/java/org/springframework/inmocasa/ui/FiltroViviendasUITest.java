@@ -38,7 +38,7 @@ public class FiltroViviendasUITest {
 
 	@Test
 	public void testFiltrarViviendasOK() throws Exception {
-		driver.get("http://localhost:8080/");
+		driver.get("http://localhost:"+port);
 		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/allNew')]")).click();
 		driver.findElement(By.id("precioMax")).clear();
 		driver.findElement(By.id("precioMax")).sendKeys("137");

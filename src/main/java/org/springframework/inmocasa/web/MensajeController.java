@@ -101,7 +101,6 @@ public class MensajeController {
 	@GetMapping(path = "/new")
 	public String crearMensaje(ModelMap modelMap) {
 		String view = "mensajes/editMensaje";
-
 		Mensaje mensaje = new Mensaje();
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();

@@ -14,27 +14,19 @@
 
 	<form:form id="formFiltros" modelAttribute="filtro" method="GET" action="/viviendas/allNewFiltros">
 			
-		<label>Precio mínimo</label>
-		<form:input type="number" step="1" min="0" id="min" class="form-control" path="min" onblur="filtroHabitaciones.submit()" style="width: 150px;" />
-		<label>Precio máximo</label>
-		<form:input type="number" step="1" min="0" id="max" class="form-control" path="max" onblur="filtroHabitaciones.submit()" style="width: 150px;" />
+
+		<label>Precio minimo</label>
+		<form:input type="number" step="1" min="0" id="min" class="form-control" path="min" onblur="formFiltros.submit()" style="width: 150px;" />
+		<label>Precio maximo</label>
+		<form:input type="number" step="1" min="0" id="max" class="form-control" path="max" onblur="formFiltros.submit()" style="width: 150px;" />
 		
 
 		<div class="filtroZona">
-		<h3>Zona</h3>
-		<form:select class="select" id="zona" path="zona" onchange="formFiltros.submit()">
-			<form:options items="${zonas}"/>
-		</form:select>
-		</div>
 
-		<div class="filtroHabitacion">
-			<h3>Numero de habitaciones</h3>
-			<form:select class="select" id="numhabitacion" path="habitaciones" onchange="filtroHabitaciones.submit()">
-				<form:option value="">Seleccione el numero de habitaciones:</form:option>
-				<form:option value="1">1</form:option>
-				<form:option value="2">2</form:option>
-				<form:option value="3">3</form:option>
-				<form:option value="4">4</form:option>
+			<h3>Zona</h3>
+			<form:select class="select" id="zona" path="zona" onchange="formFiltros.submit()">
+				<form:option  value="">-- Seleccione una opcion --</form:option>
+				<form:options items="${zonas}"/>
 			</form:select>
 		</div>
 	</form:form>

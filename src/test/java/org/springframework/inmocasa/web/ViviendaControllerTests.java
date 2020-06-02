@@ -2,6 +2,7 @@ package org.springframework.inmocasa.web;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasProperty;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -179,7 +180,7 @@ class ViviendaControllerTests {
 		this.viviendaService.save(vivienda);
 		
 		Vivienda res = this.viviendaService.findViviendaById(vivienda.getId()).orElse(null);
-		assertThat(res== null);
+		assertTrue(res== null);
 	}
 	
 	@WithMockUser(value = "gilmar", authorities = { "propietario" })

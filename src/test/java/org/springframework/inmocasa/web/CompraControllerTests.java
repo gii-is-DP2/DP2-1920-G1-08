@@ -133,6 +133,32 @@ class CompraControllerTests {
 				.andExpect(view().name("compras/showCompraDetails"));
 	}
 
+	@WithMockUser(username = "john123", authorities = { "propietario" })
+	@Test
+	@DisplayName("Se rechaza una compra y se elimina")
+	void testRechazarCompraSuccess() throws Exception {
+		Cliente clie = new Cliente();
+		clie.setId(8);
+		clie.setNombre("John");
+		clie.setApellidos("Doe");
+		clie.setDni("46900025N");
+		clie.setGenero(Genero.MASCULINO);
+		clie.setFechaNacimiento(LocalDate.of(1976, 6, 12));
+		clie.setUsername("john123");
+		clie.setPassword("john123");
+		Compra compra1 = new Compra();
+		compra1.setVivienda(vivienda2);
+		compra1.setEstado(Estado.RECHAZADO);
+		compra1.setPrecioFinal(200);
+		vivienda.setPropietario(prop);
+		vivienda2.setPropietario(prop);
+		compra1.setCliente(clie);
+
+		List<Compra> compras = (List<Compra>) this.compraService.findAll();
+		this.compraService.deleteById(compra1.getId());
+		assertTrue(!compras.contains(compra1));
+
+	}
 
 	@WithMockUser(username = "john123", authorities = { "propietario" })
 	@Test

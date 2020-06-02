@@ -2,8 +2,10 @@ package org.springframework.inmocasa.web;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 
 import static org.hamcrest.CoreMatchers.nullValue;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -116,6 +118,21 @@ public class MensajeControllerTests {
 		mockMvc.perform(post("/mensajes/save").with(csrf()).param("asunto", "Hello").param("cuerpo", "Bonjour"))
 				.andExpect(status().isOk()).andExpect(view().name("mensajes/misMensajes"));
 	}
+	@WithMockUser(username = "gilmar", authorities = { "propietario" })
+	@Test
+	@DisplayName("No se envía mensaje")
+	void testProcessCreationHasError() throws Exception{
+		Mensaje mensaje1= new Mensaje();
+		mensaje1.setAsunto("Mensaje");
+		mensaje1.setCuerpo("Prueba");
+		mensaje1.setProp(prop);
+		
+		mensajeService.save(mensaje);
+		Collection<Mensaje> res = this.mensajeService.findMensajeByEmisorId(mensaje1.getEmisorId());
+		assertTrue(res.isEmpty());
+		
+	}
+	
 
 	@WithMockUser(value = "gilmar", authorities = { "propietario" })
 	@Test

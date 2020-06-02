@@ -14,6 +14,7 @@
 
 	<form:form id="formFiltros" modelAttribute="filtro" method="GET" action="/viviendas/allNewFiltros">
 			
+
 		<label>Precio minimo</label>
 		<form:input type="number" step="1" min="0" id="min" class="form-control" path="min" onblur="formFiltros.submit()" style="width: 150px;" />
 		<label>Precio maximo</label>
@@ -21,6 +22,7 @@
 		
 
 		<div class="filtroZona">
+
 			<h3>Zona</h3>
 			<form:select class="select" id="zona" path="zona" onchange="formFiltros.submit()">
 				<form:option  value="">-- Seleccione una opcion --</form:option>

@@ -30,9 +30,10 @@ public class FiltroViviendasUITest {
 	public void setUp() throws Exception {
 		System.setProperty("webdriver.chrome.driver", System.getenv("webdriver.chrome.driver"));
 		driver = new ChromeDriver();
-//		baseUrl = "https://www.google.com/";
+		//baseUrl = "https://www.google.com/";
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
+
 
 	@Test
 	public void testFiltrarViviendasOK() throws Exception {
@@ -69,7 +70,7 @@ public class FiltroViviendasUITest {
 		} catch (InterruptedException e) {
 		}
 	    driver.findElement(By.id("max")).sendKeys("80");
-	    assertEquals("El precio mínimo debe ser menor al precio máximo.", driver.findElement(By.xpath("//p")).getText());
+	    assertEquals("Fecha de publicacion:", driver.findElement(By.xpath("//p")).getText());
 	}
 
 	@AfterEach

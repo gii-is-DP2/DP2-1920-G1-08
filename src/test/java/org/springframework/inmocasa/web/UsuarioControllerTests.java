@@ -4,6 +4,7 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.inmocasa.InmocasaApplication;
 import org.springframework.inmocasa.configuration.SecurityConfiguration;
+import org.springframework.inmocasa.model.Authorities;
 import org.springframework.inmocasa.model.Usuario;
 import org.springframework.inmocasa.service.AdministradorService;
 import org.springframework.inmocasa.service.ClienteService;
@@ -31,8 +33,10 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-@WebMvcTest(controllers = ViviendaController.class, 
+@WebMvcTest(controllers = UsuarioController.class, 
 excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), 
 excludeAutoConfiguration = SecurityConfiguration.class)
 @RunWith(SpringRunner.class)
@@ -80,11 +84,11 @@ public class UsuarioControllerTests {
 	}
 
 	// HU-023: Borrar un usuario
-	@WithMockUser(value = "alonso7", authorities = { "cliente" })
+	@WithMockUser(value = "alonso7")
 	@Test
 	void testDeleteUsuarioOk() throws Exception {
-		
-		mockMvc.perform(get("/usuario/delete/{usuarioId}", TEST_ID_USUARIO)).andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/logout"));
+		mockMvc.perform(get("/usuario/delete/" + TEST_ID_USUARIO)).andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/logout"));
 	}
 
 	// HU-023: Borrar un usuario

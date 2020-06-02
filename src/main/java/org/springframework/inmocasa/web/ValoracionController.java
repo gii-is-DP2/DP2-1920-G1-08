@@ -64,19 +64,19 @@ public class ValoracionController {
 		User usuario = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		List<Cliente> cliente = clienteService.findClienteByUsername(usuario.getUsername());
 		
-		Optional<Visita> visita = visitaService.findById(idVisita);
+		Visita visita = visitaService.findById2(idVisita);
 		
 		
-		if(visita.isPresent() && !cliente.isEmpty() && visita.get().getCliente().getUsername().equals(cliente.get(0).getUsername())) {
+		if(visita != null && !cliente.isEmpty() && visita.getCliente().getUsername().equals(cliente.get(0).getUsername())) {
 			
-			List<Valoracion> valoraciones = valoracionService.findByVisita(visita.get());
+			List<Valoracion> valoraciones = valoracionService.findByVisita(visita);
 			if(valoraciones.isEmpty()) {
-				val.setVisita(visita.get());
+				val.setVisita(visita);
 				modelMap.put("valoracion", val);
 			}else {
 				//Mostrar mensaje de error
-				modelMap.put("error", "Ya ha realizado una valoración a esta vivienda.");
-				vista = usuarioController.showListViviendas(modelMap);
+				modelMap.addAttribute("error", "Ya ha realizado una valoración a esta vivienda.");
+				vista = "users/visitas";
 			}
 		}
 		

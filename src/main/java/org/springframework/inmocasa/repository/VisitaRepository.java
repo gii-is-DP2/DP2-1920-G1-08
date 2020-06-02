@@ -36,6 +36,8 @@ public interface VisitaRepository extends JpaRepository<Visita, Integer> {
 	
 	@Query("select v from Valoracion v where v.visita.id = ?1")
 	Collection<Valoracion> findValoracionesByVisita(Integer visitaId);
-		
+
+	@Query("select visita from Visita visita where visita.id = ?1")
+	Visita findById2(Integer id);		
 		
 }

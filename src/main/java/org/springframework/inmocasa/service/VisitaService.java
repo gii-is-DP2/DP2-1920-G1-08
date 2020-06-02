@@ -30,6 +30,10 @@ public class VisitaService {
 		return vr.findById(id);
 	}
 	
+	public Visita findById2(int id) {
+		return vr.findById2(id);
+	}
+	
 	public Visita save(Visita v) {
 		return vr.save(v);
 	}

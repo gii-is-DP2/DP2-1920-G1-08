@@ -40,6 +40,7 @@ public class ViviendaControllerE2ETests {
 		mockMvc.perform(get("/viviendas/allNew")).andExpect(view().name("viviendas/listNewViviendas"))
 				.andExpect(model().attributeExists("viviendas"));
 	}
+	
 
 	@WithMockUser(username = "gilmar", authorities = { "gilmar" })
 	@Test

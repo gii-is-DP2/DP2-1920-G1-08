@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,7 @@ import org.springframework.inmocasa.model.enums.Genero;
 import org.springframework.inmocasa.service.AdministradorService;
 import org.springframework.inmocasa.service.ClienteService;
 import org.springframework.inmocasa.service.CompraService;
+import org.springframework.inmocasa.service.DenunciaService;
 import org.springframework.inmocasa.service.PropietarioService;
 import org.springframework.inmocasa.service.ViviendaService;
 import org.springframework.inmocasa.web.ViviendaController;
@@ -66,6 +68,9 @@ class ViviendaControllerTests {
 	@MockBean
 	private CompraService compraService;
 
+	@MockBean
+	private DenunciaService denunciaService;
+		
 	@MockBean
 	private AdministradorService adminService;
 	
@@ -165,6 +170,14 @@ class ViviendaControllerTests {
 			.andExpect(view().name("viviendas/editVivienda"));
 	}
 	
+	// HU-04
+	@WithMockUser(value = "gilmar", authorities = { "propietario" })
+	@Test
+	@DisplayName("Prueba en la que se muestran todas las viviendas")
+	void testListViviendasOk() throws Exception {
+		mockMvc.perform(get("/viviendas/allNew")).andExpect(view().name("viviendas/listNewViviendas"))
+				.andExpect(status().isOk()).andDo(print());
+	}
 //	@WithMockUser(value = "alejandra", authorities = { "cliente" })
 //	@Test
 //	void testNewViviendaDenied() throws Exception {

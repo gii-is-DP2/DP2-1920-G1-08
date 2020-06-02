@@ -1,6 +1,7 @@
 package org.springframework.inmocasa.web;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -11,11 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.inmocasa.model.Administrador;
 import org.springframework.inmocasa.model.Cliente;
 import org.springframework.inmocasa.model.Compra;
+import org.springframework.inmocasa.model.Denuncia;
 import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.model.Vivienda;
+import org.springframework.inmocasa.model.form.FiltrosForm;
 import org.springframework.inmocasa.service.AdministradorService;
 import org.springframework.inmocasa.service.ClienteService;
 import org.springframework.inmocasa.service.CompraService;
+import org.springframework.inmocasa.service.DenunciaService;
 import org.springframework.inmocasa.service.PropietarioService;
 import org.springframework.inmocasa.service.ViviendaService;
 import org.springframework.inmocasa.web.validator.ViviendaValidator;
@@ -38,24 +42,27 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/viviendas")
 public class ViviendaController {
 
-	@Autowired
 	private ViviendaService viviendaService;
-
-	@Autowired
 	private AdministradorService adminService;
-
-	@Autowired
 	private PropietarioService propService;
-
-	@Autowired
 	private ClienteService clienteService;
-
-	@Autowired
 	private CompraService compraService;
+	private DenunciaService denunciaService;
 
 	@InitBinder("vivienda")
 	public void initCompraBinder(WebDataBinder dataBinder) {
 		dataBinder.setValidator(new ViviendaValidator());
+	}
+
+	@Autowired
+	public ViviendaController(ViviendaService viviendaService, AdministradorService adminService, PropietarioService propService,
+			ClienteService clienteService, CompraService compraService, DenunciaService denunciaService) {
+		this.viviendaService = viviendaService;
+		this.adminService = adminService;
+		this.propService = propService;
+		this.clienteService = clienteService;
+		this.compraService = compraService;
+		this.denunciaService = denunciaService;
 	}
 
 	// Santi-Alvaro
@@ -97,11 +104,11 @@ public class ViviendaController {
 				vivienda.setFav(false);
 			}
 		}
+		model.addAttribute("localDateFormat", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 		model.addAttribute("vivienda", vivienda);
 		
 		return view;
 	}
-
 
 	@GetMapping(path = "/mis-viviendas")
 	public String misViviendas(ModelMap model) {
@@ -153,44 +160,41 @@ public class ViviendaController {
 
 	// Alvaro-MiguelEmmanuel
 	@GetMapping(value = { "/allNew" })
-	public String showListViviendas(ModelMap model, @Nullable @RequestParam("precioMin") String precioMin,
-			@Nullable @RequestParam("precioMax") String precioMax, @Nullable @RequestParam("zona") String zona,
-			@Nullable @RequestParam("numhabitacion") String numHabitaciones) {
-		model.put("precioMin", viviendaService.precioMinViviendas());
-		model.put("precioMax", viviendaService.precioMaxViviendas());
+	public String showListViviendas(ModelMap model, @Nullable FiltrosForm filtro,BindingResult result) {
 		Collection<String> zonas = viviendaService.findZonas();
-		model.put("zonas", zonas);
-		if (precioMin == null && precioMax == null && zona == null && numHabitaciones == null) {
+		model.addAttribute("zonas", zonas);
+		
+		Collection<Vivienda> vivs = viviendaService.findAllNewest();
+		model.addAttribute("viviendas", vivs);
+		model.addAttribute("filtro", new FiltrosForm());
+
+		return "viviendas/listNewViviendas";
+	}
+	
+	@GetMapping(value="/allNewFiltros")
+	public String showViviendasFiltros(ModelMap model, @Nullable FiltrosForm filtro, BindingResult result) {
+		Collection<String> zonas = viviendaService.findZonas();
+		model.addAttribute("zonas", zonas);
+		
+		
+		if(filtro != null && (filtro.getMin()!= null && filtro.getMax()!= null && filtro.getMax()< filtro.getMin())) {
+			model.addAttribute("errMsg","El precio mínimo debe ser menor al precio máximo.");
 			Collection<Vivienda> vivs = viviendaService.findAllNewest();
-			model.put("viviendas", vivs);
-		} else if (precioMin != null && precioMax != null) {
-			// Filtrar viviendas por precio
-			Integer min = Integer.valueOf(precioMin);
-			Integer max = Integer.valueOf(precioMax);
-			Collection<Vivienda> viviendasPrecio = viviendaService.findViviendaByPrecio(min, max);
-			if (viviendasPrecio.isEmpty()) {
-				model.addAttribute("error", "No se han encontrado viviendas en este rango de precio");
-			}
-			model.put("viviendas", viviendasPrecio);
-			model.put("precioMin", precioMin);
-			model.put("precioMax", precioMax);
-		} else if (zona != null) {
-			// Filtrar viviendas por zona
-			Collection<Vivienda> viviendasZona = viviendaService.findViviendaByZona(zona);
-			if (viviendasZona.isEmpty()) {
-				model.addAttribute("error", "No se han encontrado viviendas en esta zona");
-			}
-
-			model.put("viviendas", viviendasZona);
-
-		} else if (numHabitaciones != null) {
-			Integer num = Integer.valueOf(numHabitaciones);
-			Collection<Vivienda> viviendasHabitacion = viviendaService.findViviendaByNumHabitacion(num);
-			if (viviendasHabitacion.isEmpty()) {
-				model.addAttribute("error", "No se han encontrado viviendas con este número de habitaciones");
-			}
-//			model.put("numHabitaciones", numHabitaciones);
-			model.put("viviendas", viviendasHabitacion);
+			model.addAttribute("viviendas", vivs);
+			model.addAttribute("filtro", new FiltrosForm());
+			return "viviendas/listNewViviendas";
+		}
+		if(filtro == null) {
+			Collection<Vivienda> vivs = viviendaService.findAllNewest();
+			model.addAttribute("viviendas", vivs);
+			model.addAttribute("filtro", new FiltrosForm());
+		}else {
+			
+			Collection<Vivienda> viviendasFiltro = viviendaService.findViviendaByfiltros(filtro.getMin(), filtro.getMax(),
+					filtro.getHabitaciones(), filtro.getZona());
+			
+			model.addAttribute("viviendas", viviendasFiltro);
+			model.addAttribute("filtro", filtro);
 		}
 
 		return "viviendas/listNewViviendas";
@@ -216,6 +220,9 @@ public class ViviendaController {
 		Propietario propietario = propService.findByUsername(userPrincipal.getUsername());
 		vivienda.setFechaPublicacion(LocalDate.now());
 		vivienda.setPropietario(propietario);
+		if(vivienda.getFoto().isEmpty()) {
+			vivienda.setFoto("https://cdn.onlinewebfonts.com/svg/img_67240.png");
+		}
 		if (result.hasErrors()) {
 			modelMap.addAttribute("vivienda", vivienda);
 			return "viviendas/editVivienda";
@@ -235,6 +242,23 @@ public class ViviendaController {
 
 		return "viviendas/listNewViviendas";
 	}
+	
+	@GetMapping(value ="/denunciadas")
+	public String viviendasDenunciadasAdmin(ModelMap model) {
+		List<Denuncia> denun = denunciaService.findViviendasDenunciadas();
+		model.addAttribute("denuncias", denun);
+		model.addAttribute("localDateFormat", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		return "viviendas/denunciadas";
+	}
+	
+	@GetMapping(value ="/allViviendasAdmin")
+	public String getAllViviendasAdmin(ModelMap model) {
+		Iterable<Vivienda> viviendas = viviendaService.findAll();
+		model.addAttribute("viviendas", viviendas);
+		model.addAttribute("localDateFormat", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		return "viviendas/todas";
+	}
+	
 	// Alba-Alejandro
 
 	@GetMapping(value = "/delete/{viviendaId}")
@@ -250,12 +274,16 @@ public class ViviendaController {
 			if (!compradas.contains(vivienda)) {
 				viviendaService.delete(vivienda);
 			} else {
-				model.addAttribute("error", "No se puede borrar el anuncio porque la vivienda ha sido comprada");
+				model.addAttribute("errMsg", "No se puede borrar el anuncio porque la vivienda ha sido comprada");
 			}
 		}
+		
+		/*if(admin != null) {
+			return "viviendas/denunciadas";
+		}
+		return "viviendas/listNewViviendas";*/
 
 		return misViviendas(model);
-
 	}
 
 	@GetMapping(value = "/publicitar/{viviendaId}")

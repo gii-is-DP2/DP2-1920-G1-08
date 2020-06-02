@@ -34,7 +34,9 @@
              	<br/>
                 <petclinic:inputField label="Planta" name="planta"/>
                 <petclinic:inputField label="Comentario" name="comentario"/>
+
                 <petclinic:inputField label="Foto" name="foto"/>
+                <span style="margin-left: 200px">Para la foto debe introducir una url de una imagen</span>
                 <petclinic:inputField label="Caracteristicas" name="caracteristicas"/>
                 <petclinic:inputField label="Equipamiento" name="equipamiento"/>
                 <petclinic:inputField label="Horario de Visita" name="horarioVisita"/>

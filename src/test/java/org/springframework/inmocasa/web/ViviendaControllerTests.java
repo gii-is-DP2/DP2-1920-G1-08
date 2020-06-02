@@ -34,6 +34,7 @@ import org.springframework.inmocasa.model.enums.Genero;
 import org.springframework.inmocasa.service.AdministradorService;
 import org.springframework.inmocasa.service.ClienteService;
 import org.springframework.inmocasa.service.CompraService;
+import org.springframework.inmocasa.service.DenunciaService;
 import org.springframework.inmocasa.service.PropietarioService;
 import org.springframework.inmocasa.service.ViviendaService;
 import org.springframework.inmocasa.web.ViviendaController;
@@ -71,6 +72,9 @@ class ViviendaControllerTests {
 	
 	@MockBean
 	private ClienteService clienteService;
+	
+	@MockBean
+	private DenunciaService denunciaService;
 
 	private Vivienda vivienda;
 
@@ -208,70 +212,25 @@ class ViviendaControllerTests {
 //				.andExpect(view().name("viviendas/showViviendaDetails"));
 //	}
 
-	// HU-008: Filtrar por precio
+	// HU-008: Filtrar vivienda
 	@WithMockUser(value = "inmocasa")
 	@Test
-	void testshowListViviendaPrecioOk() throws Exception {
-		given(this.viviendaService.findViviendaByPrecio(100, 10000))
-				.willReturn(Lists.newArrayList(vivienda, new Vivienda()));
+	void testshowListViviendaFiltroOk() throws Exception {
+		given(this.viviendaService.findViviendaByfiltros(100, 3000, null, "Cerro Amate"))
+		.willReturn(Lists.newArrayList(vivienda, new Vivienda()));
 
-		mockMvc.perform(get("/viviendas/allNew").with(csrf()).param("precioMin", "100").param("precioMax", "10000"))
-				.andExpect(status().isOk()).andExpect(view().name("viviendas/listNewViviendas"));
+		mockMvc.perform(get("/viviendas/allNewFiltros").with(csrf()).param("min", "100").param("max", "3000")
+				.param("zona", "Cerro Amate")).andExpect(status().isOk()).andExpect(view().name("viviendas/listNewViviendas"));
 	}
 
-	// HU-008: Filtrar por precio (No hay viviendas entre el rango de precio por lo
-	// que se muestra un mensaje de error)
+	// HU-008: Filtrar vivienda
 	@WithMockUser(value = "inmocasa")
 	@Test
-	void testshowListViviendaNotPrecioOk() throws Exception {
-		given(this.viviendaService.findViviendaByPrecio(10, 20)).willReturn(new ArrayList<Vivienda>());
+	void testshowListViviendaFiltroNotOk() throws Exception {
+		given(this.viviendaService.findViviendaByfiltros(100, 20, null, null)).willReturn(new ArrayList<Vivienda>());
 
-		mockMvc.perform(get("/viviendas/allNew").with(csrf()).param("precioMin", "10").param("precioMax", "20"))
-				.andExpect(model().attribute("error", "No se han encontrado viviendas en este rango de precio"))
-				.andExpect(status().isOk()).andExpect(view().name("viviendas/listNewViviendas"));
-	}
-
-	// HU-008: Filtrar por zona
-	@WithMockUser(value = "inmocasa")
-	@Test
-	void testshowListViviendaZonaOk() throws Exception {
-		given(this.viviendaService.findViviendaByZona("Cerro Amate"))
-				.willReturn(Lists.newArrayList(vivienda, vivienda2));
-
-		mockMvc.perform(get("/viviendas/allNew").with(csrf()).param("zona", "Cerro Amate")).andExpect(status().isOk())
-				.andExpect(view().name("viviendas/listNewViviendas"));
-	}
-
-	// HU-008: Filtrar por zona (No hay viviendas en la zona seleccionada)
-	@WithMockUser(value = "inmocasa")
-	@Test
-	void testshowListViviendaZonaNotOk() throws Exception {
-		given(this.viviendaService.findViviendaByZona("San Jerónimo")).willReturn(new ArrayList<Vivienda>());
-
-		mockMvc.perform(get("/viviendas/allNew").with(csrf()).param("zona", "San Jerónimo"))
-				.andExpect(model().attribute("error", "No se han encontrado viviendas en esta zona"))
-				.andExpect(status().isOk()).andExpect(view().name("viviendas/listNewViviendas"));
-	}
-
-	// HU-008: Filtrar por habitaciones
-	@WithMockUser(value = "inmocasa")
-	@Test
-	void testshowListViviendaHabitacionesOk() throws Exception {
-		given(this.viviendaService.findViviendaByNumHabitacion(1)).willReturn(Lists.newArrayList(vivienda));
-
-		mockMvc.perform(get("/viviendas/allNew").with(csrf()).param("numhabitacion", "1")).andExpect(status().isOk())
-				.andExpect(view().name("viviendas/listNewViviendas"));
-	}
-
-	// HU-008: Filtrar por Habitaciones (No hay viviendas con el número de
-	// habitaciones especificado)
-	@WithMockUser(value = "inmocasa")
-	@Test
-	void testshowListViviendaHabitacionesNotOk() throws Exception {
-		given(this.viviendaService.findViviendaByNumHabitacion(4)).willReturn(new ArrayList<Vivienda>());
-
-		mockMvc.perform(get("/viviendas/allNew").with(csrf()).param("numhabitacion", "4"))
-				.andExpect(model().attribute("error", "No se han encontrado viviendas con este número de habitaciones"))
+		mockMvc.perform(get("/viviendas/allNewFiltros").with(csrf()).param("min", "100").param("max", "20"))
+				.andExpect(model().attribute("error", "El precio mínimo debe ser menor al precio máximo."))
 				.andExpect(status().isOk()).andExpect(view().name("viviendas/listNewViviendas"));
 	}
 	

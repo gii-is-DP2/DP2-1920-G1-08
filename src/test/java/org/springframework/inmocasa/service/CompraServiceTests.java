@@ -1,11 +1,12 @@
 package org.springframework.inmocasa.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
 import java.util.Collection;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -147,17 +148,19 @@ public class CompraServiceTests {
 
 	// Se encuentran la compra por el id de la vivienda y esta existe
 	@Test
-	void shouldFindCompraById() {
+	@DisplayName("Se encuentra la compra por el ID de la vivienda")
+	void shouldFindCompraByViviendaId() {
 		Collection<Compra> todas = this.compraService.findAll();
-		Compra c = this.compraService.findCompraById(1);
-		assertThat(todas.contains(c));
+		Compra c = this.compraService.findCompraByViviendaId(1);
+		assertTrue(todas.contains(c));
 
 	}
 
 	// No se encuentra la compra porque esa vivienda no tiene oferta
 	@Test
-	void shouldNoFindCompraById() {
-		Compra c = this.compraService.findCompraById(2);
-		assertThat(c == null);
+	@DisplayName("No se encuentra la compra porque no hay compra con ese ID en la vivienda")
+	void shouldNoFindCompraByViviendaId() {
+		Compra c = this.compraService.findCompraByViviendaId(2);
+		assertTrue(c == null);
 	}
 }

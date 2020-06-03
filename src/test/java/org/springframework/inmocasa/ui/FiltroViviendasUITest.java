@@ -20,6 +20,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext
 public class FiltroViviendasUITest {
+
 	@LocalServerPort
 	private int port;
 	private WebDriver driver;

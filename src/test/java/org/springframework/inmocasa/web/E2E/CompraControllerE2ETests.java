@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import javax.transaction.Transactional;
 
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,7 @@ public class CompraControllerE2ETests {
 
 	@WithMockUser(username = "gilmar", authorities = { "propietario"})
 	@Test
+	@DisplayName("Se rechaza la compra correctamente")
 	void testProcessRechazarCompra() throws Exception {
 		this.mockMvc.perform(get("/compras/{viviendaId}/rechazar", TEST_VIVIENDA_ID_2))
 				.andExpect(status().is2xxSuccessful());
@@ -55,6 +57,7 @@ public class CompraControllerE2ETests {
 
 	@WithMockUser(username = "admin", authorities = { "admin" })
 	@Test
+	@DisplayName("Show de una compra")
 	void testShowCompra() throws Exception {
 		this.mockMvc.perform(get("/compras/{viviendaId}", 1)).andExpect(status().isOk())
 				.andExpect(model().attribute("compras", Matchers.hasProperty("precioFinal", Matchers.is(215000))))

@@ -8,12 +8,14 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class MensajeTests extends ValidatorTests{
 
 	// Todo bien
 	@Test
+	@DisplayName("Se envía un mensaje correctamente")
 	void shouldMensajeValidateWhenCorrect() {
 		Mensaje m = new Mensaje();
 		m.setAsunto("Prueba");
@@ -26,6 +28,7 @@ public class MensajeTests extends ValidatorTests{
 	
 	// Asunto-Cuerpo vacío
 	@Test
+	@DisplayName("No se envía el mensaje porque tiene un error")
 	void shouldMensajeWithoutAsunto() {
 		Mensaje m = new Mensaje();
 		m.setAsunto("");

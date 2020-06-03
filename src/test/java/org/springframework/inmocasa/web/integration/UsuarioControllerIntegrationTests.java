@@ -21,11 +21,20 @@ public class UsuarioControllerIntegrationTests {
 	UsuarioController usuarioController;
 
 		@DisplayName("Prueba borrar usuario")
-		@WithMockUser(value = "gilmar", authorities = { "propietario" })
+		@WithMockUser(value = "inversionesreina", authorities = { "propietario" })
 		@Test
 		void testDeleteUsuario() throws Exception {
 			ModelMap model = new ModelMap();
-			String view = usuarioController.borrarUsuarioCompleto(1, model);
+			String view = usuarioController.borrarUsuarioCompleto(4, model);
 			assertEquals("redirect:/logout",view);
+		}
+		
+		@DisplayName("Prueba no borrar usuario")
+		@WithMockUser(value = "inversionesreina", authorities = { "propietario" })
+		@Test
+		void testDeleteUsuarioNotOk() throws Exception {
+			ModelMap model = new ModelMap();
+			String view = usuarioController.borrarUsuarioCompleto(6, model);
+			assertEquals("redirect:/",view);
 		}
 }

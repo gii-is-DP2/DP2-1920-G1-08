@@ -49,7 +49,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.itextpdf.text.BadElementException;
 
 
-@RequestMapping(value="usuario")
 @Controller
 public class UsuarioController {
 	
@@ -87,14 +86,14 @@ public class UsuarioController {
 		dataBinder.setDisallowedFields("id");
 	}
 
-	@GetMapping(value = "/usuarios/new")
+	@GetMapping(value = "/usuario/new")
 	public String initCreationForm(Map<String, Object> model) {
 		Propietario propietario = new Propietario();
 		model.put("propietario", propietario);
 		return "usuarios/createPropietarioForm";
 	}
 
-	@PostMapping(value = "/usuarios/new")
+	@PostMapping(value = "/usuario/new")
 	public String processCreationForm(@Valid Propietario propietario, BindingResult result) {
 		if (result.hasErrors()) {
 			return "usuarios/createPropietarioForm";
@@ -108,7 +107,7 @@ public class UsuarioController {
 	// Alvaro-MiguelEmmanuel
   
 
-	@GetMapping(value = { "/misVisitas" })
+	@GetMapping(value = { "/usuario/misVisitas" })
 	public String showListViviendas(ModelMap modelMap) {
 
 		User usuario = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -125,7 +124,7 @@ public class UsuarioController {
 	}
 
   
-  @RequestMapping(value = "/exportPDF", method = RequestMethod.GET,
+  @GetMapping(value = "/usuario/exportPDF",
           produces = MediaType.APPLICATION_PDF_VALUE)
   	public InputStreamResource descargaPDF(HttpServletRequest request, HttpServletResponse response) throws IOException, BadElementException {
 	  User usuario = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -171,7 +170,7 @@ public class UsuarioController {
 //  		return view;
 //  		
 //  	}
-  	@GetMapping(value= {"/miPerfil"})
+  	@GetMapping(value= {"/usuario/miPerfil"})
   	public ModelAndView showMyProfile() {
   		ModelAndView res = new ModelAndView("users/profile");
   		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -185,13 +184,12 @@ public class UsuarioController {
 		return res;
   	}
   	
-  	@GetMapping(value="/delete/{usuarioId}")
+  	@GetMapping("/usuario/delete/{usuarioId}")
   	public String borrarUsuarioCompleto(@PathVariable("usuarioId") int usuarioId, ModelMap model) {
   		Usuario usuario = usuarioService.findUsuarioById(usuarioId);
   		UserDetails userPrincipalDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = userPrincipalDetails.getUsername();
-		Usuario userPrincipal = usuarioService.findUsuarioByUsername(username);
-		if(userPrincipal == usuario) {
+		if(username.equals(usuario.getUsername())) {
 			usuarioService.delete(usuario);
 			return "redirect:/logout";
 		}

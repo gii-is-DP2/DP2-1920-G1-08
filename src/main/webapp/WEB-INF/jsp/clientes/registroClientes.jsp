@@ -23,7 +23,7 @@
 		Cliente
 	</h2>
 	<form:form modelAttribute="cliente" class="form-horizontal"
-			action="/clientes/save">
+			action="/clientes/{clienteId}/save">
 		<div class="form-group has-feedback">
 			<petclinic:inputField label="DNI" name="dni" />
 			<petclinic:inputField label="Nombre" name="nombre" />

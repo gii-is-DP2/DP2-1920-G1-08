@@ -89,6 +89,7 @@ public class UsuarioService {
 	}
 	
 	//Delete completo del Usuario
+	@Transactional
 	public void delete(Usuario usuario) {
 		UserDetails userPrincipalDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = userPrincipalDetails.getUsername();
@@ -143,6 +144,11 @@ public class UsuarioService {
 				//Borramos Viviendas
 				viviendaRepository.deleteAll(viviendas);
 				
+				Collection<Mensaje> mensajesProp = mensajeRepository.findMensajesByUserId(propietario.getId());
+				if(mensajesProp != null) {
+					mensajeRepository.deleteAll(mensajesProp);
+				}
+				
 			} else if(cliente != null) {
 				//Si es cliente:
 				Integer clientId = cliente.get(0).getId();
@@ -163,16 +169,13 @@ public class UsuarioService {
 				if(compras != null) {
 					compraRepository.deleteAll(compras);
 				}
+				
+				Collection<Mensaje> mensajesCliente = mensajeRepository.findMensajesByUserId(cliente.get(0).getId());
+				if(mensajesCliente != null) {
+					mensajeRepository.deleteAll(mensajesCliente);
+				}
 			}
-			
-			//Borramos Mensajes
-			Collection<Mensaje> mensajesProp = mensajeRepository.findMensajesByUserId(propietario.getId());
-			Collection<Mensaje> mensajesCliente = mensajeRepository.findMensajesByUserId(cliente.get(0).getId());
-			if(mensajesProp != null) {
-				mensajeRepository.deleteAll(mensajesProp);
-			} else if(mensajesCliente != null) {
-				mensajeRepository.deleteAll(mensajesCliente);
-			}
+					
 			
 			//Borramos el usuario completo
 			userRepository.delete(usuario);

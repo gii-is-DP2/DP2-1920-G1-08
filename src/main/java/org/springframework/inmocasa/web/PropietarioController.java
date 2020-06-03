@@ -61,7 +61,9 @@ public class PropietarioController {
 			model.addAttribute("propietario", propietario);
 			return "propietarios/registroPropietarios";
 		} else {
-			if(propietarioService.findByUsername(propietario.getUsername())!= null) {
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			
+			if(!authentication.isAuthenticated() && propietarioService.findByUsername(propietario.getUsername())!= null) {
 				model.addAttribute("propietario", propietario);
 				model.addAttribute("error", "El usuario ya existe.");
 				return "propietarios/registroPropietarios";

@@ -73,7 +73,8 @@ public class ClienteController {
 			model.addAttribute("cliente", cliente);
 			return "clientes/registroClientes";
 		} else {
-			if(clienteService.findByUsername(cliente.getUsername())!= null) {
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			if(!authentication.isAuthenticated() && clienteService.findByUsername(cliente.getUsername())!= null) {
 				model.addAttribute("cliente", cliente);
 				model.addAttribute("error", "El usuario ya existe.");
 				return "clientes/registroClientes";

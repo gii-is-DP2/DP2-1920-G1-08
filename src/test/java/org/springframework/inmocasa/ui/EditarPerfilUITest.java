@@ -80,6 +80,8 @@ public class EditarPerfilUITest {
 
 	}
 
+
+
 	@Test
 	@DisplayName("No se puede editar el perfil porque deja un campo vacío que no puede estarlo")
 	public void testEditarPerfilNotOk() throws Exception {

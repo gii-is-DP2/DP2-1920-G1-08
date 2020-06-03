@@ -79,7 +79,7 @@
 						<button type="button" class="btn btn-success">
 							<sec:authentication property="name" />
 						</button>
-						<button type="button"
+						<button type="button" id="menu-vertical"
 							class="btn btn-danger dropdown-toggle dropdown-toggle-split"
 							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							<span class="sr-only">Toggle Dropdown</span>

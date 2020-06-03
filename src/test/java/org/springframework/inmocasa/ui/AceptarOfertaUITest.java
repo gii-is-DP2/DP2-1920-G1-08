@@ -30,7 +30,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext
 public class AceptarOfertaUITest {
-	
+
 	@LocalServerPort
 	private int port;
 	private WebDriver driver;
@@ -50,7 +50,7 @@ public class AceptarOfertaUITest {
 	@Order(1)
 	@DisplayName("Se acepta la compra sin problemas")
 	public void testAceptarOfertaOk() throws Exception {
-		driver.get("http://localhost:"+port);
+		driver.get("http://localhost:" + port);
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		driver.findElement(By.id("password")).clear();
 		try {
@@ -63,14 +63,14 @@ public class AceptarOfertaUITest {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
 		}
+
 		driver.findElement(By.id("username")).sendKeys("davidsa");
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
 		driver.findElement(By.xpath("(//button[@type='button'])[3]")).click();
 		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/ofertadas')]")).click();
-		driver.findElement(By.xpath("//a[contains(@href, '/compras/8')]")).click();
-		assertNotEquals("VENDIDA", driver.findElement(By.xpath("//table[@id='showCompra']/tbody/tr[2]/td")).getText());
-		driver.findElement(By.xpath("//a[contains(@href, '/compras/8/aceptar')]")).click();
-		driver.findElement(By.xpath("//a[contains(@href, '/compras/8')]")).click();
+		driver.findElement(By.xpath("//a[contains(@href, '/compras/4')]")).click();
+		driver.findElement(By.xpath("//a[contains(@href, '/compras/4/aceptar')]")).click();
+		driver.findElement(By.xpath("//a[contains(@href, '/compras/4')]")).click();
 		assertEquals("VENDIDA", driver.findElement(By.xpath("//table[@id='showCompra']/tbody/tr[2]/td")).getText());
 
 	}
@@ -79,7 +79,7 @@ public class AceptarOfertaUITest {
 	@Order(2)
 	@DisplayName("No se puede aceptar la compra porque ya está aceptada")
 	public void testAceptarOfertaNoOk() throws Exception {
-		driver.get("http://localhost:"+port);
+		driver.get("http://localhost:" + port);
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		driver.findElement(By.id("password")).clear();
 		try {
@@ -96,8 +96,8 @@ public class AceptarOfertaUITest {
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
 		driver.findElement(By.xpath("(//button[@type='button'])[3]")).click();
 		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/ofertadas')]")).click();
-		driver.findElement(By.xpath("//a[contains(@href, '/compras/8')]")).click();
-		assertEquals("VENDIDA", driver.findElement(By.xpath("//table[@id='showCompra']/tbody/tr[2]/td")).getText());
+		driver.findElement(By.xpath("//a[contains(@href, '/compras/4')]")).click();
+		assertEquals("VENDIDA", driver.findElement(By.xpath("//tr[2]/td")).getText());
 	}
 
 	@AfterEach

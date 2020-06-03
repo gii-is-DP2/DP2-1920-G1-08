@@ -147,9 +147,10 @@ class ViviendaControllerTests {
 	}
 
 	// HU-02
-	@WithMockUser(value = "gilmar", authorities = { "propietario" })
+	@WithMockUser(value = "propietario1", authorities = { "propietario" })
 	@Test
 	void testListViviendasOfertadasOK() throws Exception {
+		given(this.propietarioService.findByUsername(testPropietarioUsername)).willReturn(prop);
 		mockMvc.perform(get("/viviendas/ofertadas")).andExpect(view().name("viviendas/listaViviendasOferta"))
 				.andExpect(status().isOk());
 	}
@@ -157,6 +158,7 @@ class ViviendaControllerTests {
 	@WithMockUser(value = "gilmar", authorities = { "propietario" })
 	@Test
 	void testListViviendasOfertadasNotOK() throws Exception {
+		given(this.propietarioService.findByUsername("gilmar")).willReturn(prop);
 		mockMvc.perform(get("/viviendas/ofertadas").with(csrf()).param("estado", "Estado.PENDIENTE"))
 				.andExpect(view().name("viviendas/listaViviendasOferta")).andExpect(status().isOk());
 	}

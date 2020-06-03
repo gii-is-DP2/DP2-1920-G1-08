@@ -1,5 +1,6 @@
 package org.springframework.inmocasa.repository;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,4 +15,7 @@ public interface DenunciaRepository extends JpaRepository<Denuncia, Integer> {
 
 	@Query("select d from Denuncia d")
 	public List<Denuncia> findAllViviendas();
+	
+	@Query("select d from Denuncia d where d.vivienda.id = ?1")
+	public Collection<Denuncia> findDenunciasByViviendaId(Integer viviendaId);
 }

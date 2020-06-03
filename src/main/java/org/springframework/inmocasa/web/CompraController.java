@@ -1,5 +1,7 @@
 package org.springframework.inmocasa.web;
 
+import java.util.Collection;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +18,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -52,7 +52,7 @@ public class CompraController {
 		dataBinder.setValidator(new CompraValidator());
 	}
 
-	@GetMapping(value = "/create/{viviendaId}")
+	@GetMapping(path = "/create/{viviendaId}")
 	public String create(@PathVariable("viviendaId") Integer viviendaId, ModelMap model) {
 		Compra compra = new Compra();
 		Vivienda vivienda = viviendaService.findViviendaId(viviendaId);
@@ -68,7 +68,7 @@ public class CompraController {
 		return VIEWS_COMPRA_CREATE_UPDATE_FORM;
 	}
 
-	@PostMapping(value = "/create/{viviendaId}")
+	@PostMapping(path = "/create/{viviendaId}")
 	public String save(@PathVariable("viviendaId") Integer viviendaId, @Valid Compra compra, BindingResult binding,
 			ModelMap model) {
 		if (binding.hasErrors()) {
@@ -90,19 +90,19 @@ public class CompraController {
 	}
 
 	// Santi-Alvaro
-	@GetMapping(value = "/{viviendaId}")
-	public String showCompra(@PathVariable("viviendaId") int viviendaId, ModelMap model) {
+	@GetMapping(value = "/{compraId}")
+	public String showCompra(@PathVariable("compraId") int compraId, ModelMap model) {
 		String view = "compras/showCompraDetails";
-		Compra compras = this.compraService.findCompraByViviendaId(viviendaId);
+		Compra compras = this.compraService.findCompraById(compraId);
 		model.put("compras", compras);
 		return view;
 
 	}
 
-	@GetMapping(value = "/{viviendaId}/aceptar")
-	public String aceptarCompra(@PathVariable("viviendaId") int viviendaId, ModelMap model) {
+	@GetMapping(value = "/{compraId}/aceptar")
+	public String aceptarCompra(@PathVariable("compraId") int compraId, ModelMap model) {
 		String view = "/viviendas/ofertadas";
-		Compra compras = this.compraService.findCompraByViviendaId(viviendaId);
+		Compra compras = this.compraService.findCompraById(compraId);
 		compras.setEstado(Estado.ACEPTADO);
 		compras.setComentario("VENDIDA");
 		compraService.save(compras);
@@ -112,10 +112,10 @@ public class CompraController {
 		return "redirect:" + view;
 	}
 
-	@GetMapping(value = "/{viviendaId}/rechazar")
-	public String rechazarCompra(@PathVariable("viviendaId") int viviendaId, ModelMap model) {
+	@GetMapping(value = "/{compraId}/rechazar")
+	public String rechazarCompra(@PathVariable("compraId") int compraId, ModelMap model) {
 		String view = "/viviendas/ofertadas";
-		Compra compras = this.compraService.findCompraByViviendaId(viviendaId);
+		Compra compras = this.compraService.findCompraById(compraId);
 		compras.setEstado(Estado.RECHAZADO);
 		compraService.deleteById(compras.getId());
 		compraService.save(compras);

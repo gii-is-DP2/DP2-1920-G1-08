@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.inmocasa.model.Cliente;
 import org.springframework.inmocasa.model.Compra;
+import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.model.enums.Estado;
 import org.springframework.inmocasa.repository.CompraRepository;
 import org.springframework.stereotype.Service;
@@ -48,6 +49,10 @@ public class CompraService {
 	
 	//Alba-Alejandro
 	
+	public Compra findCompraById(Integer compraId) {
+		return cr.findCompraById(compraId);
+	}
+	
 	public void saveCompra(Compra compra) {		
 		compra.setEstado(Estado.PENDIENTE);
 		cr.save(compra);
@@ -59,6 +64,10 @@ public class CompraService {
 	
 	public Integer getViviendasCompradas() {
 		return cr.getViviendasCompradas();
+	}
+	
+	public Collection<Compra> getAllComprasByPropietarioId(Integer propietarioId){
+		return cr.findAllComprasByPropietarioId(propietarioId);
 	}
 
 }

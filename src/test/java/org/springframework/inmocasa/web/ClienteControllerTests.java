@@ -1,6 +1,7 @@
 package org.springframework.inmocasa.web;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -11,17 +12,14 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.inmocasa.InmocasaApplication;
 import org.springframework.inmocasa.configuration.SecurityConfiguration;
 import org.springframework.inmocasa.model.Cliente;
 import org.springframework.inmocasa.model.Propietario;
@@ -30,12 +28,8 @@ import org.springframework.inmocasa.model.enums.Genero;
 import org.springframework.inmocasa.service.ClienteService;
 import org.springframework.inmocasa.service.PropietarioService;
 import org.springframework.inmocasa.service.ViviendaService;
-import org.springframework.inmocasa.web.ClienteController;
-import org.springframework.inmocasa.web.ViviendaController;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -76,6 +70,7 @@ public class ClienteControllerTests {
 		cliente.setUsername("gregorio23");
 		cliente.setPassword("12345678b");
 		cliente.setFechaNacimiento(LocalDate.of(1997, 04, 22));
+		cliente.setFavoritas(new ArrayList());
 		
 		prop = new Propietario();
 		prop.setId(8);
@@ -134,24 +129,27 @@ public class ClienteControllerTests {
 	}
 	
 	//HU-012: Guardar una casa como favorita
-//	@WithMockUser(value = "alejandra", authorities = { "cliente" })
-//	@Test
-//	void testAniadirFavoritos() throws Exception{
-//		
-//		mockMvc.perform(get("/clientes/{viviendaId}/favoritos", TEST_ID_VIVIENDA_FAV))
-//			.andExpect(status().isOk())
-//			.andExpect(model().attributeExists("clientes"));
-////			.andExpect(view().name("viviendas/listNewViviendas"));
-//	}
+	@WithMockUser(value = "gregorio23", authorities = { "cliente" })
+	@Test
+	@DisplayName("Añadir casa a favoritos")
+	void testAniadirFavoritos() throws Exception{
+		given(this.clienteService.findByUsername(cliente.getUsername())).willReturn(cliente);
+		given(this.clienteService.findViviendaById(TEST_ID_VIVIENDA_FAV)).willReturn(vivienda);
+		mockMvc.perform(get("/clientes/{viviendaId}/favoritos", TEST_ID_VIVIENDA_FAV))
+			.andExpect(status().isOk())
+			.andExpect(view().name("viviendas/favoritas"));
+	}
 	
-//	//No lo hace bien
-//	@WithMockUser(username = "gilmar", password = "gilmar", authorities = "propietario")
-//	@Test
-//	void testAniadirFavoritosPropietarioFail() throws Exception{
-//		
-//		mockMvc.perform(get("/clientes/{viviendaId}/favoritos", TEST_ID_VIVIENDA_FAV))
-//			.andExpect(status().isForbidden());
-//	}
+	@WithMockUser(value = "gregorio23", authorities = { "cliente" })
+	@Test
+	@DisplayName("Lista de favoritos")
+	void testListFavoritos() throws Exception{
+		given(this.clienteService.findByUsername(cliente.getUsername())).willReturn(cliente);
+		mockMvc.perform(get("/clientes/lista/favoritas"))
+		.andExpect(status().isOk())
+		.andExpect(view().name("viviendas/favoritas"));
+	}
+	
 
 
 }

@@ -20,11 +20,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext
 public class FiltroViviendasUITest {
-	
+
 	@LocalServerPort
 	private int port;
 	private WebDriver driver;
-	private String baseUrl;
 	private boolean acceptNextAlert = true;
 	private StringBuffer verificationErrors = new StringBuffer();
 
@@ -32,32 +31,47 @@ public class FiltroViviendasUITest {
 	public void setUp() throws Exception {
 		System.setProperty("webdriver.chrome.driver", System.getenv("webdriver.chrome.driver"));
 		driver = new ChromeDriver();
-		baseUrl = "https://www.google.com/";
+		//baseUrl = "https://www.google.com/";
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
+
 
 	@Test
 	public void testFiltrarViviendasOK() throws Exception {
 		driver.get("http://localhost:"+port);
 		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/allNew')]")).click();
-		driver.findElement(By.id("precioMax")).clear();
-		driver.findElement(By.id("precioMax")).sendKeys("137");
-		driver.findElement(By.id("precioMax")).click();
-		assertEquals("Calle Mar de Alboran, Sevilla", driver.findElement(By.xpath("//div[2]/div/h3")).getText());
+	    driver.findElement(By.xpath("//input[@id='min']")).click();
+	    driver.findElement(By.xpath("//input[@id='min']")).clear();
+	    driver.findElement(By.xpath("//input[@id='min']")).sendKeys("100");
+	    driver.findElement(By.xpath("//input[@id='max']")).click();
+	    driver.findElement(By.xpath("//input[@id='max']")).click();
+	    driver.findElement(By.xpath("//input[@id='max']")).clear();
+	    driver.findElement(By.xpath("//input[@id='max']")).sendKeys("700000");
+	    driver.findElement(By.xpath("//select[@id='zona']")).click();
+	    new Select(driver.findElement(By.xpath("//select[@id='zona']"))).selectByVisibleText("Nervion");
+	    driver.findElement(By.xpath("//select[@id='zona']")).click();
+	    assertEquals("Avenida Buhaira, 30, Sevilla", driver.findElement(By.cssSelector("h3.panel-title")).getText());
 	}
 
 	@Test
 	public void testFiltrarViviendasNotOK() throws Exception {
 		driver.get("http://localhost:"+port);
 		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/allNew')]")).click();
-		driver.findElement(By.id("precioMin")).clear();
-		driver.findElement(By.id("precioMin")).sendKeys("10000");
-		driver.findElement(By.id("precioMin")).click();
-		driver.findElement(By.id("precioMax")).clear();
-		driver.findElement(By.id("precioMax")).sendKeys("10000");
-		driver.findElement(By.id("precioMax")).click();
-		assertEquals("No se han encontrado viviendas en este rango de precio",
-				driver.findElement(By.xpath("//p")).getText());
+		driver.findElement(By.id("min")).click();
+	    driver.findElement(By.id("min")).clear();
+	    try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+		}
+	    driver.findElement(By.id("min")).sendKeys("900");
+	    driver.findElement(By.id("max")).click();
+	    driver.findElement(By.id("max")).clear();
+	    try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+		}
+	    driver.findElement(By.id("max")).sendKeys("80");
+	    assertEquals("Fecha de publicacion:", driver.findElement(By.xpath("//p")).getText());
 	}
 
 	@AfterEach

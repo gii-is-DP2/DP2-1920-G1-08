@@ -1,6 +1,6 @@
 package org.springframework.inmocasa.web;
 
-import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,9 +8,11 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.inmocasa.model.Cliente;
+import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.model.Valoracion;
 import org.springframework.inmocasa.model.Visita;
 import org.springframework.inmocasa.service.ClienteService;
+import org.springframework.inmocasa.service.PropietarioService;
 import org.springframework.inmocasa.service.ValoracionService;
 import org.springframework.inmocasa.service.VisitaService;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -34,15 +36,17 @@ public class ValoracionController {
 	VisitaService visitaService;
 	ValoracionService valoracionService;
 	ClienteService clienteService;
+	PropietarioService propietarioService;
 	
 	@Autowired
 	public ValoracionController(VisitaService visitaService, ValoracionService valoracionService,
-			ClienteService clienteService, UsuarioController usuarioController) {
+			ClienteService clienteService, UsuarioController usuarioController,PropietarioService propietarioService) {
 		super();
 		this.visitaService = visitaService;
 		this.valoracionService = valoracionService;
 		this.clienteService = clienteService;
 		this.usuarioController = usuarioController;
+		this.propietarioService = propietarioService;
 	}
 	
 	
@@ -60,19 +64,19 @@ public class ValoracionController {
 		User usuario = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		List<Cliente> cliente = clienteService.findClienteByUsername(usuario.getUsername());
 		
-		Optional<Visita> visita = visitaService.findById(idVisita);
+		Visita visita = visitaService.findById2(idVisita);
 		
 		
-		if(visita.isPresent() && !cliente.isEmpty() && visita.get().getCliente().equals(cliente.get(0))) {
+		if(visita != null && !cliente.isEmpty() && visita.getCliente().getUsername().equals(cliente.get(0).getUsername())) {
 			
-			List<Valoracion> valoraciones = valoracionService.findByVisita(visita.get());
+			List<Valoracion> valoraciones = valoracionService.findByVisita(visita);
 			if(valoraciones.isEmpty()) {
-				val.setVisita(visita.get());
+				val.setVisita(visita);
 				modelMap.put("valoracion", val);
 			}else {
 				//Mostrar mensaje de error
-				modelMap.put("error", "Ya ha realizado una valoración a esta vivienda.");
-				vista = usuarioController.showListViviendas(modelMap);
+				modelMap.addAttribute("error", "Ya ha realizado una valoración a esta vivienda.");
+				vista = "users/visitas";
 			}
 		}
 		
@@ -86,6 +90,18 @@ public class ValoracionController {
 		
 		return usuarioController.showListViviendas(model);
 
+	}
+	
+	@GetMapping(value="/misValoraciones")
+	public String getMisValoraciones(ModelMap model) {
+		User usuario = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Propietario prop = propietarioService.findPropietarioByUsername(usuario.getUsername()).get(0);
+		List<Valoracion> valoraciones = valoracionService.findAllByPropietario(prop);
+		
+		model.addAttribute("valoraciones", valoraciones);
+		model.addAttribute("localDateTimeFormat", DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+		
+		return "valoracion/misValoraciones";
 	}
 	
 	//Alba-Alejandro

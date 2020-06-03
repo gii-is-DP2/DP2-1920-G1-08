@@ -1,10 +1,13 @@
 package org.springframework.inmocasa.web;
 
 import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static org.mockito.BDDMockito.given;
 
 import java.time.LocalDate;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -37,6 +40,8 @@ import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequ
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.google.common.collect.Lists;
+
 @WebMvcTest(controllers = CompraController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
 @RunWith(SpringRunner.class)
 class CompraControllerTests {
@@ -67,6 +72,8 @@ class CompraControllerTests {
 	private Compra compra1;
 
 	private Propietario prop;
+	
+	private Cliente clie;
 
 	@BeforeEach
 	void setup() {
@@ -113,8 +120,8 @@ class CompraControllerTests {
 		clie.setDni("46900025N");
 		clie.setGenero(Genero.MASCULINO);
 		clie.setFechaNacimiento(LocalDate.of(1976, 6, 12));
-		clie.setUsername("john123");
-		clie.setPassword("john123");
+		clie.setUsername("pepe123");
+		clie.setPassword("pepe123");
 
 		Compra compra1 = new Compra();
 		compra1.setVivienda(vivienda2);
@@ -167,5 +174,49 @@ class CompraControllerTests {
 		mockMvc.perform(get("/compras/{viviendaId}/aceptar",TEST_VIVIENDA_ID_1).with(csrf()).param("estado", "PENDIENTE"))
 				.andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/viviendas/ofertadas"));
 	}
+		
+	//HU-018: Realizar compra (formulario)
+	@WithMockUser(username = "pepe123", authorities = { "cliente" })
+	@Test
+	void testCreateCompra() throws Exception {
+		given(this.viviendaService.findViviendaId(TEST_VIVIENDA_ID_1)).willReturn(vivienda);
+		given(this.clienteService.findClienteByUsername("pepe123")).willReturn(Lists.newArrayList(clie));
+		mockMvc.perform(get("/compras/create/{viviendaId}", 1).with(csrf()))
+				.andExpect(status().isOk())
+				.andExpect(view().name("compras/form"));
+	}
+	
+	//HU-018: Guardar compra
+	@WithMockUser(username = "pepe123", authorities = { "cliente" })
+	@Test
+	void testSaveCompra() throws Exception {
+		given(this.viviendaService.findViviendaId(TEST_VIVIENDA_ID_2)).willReturn(vivienda);
+		given(this.clienteService.findClienteByUsername("pepe123")).willReturn(Lists.newArrayList(clie));
+		mockMvc.perform(post("/compras/create/{viviendaId}", TEST_VIVIENDA_ID_2).with(csrf())
+				.param("precioFinal", "100000")
+				.param("comentario", "Este es un ejemplo de compra"))
+				.andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/viviendas/allNew"));
+	}
 
+	
+	//HU-018 Casos negativos: Realizar compra (formulario) sin estar identificado
+	@Test
+	void testCreateCompraNotOk() throws Exception {
+		given(this.viviendaService.findViviendaId(TEST_VIVIENDA_ID_2)).willReturn(vivienda2);
+		mockMvc.perform(get("/compras/create/{viviendaId}", TEST_VIVIENDA_ID_2).with(csrf()))
+				.andExpect(status().is4xxClientError());
+	}
+	
+	//HU-018 Casos negativos: Guardar compra sin estar identificado
+	@Test
+	void testSaveCompraNotOk() throws Exception {
+		given(this.viviendaService.findViviendaId(TEST_VIVIENDA_ID_2)).willReturn(vivienda);
+		mockMvc.perform(post("/compras/create/{viviendaId}", TEST_VIVIENDA_ID_2).with(csrf())
+				.param("precioFinal", "100000")
+				.param("comentario", "Este es un ejemplo de compra"))
+				.andExpect(status().is4xxClientError());
+	}
+
+	
 }

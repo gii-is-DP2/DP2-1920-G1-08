@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.model.Vivienda;
+import org.springframework.inmocasa.model.form.FiltrosForm;
 import org.springframework.inmocasa.service.PropietarioService;
 import org.springframework.inmocasa.service.ViviendaService;
 import org.springframework.inmocasa.web.ViviendaController;
@@ -90,6 +91,18 @@ public class ViviendaControllerIntegrationTests {
 		assertEquals(view, "viviendas/showViviendaDetails");
 	}
 
+	//TODO
+	@WithMockUser(value = "gilmar", authorities = { "propietario" })
+	@Test
+	@DisplayName("Prueba en la que se muestran todas las visitas")
+	void testListViviendas() throws Exception {
+		ModelMap model = new ModelMap();
+		BindingResult bindingResult = new MapBindingResult(Collections.emptyMap(), "");
+		String view = viviendaController.showListViviendas(model, null, bindingResult);
+		assertEquals(view, "viviendas/listNewViviendas");
+	}
+
+
 	@DisplayName("Prueba borrar anuncio")
 	@WithMockUser(value = "gilmar", authorities = { "propietario" })
 	@Test
@@ -104,7 +117,11 @@ public class ViviendaControllerIntegrationTests {
 	@Test
 	void testshowListViviendaFiltroOk() throws Exception {
 		ModelMap model = new ModelMap();
-		String view = viviendaController.showListViviendas(model, "0", "300000", "Centro", null);
+		BindingResult bindingResult = new MapBindingResult(Collections.emptyMap(), "");
+		FiltrosForm filtro = new FiltrosForm();
+		filtro.setMax(600000);
+		filtro.setMin(100);
+		String view = viviendaController.showViviendasFiltros(model, filtro, bindingResult);
 		assertEquals(view, "viviendas/listNewViviendas");
 	}
 

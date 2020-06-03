@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.hasProperty;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -162,12 +163,23 @@ class ViviendaControllerTests {
 	//HU-03 Publicar una nueva vivienda
 	@WithMockUser(value = "gilmar", authorities = { "propietario" })
 	@Test
+	@DisplayName("Creación del formulario de la vivienda")
 	void testNewVivienda() throws Exception {
 		mockMvc.perform(get("/viviendas/new"))
 			.andExpect(status().isOk())
 			.andExpect(model().attributeExists("vivienda"))
 			.andExpect(model().attribute("vivienda", hasProperty("propietario")))
 			.andExpect(view().name("viviendas/editVivienda"));
+	}
+	
+	@WithMockUser(value = "gilmar", authorities = { "propietario" })
+	@Test
+	@DisplayName("Creación de la vivienda")
+	void testCrearVivienda() throws Exception{
+		given(this.propietarioService.findByUsername(testPropietarioUsername)).willReturn(prop);
+		mockMvc.perform(post("/viviendas/save")
+				.param("id", vivienda.getId().toString()).with(csrf()))
+			.andExpect(status().is2xxSuccessful());
 	}
 	
 	// HU-04

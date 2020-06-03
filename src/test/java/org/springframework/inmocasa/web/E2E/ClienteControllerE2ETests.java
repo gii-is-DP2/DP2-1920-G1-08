@@ -1,9 +1,11 @@
 package org.springframework.inmocasa.web.E2E;
 
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,41 @@ public class ClienteControllerE2ETests {
 	void testUpdateClienteForm() throws Exception {
 		mockMvc.perform(get("/clientes/{clienteId}/edit", TEST_CLIENTE_ID)).andExpect(status().isOk())
 				.andExpect(view().name("clientes/registroClientes"));
+	}
+	
+	//HU-012: Guardar una casa como favorita
+	@WithMockUser(value = "alejandra", authorities = { "cliente" })
+	@Test
+	@DisplayName("Añadir casa a favoritos")
+	void testAniadirFavoritos() throws Exception{
+		mockMvc.perform(get("/clientes/{viviendaId}/favoritos", 1))
+			.andExpect(status().isOk())
+			.andExpect(view().name("viviendas/favoritas"));
+	}
+	
+	@WithMockUser(value = "gilmar", authorities = { "propietario" })
+	@Test
+	@DisplayName("Añadir casa a favoritos como propietario")
+	void testAniadirFavoritosError() throws Exception{
+		mockMvc.perform(get("/clientes/{viviendaId}/favoritos", 1))
+			.andExpect(status().isForbidden());
+	}
+	
+	@WithMockUser(value = "alejandra", authorities = { "cliente" })
+	@Test
+	@DisplayName("Lista de favoritos")
+	void testListFavoritos() throws Exception{
+		mockMvc.perform(get("/clientes/lista/favoritas"))
+		.andExpect(status().isOk())
+		.andExpect(view().name("viviendas/favoritas"));
+	}
+	
+	@WithMockUser(value = "gilmar", authorities = { "propietario" })
+	@Test
+	@DisplayName("Lista de favoritos propietario")
+	void testListFavoritosError() throws Exception{
+		mockMvc.perform(get("/clientes/lista/favoritas"))
+		.andExpect(status().isForbidden());
 	}
 
 }

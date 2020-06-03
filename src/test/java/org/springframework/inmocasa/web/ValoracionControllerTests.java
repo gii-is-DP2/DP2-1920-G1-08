@@ -45,7 +45,6 @@ import org.springframework.test.web.servlet.MockMvc;
 excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), 
 excludeAutoConfiguration = SecurityConfiguration.class)
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = { InmocasaApplication.class })
 public class ValoracionControllerTests {
 	private static final int TEST_VALORACION_ID_1 = 1;
 	private static final int TEST_VIVIENDA_ID_1 = 1;
@@ -80,6 +79,7 @@ public class ValoracionControllerTests {
 	private Vivienda vivienda2;
 	
 	private Cliente cliente;
+	private Propietario prop;
 	
 	@BeforeEach
 	void setup() {
@@ -117,14 +117,14 @@ public class ValoracionControllerTests {
 		
 		visita = new Visita();
 		visita.setId(1);
-		visita.setFecha(LocalDateTime.of(2020, 01, 20, 20,50,50));
+		visita.setFecha(LocalDate.of(2020, 01, 20));
 		visita.setLugar("Sevilla");
 		visita.setCliente(cliente);
 		visita.setVivienda(vivienda);
 		
 		visita2 = new Visita();
 		visita2.setId(2);
-		visita2.setFecha(LocalDateTime.of(2020, 01, 20, 20,50,50));
+		visita2.setFecha(LocalDate.of(2020, 01, 20));
 		visita2.setLugar("Malaga");
 		visita2.setCliente(cliente);
 		visita2.setVivienda(vivienda2);
@@ -134,6 +134,11 @@ public class ValoracionControllerTests {
 		valoracion.setVisita(visita);
 		valoracion.setPuntuacion(4);
 		valoracion.setComentario("Muy buena");
+		
+		prop = new Propietario();
+		prop.setId(20);
+		prop.setUsername("john1234");
+		
 	}
 	
 
@@ -150,12 +155,32 @@ public class ValoracionControllerTests {
 	
 	@WithMockUser(value = "john123", authorities = { "cliente" })
 	@Test
-	@DisplayName("Prueba en la que se crea una valoración")
-	void testCreateValoracionOk() throws Exception {
+	@DisplayName("Prueba en la que se accede al formulario de valoracion")
+	void testCreateFormValoracionOk() throws Exception {
 		given(this.visitaService.findById2(2)).willReturn(visita);
 		given(this.clienteService.findClienteByUsername("john123")).willReturn(Lists.newArrayList(cliente));
 		mockMvc.perform(get("/valoracion/{visitaId}/new",2)).andExpect(status().isOk()).andExpect(model().attributeExists("valoracion"))
 				.andExpect(view().name("/visita/valoracion/createValoracionForm"));
 	}
 	
+	@WithMockUser(value = "john123", authorities = { "cliente" })
+	@Test
+	@DisplayName("Prueba en la que se crea una valoración")
+	void testCreateValoracionOk() throws Exception {
+		given(this.valoracionService.save(valoracion)).willReturn(valoracion);
+		mockMvc.perform(get("/valoracion/save"))
+			.andExpect(status().isOk());
+	}
+	
+	@WithMockUser(value="john1234", authorities = { "propietario" })
+	@Test
+	@DisplayName("Lista de valoraciones a mi vivienda")
+	void testListaValoraciones() throws Exception{
+		given(this.propietarioService.findPropietarioByUsername("john1234")).willReturn(Lists.list(prop));
+		given(this.valoracionService.findAllByPropietario(prop)).willReturn(Lists.list(valoracion));
+		
+		mockMvc.perform(get("/valoracion/misValoraciones"))
+			.andExpect(status().is2xxSuccessful())
+			.andExpect(model().attributeExists("valoraciones"));
+	}
 }

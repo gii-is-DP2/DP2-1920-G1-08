@@ -1,7 +1,10 @@
 package org.springframework.inmocasa.web.E2E;
 
+import static org.hamcrest.Matchers.hasProperty;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -113,4 +116,27 @@ public class ViviendaControllerE2ETests {
 	void testDeleteViviendaNotOk() throws Exception {
 		mockMvc.perform(get("/viviendas/delete/{viviendaId}", 1)).andExpect(status().is3xxRedirection());
 	}
+	
+	//HU-03 Publicar una nueva vivienda
+	@WithMockUser(value = "gilmar", authorities = { "propietario" })
+	@Test
+	@DisplayName("Creación del formulario de la vivienda")
+	void testNewVivienda() throws Exception {
+		mockMvc.perform(get("/viviendas/new"))
+			.andExpect(status().isOk())
+			.andExpect(model().attributeExists("vivienda"))
+			.andExpect(model().attribute("vivienda", hasProperty("propietario")))
+			.andExpect(view().name("viviendas/editVivienda"));
+	}
+	
+	@WithMockUser(value = "gilmar", authorities = { "propietario" })
+	@Test
+	@DisplayName("Creación de la vivienda")
+	void testCrearVivienda() throws Exception{
+		mockMvc.perform(post("/viviendas/save")
+				.param("id", "26").with(csrf()))
+			.andExpect(status().is2xxSuccessful());
+	}
+	
+		
 }

@@ -41,4 +41,12 @@ public class ValoracionControllerE2ETests {
 				.andExpect(view().name("/visita/valoracion/createValoracionForm"));
 	}
 
+	@WithMockUser(value="gilmar", authorities = { "propietario" })
+	@Test
+	@DisplayName("Lista de valoraciones a mi vivienda")
+	void testListaValoraciones() throws Exception{
+		mockMvc.perform(get("/valoracion/misValoraciones"))
+			.andExpect(status().is2xxSuccessful())
+			.andExpect(model().attributeExists("valoraciones"));
+	}
 }

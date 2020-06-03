@@ -66,5 +66,13 @@ public class ValoracionControllerIntegrationTests {
 		assertEquals(view, "users/visitas");
 	}
 
+	@WithMockUser(value = "gilmar", authorities = { "propietario" })
+	@Test
+    @DisplayName("Prueba listar las valoraciones como propietario ")
+	void testCreateValoracionLista() throws Exception {
+		ModelMap model = new ModelMap();
+		String view = valoracionController.getMisValoraciones(model);
+		assertEquals(view, "valoracion/misValoraciones");
+	}
 	
 }

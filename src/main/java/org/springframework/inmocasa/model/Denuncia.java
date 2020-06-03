@@ -20,7 +20,6 @@ public class Denuncia extends BaseEntity {
 	@NotNull
 	private String justificacion;
 	
-	@NotNull
 	@Valid
 	@ManyToOne(optional=false)
 	private Vivienda vivienda;

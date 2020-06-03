@@ -1,6 +1,7 @@
 package org.springframework.inmocasa.repository;
 
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
@@ -21,10 +22,10 @@ public interface VisitaRepository extends JpaRepository<Visita, Integer> {
 	Collection<Visita> findAllByCliente(Cliente cliente);
 
 	@Query("select visita from Visita visita where cliente = ?1 and fecha > ?2 order by fecha desc ")
-	Collection<Visita> findProximasVisitas(Cliente cliente, LocalDateTime fecha);
+	Collection<Visita> findProximasVisitas(Cliente cliente, LocalDate fecha);
 
 	@Query("select visita from Visita visita where cliente = ?1 and fecha <= ?2 order by fecha desc ")
-	Collection<Visita> findOldVisitas(Cliente cliente, LocalDateTime localDateTime);
+	Collection<Visita> findOldVisitas(Cliente cliente, LocalDate localDateTime);
 	
 	//Alba-Alejandro
 	

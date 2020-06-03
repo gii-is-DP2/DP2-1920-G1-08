@@ -31,7 +31,7 @@
 		
 		<tr>
 			<th>Genero:</th>
-			<td><c:out value="${user.genero}"/></td>
+			<td><c:out value="${user.genero.displayName}"/></td>
 		</tr>
 		
 		<tr>

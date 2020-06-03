@@ -20,8 +20,8 @@
         <form:form modelAttribute="visita" action="/visita/save"
 			class="form-horizontal">
             <div class="form-group has-feedback">
-            <petclinic:inputField label="Fecha de la visita" name="fecha" />
-            <petclinic:inputField label="Lugar de la visita" name="lugar" />
+            <petclinic:inputField label="Fecha de la visita" name="fecha" req="true" />
+            <petclinic:inputField label="Lugar de la visita" name="lugar" req="true"/>
             </div>
 
             <div class="form-group">

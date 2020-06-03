@@ -75,7 +75,7 @@ public class ClienteController {
 		} else {
 			if(clienteService.findByUsername(cliente.getUsername())!= null) {
 				model.addAttribute("cliente", cliente);
-				model.addAttribute("errMsg", "El usuario ya existe.");
+				model.addAttribute("error", "El usuario ya existe.");
 				return "clientes/registroClientes";
 			}
 			clienteService.saveCliente(cliente);
@@ -119,7 +119,7 @@ public class ClienteController {
 		} else {
 			if(clienteService.findByUsername(cliente.getUsername())!= null) {
 				modelMap.addAttribute("cliente", cliente);
-				modelMap.addAttribute("errMsg", "El usuario ya existe.");
+				modelMap.addAttribute("error", "El usuario ya existe.");
 				return "clientes/registroClientes";
 			}
 			clienteService.saveCliente(cliente);
@@ -139,18 +139,33 @@ public class ClienteController {
 		Cliente cliente = clienteService.findByUsername(userPrincipal.getUsername());
 		Vivienda vivienda = clienteService.findViviendaById(viviendaId);
 		List<Vivienda> favoritas = new ArrayList<>();
-		favoritas.addAll(cliente.getFavoritas());
-		favoritas.add(vivienda);
-		cliente.setFavoritas(favoritas);
-		vivienda.setFav(true);
-		clienteService.save(cliente);
-		viviendaService.save(vivienda);
-		model.addAttribute("clientes", cliente);
-		model.addAttribute("message", "La vivienda ha sido añadida a favoritos correctamente");
+		boolean esFavorita = compruebaFav(cliente, vivienda);
+
+		if(!esFavorita) {
+			favoritas.addAll(cliente.getFavoritas());
+			favoritas.add(vivienda);
+			cliente.setFavoritas(favoritas);
+			vivienda.setFav(true);
+			clienteService.save(cliente);
+			viviendaService.save(vivienda);
+			model.addAttribute("clientes", cliente);
+			model.addAttribute("success", "La vivienda ha sido añadida a favoritos correctamente");
+		}else {
+			model.addAttribute("warning", "La vivienda ya estaba seleccionada como favorita");
+		}
+		
 		return favoritos(model);
 	}
 	
 	
+	private boolean compruebaFav(Cliente cliente, Vivienda vivienda) {
+		for (Vivienda viv : cliente.getFavoritas()) {
+			if(viv.getId().equals(vivienda.getId()))
+				return true;
+		}
+		return false;
+	}
+
 	@GetMapping(value = "/lista/favoritas")
 	public String favoritos(ModelMap model) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

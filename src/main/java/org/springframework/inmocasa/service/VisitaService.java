@@ -1,5 +1,6 @@
 package org.springframework.inmocasa.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Optional;
@@ -7,7 +8,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.inmocasa.model.Cliente;
 import org.springframework.inmocasa.model.Visita;
-import org.springframework.inmocasa.model.Vivienda;
 import org.springframework.inmocasa.repository.VisitaRepository;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +30,10 @@ public class VisitaService {
 		return vr.findById(id);
 	}
 	
+	public Visita findById2(int id) {
+		return vr.findById2(id);
+	}
+	
 	public Visita save(Visita v) {
 		return vr.save(v);
 	}
@@ -38,11 +42,11 @@ public class VisitaService {
 		return vr.findAllByCliente(cliente);
 	}
 
-	public Collection<Visita> findProximasVisitas(Cliente cliente, LocalDateTime localDateTime) {
+	public Collection<Visita> findProximasVisitas(Cliente cliente, LocalDate localDateTime) {
 		return vr.findProximasVisitas(cliente, localDateTime);
 	}
 	
-	public Collection<Visita> findOldVisitas(Cliente cliente, LocalDateTime localDateTime) {
+	public Collection<Visita> findOldVisitas(Cliente cliente, LocalDate localDateTime) {
 		return vr.findOldVisitas(cliente, localDateTime);
 	}
 	

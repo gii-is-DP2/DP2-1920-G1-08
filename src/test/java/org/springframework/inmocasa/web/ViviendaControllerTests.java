@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.hasProperty;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,14 +70,14 @@ class ViviendaControllerTests {
 	private CompraService compraService;
 
 	@MockBean
+	private DenunciaService denunciaService;
+		
+	@MockBean
 	private AdministradorService adminService;
 	
 	@MockBean
 	private ClienteService clienteService;
 	
-	@MockBean
-	private DenunciaService denunciaService;
-
 	private Vivienda vivienda;
 
 	private Vivienda vivienda2;
@@ -161,6 +163,7 @@ class ViviendaControllerTests {
 	//HU-03 Publicar una nueva vivienda
 	@WithMockUser(value = "gilmar", authorities = { "propietario" })
 	@Test
+	@DisplayName("Creación del formulario de la vivienda")
 	void testNewVivienda() throws Exception {
 		mockMvc.perform(get("/viviendas/new"))
 			.andExpect(status().isOk())
@@ -169,6 +172,24 @@ class ViviendaControllerTests {
 			.andExpect(view().name("viviendas/editVivienda"));
 	}
 	
+	@WithMockUser(value = "gilmar", authorities = { "propietario" })
+	@Test
+	@DisplayName("Creación de la vivienda")
+	void testCrearVivienda() throws Exception{
+		given(this.propietarioService.findByUsername(testPropietarioUsername)).willReturn(prop);
+		mockMvc.perform(post("/viviendas/save")
+				.param("id", vivienda.getId().toString()).with(csrf()))
+			.andExpect(status().is2xxSuccessful());
+	}
+	
+	// HU-04
+	@WithMockUser(value = "gilmar", authorities = { "propietario" })
+	@Test
+	@DisplayName("Prueba en la que se muestran todas las viviendas")
+	void testListViviendasOk() throws Exception {
+		mockMvc.perform(get("/viviendas/allNew")).andExpect(view().name("viviendas/listNewViviendas"))
+				.andExpect(status().isOk()).andDo(print());
+	}
 //	@WithMockUser(value = "alejandra", authorities = { "cliente" })
 //	@Test
 //	void testNewViviendaDenied() throws Exception {

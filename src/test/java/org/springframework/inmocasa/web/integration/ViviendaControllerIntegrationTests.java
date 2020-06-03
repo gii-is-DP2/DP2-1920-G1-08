@@ -92,13 +92,15 @@ public class ViviendaControllerIntegrationTests {
 	}
 
 	//TODO
-//	@WithMockUser(value = "gilmar", authorities = { "propietario" })
-//	@Test
-//	void testListViviendas() throws Exception {
-//		ModelMap model = new ModelMap();
-//		String view = viviendaController.showListViviendas(model, null, null, null, null);
-//		assertEquals(view, "viviendas/listNewViviendas");
-//	}
+	@WithMockUser(value = "gilmar", authorities = { "propietario" })
+	@Test
+	@DisplayName("Prueba en la que se muestran todas las visitas")
+	void testListViviendas() throws Exception {
+		ModelMap model = new ModelMap();
+		BindingResult bindingResult = new MapBindingResult(Collections.emptyMap(), "");
+		String view = viviendaController.showListViviendas(model, null, bindingResult);
+		assertEquals(view, "viviendas/listNewViviendas");
+	}
 
 
 	@DisplayName("Prueba borrar anuncio")

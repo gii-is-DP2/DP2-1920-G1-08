@@ -1,6 +1,6 @@
 package org.springframework.inmocasa.web.validator;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import org.springframework.inmocasa.model.Visita;
 import org.springframework.validation.Errors;
@@ -20,7 +20,7 @@ public class VisitaValidator implements Validator{
 		Visita visita = (Visita) obj;
 		
 		//Validamos la fecha de la visita
-		if(visita.getFecha().isBefore(LocalDateTime.now())) {
+		if(visita.getFecha().isBefore(LocalDate.now())) {
 			errors.rejectValue("fecha", FECHA_POSTERIOR, FECHA_POSTERIOR);
 		}
 		

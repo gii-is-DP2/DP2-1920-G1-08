@@ -153,7 +153,7 @@ public class ViviendaController {
 			return "viviendas/editVivienda";
 		} else {
 			viviendaService.save(vivienda);
-			modelMap.addAttribute("successMsg", "La vivienda ha sido registrada correctamente");
+			modelMap.addAttribute("success", "La vivienda ha sido registrada correctamente");
 		}
 		return view;
 	}
@@ -274,7 +274,7 @@ public class ViviendaController {
 			if (!compradas.contains(vivienda)) {
 				viviendaService.delete(vivienda);
 			} else {
-				model.addAttribute("errMsg", "No se puede borrar el anuncio porque la vivienda ha sido comprada");
+				model.addAttribute("error", "No se puede borrar el anuncio porque la vivienda ha sido comprada");
 			}
 		}
 		

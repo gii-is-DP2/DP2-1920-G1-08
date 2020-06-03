@@ -10,7 +10,7 @@
         <script>
 			$(function() {
 				$("#fecha").datepicker({
-					dateFormat : 'yy/mm/dd'
+					dateFormat : 'dd/mm/yy'
 				});
 			});
 		</script>

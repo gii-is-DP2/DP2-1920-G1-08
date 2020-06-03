@@ -1,5 +1,6 @@
 package org.springframework.inmocasa.web;
 
+import static org.junit.Assert.assertTrue;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -9,10 +10,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.time.LocalDate;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +46,7 @@ import com.google.common.collect.Lists;
 @RunWith(SpringRunner.class)
 class CompraControllerTests {
 
-	private static final int TEST_VIVIENDA_ID_1 = 1;
+	private static final int TEST_VIVIENDA_ID_1 = 23;
 	private static final int TEST_VIVIENDA_ID_2 = 2;
 	private static final String testPropietarioUsername = "propietario1";
 
@@ -69,7 +72,7 @@ class CompraControllerTests {
 	private Compra compra1;
 
 	private Propietario prop;
-	
+
 	private Cliente clie;
 
 	@BeforeEach
@@ -120,9 +123,10 @@ class CompraControllerTests {
 		clie.setPassword("pepe123");
 
 		Compra compra1 = new Compra();
+		compra1.setId(9);
 		compra1.setVivienda(vivienda2);
 		compra1.setEstado(Estado.PENDIENTE);
-		compra1.setPrecioFinal(200);
+		compra1.setPrecioFinal(200000);
 		vivienda.setPropietario(prop);
 		vivienda2.setPropietario(prop);
 		compra1.setCliente(clie);
@@ -138,8 +142,8 @@ class CompraControllerTests {
 
 	@WithMockUser(username = "john123", authorities = { "propietario" })
 	@Test
+	@DisplayName("Se rechaza una compra y se elimina")
 	void testRechazarCompraSuccess() throws Exception {
-
 		Cliente clie = new Cliente();
 		clie.setId(8);
 		clie.setNombre("John");
@@ -149,7 +153,6 @@ class CompraControllerTests {
 		clie.setFechaNacimiento(LocalDate.of(1976, 6, 12));
 		clie.setUsername("john123");
 		clie.setPassword("john123");
-
 		Compra compra1 = new Compra();
 		compra1.setVivienda(vivienda2);
 		compra1.setEstado(Estado.RECHAZADO);
@@ -160,61 +163,53 @@ class CompraControllerTests {
 
 		List<Compra> compras = (List<Compra>) this.compraService.findAll();
 		this.compraService.deleteById(compra1.getId());
-		assertThat(!compras.contains(compra1));
+		assertTrue(!compras.contains(compra1));
 
 	}
 
 	@WithMockUser(username = "john123", authorities = { "propietario" })
 	@Test
 	void testProcessAceptarComprarSuccess() throws Exception {
-
-		mockMvc.perform(get("/compras/{compraId}/aceptar", TEST_VIVIENDA_ID_1).with(SecurityMockMvcRequestPostProcessors.csrf())
-				.param("estado", "ACEPTADO")).andExpect(status().isOk())
-				.andExpect(view().name("redirect:/viviendas/ofertadas"));
+		given(this.compraService.findCompraById(compra1.getId())).willReturn(compra1);
+		mockMvc.perform(get("/compras/{compraId}/aceptar", 9).with(csrf())).andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/viviendas/ofertadas"));
 	}
-		
-	//HU-018: Realizar compra (formulario)
+
+	// HU-018: Realizar compra (formulario)
 	@WithMockUser(username = "pepe123", authorities = { "cliente" })
 	@Test
 	void testCreateCompra() throws Exception {
 		given(this.viviendaService.findViviendaId(TEST_VIVIENDA_ID_1)).willReturn(vivienda);
 		given(this.clienteService.findClienteByUsername("pepe123")).willReturn(Lists.newArrayList(clie));
-		mockMvc.perform(get("/compras/create/{viviendaId}", 1).with(csrf()))
-				.andExpect(status().isOk())
+		mockMvc.perform(get("/compras/create/{viviendaId}", 1).with(csrf())).andExpect(status().isOk())
 				.andExpect(view().name("compras/form"));
 	}
-	
-	//HU-018: Guardar compra
+
+	// HU-018: Guardar compra
 	@WithMockUser(username = "pepe123", authorities = { "cliente" })
 	@Test
 	void testSaveCompra() throws Exception {
 		given(this.viviendaService.findViviendaId(TEST_VIVIENDA_ID_2)).willReturn(vivienda);
 		given(this.clienteService.findClienteByUsername("pepe123")).willReturn(Lists.newArrayList(clie));
 		mockMvc.perform(post("/compras/create/{viviendaId}", TEST_VIVIENDA_ID_2).with(csrf())
-				.param("precioFinal", "100000")
-				.param("comentario", "Este es un ejemplo de compra"))
-				.andExpect(status().is3xxRedirection())
-				.andExpect(view().name("redirect:/viviendas/allNew"));
+				.param("precioFinal", "100000").param("comentario", "Este es un ejemplo de compra"))
+				.andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/viviendas/allNew"));
 	}
 
-	
-	//HU-018 Casos negativos: Realizar compra (formulario) sin estar identificado
+	// HU-018 Casos negativos: Realizar compra (formulario) sin estar identificado
 	@Test
 	void testCreateCompraNotOk() throws Exception {
 		given(this.viviendaService.findViviendaId(TEST_VIVIENDA_ID_2)).willReturn(vivienda2);
 		mockMvc.perform(get("/compras/create/{viviendaId}", TEST_VIVIENDA_ID_2).with(csrf()))
 				.andExpect(status().is4xxClientError());
 	}
-	
-	//HU-018 Casos negativos: Guardar compra sin estar identificado
+
+	// HU-018 Casos negativos: Guardar compra sin estar identificado
 	@Test
 	void testSaveCompraNotOk() throws Exception {
 		given(this.viviendaService.findViviendaId(TEST_VIVIENDA_ID_2)).willReturn(vivienda);
 		mockMvc.perform(post("/compras/create/{viviendaId}", TEST_VIVIENDA_ID_2).with(csrf())
-				.param("precioFinal", "100000")
-				.param("comentario", "Este es un ejemplo de compra"))
+				.param("precioFinal", "100000").param("comentario", "Este es un ejemplo de compra"))
 				.andExpect(status().is4xxClientError());
 	}
 
-	
 }

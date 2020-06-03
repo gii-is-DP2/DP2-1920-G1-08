@@ -5,6 +5,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDate;
 import java.util.Collection;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -17,7 +20,6 @@ import org.springframework.inmocasa.model.enums.Genero;
 import org.springframework.stereotype.Service;
 
 import com.paypal.base.rest.APIContext;
-
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 @AutoConfigureTestDatabase(replace = Replace.NONE)
@@ -32,21 +34,21 @@ public class ClienteServiceTests {
 	// El cliente se crea y se guarda en el repositorio
 	@Test
 	void shouldCreateAndSaveCliente() {
-		Collection<Cliente> clientes = this.clienteService.findAll();
 
 		Cliente cliente = new Cliente();
-		cliente.setId(2);
-		cliente.setNombre("Antonio");
-		cliente.setApellidos("Fernandez");
-		cliente.setDni("46900025A");
+		// cliente.setId(20);
+		cliente.setNombre("Luis");
+		cliente.setApellidos("Melero");
+		cliente.setDni("123456789A");
 		cliente.setGenero(Genero.MASCULINO);
-		cliente.setFechaNacimiento(LocalDate.of(1978, 10, 12));
-		cliente.setUsername("ant1978");
-		cliente.setPassword("ant1978");
+		cliente.setFechaNacimiento(LocalDate.of(1998, 10, 12));
+		cliente.setUsername("lj2386");
+		cliente.setPassword("lj2386");
 
 		this.clienteService.saveCliente(cliente);
+		Collection<Cliente> clientes = this.clienteService.findAll();
 
-		assertThat(clientes.contains(cliente));
+		assertTrue(clientes.contains(cliente));
 
 	}
 
@@ -56,18 +58,18 @@ public class ClienteServiceTests {
 		Collection<Cliente> clientes = this.clienteService.findAll();
 
 		Cliente cliente = new Cliente();
-		cliente.setId(2);
+		// cliente.setId(13);
 		cliente.setNombre("Antonio");
 		cliente.setApellidos("Fernandez");
 		cliente.setDni("46900025A");
 		cliente.setGenero(Genero.MASCULINO);
 		cliente.setFechaNacimiento(LocalDate.of(1978, 10, 12));
-		cliente.setUsername("ant1978");
-		cliente.setPassword("ant1978");
+		cliente.setUsername("santiago");
+		cliente.setPassword("alejandra");
 
 		this.clienteService.saveCliente(cliente);
 
-		assertThat(!clientes.contains(cliente));
+		assertTrue(!clientes.contains(cliente));
 
 	}
 
@@ -75,15 +77,15 @@ public class ClienteServiceTests {
 	@Test
 	void shouldFindClienteById() {
 		Collection<Cliente> clientes = this.clienteService.findAll();
-		Cliente c = this.clienteService.findClienteById(1);
-		assertThat(clientes.contains(c));
+		Cliente c = this.clienteService.findClienteById(10);
+		assertTrue(clientes.contains(c));
 
 	}
 
 	// No se encuentra el cliente porque el id no existe.
 	@Test
-	void shouldNoFindClienteByViviendaId() {
-		Cliente c = this.clienteService.findClienteById(10);
-		assertThat(c == null);
+	void shouldNoFindClienteById() {
+		Cliente c = this.clienteService.findClienteById(16);
+		assertTrue(c == null);
 	}
 }

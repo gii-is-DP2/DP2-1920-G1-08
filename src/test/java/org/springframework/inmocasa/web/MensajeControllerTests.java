@@ -1,7 +1,12 @@
 package org.springframework.inmocasa.web;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
 
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -11,6 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +29,7 @@ import org.springframework.inmocasa.configuration.SecurityConfiguration;
 import org.springframework.inmocasa.model.Cliente;
 import org.springframework.inmocasa.model.Mensaje;
 import org.springframework.inmocasa.model.Propietario;
+import org.springframework.inmocasa.model.Vivienda;
 import org.springframework.inmocasa.model.enums.Genero;
 import org.springframework.inmocasa.service.ClienteService;
 import org.springframework.inmocasa.service.MensajeService;
@@ -33,6 +40,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+
+import com.paypal.base.rest.APIContext;
 
 @WebMvcTest(controllers = MensajeController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
 @RunWith(SpringRunner.class)
@@ -45,6 +54,8 @@ public class MensajeControllerTests {
 
 	@MockBean
 	private MensajeService mensajeService;
+	@MockBean
+	APIContext apiContext;
 
 	@MockBean
 	private PropietarioService propietarioService;
@@ -76,13 +87,13 @@ public class MensajeControllerTests {
 
 		Cliente clie = new Cliente();
 		clie.setId(7);
-		clie.setNombre("John");
+		clie.setNombre("pepe");
 		clie.setApellidos("Doe");
 		clie.setDni("46900025N");
 		clie.setGenero(Genero.MASCULINO);
 		clie.setFechaNacimiento(LocalDate.of(1976, 6, 12));
-		clie.setUsername("john123");
-		clie.setPassword("john123");
+		clie.setUsername("pepe");
+		clie.setPassword("pepe");
 
 		mensaje.setClient(clie);
 		mensaje.setProp(prop);
@@ -91,28 +102,48 @@ public class MensajeControllerTests {
 	}
 
 	// HU-17
-	@WithMockUser(username = "gilmar", authorities = { "propietario" })
+	@WithMockUser(username = "john123")
 	@Test
+	@DisplayName("Inicio envío mensaje")
 	void testInitCreationForm() throws Exception {
-		mockMvc.perform(get("/mensajes/new")).andExpect(view().name("mensajes/editMensaje")).andExpect(status().isOk());
+		given(this.propietarioService.findByUsername("john123")).willReturn(prop);		mockMvc.perform(get("/mensajes/new").with(csrf())).andExpect(status().isOk())
+				.andExpect(view().name("mensajes/editMensaje"));
 	}
 
-	@WithMockUser(username = "gilmar", authorities = { "propietario" })
+	@WithMockUser(username = "john123", authorities = { "propietario" })
 	@Test
+	@DisplayName("Se envía mensaje")
 	void testProcessCreationFormSuccess() throws Exception {
-		mockMvc.perform(post("/mensajes/new").param("asunto", "Hello").param("cuerpo", "Bonjour"))
-				.andExpect(status().isOk()).andExpect(view().name("mensajes/editMensaje"));
+		mockMvc.perform(post("/mensajes/save").with(csrf()).param("asunto", "Hello").param("cuerpo", "Bonjour"))
+				.andExpect(status().isOk()).andExpect(view().name("mensajes/misMensajes"));
 	}
-
-	@WithMockUser(value = "gilmar", authorities = { "propietario" })
+	@WithMockUser(username = "john123", authorities = { "propietario" })
 	@Test
+	@DisplayName("No se envía mensaje")
+	void testProcessCreationHasError() throws Exception{
+		Mensaje mensaje1= new Mensaje();
+		mensaje1.setAsunto("Mensaje");
+		mensaje1.setCuerpo("Prueba");
+		mensaje1.setProp(prop);
+		
+		mensajeService.save(mensaje);
+		Collection<Mensaje> res = this.mensajeService.findMensajeByEmisorId(mensaje1.getEmisorId());
+		assertTrue(res.isEmpty());
+		
+	}
+	
+
+	@WithMockUser(value = "john123", authorities = { "propietario" })
+	@Test
+	@DisplayName("Lista mensajes recibidos")
 	void testListMensajesRecibidosOK() throws Exception {
 		mockMvc.perform(get("/mensajes/mensajes-recibidos")).andExpect(view().name("mensajes/misMensajes"))
 				.andExpect(status().isOk());
 	}
 
-	@WithMockUser(value = "gilmar", authorities = { "propietario" })
+	@WithMockUser(value = "john123", authorities = { "propietario" })
 	@Test
+	@DisplayName("Lista mensajes aceptados")
 	void testListMensajesEnviados() throws Exception {
 		mockMvc.perform(get("/mensajes/mensajes-enviados")).andExpect(view().name("mensajes/misMensajes"))
 				.andExpect(status().isOk());

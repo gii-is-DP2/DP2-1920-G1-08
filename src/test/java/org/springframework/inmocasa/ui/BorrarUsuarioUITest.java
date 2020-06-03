@@ -1,18 +1,32 @@
 package org.springframework.inmocasa.ui;
 
-import java.util.regex.Pattern;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import java.util.concurrent.TimeUnit;
-import org.junit.jupiter.api.*;
+
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
-import org.openqa.selenium.*;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.Select;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+@ExtendWith(SpringExtension.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@DirtiesContext
 public class BorrarUsuarioUITest {
+
+	@LocalServerPort
+	private int port;
 	private WebDriver driver;
 	private String baseUrl;
 	private boolean acceptNextAlert = true;
@@ -28,31 +42,31 @@ public class BorrarUsuarioUITest {
 
 	@Test
 	public void testBorrarUsuarioOK() throws Exception {
-		driver.get("http://localhost:8080/");
+		driver.get("http://localhost:" + port);
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		driver.findElement(By.id("username")).clear();
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
 		}
-		driver.findElement(By.id("username")).sendKeys("inmocasa");
+		driver.findElement(By.id("username")).sendKeys("gomez7");
 		driver.findElement(By.id("password")).click();
 		driver.findElement(By.id("password")).clear();
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
 		}
-		driver.findElement(By.id("password")).sendKeys("inmocasa");
+		driver.findElement(By.id("password")).sendKeys("gomez7");
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
-		driver.findElement(By.xpath("//div[@id='menu-vertical']/button[2]")).click();
+		driver.findElement(By.xpath("//button[@id='menu-vertical']")).click();
 		driver.findElement(By.xpath("//a[contains(@href, '/usuario/miPerfil')]")).click();
-		driver.findElement(By.xpath("//a[contains(@href, '/usuario/delete/2')]")).click();
+		driver.findElement(By.xpath("//a[contains(@href, '/usuario/delete/12')]")).click();
 		assertEquals("Log Out", driver.findElement(By.xpath("//button[@type='submit']")).getText());
 	}
 
 	@Test
 	public void testBorrarUsuarioNotOK() throws Exception {
-		driver.get("http://localhost:8080/");
+		driver.get("http://localhost:" + port);
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		driver.findElement(By.id("username")).clear();
 		try {
@@ -68,7 +82,7 @@ public class BorrarUsuarioUITest {
 		}
 		driver.findElement(By.id("password")).sendKeys("gilmar");
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
-		driver.get("http://localhost:8080/usuario/delete/3");
+		driver.get("http://localhost:" + port + "/usuario/delete/1");
 		assertEquals("gilmar", driver.findElement(By.xpath("//div[@id='menu-vertical']/button")).getText());
 	}
 

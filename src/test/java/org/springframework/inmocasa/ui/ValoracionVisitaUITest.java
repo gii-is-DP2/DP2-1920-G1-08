@@ -71,7 +71,7 @@ public class ValoracionVisitaUITest {
   @Test
   @DisplayName("Prueba en la que se añade una valoración que ya ha sido valorada previamente")
   public void testValoracionVisitaNotOk() throws Exception {
-    driver.get("http://localhost:8080/");
+		driver.get("http://localhost:"+port);
     driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 	driver.findElement(By.id("password")).clear();
 	try {

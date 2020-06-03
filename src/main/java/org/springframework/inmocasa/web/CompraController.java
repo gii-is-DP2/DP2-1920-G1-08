@@ -52,7 +52,7 @@ public class CompraController {
 		dataBinder.setValidator(new CompraValidator());
 	}
 
-	@GetMapping(value = "/create/{viviendaId}")
+	@GetMapping(path = "/create/{viviendaId}")
 	public String create(@PathVariable("viviendaId") Integer viviendaId, ModelMap model) {
 		Compra compra = new Compra();
 		Vivienda vivienda = viviendaService.findViviendaId(viviendaId);
@@ -68,7 +68,7 @@ public class CompraController {
 		return VIEWS_COMPRA_CREATE_UPDATE_FORM;
 	}
 
-	@PostMapping(value = "/create/{viviendaId}")
+	@PostMapping(path = "/create/{viviendaId}")
 	public String save(@PathVariable("viviendaId") Integer viviendaId, @Valid Compra compra, BindingResult binding,
 			ModelMap model) {
 		if (binding.hasErrors()) {

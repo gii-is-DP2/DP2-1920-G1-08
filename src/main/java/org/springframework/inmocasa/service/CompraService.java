@@ -27,7 +27,7 @@ public class CompraService {
 		return cr.findAll();
 	}
 
-	public Collection<Compra> findCompraByViviendaId(int viviendaId) {
+	public Compra findCompraByViviendaId(int viviendaId) {
 		// TODO Auto-generated method stub
 		return cr.findByViviendaId(viviendaId);
 	}

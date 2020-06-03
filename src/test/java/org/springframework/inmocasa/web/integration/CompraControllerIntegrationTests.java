@@ -2,6 +2,7 @@ package org.springframework.inmocasa.web.integration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.junit.jupiter.api.DisplayName;
 import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
@@ -42,6 +43,7 @@ public class CompraControllerIntegrationTests {
 
 	@WithMockUser(value = "alonso7", authorities = { "cliente" })
 	@Test
+	@DisplayName("Aceptar compra")
 	void testAceptarCompra() throws Exception {
 		ModelMap model = new ModelMap();
 		Compra c = compraService.findCompraById(1);
@@ -52,6 +54,7 @@ public class CompraControllerIntegrationTests {
 	
 	@WithMockUser(value = "alejandra", authorities = { "cliente" })
     @Test
+	@DisplayName("Rechazar compra")
     void testUpdate() throws Exception {
         ModelMap model = new ModelMap();
 
@@ -64,6 +67,7 @@ public class CompraControllerIntegrationTests {
 	
 	@WithMockUser(value = "alonso7", authorities = { "cliente" })
 	@Test
+	@DisplayName("Show compra")
 	void testShowCompraDetails() throws Exception {
 		ModelMap model = new ModelMap();
 		Compra c = compraService.findCompraById(1);

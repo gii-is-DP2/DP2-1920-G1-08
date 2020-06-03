@@ -2,8 +2,6 @@ package org.springframework.inmocasa.model;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -11,21 +9,16 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.inmocasa.model.enums.Estado;
 import org.springframework.inmocasa.model.enums.Genero;
-
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
-
-import org.junit.jupiter.api.Test;
 
 public class CompraTests extends ValidatorTests {
 
 	// Todo bien
 	@Test
+	@DisplayName("Se crea la vivienda correctamente")
 	void ShouldCompraValidateWhenCorrect() {
 
 		Vivienda vivienda = new Vivienda();
@@ -75,6 +68,7 @@ public class CompraTests extends ValidatorTests {
 	
 	// Cliente = null
 	@Test
+	@DisplayName("No se crea la vivienda porque tiene un error")
 	void shouldCompraWithoutCliente() {
 		Vivienda vivienda = new Vivienda();
 		vivienda.setId(1);

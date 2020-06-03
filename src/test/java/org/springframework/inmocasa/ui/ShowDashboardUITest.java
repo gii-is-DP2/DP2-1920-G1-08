@@ -67,7 +67,7 @@ public class ShowDashboardUITest {
 	// estadísticas
 	@Test
 	public void testShowDashboardUINotOk() throws Exception {
-		driver.get("http://localhost/");
+		driver.get("http://localhost:"+port);
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		driver.findElement(By.id("username")).clear();
 		try {

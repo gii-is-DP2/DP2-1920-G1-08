@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,7 @@ public class MensajeControllerE2ETests {
 
 	@WithMockUser(username = "gilmar", password = "gilmar", authorities = { "propietario" })
 	@Test
+	@DisplayName("Iniciación crear mensaje")
 	void testInitCreationForm() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.get("/mensajes/new")).andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(view().name("mensajes/editMensaje"))
@@ -58,8 +60,8 @@ public class MensajeControllerE2ETests {
 
 	@WithMockUser(username = "alejandra", authorities = { "cliente" })
 	@Test
+	@DisplayName("Proceso de crear mensaje")
 	void testProcessCreationFormSuccess() throws Exception {
-
 		mockMvc.perform(post("/mensajes/save").with(csrf()).param("asunto", "Hola").param("prop", "1").param("cuerpo", "Amigo"))
 				.andExpect(status().isOk()).andExpect(view().name("mensajes/misMensajes"));
 	}

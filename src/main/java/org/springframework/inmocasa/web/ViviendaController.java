@@ -178,7 +178,7 @@ public class ViviendaController {
 		
 		
 		if(filtro != null && (filtro.getMin()!= null && filtro.getMax()!= null && filtro.getMax()< filtro.getMin())) {
-			model.addAttribute("error","El precio mínimo debe ser menor al precio máximo.");
+			model.addAttribute("error","El precio minimo debe ser menor al precio maximo.");
 			Collection<Vivienda> vivs = viviendaService.findAllNewest();
 			model.addAttribute("viviendas", vivs);
 			model.addAttribute("filtro", new FiltrosForm());

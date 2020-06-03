@@ -36,7 +36,7 @@
 		
 		<tr>
 			<th>Genero:</th>
-			<td><c:out value="${propietario.genero}"/></td>
+			<td><c:out value="${propietario.genero.displayName}"/></td>
 		</tr>
 		
 		<tr>
@@ -67,8 +67,17 @@
 		
 		
 	</table>
-	
-	
+	<spring:url value="/usuario/delete/{usuarioId}" var="deleteAllUrl">
+		<spring:param name="usuarioId" value="${propietario.id}" />
+	</spring:url>
+	<a href="${fn:escapeXml(deleteAllUrl)}" class="btn btn-primary">
+		Borrar todos mis datos de la página</a>
+
+	<spring:url value="/usuario/exportPDF" var="pdfURL">
+	</spring:url>
+	<a href="${fn:escapeXml(pdfURL)}" class="btn btn-primary"
+		target="_blank"> Descargar PDF con mis datos</a>
+
 	<spring:url value="/propietarios/{propietarioId}/edit" var="editUrl">
 			<spring:param name="propietarioId" value="${propietario.id}" />
 	</spring:url>

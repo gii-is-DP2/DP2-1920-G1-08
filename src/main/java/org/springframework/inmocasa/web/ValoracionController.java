@@ -99,7 +99,7 @@ public class ValoracionController {
 		List<Valoracion> valoraciones = valoracionService.findAllByPropietario(prop);
 		
 		model.addAttribute("valoraciones", valoraciones);
-		model.addAttribute("localDateTimeFormat", DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+		model.addAttribute("localDateTimeFormat", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 		
 		return "valoracion/misValoraciones";
 	}

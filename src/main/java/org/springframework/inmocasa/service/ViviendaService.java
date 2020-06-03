@@ -190,7 +190,7 @@ public class ViviendaService {
 				visitaRepository.deleteAll(visitas);
 			}
 			Collection<Cliente> clientes = clienteRepository.findAll();
-			for(Cliente c : clientes ) {
+			for(Cliente c : clientes) {
 				if(c.getFavoritas().contains(vivienda)) {
 					c.getFavoritas().remove(vivienda);
 				}

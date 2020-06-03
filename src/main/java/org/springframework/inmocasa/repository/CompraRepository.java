@@ -13,7 +13,7 @@ public interface CompraRepository extends JpaRepository<Compra, Integer> {
 
 	// Santi-Alvaro
 	@Query("select c from Compra c where c.vivienda.id=?1")
-	public Collection<Compra> findByViviendaId(int id);
+	public Compra findByViviendaId(int id);
 
 	// Alvaro-MiguelEmmanuel
 

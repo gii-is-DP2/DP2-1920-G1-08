@@ -72,7 +72,7 @@ public class VisitaController {
 			visita.setCliente(clientes.get(0));
 			model.addAttribute("visita", visita);
 		}else {
-			model.addAttribute("errMsg", "No se ha encontrado la vivienda");
+			model.addAttribute("error", "No se ha encontrado la vivienda");
 			view = null;
 		}
 		
@@ -86,7 +86,7 @@ public class VisitaController {
     		return VIEW_EDIT_VISITA;
     	} else {
     		visitaService.save(visita);
-    		model.addAttribute("successMsg", "Visita generada correctamente");
+    		model.addAttribute("success", "Visita generada correctamente");
     	}
 		return usuarioController.showListViviendas(model);
 	}

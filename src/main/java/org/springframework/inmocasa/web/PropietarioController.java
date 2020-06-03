@@ -63,12 +63,12 @@ public class PropietarioController {
 		} else {
 			if(propietarioService.findByUsername(propietario.getUsername())!= null) {
 				model.addAttribute("propietario", propietario);
-				model.addAttribute("errMsg", "El usuario ya existe.");
+				model.addAttribute("error", "El usuario ya existe.");
 				return "propietarios/registroPropietarios";
 			}
 			
 			propietarioService.savePropietario(propietario);
-			model.addAttribute("successMsg", "Propietario registrado correctamente");
+			model.addAttribute("success", "Propietario registrado correctamente");
 
 		}
 		return "welcome";

@@ -153,7 +153,7 @@ public class ViviendaController {
 			return "viviendas/editVivienda";
 		} else {
 			viviendaService.save(vivienda);
-			modelMap.addAttribute("successMsg", "La vivienda ha sido registrada correctamente");
+			modelMap.addAttribute("success", "La vivienda ha sido registrada correctamente");
 		}
 		return view;
 	}
@@ -178,7 +178,7 @@ public class ViviendaController {
 		
 		
 		if(filtro != null && (filtro.getMin()!= null && filtro.getMax()!= null && filtro.getMax()< filtro.getMin())) {
-			model.addAttribute("errMsg","El precio mínimo debe ser menor al precio máximo.");
+			model.addAttribute("error","El precio minimo debe ser menor al precio maximo.");
 			Collection<Vivienda> vivs = viviendaService.findAllNewest();
 			model.addAttribute("viviendas", vivs);
 			model.addAttribute("filtro", new FiltrosForm());
@@ -274,7 +274,7 @@ public class ViviendaController {
 			if (!compradas.contains(vivienda)) {
 				viviendaService.delete(vivienda);
 			} else {
-				model.addAttribute("errMsg", "No se puede borrar el anuncio porque la vivienda ha sido comprada");
+				model.addAttribute("error", "No se puede borrar el anuncio porque la vivienda ha sido comprada");
 			}
 		}
 		

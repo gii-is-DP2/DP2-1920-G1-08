@@ -2,6 +2,7 @@ package org.springframework.inmocasa.web;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
@@ -113,12 +114,12 @@ public class UsuarioController {
 		User usuario = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		List<Cliente> clientes = clienteService.findClienteByUsername(usuario.getUsername());
 		
-		Collection<Visita> pVisitas = visitaService.findProximasVisitas(clientes.get(0), LocalDateTime.now());
+		Collection<Visita> pVisitas = visitaService.findProximasVisitas(clientes.get(0), LocalDate.now());
 		modelMap.put("proximasVisitas", pVisitas);
 		
-		Collection<Visita> vivs = visitaService.findOldVisitas(clientes.get(0), LocalDateTime.now());
+		Collection<Visita> vivs = visitaService.findOldVisitas(clientes.get(0), LocalDate.now());
 		modelMap.put("visitas", vivs);
-		modelMap.addAttribute("localDateTimeFormat", DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+		modelMap.addAttribute("localDateTimeFormat", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
 		return "users/visitas";
 	}

@@ -1,8 +1,5 @@
 package org.springframework.inmocasa.web.validator;
 
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.Range;
 import org.springframework.inmocasa.model.Valoracion;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;

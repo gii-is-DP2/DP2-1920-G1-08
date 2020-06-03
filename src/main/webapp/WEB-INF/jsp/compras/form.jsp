@@ -20,9 +20,8 @@
                     	<div class="col-sm-10">
                     		<c:out value="${compra.vivienda.titulo}"></c:out>
                     	</div>
-               		</div> 					
-               		<petclinic:inputField label="Precio final"
-					name="precioFinal" />
+               		</div> 		
+               		<petclinic:inputNumber label="Precio final" name="precioFinal"/>			
                		<petclinic:inputField label="Comentario"
 					name="comentario" />
 		            <div class="form-group">

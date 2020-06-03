@@ -73,7 +73,7 @@ public class PropietarioController {
 			model.addAttribute("success", "Propietario registrado correctamente");
 
 		}
-		return "welcome";
+		return "propietarios/profile";
 	}
 
 	@GetMapping(value = { "propietarios/miPerfil" })

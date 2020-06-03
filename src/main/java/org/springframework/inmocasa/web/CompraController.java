@@ -106,6 +106,7 @@ public class CompraController {
 		compras.setEstado(Estado.ACEPTADO);
 		compras.setComentario("VENDIDA");
 		compraService.save(compras);
+		compraService.rechazarResto(compras);
 		model.addAttribute("compras", compras);
 		model.addAttribute("message", "La oferta ha sido aceptada correctamente");
 

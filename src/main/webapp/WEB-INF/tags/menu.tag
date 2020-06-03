@@ -62,18 +62,21 @@
 				<!-- Panel usuario -->
 				<sec:authorize access="isAuthenticated()">
 
-					<li class="nav-item dropdown"><a
-						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
-						role="button" data-toggle="dropdown" aria-haspopup="true"
-						aria-expanded="false"> Mis mensajes </a>
-						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" href="/mensajes/mensajes-recibidos">Mensajes
-								recibidos</a> 
-							<a class="dropdown-item" href="/mensajes/mensajes-enviados">Mensajes
-								enviados</a>
-							<a class="dropdown-item" href="/mensajes/new">Enviar mensaje</a>
-
-						</div></li>
+					<sec:authorize access="!hasAnyAuthority('admin')">
+						<li class="nav-item dropdown"><a
+							class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+							role="button" data-toggle="dropdown" aria-haspopup="true"
+							aria-expanded="false"> Mis mensajes </a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<a class="dropdown-item" href="/mensajes/mensajes-recibidos">Mensajes
+									recibidos</a> 
+								<a class="dropdown-item" href="/mensajes/mensajes-enviados">Mensajes
+									enviados</a>
+								<a class="dropdown-item" href="/mensajes/new">Enviar mensaje</a>
+	
+							</div>
+						</li>
+					</sec:authorize>
 					<div class="btn-group">
 
 						<button type="button" class="btn btn-success">

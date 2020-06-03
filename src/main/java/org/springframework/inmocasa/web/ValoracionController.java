@@ -2,7 +2,6 @@ package org.springframework.inmocasa.web;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -15,11 +14,15 @@ import org.springframework.inmocasa.service.ClienteService;
 import org.springframework.inmocasa.service.PropietarioService;
 import org.springframework.inmocasa.service.ValoracionService;
 import org.springframework.inmocasa.service.VisitaService;
+import org.springframework.inmocasa.web.validator.ValoracionValidator;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,6 +52,11 @@ public class ValoracionController {
 		this.propietarioService = propietarioService;
 	}
 	
+
+	@InitBinder("valoracion")
+	public void initCompraBinder(WebDataBinder dataBinder) {
+		dataBinder.setValidator(new ValoracionValidator());
+	}
 	
 	//Santi-Alvaro
 	
@@ -84,9 +92,14 @@ public class ValoracionController {
 	}
 	
 	@PostMapping(value="/save")
-	public String saveValoracion(@Valid Valoracion valoracion, ModelMap model) {
-		Valoracion v = valoracionService.save(valoracion);
-		model.addAttribute("success", "Valoracion guardada correctamente") ;
+	public String saveValoracion(Valoracion valoracion, ModelMap model, BindingResult br) {
+	
+		if(br.hasErrors()) {
+			return VISTA_FORM_VALORACION;
+		}else {
+			Valoracion v = valoracionService.save(valoracion);
+			model.addAttribute("success", "Valoracion guardada correctamente") ;
+		}
 		
 		return usuarioController.showListViviendas(model);
 

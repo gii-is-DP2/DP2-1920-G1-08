@@ -44,5 +44,9 @@ public class MensajeService {
 	// Alvaro-MiguelEmmanuel
 
 	// Alba-Alejandro
+	
+	public Collection<Mensaje> findMensajesByUserId(Integer userId) {
+		return mr.findMensajesByUserId(userId);
+	}
 
 }

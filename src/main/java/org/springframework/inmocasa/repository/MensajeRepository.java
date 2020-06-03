@@ -22,5 +22,7 @@ public interface MensajeRepository extends JpaRepository<Mensaje, Integer> {
 	// Alvaro-MiguelEmmanuel
 
 	// Alba-Alejandro
+	@Query("select m from Mensaje m where m.receptorId = ?1 or m.emisorId = ?2")
+	public Collection<Mensaje> findMensajesByUserId(Integer userId);
 
 }

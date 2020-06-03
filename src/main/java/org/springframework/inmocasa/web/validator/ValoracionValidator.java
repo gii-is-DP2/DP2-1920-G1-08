@@ -15,12 +15,15 @@ public class ValoracionValidator implements Validator{
 	@Override
 	public void validate(Object obj, Errors errors) {
 		Valoracion valoracion = (Valoracion) obj;
-		
-		//Validamos la fecha de la Valoracion
-//		if(valoracion.getFecha().isBefore(LocalDateTime.now())) {
-//			errors.rejectValue("fecha", FECHA_POSTERIOR, FECHA_POSTERIOR);
-//		}
-		
+
+		if(valoracion.getPuntuacion() == null) {
+			errors.rejectValue("puntuacion", "El campo es obligatorio", "El campo es obligatorio");
+		}else if(valoracion.getPuntuacion()< 0 || valoracion.getPuntuacion()>5) {
+			errors.rejectValue("puntuacion", "La puntiacion tiene que ser entre 0 y 5", "La puntiacion tiene que ser entre 0 y 5");
+		}
+		if(valoracion.getComentario() == null || valoracion.getComentario().isEmpty()) {
+			errors.rejectValue("comentario", "El campo es obligatorio", "El campo es obligatorio");
+		}
 		
 	}
 

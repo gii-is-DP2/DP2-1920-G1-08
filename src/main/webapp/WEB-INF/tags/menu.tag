@@ -62,18 +62,21 @@
 				<!-- Panel usuario -->
 				<sec:authorize access="isAuthenticated()">
 
-					<li class="nav-item dropdown"><a
-						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
-						role="button" data-toggle="dropdown" aria-haspopup="true"
-						aria-expanded="false"> Mis mensajes </a>
-						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" href="/mensajes/mensajes-recibidos">Mensajes
-								recibidos</a> 
-							<a class="dropdown-item" href="/mensajes/mensajes-enviados">Mensajes
-								enviados</a>
-							<a class="dropdown-item" href="/mensajes/new">Enviar mensaje</a>
-
-						</div></li>
+					<sec:authorize access="!hasAnyAuthority('admin')">
+						<li class="nav-item dropdown"><a
+							class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+							role="button" data-toggle="dropdown" aria-haspopup="true"
+							aria-expanded="false"> Mis mensajes </a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<a class="dropdown-item" href="/mensajes/mensajes-recibidos">Mensajes
+									recibidos</a> 
+								<a class="dropdown-item" href="/mensajes/mensajes-enviados">Mensajes
+									enviados</a>
+								<a class="dropdown-item" href="/mensajes/new">Enviar mensaje</a>
+	
+							</div>
+						</li>
+					</sec:authorize>
 					<div class="btn-group">
 
 						<button type="button" class="btn btn-success">
@@ -85,15 +88,18 @@
 							<span class="sr-only">Toggle Dropdown</span>
 						</button>
 						<div class="dropdown-menu">
-							<a class="dropdown-item" href="/usuario/miPerfil">Mi perfil</a> 
+						
 							<sec:authorize access="hasAnyAuthority('cliente')">
-							<a class="dropdown-item" href="/clientes/lista/favoritas">Mis favoritos</a>
-							<a class="dropdown-item" href="/usuario/misVisitas">Mis visitas</a>
+								<a class="dropdown-item" href="/clientes/miPerfil">Mi perfil</a> 
+								<a class="dropdown-item" href="/clientes/lista/favoritas">Mis favoritos</a>
+								<a class="dropdown-item" href="/usuario/misVisitas">Mis visitas</a>
 							</sec:authorize>
 							<sec:authorize access="hasAnyAuthority('admin')">
+								<a class="dropdown-item" href="/usuario/miPerfil">Mi perfil</a> 
 								<a class="dropdown-item" href="/dashboard">Estadísticas</a>
 							</sec:authorize>
 							<sec:authorize access="hasAnyAuthority('propietario')">
+								<a class="dropdown-item" href="/propietarios/miPerfil">Mi perfil</a> 
 								<a class="dropdown-item" href="/viviendas/mis-viviendas">Mis viviendas</a>
 								<a class="dropdown-item" href="/valoracion/misValoraciones">Valoracion a mis viviendas</a>
 							</sec:authorize>

@@ -16,15 +16,15 @@
         <form:form modelAttribute="mensaje" class="form-horizontal"
 			action="/mensajes/save">
             <div class="form-group has-feedback">
-                <petclinic:inputField label="Asunto" name="asunto" />
-                <petclinic:inputField label="Cuerpo" name="cuerpo" />
+                <petclinic:inputField label="Asunto" name="asunto" req="true"/>
+                <petclinic:inputField label="Cuerpo" name="cuerpo" req="true"/>
            		<h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Destinatario </h4>
                     <sec:authorize
 					access="hasAnyAuthority('propietario')">
                 <div class="col-sm-10"
 						style="margin-bottom: 45px; left: 16%">
                 <form:select class="form-control" name="Cliente"
-							path="client" size="4" style="width: 20%">
+							path="client" size="4" style="width: 20%" required="true">
                     <c:forEach var="cliente" items="${allClients}">
                         <option value="${cliente.id}">
                         <c:out value="${cliente.nombre} " /> <br>
@@ -39,7 +39,7 @@
 					 <div class="col-sm-10"
 					style="margin-bottom: 45px; left: 16%">
                 <form:select class="form-control" name="Prop"
-						path="prop" size="4" style="width: 20%">
+						path="prop" size="4" style="width: 20%" required="true">
                     <c:forEach var="prop" items="${allProps}">
                         <option value="${prop.id}">
                         <c:out value="${prop.nombre} " /> <br>

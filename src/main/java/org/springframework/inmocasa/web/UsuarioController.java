@@ -3,7 +3,6 @@ package org.springframework.inmocasa.web;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.List;
@@ -18,12 +17,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.inmocasa.model.Administrador;
 import org.springframework.inmocasa.model.Cliente;
 import org.springframework.inmocasa.model.Compra;
 import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.model.Usuario;
 import org.springframework.inmocasa.model.Visita;
 import org.springframework.inmocasa.model.Vivienda;
+import org.springframework.inmocasa.service.AdministradorService;
 import org.springframework.inmocasa.service.ClienteService;
 import org.springframework.inmocasa.service.CompraService;
 import org.springframework.inmocasa.service.PropietarioService;
@@ -42,8 +43,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.itextpdf.text.BadElementException;
@@ -59,11 +58,12 @@ public class UsuarioController {
 	CompraService compraService;
 	ViviendaService viviendaService;
     UsuarioService usuarioService;
+    AdministradorService adminService;
 	
 
 	@Autowired
 	public UsuarioController(VisitaService visitaService,ClienteService clienteService, PropietarioService clinicService,
-			CompraService compraService, ViviendaService viviendaService, UsuarioService usuarioService) {
+			CompraService compraService, ViviendaService viviendaService, UsuarioService usuarioService, AdministradorService admin) {
 		super();
 		this.visitaService = visitaService;
 		this.clienteService = clienteService;
@@ -71,7 +71,7 @@ public class UsuarioController {
 		this.compraService = compraService;
 		this.viviendaService =viviendaService;
 		this.usuarioService = usuarioService;
-
+		this.adminService = admin;
 	}
 
 //	@Autowired
@@ -174,13 +174,11 @@ public class UsuarioController {
   	public ModelAndView showMyProfile() {
   		ModelAndView res = new ModelAndView("users/profile");
   		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-  		Usuario usuario = usuarioService.findUsuarioByUsername(user.getUsername());
-		Propietario prop = propietarioService.findByUsername(user.getUsername());
-		if(prop != null) {
-			res.addObject("propietario", prop);
+		Administrador admin = adminService.findAdministradorByUsername(user.getUsername());
+		if(admin != null) {
+			res.addObject("user", admin);
 		}
 		
-		res.addObject("user", usuario);
 		return res;
   	}
   	

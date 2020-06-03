@@ -8,11 +8,13 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.inmocasa.model.Cliente;
+import org.springframework.inmocasa.model.Denuncia;
 import org.springframework.inmocasa.model.Habitacion;
 import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.model.Visita;
 import org.springframework.inmocasa.model.Vivienda;
 import org.springframework.inmocasa.repository.ClienteRepository;
+import org.springframework.inmocasa.repository.DenunciaRepository;
 import org.springframework.inmocasa.repository.HabitacionRepository;
 import org.springframework.inmocasa.repository.VisitaRepository;
 import org.springframework.inmocasa.repository.ViviendaRepository;
@@ -29,16 +31,19 @@ public class ViviendaService {
 	PropietarioService pr;
 	ClienteRepository clienteRepository;
 	VisitaRepository visitaRepository;
+	DenunciaRepository denunciaRepository;
 
 	@Autowired
 	public ViviendaService(ViviendaRepository vr, HabitacionRepository hr, PropietarioService pr,
-							VisitaRepository visitaRepository, ClienteRepository clienteRepository) {
+							VisitaRepository visitaRepository, ClienteRepository clienteRepository,
+							DenunciaRepository denunciaRepository) {
 		super();
 		this.vr = vr;
 		this.hr = hr;
 		this.pr = pr;
 		this.clienteRepository = clienteRepository;
 		this.visitaRepository = visitaRepository;
+		this.denunciaRepository = denunciaRepository;
 	}
 
 	// Santi-Alvaro
@@ -190,10 +195,14 @@ public class ViviendaService {
 				visitaRepository.deleteAll(visitas);
 			}
 			Collection<Cliente> clientes = clienteRepository.findAll();
-			for(Cliente c : clientes ) {
+			for(Cliente c : clientes) {
 				if(c.getFavoritas().contains(vivienda)) {
 					c.getFavoritas().remove(vivienda);
 				}
+			}
+			Collection<Denuncia> denuncias = denunciaRepository.findDenunciasByViviendaId(vivienda.getId());
+			if(denuncias != null) {
+				denunciaRepository.deleteAll(denuncias);
 			}
 			vr.delete(vivienda);
 		}

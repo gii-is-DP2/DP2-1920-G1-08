@@ -83,7 +83,7 @@ public class ClienteController {
 			model.addAttribute("message", "Cliente creado");
 
 		}
-		return "welcome";
+		return "clientes/profile";
 	}
 
 	@GetMapping(value = { "/miPerfil" })

@@ -123,6 +123,7 @@ class CompraControllerTests {
 		clie.setPassword("pepe123");
 
 		compra1 = new Compra();
+
 		compra1.setId(9);
 		compra1.setVivienda(vivienda2);
 		compra1.setEstado(Estado.ACEPTADO);
@@ -173,6 +174,7 @@ class CompraControllerTests {
 		given(this.compraService.findCompraById(9)).willReturn(compra1);
 		mockMvc.perform(get("/compras/{compraId}/aceptar", 9).with(csrf())).andExpect(status().is3xxRedirection())
 				.andExpect(view().name("redirect:/viviendas/ofertadas"));
+
 	}
 
 	// HU-018: Realizar compra (formulario)

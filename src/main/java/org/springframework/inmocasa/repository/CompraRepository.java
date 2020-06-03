@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.inmocasa.model.Cliente;
 import org.springframework.inmocasa.model.Compra;
 import org.springframework.inmocasa.model.Propietario;
+import org.springframework.inmocasa.model.Vivienda;
 
 public interface CompraRepository extends JpaRepository<Compra, Integer> {
 
@@ -38,4 +39,7 @@ public interface CompraRepository extends JpaRepository<Compra, Integer> {
 	
 	@Query("select c from Compra c where c.vivienda.propietario.id = ?1")
 	public Collection<Compra> findAllComprasByPropietarioId(Integer propietarioId);
+
+	@Query("select c from Compra c where c.vivienda = ?1 and c.estado <> 0")
+	public List<Compra> findAllComprasByVivienda(Vivienda vivienda);
 }

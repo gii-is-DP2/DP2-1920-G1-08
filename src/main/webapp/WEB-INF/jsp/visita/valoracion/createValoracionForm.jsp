@@ -13,12 +13,12 @@
     	<form:form modelAttribute="valoracion" action="/valoracion/save" class="form-horizontal">
             <div class="form-group has-feedback">
             	<petclinic:inputNumber label="Puntuación: " name="puntuacion" />
-               	<petclinic:inputField label="Comentario: " name="comentario"/>
+               	<petclinic:inputField label="Comentario: " name="comentario"  req="true"/>
             </div>
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                	<input type="hidden" name="visita" value="${valoracion.visita.id }"/>
+                	<input type="hidden" name="visita" value="${valoracion.visita.id }" />
                     <input type="hidden" name="valoracionId" value="${valoracion.id}"/>
                     <button class="btn btn-default" type="submit">Reservar visita</button>
                 </div>

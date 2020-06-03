@@ -9,7 +9,9 @@ import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+
 import org.junit.jupiter.api.Order;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -83,6 +85,7 @@ public class EditarPerfilUITest {
 
 	@Test
 	@Order(2)
+
 	@DisplayName("No se puede editar el perfil porque deja un campo vacío que no puede estarlo")
 	public void testEditarPerfilNotOk() throws Exception {
 		driver.get("http://localhost:"+port);
@@ -109,7 +112,6 @@ public class EditarPerfilUITest {
 	    driver.findElement(By.xpath("//button[@type='submit']")).click();
 	    assertEquals("DNI incorrecto",driver.findElement(By.xpath("//form[@id='propietario']/div/div/div/span[2]")).getText());
 
-	    
 	}
 
 	@AfterEach

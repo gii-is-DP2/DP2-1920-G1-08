@@ -1,6 +1,8 @@
 package org.springframework.inmocasa.web;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -36,19 +38,19 @@ import org.springframework.test.web.servlet.MockMvc;
 @WebMvcTest(controllers = ClienteController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
 @RunWith(SpringRunner.class)
 public class ClienteControllerTests {
-	
+
 	private static final int TEST_CLIENTE_ID = 1;
 	private static final int TEST_ID_VIVIENDA_FAV = 3;
-	
+
 	@MockBean
 	private ClienteService clienteService;
-	
-	@MockBean 
+
+	@MockBean
 	private PropietarioService propietarioService;
 
 	@MockBean
 	private ViviendaService viviendaService;
-	
+
 	@Autowired
 	private MockMvc mockMvc;
 
@@ -71,7 +73,7 @@ public class ClienteControllerTests {
 		cliente.setPassword("12345678b");
 		cliente.setFechaNacimiento(LocalDate.of(1997, 04, 22));
 		cliente.setFavoritas(new ArrayList());
-		
+
 		prop = new Propietario();
 		prop.setId(8);
 		prop.setNombre("John");
@@ -82,7 +84,7 @@ public class ClienteControllerTests {
 		prop.setFechaNacimiento(LocalDate.of(1976, 6, 12));
 		prop.setUsername("gilmar");
 		prop.setPassword("gilmar");
-		
+
 		vivienda = new Vivienda();
 		vivienda.setId(TEST_ID_VIVIENDA_FAV);
 		vivienda.setTitulo("Piso en venta en ocho de marzo s/n");
@@ -94,62 +96,57 @@ public class ClienteControllerTests {
 		vivienda.setCaracteristicas("Caracteristicas");
 		vivienda.setPropietario(prop);
 		vivienda.setHorarioVisita("Martes de 9:00 a 13:00");
-		
+
 	}
 
 	@WithMockUser(username = "admin", password = "admin", authorities = "admin")
 	@Test
 	void testInitCreationFormSuccess() throws Exception {
-		mockMvc.perform(get("/clientes/new")).andExpect(status().isOk()).andExpect(model().attributeExists("cliente"))
-				.andExpect(view().name("clientes/registroClientes"));
+		mockMvc.perform(get("/clientes/new"))
+		.andExpect(status().isOk())
+		.andExpect(model().attributeExists("cliente"))
+		.andExpect(model().attribute("cliente", hasProperty("username")))
+		.andExpect(view().name("clientes/registroClientes"));
 	}
-	
 
-	@WithMockUser(username = "admin", password = "admin", authorities = "admin")
+	@WithMockUser(username = "gregorio23", password = "12345678b", authorities = "cliente")
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
+		given(this.clienteService.findByUsername(cliente.getUsername())).willReturn(cliente);
 		mockMvc.perform(post("/clientes/save")
-				.param("nombre", "test1")
-				.param("genero", "Genero.MASCULINO").with(csrf())
-				.param("username", "gregorio")
-				.param("password", "gregorio1")).andExpect(status().isOk())
-				.andExpect(view().name("clientes/registroClientes"));
+				.param("id", cliente.getId().toString()).with(csrf()))
+			.andExpect(status().is2xxSuccessful());
 	}
-	
-	
+
 	@WithMockUser(username = "admin", password = "admin", authorities = "admin")
 	@Test
 	void testProcessCreationFormHasErrors() throws Exception {
-		mockMvc.perform(post("/clientes/save").with(csrf())
-				.param("nombre", "189839")
-				.param("genero", "MASCULINO").with(csrf())
-				.param("username", "gregorio")
-				.param("password", "gregorio1")).andExpect(status().isOk()).andExpect(model().attributeHasErrors("cliente"))
-				.andExpect(view().name("clientes/registroClientes"));
+		cliente.setId(20);
+		cliente.setUsername("");
+		this.clienteService.save(cliente);
+		
+		Cliente c1 = this.clienteService.findByUsername(cliente.getUsername());
+		assertTrue(c1== null);
 	}
-	
-	//HU-012: Guardar una casa como favorita
+
+	// HU-012: Guardar una casa como favorita
 	@WithMockUser(value = "gregorio23", authorities = { "cliente" })
 	@Test
 	@DisplayName("Añadir casa a favoritos")
-	void testAniadirFavoritos() throws Exception{
+	void testAniadirFavoritos() throws Exception {
 		given(this.clienteService.findByUsername(cliente.getUsername())).willReturn(cliente);
 		given(this.clienteService.findViviendaById(TEST_ID_VIVIENDA_FAV)).willReturn(vivienda);
-		mockMvc.perform(get("/clientes/{viviendaId}/favoritos", TEST_ID_VIVIENDA_FAV))
-			.andExpect(status().isOk())
-			.andExpect(view().name("viviendas/favoritas"));
+		mockMvc.perform(get("/clientes/{viviendaId}/favoritos", TEST_ID_VIVIENDA_FAV)).andExpect(status().isOk())
+				.andExpect(view().name("viviendas/favoritas"));
 	}
-	
+
 	@WithMockUser(value = "gregorio23", authorities = { "cliente" })
 	@Test
 	@DisplayName("Lista de favoritos")
-	void testListFavoritos() throws Exception{
+	void testListFavoritos() throws Exception {
 		given(this.clienteService.findByUsername(cliente.getUsername())).willReturn(cliente);
-		mockMvc.perform(get("/clientes/lista/favoritas"))
-		.andExpect(status().isOk())
-		.andExpect(view().name("viviendas/favoritas"));
+		mockMvc.perform(get("/clientes/lista/favoritas")).andExpect(status().isOk())
+				.andExpect(view().name("viviendas/favoritas"));
 	}
-	
-
 
 }

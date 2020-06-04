@@ -69,7 +69,7 @@ public class ViviendaControllerE2ETests {
 	@Test
 	void testshowListViviendaFiltroNotOk() throws Exception {
 		mockMvc.perform(get("/viviendas/allNewFiltros").with(csrf()).param("min", "100").param("max", "20"))
-		.andExpect(model().attribute("error", "El precio mínimo debe ser menor al precio máximo."))
+		.andExpect(model().attribute("error", "El precio minimo debe ser menor al precio maximo."))
 		.andExpect(status().isOk()).andExpect(view().name("viviendas/listNewViviendas"));
 	}
 

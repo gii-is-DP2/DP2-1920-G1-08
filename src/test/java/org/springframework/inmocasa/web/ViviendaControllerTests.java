@@ -254,7 +254,7 @@ class ViviendaControllerTests {
 		given(this.viviendaService.findViviendaByfiltros(100, 20, null, null)).willReturn(new ArrayList<Vivienda>());
 
 		mockMvc.perform(get("/viviendas/allNewFiltros").with(csrf()).param("min", "100").param("max", "20"))
-				.andExpect(model().attribute("error", "El precio mínimo debe ser menor al precio máximo."))
+				.andExpect(model().attribute("error", "El precio minimo debe ser menor al precio maximo."))
 				.andExpect(status().isOk()).andExpect(view().name("viviendas/listNewViviendas"));
 	}
 	

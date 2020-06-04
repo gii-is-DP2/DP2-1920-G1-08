@@ -1,5 +1,8 @@
 package org.springframework.inmocasa.web;
 
+import static org.hamcrest.Matchers.hasProperty;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -20,8 +23,9 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.inmocasa.InmocasaApplication;
 import org.springframework.inmocasa.configuration.SecurityConfiguration;
 import org.springframework.inmocasa.model.Propietario;
+import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.model.enums.Genero;
-import org.springframework.inmocasa.service.ClienteService;
+import org.springframework.inmocasa.service.PropietarioService;
 import org.springframework.inmocasa.service.PropietarioService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -35,9 +39,6 @@ public class PropietarioControllerTests {
 	private static final int TEST_CLIENTE_ID = 1;
 
 	@MockBean
-	private ClienteService clienteService;
-	
-	@MockBean 
 	private PropietarioService propietarioService;
 
 	@Autowired
@@ -54,7 +55,7 @@ public class PropietarioControllerTests {
 		propietario.setApellidos("Martín");
 		propietario.setDni("12345678D");
 		propietario.setEmail("santimartinguay@gmail.com");
-	
+
 		propietario.setGenero(Genero.MASCULINO);
 		propietario.setUsername("santiago");
 		propietario.setPassword("santiago");
@@ -67,36 +68,29 @@ public class PropietarioControllerTests {
 	@WithMockUser(username = "admin", password = "admin", authorities = "admin")
 	@Test
 	void testInitCreationFormSuccess() throws Exception {
-		mockMvc.perform(get("/propietarios/new")).andExpect(status().isOk()).andExpect(model().attributeExists("propietario"))
+		mockMvc.perform(get("/propietarios/new")).andExpect(status().isOk())
+				.andExpect(model().attributeExists("propietario"))
+				.andExpect(model().attribute("propietario", hasProperty("username")))
 				.andExpect(view().name("propietarios/registroPropietarios"));
 	}
-	
 
-	@WithMockUser(username = "admin", password = "admin", authorities = "admin")
+	@WithMockUser(username = "gregorio23", password = "12345678b", authorities = "propietario")
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
-		mockMvc.perform(post("/propietarios/save")
-				.param("nombre", "test1")
-				.param("genero", "Genero.MASCULINO").with(csrf())
-				.param("username", "gregorio")
-				.param("password", "gregorio1")).andExpect(status().isOk())
-				.andExpect(view().name("propietarios/registroPropietarios"));
+		given(this.propietarioService.findByUsername(propietario.getUsername())).willReturn(propietario);
+		mockMvc.perform(post("/propietarios/save").param("id", propietario.getId().toString()).with(csrf()))
+				.andExpect(status().is2xxSuccessful());
 	}
-	
-	
+
 	@WithMockUser(username = "admin", password = "admin", authorities = "admin")
 	@Test
 	void testProcessCreationFormHasErrors() throws Exception {
-		mockMvc.perform(post("/propietarios/save").with(csrf())
-				.param("nombre", "189839")
-				.param("genero", "MASCULINO").with(csrf())
-				.param("username", "gregorio")
-				.param("password", "gregorio1")).andExpect(status().isOk()).andExpect(model().attributeHasErrors("propietario"))
-				.andExpect(view().name("propietarios/registroPropietarios"));
-	}
-	
-	
-	
+		propietario.setId(20);
+		propietario.setUsername("");
+		this.propietarioService.savePropietario(propietario);
 
+		Propietario c1 = this.propietarioService.findByUsername(propietario.getUsername());
+		assertTrue(c1 == null);
+	}
 
 }

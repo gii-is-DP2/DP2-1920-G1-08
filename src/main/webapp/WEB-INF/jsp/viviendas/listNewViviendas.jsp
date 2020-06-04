@@ -58,7 +58,7 @@
 			<div class="panel-body">
 
 				<img src="${viv.foto}"
-					style="margin-left: auto; margin-right: auto; display: block;" />
+					style="margin-left: auto; margin-right: auto; display: block; width: 50%;" />
 				<p>
 					Fecha de publicacion:
 					<c:out value="${localDateFormat.format(viv.fechaPublicacion)}" />

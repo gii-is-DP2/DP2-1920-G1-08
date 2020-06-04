@@ -23,7 +23,7 @@ public class VisitaValidator implements Validator{
 		//Validamos la fecha de la visita
 		if(visita.getFecha()==null) {
 			errors.rejectValue("fecha", "Es obligatorio", "Es obligatorio");
-		}else if(visita.getFecha().isBefore(LocalDate.now())) {
+		}else if(!visita.getFecha().isAfter(LocalDate.now())) {
 			errors.rejectValue("fecha", FECHA_POSTERIOR, FECHA_POSTERIOR);
 		}
 		

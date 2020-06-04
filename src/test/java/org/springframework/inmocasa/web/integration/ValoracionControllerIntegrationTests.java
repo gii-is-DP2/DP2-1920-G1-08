@@ -3,6 +3,7 @@ package org.springframework.inmocasa.web.integration;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.Collections;
 import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
@@ -17,6 +18,8 @@ import org.springframework.inmocasa.web.ValoracionController;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.MapBindingResult;
 
 
 @ExtendWith(SpringExtension.class)
@@ -52,7 +55,8 @@ public class ValoracionControllerIntegrationTests {
 		newValoracion.setComentario("Me parece muy buena");
 		newValoracion.setPuntuacion(4);
 		newValoracion.setVisita(visita.get());
-		String view = valoracionController.saveValoracion(newValoracion, model);
+		BindingResult bindingResult = new MapBindingResult(Collections.emptyMap(), "");
+		String view = valoracionController.saveValoracion(newValoracion, model, bindingResult);
 		assertEquals(view, "users/visitas");
 		assertNotNull(model.get("success"));
 	}

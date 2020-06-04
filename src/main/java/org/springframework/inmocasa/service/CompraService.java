@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.inmocasa.model.Cliente;
 import org.springframework.inmocasa.model.Compra;
-import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.model.enums.Estado;
 import org.springframework.inmocasa.repository.CompraRepository;
 import org.springframework.stereotype.Service;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class CompraService {	
 	CompraRepository cr;
-	
 	//Santi-Alvaro
 	@Autowired
 	public CompraService(CompraRepository cr) {
@@ -68,6 +66,15 @@ public class CompraService {
 	
 	public Collection<Compra> getAllComprasByPropietarioId(Integer propietarioId){
 		return cr.findAllComprasByPropietarioId(propietarioId);
+	}
+
+	public void rechazarResto(Compra compra) {
+		List<Compra>vivs = cr.findAllComprasByVivienda(compra.getVivienda());
+		for (Compra c : vivs) {
+			c.setEstado(Estado.RECHAZADO);
+			cr.save(c);
+		}
+		
 	}
 
 }

@@ -155,6 +155,7 @@ public class ViviendaController {
 			viviendaService.save(vivienda);
 			modelMap.addAttribute("success", "La vivienda ha sido registrada correctamente");
 		}
+		modelMap.addAttribute("localDateFormat", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 		return view;
 	}
 
@@ -167,7 +168,7 @@ public class ViviendaController {
 		Collection<Vivienda> vivs = viviendaService.findAllNewest();
 		model.addAttribute("viviendas", vivs);
 		model.addAttribute("filtro", new FiltrosForm());
-
+		model.addAttribute("localDateFormat", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 		return "viviendas/listNewViviendas";
 	}
 	
@@ -182,6 +183,7 @@ public class ViviendaController {
 			Collection<Vivienda> vivs = viviendaService.findAllNewest();
 			model.addAttribute("viviendas", vivs);
 			model.addAttribute("filtro", new FiltrosForm());
+			model.addAttribute("localDateFormat", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 			return "viviendas/listNewViviendas";
 		}
 		if(filtro == null) {
@@ -196,6 +198,7 @@ public class ViviendaController {
 			model.addAttribute("viviendas", viviendasFiltro);
 			model.addAttribute("filtro", filtro);
 		}
+		model.addAttribute("localDateFormat", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
 		return "viviendas/listNewViviendas";
 	}
@@ -223,6 +226,7 @@ public class ViviendaController {
 		if(vivienda.getFoto().isEmpty()) {
 			vivienda.setFoto("https://cdn.onlinewebfonts.com/svg/img_67240.png");
 		}
+		vivienda.setPublicitado(false);
 		if (result.hasErrors()) {
 			modelMap.addAttribute("vivienda", vivienda);
 			return "viviendas/editVivienda";
@@ -239,7 +243,7 @@ public class ViviendaController {
 		viviendaService.save(viviendas);
 		model.addAttribute("viviendas", viviendas);
 		model.addAttribute("message", "La vivienda ha sido denunciada correctamente");
-
+		model.addAttribute("localDateFormat", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 		return "viviendas/listNewViviendas";
 	}
 	

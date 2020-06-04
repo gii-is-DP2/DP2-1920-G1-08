@@ -1,5 +1,7 @@
 package org.springframework.inmocasa.web.E2E;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -25,10 +27,20 @@ public class VisitaControllerE2ETests {
 	
 	@WithMockUser(value = "bravo9", authorities = { "cliente" })
 	@Test
-	@DisplayName("Prueba en la que se crea una visita")
-	void testCreateValoracionOk() throws Exception {
+	@DisplayName("Prueba en la que se accede al formulario de una visita")
+	void testCreateValoracionFormOk() throws Exception {
 		mockMvc.perform(get("/visita/vivienda/{vivienda}/new",2)).andExpect(status().isOk()).andExpect(model().attributeExists("visita"))
 				.andExpect(view().name("viviendas/visitas/createOrUpdateVisita"));
 	}
+	
+	@WithMockUser(value = "bravo9", authorities = { "cliente" })
+	@Test
+	@DisplayName("Creación de la visita")
+	void testCreateValoracion() throws Exception{
+		mockMvc.perform(post("/visita/save")
+				.param("id", "26").with(csrf()))
+			.andExpect(status().is2xxSuccessful());
+	}
+	
 
 }

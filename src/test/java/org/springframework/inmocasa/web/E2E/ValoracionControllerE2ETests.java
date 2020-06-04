@@ -1,7 +1,9 @@
 package org.springframework.inmocasa.web.E2E;
 
 import static org.mockito.BDDMockito.given;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -28,7 +30,7 @@ public class ValoracionControllerE2ETests {
 	@WithMockUser(value = "bravo9", authorities = { "cliente" })
 	@Test
 	@DisplayName("Prueba en la que no se crea una valoración porque ya existe")
-	void testCreateValoracionNotOk() throws Exception {
+	void testCreationValoracionFormNotOk() throws Exception {
 		mockMvc.perform(get("/valoracion/{visitaId}/new",1)).andExpect(status().isOk()).andExpect(model().attribute("error","Ya ha realizado una valoración a esta vivienda."))
 				.andExpect(view().name("users/visitas"));
 	}
@@ -36,9 +38,18 @@ public class ValoracionControllerE2ETests {
 	@WithMockUser(value = "bravo9", authorities = { "cliente" })
 	@Test
 	@DisplayName("Prueba en la que se crea una valoración")
-	void testCreateValoracionOk() throws Exception {
+	void testCreationValoracionFormOk() throws Exception {
 		mockMvc.perform(get("/valoracion/{visitaId}/new",2)).andExpect(status().isOk()).andExpect(model().attributeExists("valoracion"))
 				.andExpect(view().name("/visita/valoracion/createValoracionForm"));
+	}
+	
+	@WithMockUser(value = "bravo9", authorities = { "cliente" })
+	@Test
+	@DisplayName("Creación de la visita")
+	void testCreateValoracion() throws Exception{
+		mockMvc.perform(post("/valoracion/save")
+				.param("id", "26").with(csrf()))
+			.andExpect(status().is2xxSuccessful());
 	}
 
 	@WithMockUser(value="gilmar", authorities = { "propietario" })

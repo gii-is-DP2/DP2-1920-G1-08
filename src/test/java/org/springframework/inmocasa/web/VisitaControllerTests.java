@@ -97,7 +97,7 @@ public class VisitaControllerTests {
 	@WithMockUser(value = "john123", authorities = { "cliente" })
 	@Test
 	@DisplayName("Prueba en la que se accede al formulario de visita")
-	void testCreateFormVisitaOk() throws Exception {
+	void testCreationFormVisitaOk() throws Exception {
 		given(this.visitaService.findById2(1)).willReturn(visita);
 		given(this.clienteService.findClienteByUsername("john123")).willReturn(Lists.newArrayList(cliente));
 		mockMvc.perform(get("/visita/vivienda/{viviendaId}/new",1)).andExpect(status().isOk()).andExpect(model().attributeExists("visita"))

@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.model.Vivienda;
+import org.springframework.inmocasa.model.enums.Genero;
 import org.springframework.inmocasa.model.form.FiltrosForm;
 import org.springframework.inmocasa.service.PropietarioService;
 import org.springframework.inmocasa.service.ViviendaService;
@@ -58,19 +59,34 @@ public class ViviendaControllerIntegrationTests {
 	@Test
 	void testProcessUpdateFormSuccess() throws Exception {
 		ModelMap model = new ModelMap();
-		Propietario propietario = propietarioService.findPropietarioById(TEST_PROPIETARIO_ID);
-		Vivienda newVivienda = new Vivienda();
-		newVivienda.setTitulo("Vivienda de prueba");
-		newVivienda.setFechaPublicacion(LocalDate.now());
-		newVivienda.setDireccion("C/mi casa");
-		newVivienda.setPrecio(1000);
-		newVivienda.setZona("Barrio");
-		newVivienda.setPropietario(propietario);
-		newVivienda.setDimensiones(200);
+		Propietario propietario = new Propietario();
+		propietario.setId(TEST_PROPIETARIO_ID);
+		propietario.setNombre("Santiago");
+		propietario.setApellidos("Martín");
+		propietario.setDni("12345678D");
+		propietario.setEmail("santimartinguay@gmail.com");
+		propietario.setGenero(Genero.MASCULINO);
+		propietario.setUsername("santiago");
+		propietario.setPassword("santiago");
+		propietario.setCif("12345678X");
+		propietario.setEsInmobiliaria(true);
+		propietario.setInmobiliaria("inmocasa");
+		propietario.setFechaNacimiento(LocalDate.of(1998, 05, 31));
+		Vivienda vivienda = new Vivienda();
+		vivienda.setId(12);
+		vivienda.setTitulo("Piso en venta en ocho de marzo s/n");
+		vivienda.setDireccion("Calle Ocho de Marzo s/n");
+		vivienda.setZona("Cerro Amate");
+		vivienda.setFechaPublicacion(LocalDate.of(2020, 01, 20));
+		vivienda.setPrecio(2260);
+		vivienda.setAmueblado(true);
+		vivienda.setCaracteristicas("Caracteristicas");
+		vivienda.setHorarioVisita("Martes de 9:00 a 13:00");
+		vivienda.setPropietario(propietario);
 
 		BindingResult bindingResult = new MapBindingResult(Collections.emptyMap(), "");
 
-		String view = viviendaController.guardarPostActualizarVivienda(TEST_VIVIENDA_ID, newVivienda, bindingResult,
+		String view = viviendaController.guardarPostActualizarVivienda(TEST_VIVIENDA_ID, vivienda, bindingResult,
 				model);
 
 		assertEquals(view, "viviendas/listNewViviendas");
@@ -92,7 +108,7 @@ public class ViviendaControllerIntegrationTests {
 		assertEquals(view, "viviendas/showViviendaDetails");
 	}
 
-	//TODO
+	// TODO
 	@WithMockUser(value = "gilmar", authorities = { "propietario" })
 	@Test
 	@DisplayName("Prueba en la que se muestran todas las visitas")
@@ -103,7 +119,6 @@ public class ViviendaControllerIntegrationTests {
 		assertEquals(view, "viviendas/listNewViviendas");
 	}
 
-
 	@DisplayName("Prueba borrar anuncio")
 	@WithMockUser(value = "gilmar", authorities = { "propietario" })
 	@Test
@@ -112,7 +127,7 @@ public class ViviendaControllerIntegrationTests {
 		String view = viviendaController.borrarVivienda(model, TEST_VIVIENDA_ID_BORRAR);
 		assertEquals(view, "viviendas/misViviendas");
 	}
-	
+
 	@DisplayName("Prueba filtro")
 	@WithMockUser(value = "housininmo", authorities = { "propietario" })
 	@Test

@@ -59,24 +59,10 @@ public class ViviendaControllerIntegrationTests {
 	@Test
 	void testProcessUpdateFormSuccess() throws Exception {
 		ModelMap model = new ModelMap();
-		Propietario propietario = new Propietario();
-		propietario.setId(12);
-		propietario.setNombre("Santiago");
-		propietario.setApellidos("Martín");
-		propietario.setDni("12345678D");
-		propietario.setEmail("santimartinguay@gmail.com");
-		propietario.setGenero(Genero.MASCULINO);
-		propietario.setUsername("santiago");
-		propietario.setPassword("santiago");
-		propietario.setCif("12345678X");
-		propietario.setEsInmobiliaria(true);
-		propietario.setInmobiliaria("inmocasa");
-		propietario.setFechaNacimiento(LocalDate.of(1998, 05, 31));
+		
 		Vivienda vivienda = this.viviendaService.findViviendaId(TEST_VIVIENDA_ID);
-		vivienda.setPropietario(propietario);
-		System.out.println(propietario);
-		System.out.println(vivienda);
-		System.out.println(vivienda.getPropietario());
+		vivienda.setComentario("Ejemplo de un comentario");
+		
 
 		BindingResult bindingResult = new MapBindingResult(Collections.emptyMap(), "");
 

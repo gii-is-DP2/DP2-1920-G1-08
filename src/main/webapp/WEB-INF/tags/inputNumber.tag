@@ -7,6 +7,8 @@
               description="Label appears in red color if input is considered as invalid after submission" %>
 <%@ attribute name="max" required="false"
               description="Max value on the range" %>
+<%@ attribute name="req" required="false"
+              description="required value" %>
 
 <spring:bind path="${name}">
     <c:set var="cssGroup" value="form-group ${status.error ? 'has-error' : '' }"/>
@@ -17,10 +19,10 @@
         <div class="col-sm-10">
         	<c:choose>
         		<c:when test="${max != null}">
-        			<form:input type="number" step="1" min="0" max="${max}" class="form-control" path="${name}"/>
+        			<form:input type="number" step="1" min="0" max="${max}" class="form-control" required="${req }" path="${name}"/>
         		</c:when>
         		<c:otherwise>
-        			<form:input type="number" step="1" min="0"  class="form-control" path="${name}"/>
+        			<form:input type="number" step="1" min="0"  class="form-control" path="${name}" required="${req }"/>
         		</c:otherwise>
         	</c:choose>
 

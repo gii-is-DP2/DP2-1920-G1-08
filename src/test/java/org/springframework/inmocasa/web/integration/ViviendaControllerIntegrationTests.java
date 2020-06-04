@@ -60,7 +60,7 @@ public class ViviendaControllerIntegrationTests {
 	void testProcessUpdateFormSuccess() throws Exception {
 		ModelMap model = new ModelMap();
 		Propietario propietario = new Propietario();
-		propietario.setId(TEST_PROPIETARIO_ID);
+		propietario.setId(12);
 		propietario.setNombre("Santiago");
 		propietario.setApellidos("Martín");
 		propietario.setDni("12345678D");
@@ -72,16 +72,7 @@ public class ViviendaControllerIntegrationTests {
 		propietario.setEsInmobiliaria(true);
 		propietario.setInmobiliaria("inmocasa");
 		propietario.setFechaNacimiento(LocalDate.of(1998, 05, 31));
-		Vivienda vivienda = new Vivienda();
-		vivienda.setId(12);
-		vivienda.setTitulo("Piso en venta en ocho de marzo s/n");
-		vivienda.setDireccion("Calle Ocho de Marzo s/n");
-		vivienda.setZona("Cerro Amate");
-		vivienda.setFechaPublicacion(LocalDate.of(2020, 01, 20));
-		vivienda.setPrecio(2260);
-		vivienda.setAmueblado(true);
-		vivienda.setCaracteristicas("Caracteristicas");
-		vivienda.setHorarioVisita("Martes de 9:00 a 13:00");
+		Vivienda vivienda = this.viviendaService.findViviendaId(TEST_VIVIENDA_ID);
 		vivienda.setPropietario(propietario);
 
 		BindingResult bindingResult = new MapBindingResult(Collections.emptyMap(), "");

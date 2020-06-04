@@ -74,6 +74,9 @@ public class ViviendaControllerIntegrationTests {
 		propietario.setFechaNacimiento(LocalDate.of(1998, 05, 31));
 		Vivienda vivienda = this.viviendaService.findViviendaId(TEST_VIVIENDA_ID);
 		vivienda.setPropietario(propietario);
+		System.out.println(propietario);
+		System.out.println(vivienda);
+		System.out.println(vivienda.getPropietario());
 
 		BindingResult bindingResult = new MapBindingResult(Collections.emptyMap(), "");
 

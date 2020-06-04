@@ -16,6 +16,9 @@
     <div class="${cssGroup}">
         <label class="col-sm-2 control-label">${label}</label>
 
+		<c:if test="${empty req}" >
+		 <c:set var="req" value="false" />
+		</c:if>
         <div class="col-sm-10">
         	<c:choose>
         		<c:when test="${max != null}">

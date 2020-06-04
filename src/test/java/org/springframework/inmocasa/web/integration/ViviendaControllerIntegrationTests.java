@@ -66,6 +66,7 @@ public class ViviendaControllerIntegrationTests {
 		newVivienda.setPrecio(1000);
 		newVivienda.setZona("Barrio");
 		newVivienda.setPropietario(propietario);
+		newVivienda.setDimensiones(200);
 
 		BindingResult bindingResult = new MapBindingResult(Collections.emptyMap(), "");
 

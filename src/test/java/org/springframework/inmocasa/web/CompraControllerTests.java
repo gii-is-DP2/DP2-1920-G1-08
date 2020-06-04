@@ -109,10 +109,10 @@ class CompraControllerTests {
 		prop.setEsInmobiliaria(false);
 		prop.setGenero(Genero.MASCULINO);
 		prop.setFechaNacimiento(LocalDate.of(1976, 6, 12));
-		prop.setUsername(testPropietarioUsername);
+		prop.setUsername("john123");
 		prop.setPassword("john123");
 
-		Cliente clie = new Cliente();
+		clie = new Cliente();
 		clie.setId(8);
 		clie.setNombre("John");
 		clie.setApellidos("Doe");
@@ -122,10 +122,11 @@ class CompraControllerTests {
 		clie.setUsername("pepe123");
 		clie.setPassword("pepe123");
 
-		Compra compra1 = new Compra();
+		compra1 = new Compra();
+
 		compra1.setId(9);
 		compra1.setVivienda(vivienda2);
-		compra1.setEstado(Estado.PENDIENTE);
+		compra1.setEstado(Estado.ACEPTADO);
 		compra1.setPrecioFinal(200000);
 		vivienda.setPropietario(prop);
 		vivienda2.setPropietario(prop);
@@ -153,7 +154,7 @@ class CompraControllerTests {
 		clie.setFechaNacimiento(LocalDate.of(1976, 6, 12));
 		clie.setUsername("john123");
 		clie.setPassword("john123");
-		Compra compra1 = new Compra();
+		compra1 = new Compra();
 		compra1.setVivienda(vivienda2);
 		compra1.setEstado(Estado.RECHAZADO);
 		compra1.setPrecioFinal(200);
@@ -170,8 +171,10 @@ class CompraControllerTests {
 	@WithMockUser(username = "john123", authorities = { "propietario" })
 	@Test
 	void testProcessAceptarComprarSuccess() throws Exception {
-		given(this.compraService.findCompraById(compra1.getId())).willReturn(compra1);
-		mockMvc.perform(get("/compras/{compraId}/aceptar", 9).with(csrf())).andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/viviendas/ofertadas"));
+		given(this.compraService.findCompraById(9)).willReturn(compra1);
+		mockMvc.perform(get("/compras/{compraId}/aceptar", 9).with(csrf())).andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/viviendas/ofertadas"));
+
 	}
 
 	// HU-018: Realizar compra (formulario)

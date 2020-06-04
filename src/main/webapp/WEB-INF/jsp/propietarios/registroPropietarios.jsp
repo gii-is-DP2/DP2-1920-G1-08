@@ -23,7 +23,7 @@
 		Propietario
 	</h2>
 	<form:form modelAttribute="propietario" class="form-horizontal"
-			action="/propietarios/save">
+			action="/propietarios/{propietarioId}/save">
 		<div class="form-group has-feedback">
 			<petclinic:inputField label="DNI" name="dni" />
 			<petclinic:inputField label="Nombre" name="nombre" />

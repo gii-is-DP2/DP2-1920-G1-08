@@ -1,14 +1,14 @@
 package org.springframework.inmocasa.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
 import java.util.Collection;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
@@ -42,6 +42,29 @@ public class ClienteServiceTests {
 		cliente.setDni("123456789A");
 		cliente.setGenero(Genero.MASCULINO);
 		cliente.setFechaNacimiento(LocalDate.of(1998, 10, 12));
+		cliente.setUsername("lj2386");
+		cliente.setPassword("lj2386");
+
+		this.clienteService.saveCliente(cliente);
+		Collection<Cliente> clientes = this.clienteService.findAll();
+
+		assertTrue(clientes.contains(cliente));
+
+	}
+	
+	@ParameterizedTest
+	@DisplayName("Prueba parametrizada de valores")
+	@CsvSource({"1990","2020"})
+	void shouldCreateAndSaveClienteParametrizada(int anyo) {
+
+		Cliente cliente = new Cliente();
+		// cliente.setId(20);
+		cliente.setNombre("Luis");
+		cliente.setApellidos("Melero");
+		cliente.setDni("123456789A");
+		cliente.setGenero(Genero.MASCULINO);
+		LocalDate hoy = LocalDate.now();
+		cliente.setFechaNacimiento(LocalDate.of(anyo, hoy.getMonth(), hoy.getDayOfMonth()));
 		cliente.setUsername("lj2386");
 		cliente.setPassword("lj2386");
 

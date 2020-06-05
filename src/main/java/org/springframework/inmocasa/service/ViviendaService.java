@@ -8,12 +8,15 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.inmocasa.model.Cliente;
+import org.springframework.inmocasa.model.Compra;
 import org.springframework.inmocasa.model.Denuncia;
 import org.springframework.inmocasa.model.Habitacion;
 import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.model.Visita;
 import org.springframework.inmocasa.model.Vivienda;
+import org.springframework.inmocasa.model.enums.Estado;
 import org.springframework.inmocasa.repository.ClienteRepository;
+import org.springframework.inmocasa.repository.CompraRepository;
 import org.springframework.inmocasa.repository.DenunciaRepository;
 import org.springframework.inmocasa.repository.HabitacionRepository;
 import org.springframework.inmocasa.repository.VisitaRepository;
@@ -32,11 +35,13 @@ public class ViviendaService {
 	ClienteRepository clienteRepository;
 	VisitaRepository visitaRepository;
 	DenunciaRepository denunciaRepository;
+	CompraRepository compraRepository;
+	
 
 	@Autowired
 	public ViviendaService(ViviendaRepository vr, HabitacionRepository hr, PropietarioService pr,
 							VisitaRepository visitaRepository, ClienteRepository clienteRepository,
-							DenunciaRepository denunciaRepository) {
+							DenunciaRepository denunciaRepository, CompraRepository compraRepository) {
 		super();
 		this.vr = vr;
 		this.hr = hr;
@@ -44,6 +49,7 @@ public class ViviendaService {
 		this.clienteRepository = clienteRepository;
 		this.visitaRepository = visitaRepository;
 		this.denunciaRepository = denunciaRepository;
+		this.compraRepository = compraRepository;
 	}
 
 	// Santi-Alvaro
@@ -203,6 +209,13 @@ public class ViviendaService {
 			Collection<Denuncia> denuncias = denunciaRepository.findDenunciasByViviendaId(vivienda.getId());
 			if(denuncias != null) {
 				denunciaRepository.deleteAll(denuncias);
+			}
+			
+			Collection<Compra> compras = compraRepository.findAllComprasByVivienda(vivienda);
+			for(Compra c : compras) {
+				if(c.getEstado() != Estado.ACEPTADO) {
+					compraRepository.delete(c);
+				}
 			}
 			vr.delete(vivienda);
 		}

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.model.enums.Genero;
 import org.springframework.inmocasa.service.PropietarioService;
+import org.springframework.inmocasa.service.UsuarioService;
 import org.springframework.inmocasa.web.validator.PropietarioValidator;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,6 +31,9 @@ public class PropietarioController {
 
 	@Autowired
 	PropietarioService propietarioService;
+	
+	@Autowired
+	UsuarioService usuarioService;
 
 	@InitBinder("propietario")
 	public void initCompraBinder(WebDataBinder dataBinder) {
@@ -61,9 +65,9 @@ public class PropietarioController {
 			model.addAttribute("propietario", propietario);
 			return "propietarios/registroPropietarios";
 		} else {
-			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 			
-			if(!authentication.isAuthenticated() && propietarioService.findByUsername(propietario.getUsername())!= null) {
+			if(usuarioService.findUsuarioByUsername(propietario.getUsername())!= null) {
 				model.addAttribute("propietario", propietario);
 				model.addAttribute("error", "El usuario ya existe.");
 				return "propietarios/registroPropietarios";
@@ -73,7 +77,7 @@ public class PropietarioController {
 			model.addAttribute("success", "Propietario registrado correctamente");
 
 		}
-		return "propietarios/profile";
+		return "redirect:/login";
 	}
 
 	@GetMapping(value = { "propietarios/miPerfil" })
@@ -104,10 +108,17 @@ public class PropietarioController {
 
 	@PostMapping(path = "propietarios/{propietarioId}/save")
 	public String processUpdateForm(@Valid Propietario propietario, BindingResult res, ModelMap modelMap) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
 		if (res.hasErrors()) {
 			modelMap.addAttribute("propietario", propietario);
 			return "propietarios/registroPropietarios";
 		} else {
+			if(usuarioService.findUsuarioByUsername(propietario.getUsername())!= null && !userPrincipal.getUsername().equals(propietario.getUsername())) {
+				modelMap.addAttribute("propietario", propietario);
+				modelMap.addAttribute("error", "El usuario ya existe.");
+				return "clientes/registroPropietarios";
+			}
 			propietarioService.savePropietario(propietario);
 			modelMap.addAttribute("message", "Saved successfully");
 		}

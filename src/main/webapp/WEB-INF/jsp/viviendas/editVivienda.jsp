@@ -22,9 +22,9 @@
         <form:form modelAttribute="vivienda" class="form-horizontal" action="/viviendas/save">
             <div class="form-group has-feedback">
                 <petclinic:inputField label="Titulo" name="titulo" req="true"/>
-                <petclinic:inputField label="Direccion" name="direccion"/>
-                <petclinic:inputField label="Zona" name="zona"/>
-                <petclinic:inputNumber label="Precio" name="precio"/>
+                <petclinic:inputField label="Direccion" name="direccion" req="true"/>
+                <petclinic:inputField label="Zona" name="zona" req="true"/>
+                <petclinic:inputNumber label="Precio" name="precio" req="true"/>
                 <petclinic:inputNumber label="Dimensiones" name="dimensiones"/>   
                 <label class="col-sm-2 control-label">Amueblado: </label>       
              	<form:select class="form-control" path="amueblado" style="width: 100px;">

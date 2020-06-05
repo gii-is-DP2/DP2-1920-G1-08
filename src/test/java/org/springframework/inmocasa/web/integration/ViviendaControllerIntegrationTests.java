@@ -60,12 +60,12 @@ public class ViviendaControllerIntegrationTests {
 		ModelMap model = new ModelMap();
 		Propietario propietario = propietarioService.findPropietarioById(TEST_PROPIETARIO_ID);
 		Vivienda newVivienda = new Vivienda();
+		newVivienda.setId(TEST_VIVIENDA_ID);
 		newVivienda.setTitulo("Vivienda de prueba");
 		newVivienda.setFechaPublicacion(LocalDate.now());
 		newVivienda.setDireccion("C/mi casa");
 		newVivienda.setPrecio(1000);
 		newVivienda.setZona("Barrio");
-		newVivienda.setPropietario(propietario);
 
 		BindingResult bindingResult = new MapBindingResult(Collections.emptyMap(), "");
 
@@ -73,6 +73,28 @@ public class ViviendaControllerIntegrationTests {
 				model);
 
 		assertEquals(view, "viviendas/listNewViviendas");
+	}
+	
+	@WithMockUser(value = "gilmar", authorities = { "propietario" })
+	@Test
+	@DisplayName("Guardar una vivienda nueva")
+	void testProcessCreateViviendaSuccess() throws Exception {
+		ModelMap model = new ModelMap();
+		Propietario propietario = propietarioService.findByUsername("gilmar");
+		Vivienda newVivienda = new Vivienda();
+		newVivienda.setId(TEST_VIVIENDA_ID);
+		newVivienda.setTitulo("Vivienda de prueba");
+		newVivienda.setFechaPublicacion(LocalDate.now());
+		newVivienda.setDireccion("C/mi casa");
+		newVivienda.setPrecio(1000);
+		newVivienda.setZona("Barrio");
+		newVivienda.setFoto("");
+
+		BindingResult bindingResult = new MapBindingResult(Collections.emptyMap(), "");
+
+		String view = viviendaController.guardarVivienda(newVivienda, bindingResult, model);
+
+		assertEquals(view, "viviendas/misViviendas");
 	}
 
 	@WithMockUser(value = "gilmar", authorities = { "propietario" })
@@ -91,7 +113,6 @@ public class ViviendaControllerIntegrationTests {
 		assertEquals(view, "viviendas/showViviendaDetails");
 	}
 
-	//TODO
 	@WithMockUser(value = "gilmar", authorities = { "propietario" })
 	@Test
 	@DisplayName("Prueba en la que se muestran todas las visitas")

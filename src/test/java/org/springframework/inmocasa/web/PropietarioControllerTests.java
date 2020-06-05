@@ -26,6 +26,7 @@ import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.model.Propietario;
 import org.springframework.inmocasa.model.enums.Genero;
 import org.springframework.inmocasa.service.PropietarioService;
+import org.springframework.inmocasa.service.UsuarioService;
 import org.springframework.inmocasa.service.PropietarioService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -40,11 +41,15 @@ public class PropietarioControllerTests {
 
 	@MockBean
 	private PropietarioService propietarioService;
+	
+	@MockBean
+	private UsuarioService usuarioService;
 
 	@Autowired
 	private MockMvc mockMvc;
 
 	private Propietario propietario;
+	
 
 	@BeforeEach
 	void setup() {

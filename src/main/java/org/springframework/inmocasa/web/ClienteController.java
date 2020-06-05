@@ -121,12 +121,12 @@ public class ClienteController {
 		UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
 		if (res.hasErrors()) {
 			modelMap.addAttribute("cliente", cliente);
-			return "clientes/registroClientes";
+			return "clientes/editCliente";
 		} else {
 			if(usuarioService.findUsuarioByUsername(cliente.getUsername())!= null && !userPrincipal.getUsername().equals(cliente.getUsername())) {
 //				modelMap.addAttribute("cliente", cliente);
 				modelMap.addAttribute("error", "El usuario ya existe.");
-				return "clientes/registroClientes";
+				return "clientes/editCliente";
 			}
 			clienteService.saveCliente(cliente);
 			modelMap.addAttribute("message", "Saved successfully");

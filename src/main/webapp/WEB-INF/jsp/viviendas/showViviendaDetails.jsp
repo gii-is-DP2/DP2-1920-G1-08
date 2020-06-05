@@ -14,7 +14,7 @@
 	<input type="hidden" name="propietarioId" value="${propietarioId}" />
 
 	
-	<sec:authorize access="hasAnyAuthority('cliente, admin')">
+	<sec:authorize access="hasAnyAuthority('cliente')">
 		<spring:url value="/compras/create/{viviendaId}" var="compraUrl">
 			<spring:param name="viviendaId" value="${vivienda.id}" />
 		</spring:url>

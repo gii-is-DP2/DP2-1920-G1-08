@@ -114,7 +114,7 @@ public class PropietarioController {
 		UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
 		if (res.hasErrors()) {
 			modelMap.addAttribute("propietario", propietario);
-			return "propietarios/registroPropietarios";
+			return "propietarios/editPropietario";
 		} else {
 			if(usuarioService.findUsuarioByUsername(propietario.getUsername())!= null && !userPrincipal.getUsername().equals(propietario.getUsername())) {
 //				modelMap.addAttribute("propietario", propietario);

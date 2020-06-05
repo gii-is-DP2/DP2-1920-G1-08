@@ -1,12 +1,14 @@
 package org.springframework.inmocasa.web;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.inmocasa.model.Propietario;
+import org.springframework.inmocasa.model.Usuario;
 import org.springframework.inmocasa.model.enums.Genero;
 import org.springframework.inmocasa.service.PropietarioService;
 import org.springframework.inmocasa.service.UsuarioService;
@@ -96,7 +98,7 @@ public class PropietarioController {
 
 	@GetMapping("propietarios/{propietarioId}/edit")
 	public String editProfile(@PathVariable("propietarioId") int propietarioId,ModelMap model) {
-		String view = "propietarios/registroPropietarios";
+		String view = "propietarios/editPropietario";
 		Map<String, String> generos = new LinkedHashMap<String, String>();
 		for (Genero gen : Genero.values()) {
 			generos.put(gen.name(), gen.getDisplayName());
@@ -115,9 +117,9 @@ public class PropietarioController {
 			return "propietarios/registroPropietarios";
 		} else {
 			if(usuarioService.findUsuarioByUsername(propietario.getUsername())!= null && !userPrincipal.getUsername().equals(propietario.getUsername())) {
-				modelMap.addAttribute("propietario", propietario);
+//				modelMap.addAttribute("propietario", propietario);
 				modelMap.addAttribute("error", "El usuario ya existe.");
-				return "clientes/registroPropietarios";
+				return "propietarios/registroPropietarios";
 			}
 			propietarioService.savePropietario(propietario);
 			modelMap.addAttribute("message", "Saved successfully");

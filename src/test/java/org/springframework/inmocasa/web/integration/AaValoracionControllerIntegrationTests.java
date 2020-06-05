@@ -24,7 +24,7 @@ import org.springframework.validation.MapBindingResult;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ValoracionControllerIntegrationTests {
+public class AaValoracionControllerIntegrationTests {
 	
 	private static final int TEST_VISITA_ID_NotOk = 1;
 	private static final int TEST_VISITA_ID_Ok = 2;

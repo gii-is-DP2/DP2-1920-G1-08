@@ -105,7 +105,7 @@ public class ClienteController {
 
 	@GetMapping("/{clienteId}/edit")
 	public String editProfile(@PathVariable("clienteId") int clienteId,ModelMap model) {
-		String view = "clientes/registroClientes";
+		String view = "clientes/editCliente";
 		Map<String, String> generos = new LinkedHashMap<String, String>();
 		for (Genero gen : Genero.values()) {
 			generos.put(gen.name(), gen.getDisplayName());
@@ -124,7 +124,7 @@ public class ClienteController {
 			return "clientes/registroClientes";
 		} else {
 			if(usuarioService.findUsuarioByUsername(cliente.getUsername())!= null && !userPrincipal.getUsername().equals(cliente.getUsername())) {
-				modelMap.addAttribute("cliente", cliente);
+//				modelMap.addAttribute("cliente", cliente);
 				modelMap.addAttribute("error", "El usuario ya existe.");
 				return "clientes/registroClientes";
 			}

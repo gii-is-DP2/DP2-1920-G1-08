@@ -57,7 +57,7 @@ public class BorrarAnuncioUITest {
 		}
 		driver.findElement(By.id("username")).sendKeys("housininmo");
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
-		driver.findElement(By.xpath("//div[@id='menu-vertical']/button[2]")).click();
+		driver.findElement(By.xpath("//button[@id='menu-vertical']")).click();
 		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/mis-viviendas')]")).click();
 		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/5')]")).click();
 		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/delete/5')]")).click();
@@ -73,19 +73,19 @@ public class BorrarAnuncioUITest {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
 		}
-		driver.findElement(By.id("password")).sendKeys("housininmo");
+		driver.findElement(By.id("password")).sendKeys("gilmar");
 		driver.findElement(By.id("username")).click();
 		driver.findElement(By.id("username")).clear();
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
 		}
-		driver.findElement(By.id("username")).sendKeys("housininmo");
+		driver.findElement(By.id("username")).sendKeys("gilmar");
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
-		driver.findElement(By.xpath("//div[@id='menu-vertical']/button[2]")).click();
+		driver.findElement(By.xpath("//button[@id='menu-vertical']")).click();
 		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/mis-viviendas')]")).click();
-		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/3')]")).click();
-		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/delete/3')]")).click();
+		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/1')]")).click();
+		driver.findElement(By.xpath("//a[contains(@href, '/viviendas/delete/1')]")).click();
 		assertEquals("No se puede borrar el anuncio porque la vivienda ha sido comprada",
 				driver.findElement(By.xpath("//p")).getText());
 	}

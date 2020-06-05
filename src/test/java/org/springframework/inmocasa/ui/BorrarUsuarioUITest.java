@@ -59,7 +59,11 @@ public class BorrarUsuarioUITest {
 		driver.findElement(By.id("password")).sendKeys("gomez7");
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
 		driver.findElement(By.xpath("//button[@id='menu-vertical']")).click();
-		driver.findElement(By.xpath("//a[contains(@href, '/usuario/miPerfil')]")).click();
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+		}
+		driver.findElement(By.xpath("//a[contains(@href, '/clientes/miPerfil')]")).click();
 		driver.findElement(By.xpath("//a[contains(@href, '/usuario/delete/12')]")).click();
 		assertEquals("Log Out", driver.findElement(By.xpath("//button[@type='submit']")).getText());
 	}
@@ -82,9 +86,8 @@ public class BorrarUsuarioUITest {
 		}
 		driver.findElement(By.id("password")).sendKeys("gilmar");
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
-		driver.get("http://localhost:" + port + "/usuario/delete/1");
-		assertEquals("gilmar", driver.findElement(By.xpath("//div[@id='menu-vertical']/button")).getText());
-	}
+		driver.get("http://localhost:" + port + "/usuario/delete/2");
+		assertEquals("gilmar", driver.findElement(By.xpath("//div[@id='navbarResponsive']/ul/div/button")).getText());	}
 
 	@AfterEach
 	public void tearDown() throws Exception {

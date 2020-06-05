@@ -1,6 +1,8 @@
 package org.springframework.inmocasa.service;
 
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +32,13 @@ public class DenunciaService {
 	public void save(Denuncia denuncia) {
 		   dr.save(denuncia);
 		}
+	
+	public List<Denuncia> findViviendasDenunciadas (){
+		return dr.findAllViviendas ();
+	}
+	
+	public Collection<Denuncia> findDenunciasByViviendaId(Integer viviendaId) {
+		return dr.findDenunciasByViviendaId(viviendaId);
+	}
 	
 }

@@ -12,25 +12,25 @@
 -- INSERT INTO usuario(id, dni, nombre, apellidos, genero, telefono, fecha_nacimiento, email, username, password) VALUES (12, '71918848X', 'Teresa', 'Lopez Sanchez', 2, '658003214', '1991-09-18', 'teresa@inversionesreina.com', 'inversionesreina', 'inversionesreina');
 -- INSERT INTO usuario(id, dni, nombre, apellidos, genero, telefono, fecha_nacimiento, email, username, password) VALUES (13, '65683746R', 'Administrador', null, 3, '654789958', '1991-09-18', 'admin@admin.com', 'admin', 'admin');
 
-INSERT INTO AUTHORITIES(username, authority) VALUES ('admin', 'admin');
-INSERT INTO AUTHORITIES(username, authority) VALUES ('davidsa', 'propietario');
-INSERT INTO AUTHORITIES(username, authority) VALUES ('gilmar', 'propietario');
-INSERT INTO AUTHORITIES(username, authority) VALUES ('celiaherrero', 'propietario');
-INSERT INTO AUTHORITIES(username, authority) VALUES ('bravo9', 'cliente');
-INSERT INTO AUTHORITIES(username, authority) VALUES ('inmocasa', 'propietario');
-INSERT INTO AUTHORITIES(username, authority) VALUES ('alonso7', 'cliente');
-INSERT INTO AUTHORITIES(username, authority) VALUES ('juliatorres', 'propietario');
-INSERT INTO AUTHORITIES(username, authority) VALUES ('housininmo', 'propietario');
-INSERT INTO AUTHORITIES(username, authority) VALUES ('alejandra', 'cliente');
-INSERT INTO AUTHORITIES(username, authority) VALUES ('gomez7', 'cliente');
-INSERT INTO AUTHORITIES(username, authority) VALUES ('rodrigo', 'cliente');
-INSERT INTO AUTHORITIES(username, authority) VALUES ('inversionesreina', 'propietario');
+INSERT INTO authorities(username, authority) VALUES ('admin', 'admin');
+INSERT INTO authorities(username, authority) VALUES ('davidsa', 'propietario');
+INSERT INTO authorities(username, authority) VALUES ('gilmar', 'propietario');
+INSERT INTO authorities(username, authority) VALUES ('celiaherrero', 'propietario');
+INSERT INTO authorities(username, authority) VALUES ('bravo9', 'cliente');
+INSERT INTO authorities(username, authority) VALUES ('inmocasa', 'propietario');
+INSERT INTO authorities(username, authority) VALUES ('alonso7', 'cliente');
+INSERT INTO authorities(username, authority) VALUES ('juliatorres', 'propietario');
+INSERT INTO authorities(username, authority) VALUES ('housininmo', 'propietario');
+INSERT INTO authorities(username, authority) VALUES ('alejandra', 'cliente');
+INSERT INTO authorities(username, authority) VALUES ('gomez7', 'cliente');
+INSERT INTO authorities(username, authority) VALUES ('rodrigo', 'cliente');
+INSERT INTO authorities(username, authority) VALUES ('inversionesreina', 'propietario');
 
 
 INSERT INTO usuario(id, dtype, dni, nombre, apellidos, genero, telefono, fecha_nacimiento, email, username, password) VALUES (13,'Administrador', '65683746R', 'Administrador', null, 3, '654789958', '1991-09-18', 'admin@admin.com', 'admin', 'admin');
 
-INSERT INTO usuario(id, dtype, dni, nombre, apellidos, genero, telefono, fecha_nacimiento, email, username, password, es_inmobiliaria, inmobiliaria, CIF) VALUES (1, 'Propietario', '29537424L', 'Maria', 'Sanchez', 3, '916353741', '2010-05-08', 'maria@gilmarcentro.com', 'gilmar', 'gilmar', 1, 'Gilmar Centro', 'D98828643');
-INSERT INTO usuario(id, dtype, dni, nombre, apellidos, genero, telefono, fecha_nacimiento, email, username, password, es_inmobiliaria, inmobiliaria, CIF) VALUES (2, 'Propietario', '90422933C', 'Silvia', 'Hernandez Mora', 1, '689544723', '1988-10-10', 'silvia@inmocasa.com', 'inmocasa', 'inmocasa', 1, 'Inmocasa', 'H92374206');
+INSERT INTO usuario(id, dtype, dni, nombre, apellidos, genero, telefono, fecha_nacimiento, email, username, password, es_inmobiliaria, inmobiliaria, CIF) VALUES (1, 'Propietario', '29537424L', 'Maria', 'Sanchez', 3, '916353741', '2010-05-08', 'maria@gilmarcentro.com', 'gilmar', 'gilmar', 1, 'Gilmar Centro', 'D98828643A');
+INSERT INTO usuario(id, dtype, dni, nombre, apellidos, genero, telefono, fecha_nacimiento, email, username, password, es_inmobiliaria, inmobiliaria, CIF) VALUES (2, 'Propietario', '90422933C', 'Silvia', 'Hernandez Mora', 1, '689544723', '1988-10-10', 'silvia@inmocasa.com', 'inmocasa', 'inmocasa', 1, 'Inmocasa', 'H92374206B');
 INSERT INTO usuario(id, dtype, dni, nombre, apellidos, genero, telefono, fecha_nacimiento, email, username, password, es_inmobiliaria, inmobiliaria, CIF) VALUES (3, 'Propietario', '43724217K', 'Vicente', 'Camacho', 0, '698854780', '1965-06-11', 'vicente@housin.com', 'housininmo', 'housininmo', 1, 'Housin', 'Q5021330E');
 INSERT INTO usuario(id, dtype, dni, nombre, apellidos, genero, telefono, fecha_nacimiento, email, username, password, es_inmobiliaria, inmobiliaria, CIF) VALUES (4, 'Propietario', '71918848X', 'Teresa', 'Lopez Sanchez', 2, '658003214', '1991-09-18', 'teresa@inversionesreina.com', 'inversionesreina', 'inversionesreina', 1, 'Inversiones Reina', 'R2223473F');
 INSERT INTO usuario(id, dtype, dni, nombre, apellidos, genero, telefono, fecha_nacimiento, email, username, password, es_inmobiliaria, inmobiliaria, CIF) VALUES (5, 'Propietario', '57430722K', 'Celia', 'Herrero', 1, '658996632', '1993-12-12', 'herrero@gmail.com', 'celiaherrero', 'celiaherrero', 0, null, null);
@@ -54,9 +54,9 @@ INSERT INTO vivienda(id, propietario_id, titulo, fecha_publicacion, direccion, z
 INSERT INTO vivienda(id, propietario_id, titulo, fecha_publicacion, direccion, zona, precio, dimensiones, amueblado, planta ,foto, caracteristicas, equipamiento, publicitado, horario_visita) VALUES (8, 7, 'Vivienda en Bellavista', '2020-02-10', 'Calle Parque Guell, 4, Sevilla', 'Bellavista', 260800, 163, true, null, 'https://img3.idealista.com/blur/WEB_LISTING_TOP/0/id.pro.es.image.master/39/e3/99/750535452.jpg', 'SE VENDE ADOSADA DE NUEVA CONSTRUCCIÓN DE 163 M2 CONSTRUIDOS EN PARCELA DE 131 M2 A UN PASO DEL CENTRO DE SEVILLA. La casa dispone de porche delantero con acceso peatonal y acceso para vehículo (garaje).', 'Jardín', false, 'Martes 8:00-13:00');
 INSERT INTO vivienda(id, propietario_id, titulo, fecha_publicacion, direccion, zona, precio, dimensiones, amueblado, planta ,foto, caracteristicas, equipamiento, publicitado, horario_visita) VALUES (9, 2, 'Pino Montano', '2020-08-03', 'Calle Mar de Alboran, Sevilla', 'Pino Montano', 50800, 52, true, 'Sexta planta', 'https://img3.idealista.com/blur/WEB_LISTING/0/id.pro.es.image.master/f9/07/6d/741356370.jpg', 'Ya tenemos disponible este estupendo piso justo frente al ambulatorio de calle Mar de Alboran, el edificio tiene ascensor, con todo tipo de negocios en la zona y linea de autobuses con muy buena comunicación.', null, false, 'Martes 8:00-13:00');
 
-INSERT INTO USUARIO_FAVORITAS (cliente_id, favoritas_id) VALUES (10, 2);
-INSERT INTO USUARIO_FAVORITAS (cliente_id, favoritas_id) VALUES (10, 6);
-INSERT INTO USUARIO_FAVORITAS (cliente_id, favoritas_id) VALUES (11,8);
+INSERT INTO usuario_favoritas (cliente_id, favoritas_id) VALUES (10, 2);
+INSERT INTO usuario_favoritas (cliente_id, favoritas_id) VALUES (10, 6);
+INSERT INTO usuario_favoritas (cliente_id, favoritas_id) VALUES (11,8);
 
 INSERT INTO habitacion(id, vivienda_id, tipo_habitacion, num_camas, caracteristicas, foto) VALUES (1, 2, 0, 2, 'Habitación doble con cama de matrimonio', 'https://d1vp8nomjxwyf1.cloudfront.net/wp-content/uploads/sites/406/2019/11/12151329/23.-COM-800x533.jpg');
 INSERT INTO habitacion(id, vivienda_id, tipo_habitacion, num_camas, caracteristicas, foto) VALUES (2, 2, 1, null, 'Cocina amueblada con horno, microondas, frigorifico', 'https://i.pinimg.com/originals/f8/af/17/f8af17df7fa83f09cc403065859c4414.jpg');

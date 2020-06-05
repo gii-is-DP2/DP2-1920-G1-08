@@ -20,7 +20,7 @@
 				style="width: 70%; margin: 0 auto; margin-top: 30px;">
 				<div class="panel-heading">
 					<h3 class="panel-title">
-						<c:out value="${vis.fecha} - ${vis.lugar}" />
+						<c:out value="${localDateTimeFormat.format(vis.fecha)} - ${vis.lugar}" />
 					</h3>
 				</div>
 				
@@ -45,7 +45,7 @@
 				style="width: 70%; margin: 0 auto; margin-top: 30px;">
 				<div class="panel-heading">
 					<h3 class="panel-title">
-						<c:out value="${vis.fecha} - ${vis.lugar}" />
+						<c:out value="${localDateTimeFormat.format(vis.fecha)} - ${vis.lugar}" />
 					</h3>
 				</div>
 				

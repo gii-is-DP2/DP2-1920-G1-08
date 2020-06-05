@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.springframework.samples</groupId>
 	<artifactId>spring-petclinic</artifactId>
-	<version>2.0.0v</version>
+	<version>3.0.0v</version>
 
 	<repositories>
 		<repository>
@@ -187,16 +187,10 @@
 			<artifactId>rest-api-sdk</artifactId>
 			<version>1.4.2</version>
 		</dependency>
-		 <dependency>
-		    <groupId>com.itextpdf</groupId>
-		    <artifactId>itextpdf</artifactId>
-		    <version>5.5.13</version>
-		</dependency>
 		<dependency>
 		    <groupId>com.itextpdf</groupId>
 		    <artifactId>itextpdf</artifactId>
 		    <version>5.5.13</version>
-		    
 		</dependency>
 	</dependencies>
 
@@ -311,6 +305,19 @@
 		</plugins>
 	</build>
 
+	<profiles>
+    	<profile>
+    		<id>mysql</id>
+    		<activation>
+    			<activeByDefault>false</activeByDefault>
+    		</activation>
+    		<properties>
+    			<spring-boot.run.profiles>mysql</spring-boot.run.profiles>
+    		</properties>
+    	</profile>
+    	
+    </profiles> 
+
 	<!-- Apache 2 license -->
 	<licenses>
 		<license>
@@ -318,7 +325,6 @@
 			<url>https://www.apache.org/licenses/LICENSE-2.0</url>
 		</license>
 	</licenses>
-
 
 
 </project>

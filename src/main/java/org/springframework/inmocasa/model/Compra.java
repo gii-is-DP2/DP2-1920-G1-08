@@ -1,6 +1,7 @@
 package org.springframework.inmocasa.model;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
@@ -30,12 +31,12 @@ public class Compra extends BaseEntity{
 	
 	@NotNull
 	@Valid
-	@ManyToOne(optional=false)
+	@ManyToOne(optional=false,fetch = FetchType.EAGER)
 	private Cliente cliente;
 	
 	@NotNull
 	@Valid
-	@OneToOne(optional=false)
+	@ManyToOne(optional=false,fetch = FetchType.EAGER)
 	private Vivienda vivienda;
 
 	

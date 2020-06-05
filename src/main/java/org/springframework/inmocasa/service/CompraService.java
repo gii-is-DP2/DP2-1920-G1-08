@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class CompraService {	
 	CompraRepository cr;
-	
 	//Santi-Alvaro
 	@Autowired
 	public CompraService(CompraRepository cr) {
@@ -48,6 +47,10 @@ public class CompraService {
 	
 	//Alba-Alejandro
 	
+	public Compra findCompraById(Integer compraId) {
+		return cr.findCompraById(compraId);
+	}
+	
 	public void saveCompra(Compra compra) {		
 		compra.setEstado(Estado.PENDIENTE);
 		cr.save(compra);
@@ -59,6 +62,19 @@ public class CompraService {
 	
 	public Integer getViviendasCompradas() {
 		return cr.getViviendasCompradas();
+	}
+	
+	public Collection<Compra> getAllComprasByPropietarioId(Integer propietarioId){
+		return cr.findAllComprasByPropietarioId(propietarioId);
+	}
+
+	public void rechazarResto(Compra compra) {
+		List<Compra>vivs = cr.findAllComprasByVivienda(compra.getVivienda());
+		for (Compra c : vivs) {
+			c.setEstado(Estado.RECHAZADO);
+			cr.save(c);
+		}
+		
 	}
 
 }

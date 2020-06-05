@@ -23,6 +23,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -100,7 +101,6 @@ public class MensajeController {
 	@GetMapping(path = "/new")
 	public String crearMensaje(ModelMap modelMap) {
 		String view = "mensajes/editMensaje";
-
 		Mensaje mensaje = new Mensaje();
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
@@ -119,8 +119,10 @@ public class MensajeController {
 		return view;
 	}
 
-	@PostMapping(value = { "/save" })
-	public String guardarMensaje(@Valid Mensaje mensaje, BindingResult result, ModelMap modelMap) {
+	@PostMapping(path = { "/save" })
+	public String guardarMensaje(@Valid Mensaje mensaje, BindingResult result,
+			ModelMap modelMap) {
+
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
 		String name = userPrincipal.getUsername();
@@ -131,7 +133,6 @@ public class MensajeController {
 				mensaje.setProp(p);
 				mensaje.setEmisorId(p.getId());
 				mensaje.setReceptorId(mensaje.getClient().getId());
-
 			}
 		}
 		for (Cliente c : clients) {
@@ -143,7 +144,7 @@ public class MensajeController {
 		}
 
 		if (result.hasErrors()) {
-			modelMap.addAttribute("mensaje", mensaje);
+//			modelMap.addAttribute("mensaje", mensaje);
 			return "mensajes/editMensaje";
 		} else {
 			mensajeService.save(mensaje);

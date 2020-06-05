@@ -31,7 +31,7 @@
 		
 		<tr>
 			<th>Genero:</th>
-			<td><c:out value="${user.genero}"/></td>
+			<td><c:out value="${user.genero.displayName}"/></td>
 		</tr>
 		
 		<tr>
@@ -76,16 +76,7 @@
 	</table>
 	
 	
-	<spring:url value="/usuario/delete/{usuarioId}" var="deleteAllUrl">
-			<spring:param name="usuarioId" value="${user.id}" />
-	</spring:url>
-	<a href="${fn:escapeXml(deleteAllUrl)}" class="btn btn-primary">
-		Borrar todos mis datos de la página</a>
 		
-	<spring:url value="/usuario/exportPDF" var="pdfURL">
-	</spring:url>
-	<a href="${fn:escapeXml(pdfURL)}" class="btn btn-primary" target="_blank">
-		Descargar PDF con mis datos</a>
 	
 	
 	<sec:authorize access="hasAnyAuthority('cliente')">

@@ -96,16 +96,18 @@ public class CreateMensajeUITest {
 		}
 		driver.findElement(By.id("username")).sendKeys("celiaherrero");
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
-		driver.findElement(By.id("navbarDropdown")).click();
-		driver.findElement(By.xpath("//a[contains(@href, '/mensajes/new')]")).click();
-		driver.findElement(By.xpath("//form[@id='mensaje']/div/div[2]/div/input")).click();
-		driver.findElement(By.xpath("//form[@id='mensaje']/div/div[2]/div/input")).clear();
-		driver.findElement(By.xpath("//form[@id='mensaje']/div/div[2]/div/input")).sendKeys("Hola");
-		new Select(driver.findElement(By.xpath("//form[@id='mensaje']/div/div[3]/select")))
-				.selectByVisibleText("Alejandra");
-		driver.findElement(By.xpath("//select[@id='client']/option[4]")).click();
-		driver.findElement(By.xpath("//form[@id='mensaje']/div[2]/div/button/h4")).click();
-		assertEquals("no puede estar vacío", this.driver.findElement(By.xpath("//form[@id='mensaje']/div/div/div")).getText());
+		 driver.findElement(By.xpath("//a[contains(text(),'Mis mensajes')]")).click();
+		    driver.findElement(By.xpath("//a[contains(text(),'Enviar mensaje')]")).click();
+		    driver.findElement(By.xpath("//input[@id='asunto']")).click();
+		    driver.findElement(By.xpath("//input[@id='asunto']")).clear();
+		    driver.findElement(By.xpath("//input[@id='asunto']")).sendKeys("");
+		    driver.findElement(By.xpath("//input[@id='cuerpo']")).click();
+		    driver.findElement(By.xpath("//input[@id='cuerpo']")).clear();
+		    driver.findElement(By.xpath("//input[@id='cuerpo']")).sendKeys("Esto es una Prueba");
+		    new Select(driver.findElement(By.xpath("//select[@id='client']"))).selectByVisibleText("Alonso Soler");
+		    driver.findElement(By.xpath("//select[@id='client']/option[3]")).click();
+		    driver.findElement(By.xpath("//form[@id='mensaje']/div[2]/div/button/h4")).click();
+		    assertEquals("Enviar Mensaje", driver.findElement(By.xpath("//form[@id='mensaje']/div[2]/div/button/h4")).getText());
 	}
 	
 	@AfterEach

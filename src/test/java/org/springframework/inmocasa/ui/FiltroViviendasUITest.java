@@ -71,7 +71,7 @@ public class FiltroViviendasUITest {
 		} catch (InterruptedException e) {
 		}
 	    driver.findElement(By.id("max")).sendKeys("80");
-	    assertEquals("Fecha de publicacion:", driver.findElement(By.xpath("//p")).getText());
+	    assertEquals("Fecha de publicacion: 18/09/2015", driver.findElement(By.xpath("//p")).getText());
 	}
 
 	@AfterEach

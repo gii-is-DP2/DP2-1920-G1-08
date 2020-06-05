@@ -69,7 +69,7 @@ public class EditarPerfilUITest {
 		driver.findElement(By.id("username")).sendKeys("gilmar");
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
 		  driver.findElement(By.id("menu-vertical")).click();
-		    driver.findElement(By.xpath("//a[contains(@href, '/usuario/miPerfil')]")).click();
+		    driver.findElement(By.xpath("//a[contains(@href, '/propietarios/miPerfil')]")).click();
 		    assertEquals("Sanchez", driver.findElement(By.xpath("//tr[2]/td")).getText());
 		    driver.findElement(By.xpath("//tr[2]/td")).click();
 		    driver.findElement(By.xpath("//a[contains(@href, '/propietarios/1/edit')]")).click();
@@ -102,7 +102,7 @@ public class EditarPerfilUITest {
 		driver.findElement(By.id("username")).sendKeys("gilmar");
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
 	    driver.findElement(By.id("menu-vertical")).click();
-	    driver.findElement(By.xpath("//a[contains(@href, '/usuario/miPerfil')]")).click();
+	    driver.findElement(By.xpath("//a[contains(@href, '/propietarios/miPerfil')]")).click();
 	    driver.findElement(By.xpath("//a[contains(@href, '/propietarios/1/edit')]")).click();
 	    driver.findElement(By.xpath("//form[@id='propietario']/div/div")).click();
 	    driver.findElement(By.xpath("//form[@id='propietario']/div/div/div/input")).clear();

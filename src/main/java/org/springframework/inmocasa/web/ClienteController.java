@@ -77,7 +77,7 @@ public class ClienteController {
 			return "clientes/registroClientes";
 		} else {
 //			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-			if(clienteService.findByUsername(cliente.getUsername())!= null) {
+			if(usuarioService.findUsuarioByUsername(cliente.getUsername())!= null) {
 				model.addAttribute("cliente", cliente);
 				model.addAttribute("error", "El usuario ya existe.");
 				return "clientes/registroClientes";
@@ -86,7 +86,7 @@ public class ClienteController {
 			model.addAttribute("message", "Cliente creado");
 
 		}
-		return "clientes/profile";
+		return "redirect:/login";
 	}
 
 	@GetMapping(value = { "/miPerfil" })

@@ -47,7 +47,7 @@ public class ClienteControllerIntegrationTests {
 	void testInitUpdateForm() throws Exception {
 		ModelMap model = new ModelMap();
 		String view = clienteController.editProfile(TEST_CLIENTE_ID,model);
-		assertEquals(view, "clientes/registroClientes");
+		assertEquals(view, "clientes/editCliente");
 		assertNotNull(model.get("cliente"));
 	}
 

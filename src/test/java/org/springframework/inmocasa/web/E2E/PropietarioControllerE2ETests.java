@@ -29,7 +29,7 @@ public class PropietarioControllerE2ETests {
 	@Test
 	void testUpdatePropietarioForm() throws Exception {
 		mockMvc.perform(get("/propietarios/{propietarioId}/edit", TEST_PROPIETARIO_ID)).andExpect(status().isOk())
-				.andExpect(view().name("propietarios/registroPropietarios"));
+				.andExpect(view().name("propietarios/editPropietario"));
 	}
 
 }

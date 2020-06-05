@@ -46,7 +46,7 @@ public class PropietarioControllerIntegrationTests {
 	void testInitUpdateForm() throws Exception {
 		ModelMap model = new ModelMap();
 		String view = propietarioController.editProfile(TEST_PROPIETARIO_ID, model);
-		assertEquals(view, "propietarios/registroPropietarios");
+		assertEquals(view, "propietarios/editPropietario");
 		assertNotNull(model.get("propietario"));
 	}
 

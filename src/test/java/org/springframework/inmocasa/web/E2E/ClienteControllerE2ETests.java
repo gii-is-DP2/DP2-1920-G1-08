@@ -31,7 +31,7 @@ public class ClienteControllerE2ETests {
 	@Test
 	void testUpdateClienteForm() throws Exception {
 		mockMvc.perform(get("/clientes/{clienteId}/edit", TEST_CLIENTE_ID)).andExpect(status().isOk())
-				.andExpect(view().name("clientes/registroClientes"));
+				.andExpect(view().name("clientes/editCliente"));
 	}
 	
 	//HU-012: Guardar una casa como favorita

@@ -33,7 +33,7 @@ import junit.framework.Assert;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext
 public class EditarPerfilUITest {
-	
+
 	@LocalServerPort
 	private int port;
 	private WebDriver driver;
@@ -53,7 +53,7 @@ public class EditarPerfilUITest {
 	@Order(1)
 	@DisplayName("Se edita el perfil correctamente")
 	public void testEditarPerfilOk() throws Exception {
-		driver.get("http://localhost:"+port);
+		driver.get("http://localhost:" + port);
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		driver.findElement(By.id("password")).clear();
 		try {
@@ -68,25 +68,23 @@ public class EditarPerfilUITest {
 		}
 		driver.findElement(By.id("username")).sendKeys("gilmar");
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
-		  driver.findElement(By.id("menu-vertical")).click();
-		    driver.findElement(By.xpath("//a[contains(@href, '/propietarios/miPerfil')]")).click();
-		    assertEquals("Sanchez", driver.findElement(By.xpath("//tr[2]/td")).getText());
-		    driver.findElement(By.xpath("//tr[2]/td")).click();
-		    driver.findElement(By.xpath("//a[contains(@href, '/propietarios/1/edit')]")).click();
-		    driver.findElement(By.xpath("//form[@id='propietario']/div")).click();
-		    driver.findElement(By.xpath("//form[@id='propietario']/div/div[3]/div/input")).clear();
-		    driver.findElement(By.xpath("//form[@id='propietario']/div/div[3]/div/input")).sendKeys("Marquez");
-		    driver.findElement(By.xpath("//button[@type='submit']")).click();
-		    assertNotEquals("Sanchez",driver.findElement(By.xpath("//tr[2]/td")).getText());
+		driver.findElement(By.id("menu-vertical")).click();
+		driver.findElement(By.xpath("//a[contains(@href, '/propietarios/miPerfil')]")).click();
+		assertEquals("Sanchez", driver.findElement(By.xpath("//tr[2]/td")).getText());
+		driver.findElement(By.xpath("//tr[2]/td")).click();
+		driver.findElement(By.xpath("//a[contains(@href, '/propietarios/1/edit')]")).click();
+		driver.findElement(By.xpath("//form[@id='propietario']/div")).click();
+		driver.findElement(By.xpath("//form[@id='propietario']/div/div[3]/div/input")).clear();
+		driver.findElement(By.xpath("//form[@id='propietario']/div/div[3]/div/input")).sendKeys("Marquez");
+		driver.findElement(By.xpath("//button[@type='submit']")).click();
+		assertNotEquals("Sanchez", driver.findElement(By.xpath("//tr[2]/td")).getText());
 	}
-
-
 
 	@Test
 	@Order(2)
 	@DisplayName("No se puede editar el perfil porque deja un campo vacío que no puede estarlo")
 	public void testEditarPerfilNotOk() throws Exception {
-		driver.get("http://localhost:"+port);
+		driver.get("http://localhost:" + port);
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		driver.findElement(By.id("password")).clear();
 		try {
@@ -101,14 +99,15 @@ public class EditarPerfilUITest {
 		}
 		driver.findElement(By.id("username")).sendKeys("gilmar");
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
-	    driver.findElement(By.id("menu-vertical")).click();
-	    driver.findElement(By.xpath("//a[contains(@href, '/propietarios/miPerfil')]")).click();
-	    driver.findElement(By.xpath("//a[contains(@href, '/propietarios/1/edit')]")).click();
-	    driver.findElement(By.xpath("//form[@id='propietario']/div/div")).click();
-	    driver.findElement(By.xpath("//form[@id='propietario']/div/div/div/input")).clear();
-	    driver.findElement(By.xpath("//form[@id='propietario']/div/div/div/input")).sendKeys("");
-	    driver.findElement(By.xpath("//button[@type='submit']")).click();
-	    assertEquals("DNI incorrecto",driver.findElement(By.xpath("//form[@id='propietario']/div/div/div/span[2]")).getText());
+		driver.findElement(By.id("menu-vertical")).click();
+		driver.findElement(By.xpath("//a[contains(@href, '/propietarios/miPerfil')]")).click();
+		driver.findElement(By.xpath("//a[contains(@href, '/propietarios/1/edit')]")).click();
+		driver.findElement(By.xpath("//body/div/div")).click();
+		driver.findElement(By.xpath("//form[@id='propietario']/div/div/div/input")).clear();
+		driver.findElement(By.xpath("//form[@id='propietario']/div/div/div/input")).sendKeys("");
+		driver.findElement(By.xpath("//button[@type='submit']")).click();
+		assertEquals("Save propietario", driver.findElement(By.xpath("//button[@type='submit']")).getText());
+	
 
 	}
 

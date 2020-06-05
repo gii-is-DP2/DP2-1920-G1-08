@@ -13,6 +13,7 @@ import org.springframework.inmocasa.model.Vivienda;
 import org.springframework.inmocasa.model.enums.Genero;
 import org.springframework.inmocasa.service.ClienteService;
 import org.springframework.inmocasa.service.PropietarioService;
+import org.springframework.inmocasa.service.UsuarioService;
 import org.springframework.inmocasa.service.ViviendaService;
 import org.springframework.inmocasa.web.validator.ClienteValidator;
 import org.springframework.security.core.Authentication;
@@ -37,6 +38,7 @@ public class ClienteController {
 	
 	ViviendaService viviendaService;
 	PropietarioService propietarioService;
+	UsuarioService usuarioService;
 	
 	@InitBinder("cliente")
 	public void initCompraBinder(WebDataBinder dataBinder) {
@@ -44,10 +46,11 @@ public class ClienteController {
 	}
 	
 	@Autowired
-	public ClienteController(ClienteService clienteService, ViviendaService viviendaService,PropietarioService propietarioService) {
+	public ClienteController(ClienteService clienteService, ViviendaService viviendaService,PropietarioService propietarioService, UsuarioService usuarioService) {
 		this.clienteService = clienteService;
 		this.viviendaService = viviendaService;
 		this.propietarioService = propietarioService;
+		this.usuarioService = usuarioService;
 	}
 
 
@@ -73,8 +76,8 @@ public class ClienteController {
 			model.addAttribute("cliente", cliente);
 			return "clientes/registroClientes";
 		} else {
-			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-			if(!authentication.isAuthenticated() && clienteService.findByUsername(cliente.getUsername())!= null) {
+//			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			if(clienteService.findByUsername(cliente.getUsername())!= null) {
 				model.addAttribute("cliente", cliente);
 				model.addAttribute("error", "El usuario ya existe.");
 				return "clientes/registroClientes";
@@ -114,11 +117,13 @@ public class ClienteController {
 
 	@PostMapping(path = "/{clienteId}/save")
 	public String processUpdateForm(@Valid Cliente cliente, BindingResult res, ModelMap modelMap) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
 		if (res.hasErrors()) {
 			modelMap.addAttribute("cliente", cliente);
 			return "clientes/registroClientes";
 		} else {
-			if(clienteService.findByUsername(cliente.getUsername())!= null) {
+			if(usuarioService.findUsuarioByUsername(cliente.getUsername())!= null && !userPrincipal.getUsername().equals(cliente.getUsername())) {
 				modelMap.addAttribute("cliente", cliente);
 				modelMap.addAttribute("error", "El usuario ya existe.");
 				return "clientes/registroClientes";

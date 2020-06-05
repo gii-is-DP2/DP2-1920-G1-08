@@ -25,8 +25,8 @@
 	<form:form modelAttribute="propietario" class="form-horizontal"
 			action="/propietarios/save">
 		<div class="form-group has-feedback">
-			<petclinic:inputField label="DNI" name="dni" />
-			<petclinic:inputField label="Nombre" name="nombre" />
+			<petclinic:inputField label="DNI" name="dni" req="true"/>
+			<petclinic:inputField label="Nombre" name="nombre" req="true"/>
 			<petclinic:inputField label="Apellidos" name="apellidos" />
 			<label class="col-sm-2 control-label">Género</label>
 			<form:select id="genero" path="genero" style="width: 200px;">
@@ -38,8 +38,8 @@
 			<petclinic:inputField label="Fecha de nacimiento"
 					name="fechaNacimiento" />
 			<petclinic:inputField label="Email" name="email" />
-			<petclinic:inputField label="Usuario" name="username" />
-			<petclinic:inputFieldPassword label="Contraseña" name="password" />
+			<petclinic:inputField label="Usuario" name="username" req="true"/>
+			<petclinic:inputFieldPassword label="Contraseña" name="password" req="true"/>
 			<label class="col-sm-2 control-label">¿Es inmobiliaria?</label>
 			<form:select id="esInmobiliaria" path="esInmobiliaria" style="width: 100px;">
                 <form:option value="0" label="No" />

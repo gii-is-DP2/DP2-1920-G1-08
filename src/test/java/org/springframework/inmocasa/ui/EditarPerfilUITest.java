@@ -9,6 +9,8 @@ import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -24,6 +26,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import junit.framework.Assert;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -46,6 +50,7 @@ public class EditarPerfilUITest {
 	}
 
 	@Test
+	@Order(1)
 	@DisplayName("Se edita el perfil correctamente")
 	public void testEditarPerfilOk() throws Exception {
 		driver.get("http://localhost:"+port);
@@ -63,26 +68,22 @@ public class EditarPerfilUITest {
 		}
 		driver.findElement(By.id("username")).sendKeys("gilmar");
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
-		driver.findElement(By.xpath("(//button[@type='button'])[3]")).click();
-		driver.findElement(By.xpath("//a[contains(@href, '/usuario/miPerfil')]")).click();
-		assertEquals("Sanchez", driver.findElement(By.xpath("//tr[2]/td")).getText());
-		driver.findElement(By.xpath("//a[contains(text(),'Editar\n            perfil')]")).click();
-		driver.findElement(By.xpath("//form[@id='propietario']/div/input")).click();
-		driver.findElement(By.xpath("//form[@id='propietario']/div/input")).clear();
-		driver.findElement(By.xpath("//form[@id='propietario']/div/input")).sendKeys("gilmar");
-		driver.findElement(By.xpath("//form[@id='propietario']/div/div[3]")).click();
-		driver.findElement(By.xpath("//form[@id='propietario']/div/div[3]/div/input")).clear();
-		driver.findElement(By.xpath("//form[@id='propietario']/div/div[3]/div/input")).sendKeys("Perez");
-		driver.findElement(By.xpath("//button[@type='submit']")).click();
-		driver.findElement(By.xpath("(//button[@type='button'])[3]")).click();
-		driver.findElement(By.xpath("//a[contains(@href, '/usuario/miPerfil')]")).click();
-		assertNotEquals("Sanchez", driver.findElement(By.xpath("//tr[2]/td")).getText());
-
+		  driver.findElement(By.id("menu-vertical")).click();
+		    driver.findElement(By.xpath("//a[contains(@href, '/propietarios/miPerfil')]")).click();
+		    assertEquals("Sanchez", driver.findElement(By.xpath("//tr[2]/td")).getText());
+		    driver.findElement(By.xpath("//tr[2]/td")).click();
+		    driver.findElement(By.xpath("//a[contains(@href, '/propietarios/1/edit')]")).click();
+		    driver.findElement(By.xpath("//form[@id='propietario']/div")).click();
+		    driver.findElement(By.xpath("//form[@id='propietario']/div/div[3]/div/input")).clear();
+		    driver.findElement(By.xpath("//form[@id='propietario']/div/div[3]/div/input")).sendKeys("Marquez");
+		    driver.findElement(By.xpath("//button[@type='submit']")).click();
+		    assertNotEquals("Sanchez",driver.findElement(By.xpath("//tr[2]/td")).getText());
 	}
 
 
 
 	@Test
+	@Order(2)
 	@DisplayName("No se puede editar el perfil porque deja un campo vacío que no puede estarlo")
 	public void testEditarPerfilNotOk() throws Exception {
 		driver.get("http://localhost:"+port);
@@ -100,21 +101,15 @@ public class EditarPerfilUITest {
 		}
 		driver.findElement(By.id("username")).sendKeys("gilmar");
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
-	
-	    driver.findElement(By.xpath("(//button[@type='button'])[3]")).click();
-	    driver.findElement(By.xpath("//a[contains(@href, '/usuario/miPerfil')]")).click();
-	    driver.findElement(By.xpath("//tr[2]/td")).click();
+	    driver.findElement(By.id("menu-vertical")).click();
+	    driver.findElement(By.xpath("//a[contains(@href, '/propietarios/miPerfil')]")).click();
 	    driver.findElement(By.xpath("//a[contains(@href, '/propietarios/1/edit')]")).click();
-	    driver.findElement(By.xpath("//body/div")).click();
-	    driver.findElement(By.id("apellidos")).clear();
-	    driver.findElement(By.id("apellidos")).sendKeys("Marquez");
-	    driver.findElement(By.xpath("//body/div")).click();
+	    driver.findElement(By.xpath("//form[@id='propietario']/div/div")).click();
+	    driver.findElement(By.xpath("//form[@id='propietario']/div/div/div/input")).clear();
+	    driver.findElement(By.xpath("//form[@id='propietario']/div/div/div/input")).sendKeys("");
 	    driver.findElement(By.xpath("//button[@type='submit']")).click();
-	    driver.findElement(By.xpath("//img")).click();
-	    driver.findElement(By.xpath("(//button[@type='button'])[3]")).click();
-	    driver.findElement(By.xpath("//a[contains(@href, '/usuario/miPerfil')]")).click();
-		assertNotEquals("Marquez", driver.findElement(By.xpath("//tr[2]/td")).getText());
-	    
+	    assertEquals("DNI incorrecto",driver.findElement(By.xpath("//form[@id='propietario']/div/div/div/span[2]")).getText());
+
 	}
 
 	@AfterEach

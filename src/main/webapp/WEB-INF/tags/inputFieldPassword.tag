@@ -17,10 +17,10 @@
         <div class="col-sm-10">
             <c:choose>
             	<c:when test="${req != null}">
-            		<form:input class="form-control" path="${name}" required="true"/>	
+            		<form:input class="form-control" type="password" path="${name}" required="true"/>	
             	</c:when>
             	<c:otherwise>
-            		<form:input class="form-control" path="${name}"/>
+            		<form:input class="form-control" type="password" path="${name}"/>
             	</c:otherwise>
             </c:choose>
             <c:if test="${valid}">
